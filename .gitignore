@@ -1,3 +1,7 @@
+################################################################################
+# https://github.com/github/gitignore/blob/master/Node.gitignore
+################################################################################
+
 # Logs
 logs
 *.log
@@ -35,3 +39,27 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+
+################################################################################
+# SSC custom
+################################################################################
+
+*~
+.DS_Store
+npm-debug.log*
+node_modules
+amd/
+!tools/amd/
+lib/
+!tools/lib/
+es/
+!tools/es/
+dist/
+!tools/dist/
+docs-built/
+tmp-bower-repo/
+tmp-docs-repo/
+.babel-cache/
+coverage/
+
+.*.swp
