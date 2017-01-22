@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Checkbox, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 /**
  * GridRow组件
@@ -27,7 +27,7 @@ class GridRow extends Component {
     selectable: true,
     checkboxColumn: false,
     operateColumn: false,
-    onCellChecked: () => {console.log('onCellChecked')}
+    onCellChecked: () => {}
   };
 
   constructor(props) {
@@ -35,7 +35,7 @@ class GridRow extends Component {
   }
 
   handleSelection(rowIdx, event) {
-    //this.setState({value: event.target.value});
+    // this.setState({value: event.target.value});
     this.props.onRowSelection(rowIdx, event.target.checked);
   }
 
@@ -43,8 +43,9 @@ class GridRow extends Component {
     this.props.onEdit(rowIdx, rowData);
   }
 
-  handleCheckbox(rowIdx, colIdx, e) {
-    //e.target
+  // handleCheckbox(rowIdx, colIdx, e) {
+  handleCheckbox(rowIdx, colIdx) {
+    // e.target
     this.props.onCellChecked(rowIdx, colIdx);
   }
 
@@ -53,10 +54,10 @@ class GridRow extends Component {
     return cols.map((col, colIdx) => {
       let cell = col.value;
       if (typeof col.value === 'boolean') {
-        cell = <input type='checkbox' checked={col.value} onChange={self.handleCheckbox.bind(this, rowIdx, colIdx)} />;
+        cell = <input type="checkbox" checked={col.value} onChange={self.handleCheckbox.bind(this, rowIdx, colIdx)} />;
       }
-      return <td key={colIdx}>{cell}</td>
-    })
+      return <td key={colIdx}>{cell}</td>;
+    });
   }
 
   render() {
@@ -65,9 +66,9 @@ class GridRow extends Component {
     return (
       <tr>
         {
-          //<td><Checkbox onChange={::this.handleSelection} /></td>
+          // <td><Checkbox onChange={::this.handleSelection} /></td>
           checkboxColumn
-            ? <td><input type='checkbox' onChange={this.handleSelection.bind(this, rowIdx)} /></td>
+            ? <td><input type="checkbox" onChange={this.handleSelection.bind(this, rowIdx)} /></td>
             : null
         }
         { this.renderCells(cols, rowIdx) }
@@ -77,6 +78,6 @@ class GridRow extends Component {
       </tr>
     );
   }
-};
+}
 
 export default GridRow;

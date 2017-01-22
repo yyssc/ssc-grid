@@ -29,7 +29,8 @@ class Grid extends Component {
     itemsPerPage: PropTypes.number.isRequired,
     checkboxColumn: PropTypes.bool,
     operateColumn: PropTypes.bool,
-    onCellChecked: PropTypes.func
+    onCellChecked: PropTypes.func,
+    paging: PropTypes.bool
   };
 
   static defaultProps = {
@@ -65,32 +66,31 @@ class Grid extends Component {
     this.props.onCellChecked(rowIdx, colIdx);
   }
 
-  render () {
+  render() {
     const { cols, tableData, itemsPerPage,
       checkboxColumn, operateColumn
     } = this.props;
 
     if (!tableData) {
-      return (<div></div>)
+      return (<div></div>);
     }
-    let activePage = Math.ceil(tableData.startIndex/itemsPerPage);
-    let items = Math.ceil(tableData.totalItems/itemsPerPage);
+    let activePage = Math.ceil(tableData.startIndex / itemsPerPage);
+    let items = Math.ceil(tableData.totalItems / itemsPerPage);
 
     const renderTableHeader = () => {
       if (cols) {
         return cols.map((col, key) => (
           <th key={key}>{col}</th>
         ));
-      } else {
-        return tableData.items[0] ? tableData.items[0].cols.map((col, key) =>
-          <th key={key}>{col.label}</th>
-        ) : null;
       }
+      return tableData.items[0] ? tableData.items[0].cols.map((col, key) =>
+        <th key={key}>{col.label}</th>
+      ) : null;
     };
 
     const renderCheckboxHeader = () => (
       checkboxColumn ? <th><Checkbox onChange={this.handleSelectAll.bind(this)} /></th> : null
-    )
+    );
 
     const pagination = (
       <Pagination className="pagination"
@@ -104,11 +104,11 @@ class Grid extends Component {
         activePage={activePage}
         onSelect={this.handlePagination.bind(this)}
       />
-    )
+    );
 
-    const self = this
+    const self = this;
 
-    //var onRow = this.props.onRow;
+    // var onRow = this.props.onRow;
     return (
       <div className="admin-table">
         <Table striped bordered condensed hover>
@@ -122,7 +122,7 @@ class Grid extends Component {
           <tbody>
           {
             tableData.items.map((row, rowIdx) => {
-              return <GridRow
+              return (<GridRow
                 checkboxColumn={checkboxColumn}
                 operateColumn={operateColumn}
                 row={row} key={rowIdx}
@@ -130,8 +130,8 @@ class Grid extends Component {
                 onRowSelection={self.handleSelectOne.bind(self)}
                 onEdit={self.handleEdit.bind(self)}
                 onCellChecked={self.handleCellChecked.bind(self)}
-              ></GridRow>}
-            )
+              />);
+            })
           }
           </tbody>
         </Table>
@@ -139,6 +139,6 @@ class Grid extends Component {
       </div>
     );
   }
-};
+}
 
 export default Grid;

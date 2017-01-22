@@ -1,17 +1,17 @@
 import React from 'react';
 
-//import NavMain from './NavMain';
-//import PageFooter from './PageFooter';
-//import Grid from '../../src/Grid';
-//import Alert from '../../src/Alert';
-//import Glyphicon from '../../src/Glyphicon';
-//import Label from '../../src/Label';
+// import NavMain from './NavMain';
+// import PageFooter from './PageFooter';
+// import Grid from '../../src/Grid';
+// import Alert from '../../src/Alert';
+// import Glyphicon from '../../src/Glyphicon';
+// import Label from '../../src/Label';
 
 export default class HomePage extends React.Component {
   render() {
     return (
       <div>
-        {/*<NavMain activePage="home" />*/}
+        {/* <NavMain activePage="home" /> */}
 
         <main className="bs-docs-masthead" id="content" role="main">
           <div className="container">
@@ -20,7 +20,7 @@ export default class HomePage extends React.Component {
           </div>
         </main>
 
-        {/*<Grid>
+        {/* <Grid>
           <Alert bsStyle="warning">
             <p><Glyphicon glyph="bullhorn" /> We are actively working to reach a 1.0.0 release, and we would love your help to get there.</p>
             <p><Glyphicon glyph="check" /> Check out the <a href="https://github.com/react-bootstrap/react-bootstrap/wiki#100-roadmap">1.0.0 roadmap</a> and <a href="https://github.com/react-bootstrap/react-bootstrap/blob/master/CONTRIBUTING.md">contributing guidelines</a> to see where you can help out.</p>
@@ -32,9 +32,9 @@ export default class HomePage extends React.Component {
             <p><Glyphicon glyph="warning-sign" /> The project is under active development, and APIs will change. </p>
             <p><Glyphicon glyph="bullhorn" /> Prior to the 1.0.0 release, breaking changes should result in a minor version bump.</p>
           </Alert>
-        </Grid>*/}
+        </Grid> */}
 
-        {/*<PageFooter />*/}
+        {/* <PageFooter /> */}
       </div>
     );
   }
