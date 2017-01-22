@@ -1,6 +1,6 @@
 {
-  "name": "grid",
-  "version": "0.1.0",
+  "name": "ssc-grid",
+  "version": "0.2.0",
   "description": "React grid component for SSC 3.0",
   "main": "lib/index.js",
   "files": [
@@ -11,6 +11,7 @@
   ],
   "keywords": [
     "react",
+    "grid",
     "ssc"
   ],
   "scripts": {
@@ -20,18 +21,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yyssc/grid.git"
+    "url": "git+https://github.com/yyssc/ssc-grid.git"
   },
-  "author": "",
+  "author": "Devin Chen <d3vin.chen@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
     "react": ">=0.14.0",
     "react-dom": ">=0.14.0"
   },
   "bugs": {
-    "url": "https://github.com/yyssc/grid/issues"
+    "url": "https://github.com/yyssc/ssc-grid/issues"
   },
-  "homepage": "https://github.com/yyssc/grid#readme",
+  "homepage": "https://github.com/yyssc/ssc-grid#readme",
   "devDependencies": {
     "babel-cli": "^6.11.4",
     "babel-core": "^6.13.2",
