@@ -2,37 +2,85 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import ReactDOM from 'react-dom';
 
-import Row from '../src/Row';
+import Grid from '../src/Grid';
 
-describe('Row', () => {
+function getTableData() {
+  return {
+    'currentItemCount': 5,
+    'startIndex': 1,
+    'totalItems': 22,
+    'items': [
+      {
+        'id': 4,
+        'col1': 'row5, col1',
+        'col2': 'row5, col2',
+        'col3': 'row5, col3',
+        'cols': [
+          {
+            'type': 'text',
+            'label': 'id',
+            'value': '4'
+          },
+          {
+            'type': 'text',
+            'label': 'col1',
+            'value': 'row5, col1'
+          },
+          {
+            'type': 'text',
+            'label': 'col2',
+            'value': 'row5, col2'
+          },
+          {
+            'type': 'text',
+            'label': 'col3',
+            'value': 'row5, col3'
+          }
+        ]
+      }
+    ]
+  };
+}
+
+describe('<Grid>', () => {
   it('uses "div" by default', () => {
     let instance = ReactTestUtils.renderIntoDocument(
-      <Row />
+      <Grid
+        tableData={getTableData()}
+        onPagination={()=>{}}
+        onSelectOne={()=>{}}
+        onEdit={()=>{}}
+        itemsPerPage={5}
+      />
     );
 
     assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'DIV');
   });
 
-  it('has "row" class', () => {
+  it('has "admin-table" class', () => {
     let instance = ReactTestUtils.renderIntoDocument(
-      <Row>Row content</Row>
+      <Grid
+        tableData={getTableData()}
+        onPagination={()=>{}}
+        onSelectOne={()=>{}}
+        onEdit={()=>{}}
+        itemsPerPage={5}
+        className="admin-table"
+      >Grid content</Grid>
     );
-    assert.equal(ReactDOM.findDOMNode(instance).className, 'row');
+    assert.equal(ReactDOM.findDOMNode(instance).className, 'admin-table');
   });
 
   it('Should merge additional classes passed in', () => {
     let instance = ReactTestUtils.renderIntoDocument(
-      <Row className="bob"/>
+      <Grid
+        tableData={getTableData()}
+        onPagination={()=>{}}
+        onSelectOne={()=>{}}
+        onEdit={()=>{}}
+        itemsPerPage={5}
+      className="bob"/>
     );
     assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bbob\b/));
-    assert.ok(ReactDOM.findDOMNode(instance).className.match(/\brow\b/));
-  });
-
-  it('allows custom elements instead of "div"', () => {
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Row componentClass="section" />
-    );
-
-    assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'SECTION');
   });
 });

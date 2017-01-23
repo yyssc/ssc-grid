@@ -14,6 +14,11 @@ sudo npm install -g babel-cli
 sudo npm install webpack -g ## 有些js文件中通过exec()直接执行command line
 ```
 
+```
+export CHROME_BIN=chromium-browser ## 如果操作系统为Linux，需要设定该环境变量
+npm test
+```
+
 ## 历史遗留问题
 
 ```

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 
 import { Table, Pagination, Checkbox } from 'react-bootstrap';
@@ -68,7 +69,8 @@ class Grid extends Component {
 
   render() {
     const { cols, tableData, itemsPerPage,
-      checkboxColumn, operateColumn
+      checkboxColumn, operateColumn,
+      className
     } = this.props;
 
     if (!tableData) {
@@ -110,7 +112,7 @@ class Grid extends Component {
 
     // var onRow = this.props.onRow;
     return (
-      <div className="admin-table">
+      <div className={classNames(className)}>
         <Table striped bordered condensed hover>
           <thead>
             <tr>

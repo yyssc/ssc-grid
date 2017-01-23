@@ -4,8 +4,9 @@ const webpack = require('webpack');
 
 const webpackConfigBase = require('./webpack/base.config').default;
 
-module.exports = config => {
-  const { env } = process;
+module.exports = function conf(config) {
+  // const { env } = process;
+  const env = process.env;
 
   config.set({
     frameworks: ['mocha', 'sinon-chai'],
