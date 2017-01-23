@@ -3,7 +3,7 @@ import {IndexRoute, Route} from 'react-router';
 
 import ComponentsPage from './ComponentsPage';
 // import GettingStartedPage from './GettingStartedPage';
-import HomePage from './HomePage';
+// import HomePage from './HomePage';
 // import IntroductionPage from './IntroductionPage';
 import NotFoundPage from './NotFoundPage';
 import Root from './Root';

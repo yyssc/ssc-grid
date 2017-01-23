@@ -7,9 +7,12 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 
 // Keep these in sync with src/index.js.
-const Grid = require('../../src/Grid');
+// const Alert = require('../../src/Alert');
 // const SafeAnchor = require('../../src/SafeAnchor');
+const Alert = require('react-bootstrap/lib/Alert');
 const SafeAnchor = require('react-bootstrap/lib/SafeAnchor');
+
+const Grid = require('../../src/Grid');
 
 //const bootstrapUtils = require('../../src/utils/bootstrapUtils');
 const bootstrapUtils = require('react-bootstrap/lib/utils/bootstrapUtils');

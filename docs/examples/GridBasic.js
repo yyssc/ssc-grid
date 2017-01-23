@@ -1,38 +1,38 @@
 const tableData = {
-  "currentItemCount": 5,
-  "startIndex": 1,
-  "totalItems": 22,
-  "items": [
+  'currentItemCount': 5,
+  'startIndex': 1,
+  'totalItems': 22,
+  'items': [
     {
-      "id": 1,
-      "cols": [
+      'id': 1,
+      'cols': [
         {
-          "type": "text",
-          "label": "id",
-          "value": "4"
+          'type': 'text',
+          'label': 'id',
+          'value': '4'
         },
         {
-          "type": "text",
-          "label": "col1",
-          "value": "row5, col1"
+          'type': 'text',
+          'label': 'col1',
+          'value': 'row5, col1'
         },
         {
-          "type": "text",
-          "label": "col2",
-          "value": "row5, col2"
+          'type': 'text',
+          'label': 'col2',
+          'value': 'row5, col2'
         },
         {
-          "type": "text",
-          "label": "col3",
-          "value": "row5, col3"
+          'type': 'text',
+          'label': 'col3',
+          'value': 'row5, col3'
         }
       ]
     }
   ]
-}
+};
 
 const gridInstance = (
-  <Grid checkboxColumn={true} operateColumn={true}
+  <Grid checkboxColumn operateColumn
     tableData={tableData} itemsPerPage={5}
     onPagination={()=>{}}
     onSelectOne={()=>{}}
