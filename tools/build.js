@@ -5,8 +5,9 @@ import es from './es/build';
 import dist from './dist/build';
 import { copy } from './fs-utils';
 import { distRoot, bowerRoot } from './constants';
-import { exec } from './exec';
+// import { exec } from './exec';
 
+/*
 function forkAndBuildDocs({verbose}) {
   console.log('Building: '.cyan + 'docs'.green);
 
@@ -15,14 +16,16 @@ function forkAndBuildDocs({verbose}) {
   return exec(`npm run docs-build -- ${verboseOption}`)
     .then(() => console.log('Built: '.cyan + 'docs'.green));
 }
+*/
 
-export default function Build(options) {
+// export default function Build(options) {
+export default function Build() {
   return Promise.all([
     lib(),
     es(),
     bower(),
-    dist()/*,
-    forkAndBuildDocs(options)*/
+    dist()/* ,
+    forkAndBuildDocs(options) */
   ])
   .then(() => copy(distRoot, bowerRoot));
 }
