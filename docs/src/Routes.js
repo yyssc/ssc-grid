@@ -1,7 +1,7 @@
 import React from 'react';
 import {IndexRoute, Route} from 'react-router';
 
-// import ComponentsPage from './ComponentsPage';
+import ComponentsPage from './ComponentsPage';
 // import GettingStartedPage from './GettingStartedPage';
 import HomePage from './HomePage';
 // import IntroductionPage from './IntroductionPage';
@@ -11,7 +11,8 @@ import Root from './Root';
 
 export default (
   <Route path="/" component={Root}>
-    <IndexRoute component={HomePage} />
+    {/* <IndexRoute component={HomePage} /> */}
+    <IndexRoute component={ComponentsPage} />
     {/* <Route path="introduction.html" component={IntroductionPage} /> */}
     {/* <Route path="getting-started.html" component={GettingStartedPage} /> */}
     {/* <Route path="components.html" component={ComponentsPage} /> */}
