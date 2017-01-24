@@ -116,6 +116,6 @@
   },
   "release-script": {
     "defaultDryRun": true,
-    "docsRepo": "git@github.com:yyssc/ssc-grid-docs.git"
+    "docsRepo": "git@github.com:ssc-grid/ssc-grid.github.io.git"
   }
 }
