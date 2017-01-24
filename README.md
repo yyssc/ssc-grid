@@ -1,31 +1,25 @@
-# grid
-React grid component for SSC 3.0
+# SSC-Grid [![Travis][build-badge]][build] [![npm][npm-badge]][npm] [![Codecov][codecov-badge]][codecov]
 
-## 准备开发环境
+SSC 3.0 Grid组件
 
-```
-npm install
-```
-
-babel-cli和webpack需要安装到global中。
+## 使用
 
 ```
-sudo npm install -g babel-cli
-sudo npm install webpack -g ## 有些js文件中通过exec()直接执行command line
+npm install ssc-grid --save
 ```
 
-```
-export CHROME_BIN=chromium-browser ## 如果操作系统为Linux，需要设定该环境变量
-npm test
-```
+## 文档
 
-## 历史遗留问题
+[API文档][documentation]中带有示例代码，并且可以在线编辑并运行代码。
 
-```
-grid@0.1.0 /home/chenyang/source/grid
-├── UNMET PEER DEPENDENCY history@^1.17.0
-└─┬ react-router@1.0.3 
-  └── warning@2.1.0 
-```
+[documentation]: http://ssc-grid.github.io
+[contributing]: CONTRIBUTING.md
 
-通过`npm install history@2.1.2`解决。
+[build-badge]: https://travis-ci.org/yyssc/ssc-grid.svg?branch=master
+[build]: https://travis-ci.org/yyssc/ssc-grid
+
+[npm-badge]: https://badge.fury.io/js/ssc-grid.svg
+[npm]: http://badge.fury.io/js/ssc-grid
+
+[codecov-badge]: https://img.shields.io/codecov/c/github/yyssc/react-bootstrap/master.svg
+[codecov]: https://codecov.io/gh/yyssc/react-bootstrap
