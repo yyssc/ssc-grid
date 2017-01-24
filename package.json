@@ -115,6 +115,7 @@
     "warning": "^3.0.0"
   },
   "release-script": {
+    "defaultDryRun": true,
     "docsRepo": "git@github.com:yyssc/ssc-grid-docs.git"
   }
 }
