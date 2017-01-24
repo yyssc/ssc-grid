@@ -1,26 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
-// import Navbar from '../../src/Navbar';
-// import Nav from '../../src/Nav';
 import { Navbar, Nav } from 'react-bootstrap';
 
 const NAV_LINKS = {
-  introduction: {
-    link: '/introduction.html',
-    title: 'Introduction'
-  },
-  'getting-started': {
-    link: '/getting-started.html',
-    title: 'Getting started'
-  },
   components: {
     link: '/components.html',
-    title: 'Components'
-  },
-  support: {
-    link: '/support.html',
-    title: 'Support'
-  },
+    title: '组件列表'
+  }
 };
 
 // We don't want to include react-router-bootstrap as a dependency here, so we
@@ -45,7 +31,7 @@ function NavMain({ activePage }) {
     >
       <Navbar.Header>
         <Navbar.Brand>
-          <Link to="/">React-Bootstrap</Link>
+          <Link to="/">SSC-Grid</Link>
         </Navbar.Brand>
         <Navbar.Toggle />
       </Navbar.Header>
@@ -63,7 +49,7 @@ function NavMain({ activePage }) {
           <Wrapper>
             <li>
               <a
-                href="https://github.com/react-bootstrap/react-bootstrap"
+                href="https://github.com/yyssc/ssc-grid"
                 target="_blank"
               >
                 GitHub

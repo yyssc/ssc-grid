@@ -219,7 +219,7 @@ const ReactPlayground = React.createClass({
         className={classNames('code-toggle', {'open': this.state.showCode})}
         onClick={this.handleCodeModeToggle}
       >
-        {this.state.showCode ? 'hide code' : 'show code'}
+        {this.state.showCode ? '隐藏源代码' : '显示源代码'}
       </SafeAnchor>
     );
   },

@@ -10,27 +10,52 @@ import GridRow from './GridRow';
  *
  * Options: https://datatables.net/reference/option/
  *
- * @param {boolean} checkboxColumn 是否在表格的最左边一列显示复选框
- * @param {boolean} operateColumn 是否在表格的最右边一列显示操作按钮
- * @param {Array} cols 表头每一列的名称
- * @param {Object} tableData 表格填充数据
- *                           如果单元格中的数据类型为boolean，默认渲染为复选框
- * @param {number} itemsPerPage 每页显示的数量
- * @param {boolean} paging 是否显示分页
+ * http://adazzle.github.io/react-data-grid
+ *
  */
 
 class Grid extends Component {
 
   static propTypes = {
+    /**
+     * 表头每一列的名称
+     */
     cols: PropTypes.array,
+    /**
+     * 表格填充数据，如果单元格中的数据类型为boolean，默认渲染为复选框
+     */
     tableData: PropTypes.object.isRequired,
+    /**
+     * 分页
+     */
     onPagination: PropTypes.func.isRequired,
+    /**
+     * 选择
+     */
     onSelectOne: PropTypes.func.isRequired,
+    /**
+     * 编辑
+     */
     onEdit: PropTypes.func.isRequired,
+    /**
+     * 每页显示的数量
+     */
     itemsPerPage: PropTypes.number.isRequired,
+    /**
+     * 是否在表格的最左边一列显示复选框
+     */
     checkboxColumn: PropTypes.bool,
+    /**
+     * 是否在表格的最右边一列显示操作按钮
+     */
     operateColumn: PropTypes.bool,
+    /**
+     * 选择一个单元格
+     */
     onCellChecked: PropTypes.func,
+    /**
+     * 是否显示分页
+     */
     paging: PropTypes.bool
   };
 

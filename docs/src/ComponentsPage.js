@@ -120,7 +120,7 @@ const ComponentsPage = React.createClass({
         <NavMain activePage="components" />
 
         <PageHeader
-          title="Components"
+          title="组件列表"
           subTitle=""
         />
 
@@ -130,10 +130,10 @@ const ComponentsPage = React.createClass({
               {this.renderScrollSpy(sections.layout)}
               <div className="bs-docs-section">
                 <h1 className="page-header">
-                  <Anchor id="page-layout">Page layout</Anchor>
+                  <Anchor id="page-layout">页面布局</Anchor>
                 </h1>
 
-                <p className="lead">The components in this section offer different ways to structure and present data on your page.</p>
+                <p className="lead"></p>
               </div>
 
               {this.renderScrollSpy(sections.grid)}
@@ -155,13 +155,13 @@ const ComponentsPage = React.createClass({
                     activeHref={this.state.activeNavItemHref}
                     onSelect={this.handleNavItemSelect}
                   >
-                    <SubNav href={sections.layout} text="Page layout">
-                      <NavItem href={sections.grid}>Grid system</NavItem>
+                    <SubNav href={sections.layout} text="页面布局">
+                      <NavItem href={sections.grid}>Grid组件（表格组件）</NavItem>
                     </SubNav>
                   </Nav>
 
                   <a className="back-to-top" href="#top">
-                    Back to top
+                    回到顶部
                   </a>
                 </div>
               </AutoAffix>

@@ -1,20 +1,20 @@
 import React from 'react';
 
-// import NavMain from './NavMain';
-// import PageHeader from './PageHeader';
-// import PageFooter from './PageFooter';
+import NavMain from './NavMain';
+import PageHeader from './PageHeader';
+import PageFooter from './PageFooter';
 
 const NotFoundPage = React.createClass({
   render() {
     return (
         <div>
-          {/* <NavMain activePage="" /> */}
+          <NavMain activePage="" />
 
-          {/* <PageHeader
+          <PageHeader
             title="404"
             subTitle="Hmmm this is awkward." />
 
-          <PageFooter /> */}
+          <PageFooter />
         </div>
       );
   }

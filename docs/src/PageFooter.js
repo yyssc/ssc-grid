@@ -16,39 +16,29 @@ const PageFooter = React.createClass({
               <ul className="bs-docs-social-buttons">
                 <li>
                   <iframe className="github-btn"
-                    src="https://ghbtns.com/github-btn.html?user=react-bootstrap&repo=react-bootstrap&type=watch&count=true"
+                    src="https://ghbtns.com/github-btn.html?user=yyssc&repo=ssc-grid&type=watch&count=true"
                     width={95}
                     height={20}
                     title="Star on GitHub" />
                 </li>
                 <li>
                   <iframe className="github-btn"
-                    src="https://ghbtns.com/github-btn.html?user=react-bootstrap&repo=react-bootstrap&type=fork&count=true"
+                    src="https://ghbtns.com/github-btn.html?user=yyssc&repo=ssc-grid&type=fork&count=true"
                     width={92}
                     height={20}
                     title="Fork on GitHub" />
                 </li>
-                <li>
-                  <iframe
-                    src="https://platform.twitter.com/widgets/follow_button.html?screen_name=react_bootstrap&show_screen_name=true"
-                    width={230}
-                    height={20}
-                    allowTransparency="true"
-                    frameBorder="0"
-                    scrolling="no">
-                  </iframe>
-                </li>
               </ul>
             </div>
-            <p>Code licensed under <a href="https://github.com/react-bootstrap/react-bootstrap/blob/master/LICENSE" target="_blank">MIT</a>.</p>
+            <p>Code licensed under <a href="https://github.com/yyssc/ssc-grid/blob/master/LICENSE" target="_blank">MIT</a>.</p>
             <ul className="bs-docs-footer-links muted">
-              <li>Currently v{version}</li>
+              <li>最新版 v{version}</li>
               <li>·</li>
-              <li><a href="https://github.com/react-bootstrap/react-bootstrap/">GitHub</a></li>
+              <li><a href="https://github.com/yyssc/ssc-grid/">GitHub</a></li>
               <li>·</li>
-              <li><a href="https://github.com/react-bootstrap/react-bootstrap/issues?state=open">Issues</a></li>
+              <li><a href="https://github.com/yyssc/ssc-grid/issues?state=open">Issues</a></li>
               <li>·</li>
-              <li><a href="https://github.com/react-bootstrap/react-bootstrap/releases">Releases</a></li>
+              <li><a href="https://github.com/yyssc/ssc-grid/releases">Releases</a></li>
             </ul>
           </div>
         </footer>
