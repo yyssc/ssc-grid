@@ -115,7 +115,7 @@ class Grid extends Component {
     // 一共有多少页
     let totalPage = Math.ceil(tableData.totalItems / itemsPerPage);
 
-    const renderTableHeader = (cols) => (
+    const renderTableHeader = () => (
       cols.map((col, key) => (
         <th key={key}>{col.label}</th>
       ))
@@ -148,7 +148,7 @@ class Grid extends Component {
           <thead>
             <tr>
               { renderCheckboxHeader() }
-              { renderTableHeader(cols) }
+              { renderTableHeader() }
               { operateColumn ? <th>操作</th> : null }
             </tr>
           </thead>

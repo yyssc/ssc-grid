@@ -48,8 +48,7 @@ class GridRow extends Component {
     this.props.onCellChecked(rowIdx, colIdx);
   }
 
-  renderCells = (row, rowIdx) => {
-    const self = this;
+  renderCells = (row) => {
     return row.cols.map((col, colIdx) => {
       let cellContent = col.value;
       return <td key={colIdx}>{cellContent}</td>;
@@ -66,7 +65,7 @@ class GridRow extends Component {
             ? <td><input type="checkbox" onChange={this.handleSelection.bind(this, rowIdx)} /></td>
             : null
         }
-        { this.renderCells(row, rowIdx) }
+        { this.renderCells(row) }
         { operateColumn
           ? <td><Button onClick={this.handleEdit.bind(this, rowIdx, row)}>修改</Button></td>
           : null }
