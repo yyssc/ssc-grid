@@ -15,7 +15,6 @@ class GridRow extends Component {
     // TODO(d3vin.chen@gmail.com): row is not used.
     row: PropTypes.object.isRequired,
     rowIdx: PropTypes.number.isRequired,
-    cols: PropTypes.array.isRequired,
     onRowSelection: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     checkboxColumn: PropTypes.bool,
@@ -49,20 +48,16 @@ class GridRow extends Component {
     this.props.onCellChecked(rowIdx, colIdx);
   }
 
-  renderCells = (cols, rowIdx) => {
+  renderCells = (row, rowIdx) => {
     const self = this;
-    return cols.map((col, colIdx) => {
-      let cell = col.value;
-      if (typeof col.value === 'boolean') {
-        cell = <input type="checkbox" checked={col.value} onChange={self.handleCheckbox.bind(this, rowIdx, colIdx)} />;
-      }
-      return <td key={colIdx}>{cell}</td>;
+    return row.cols.map((col, colIdx) => {
+      let cellContent = col.value;
+      return <td key={colIdx}>{cellContent}</td>;
     });
   }
 
   render() {
-    const { row, rowIdx, cols,
-      checkboxColumn, operateColumn } = this.props;
+    const { row, rowIdx, checkboxColumn, operateColumn } = this.props;
     return (
       <tr>
         {
@@ -71,7 +66,7 @@ class GridRow extends Component {
             ? <td><input type="checkbox" onChange={this.handleSelection.bind(this, rowIdx)} /></td>
             : null
         }
-        { this.renderCells(cols, rowIdx) }
+        { this.renderCells(row, rowIdx) }
         { operateColumn
           ? <td><Button onClick={this.handleEdit.bind(this, rowIdx, row)}>修改</Button></td>
           : null }
