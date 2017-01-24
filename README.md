@@ -2,6 +2,8 @@
 
 SSC 3.0 Grid组件
 
+![](screenshot_20170124_012.jpg)
+
 ## 使用
 
 ```
