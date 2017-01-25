@@ -69,6 +69,8 @@ cd ..
 rm -rf tmp-docs-repo/
 ```
 
+release的流程在[这里](https://github.com/AlexKVal/release-script/blob/master/src/release.js#L198)
+
 ### 关于dry run
 
 发版工具默认以`dry run`模式运行，防止误操作导致代码被`git push`到代码仓库，以及
