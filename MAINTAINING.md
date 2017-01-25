@@ -13,9 +13,29 @@ sudo npm install -g babel-cli
 sudo npm install webpack -g ## 有些js文件中通过exec()直接执行command line
 ```
 
+运行测试代码
+
 ```
 export CHROME_BIN=chromium-browser ## 如果操作系统为Linux，需要设定该环境变量
 npm test
+```
+
+以TDD开发模式运行测试代码
+
+```
+npm run tdd
+```
+
+以开发模式运行文档网站
+
+```
+npm run docs
+```
+
+编译代码以及文档
+
+```
+npm run build
 ```
 
 ## 历史遗留问题
