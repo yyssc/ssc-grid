@@ -48,7 +48,9 @@ git push
 注意：请勿手动`npm publish`
 
 ```
-npm run release patch // 默认不添加任何参数，以`dry run`模式运行，防止误操作
+npm run release patch // 打补丁，默认不添加任何参数，以`dry run`模式运行，防止误操作
+npm run release minor // 增加新功能（当major是0的时候，比如0.2.1，那么接口变化也用release minor）
+npm run release major // 接口出现变化
 npm run release patch -- --run // 进行真实发版
 ```
 
