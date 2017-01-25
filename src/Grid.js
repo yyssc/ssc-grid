@@ -159,7 +159,7 @@ class Grid extends Component {
                 checkboxColumn={checkboxColumn}
                 operateColumn={operateColumn}
                 row={row} key={rowIdx}
-                cols={row.cols} rowIdx={rowIdx}
+                cols={cols} rowIdx={rowIdx}
                 onRowSelection={self.handleSelectOne.bind(self)}
                 onEdit={self.handleEdit.bind(self)}
                 onCellChecked={self.handleCellChecked.bind(self)}

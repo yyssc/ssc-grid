@@ -30,7 +30,7 @@ const cols = [
   {'type': 'text', 'label': '单据编号'},
   {'type': 'text', 'label': '单据类型'},
   {'type': 'text', 'label': '单据状态'},
-  {'type': 'text', 'label': '金额'},
+  {'type': 'money', 'label': '金额'},
   {'type': 'text', 'label': '单据日期'}
 ];
 
