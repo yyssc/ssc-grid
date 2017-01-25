@@ -54,6 +54,21 @@ npm run release major // 接口出现变化
 npm run release patch -- --run // 进行真实发版
 ```
 
+如果在发布的时候，hang住了，通常是在git clone文档repo的时候，可以Ctrl+C之后执行（需要首先确认hang在哪里了）：
+
+```
+git clone git@github.com:ssc-grid/ssc-grid.github.io.git tmp-docs-repo
+cd tmp-docs-repo/
+rm -rf assets/ *.html rm -rf assets/ *.html
+cp -r ../docs-built/* .
+git add -A .
+git commit -m 'Release v0.3.0'
+git tag -a -m 'v0.3.0' v0.3.0
+git push --follow-tags
+cd ..
+rm -rf tmp-docs-repo/
+```
+
 ### 关于dry run
 
 发版工具默认以`dry run`模式运行，防止误操作导致代码被`git push`到代码仓库，以及
