@@ -1,4 +1,4 @@
-# SSC-Grid [![Travis][build-badge]][build] [![npm][npm-badge]][npm] [![Codecov][codecov-badge]][codecov]
+# SSC-Grid [![Travis][build-badge]][build] [![AppVeyor][appveyor-badge]][appveyor] [![npm][npm-badge]][npm] [![Codecov][codecov-badge]][codecov]
 
 SSC 3.0 Grid组件
 
@@ -37,3 +37,6 @@ render() {
 
 [codecov-badge]: https://img.shields.io/codecov/c/github/yyssc/ssc-grid/master.svg
 [codecov]: https://codecov.io/gh/yyssc/ssc-grid
+
+[appveyor-badge]: https://img.shields.io/appveyor/ci/yyssc/ssc-grid/master.svg
+[appveyor]: https://ci.appveyor.com/project/yyssc/ssc-grid
