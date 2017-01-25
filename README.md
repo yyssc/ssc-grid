@@ -23,5 +23,5 @@ npm install ssc-grid --save
 [npm-badge]: https://badge.fury.io/js/ssc-grid.svg
 [npm]: http://badge.fury.io/js/ssc-grid
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/yyssc/react-bootstrap/master.svg
-[codecov]: https://codecov.io/gh/yyssc/react-bootstrap
+[codecov-badge]: https://img.shields.io/codecov/c/github/yyssc/ssc-grid/master.svg
+[codecov]: https://codecov.io/gh/yyssc/ssc-grid
