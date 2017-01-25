@@ -26,7 +26,7 @@ render() {
 
 [API文档][documentation]中带有示例代码，并且可以在线编辑并运行代码。
 
-[documentation]: http://ssc-grid.github.io
+[documentation]: https://ssc-grid.github.io
 [contributing]: CONTRIBUTING.md
 
 [build-badge]: https://travis-ci.org/yyssc/ssc-grid.svg?branch=master
