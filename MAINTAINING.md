@@ -43,6 +43,18 @@ git merge upstream/master
 git push
 ```
 
+```
+# 配置环境
+git clone git@github.com:yyssc/ssc-grid.git
+cd ssc-grid
+git remote add yonyou git@git.yonyou.com:sscplatform/react_comp.git
+# 合并代码
+git fetch yonyou
+git checkout develop
+git merge origin/master
+git push
+```
+
 ## 发版（Releases）
 
 注意：请勿手动`npm publish`
