@@ -10,6 +10,18 @@ SSC 3.0 Grid组件
 npm install ssc-grid --save
 ```
 
+```
+import Grid from 'ssc-grid';
+...
+render() {
+  const cols = {...};
+  const tableData = {...};
+  return (
+    <Grid cols={cols} tableData={tableData} />
+  );
+}
+```
+
 ## 文档
 
 [API文档][documentation]中带有示例代码，并且可以在线编辑并运行代码。
