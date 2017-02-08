@@ -23,8 +23,8 @@ export default class Form extends Component {
   }
 
   getValidationState() {
-    //return 'error';
-    //return 'warning';
+    // return 'error';
+    // return 'warning';
     return 'success';
   }
 
@@ -57,7 +57,7 @@ export default class Form extends Component {
           {help && <HelpBlock>{help}</HelpBlock>}
         </FormGroup>
       );
-    }
+    };
 
     return (
       <div className={classNames(className)}>
@@ -79,4 +79,4 @@ export default class Form extends Component {
       </div>
     );
   }
-};
+}
