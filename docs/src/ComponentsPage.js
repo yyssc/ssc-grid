@@ -13,6 +13,7 @@ import PageFooter from './PageFooter';
 import SubNav from './SubNav';
 
 import GridSection from './sections/GridSection';
+import FormSection from './sections/FormSection';
 
 // order matters
 /* eslint-disable indent */
@@ -138,6 +139,9 @@ const ComponentsPage = React.createClass({
 
               {this.renderScrollSpy(sections.grid)}
               <GridSection />
+
+              {this.renderScrollSpy(sections.form)}
+              <FormSection />
             </div>
 
 
@@ -157,6 +161,10 @@ const ComponentsPage = React.createClass({
                   >
                     <SubNav href={sections.layout} text="页面布局">
                       <NavItem href={sections.grid}>Grid组件（表格组件）</NavItem>
+                    </SubNav>
+
+                    <SubNav href={sections.form} text="Forms">
+                      <NavItem href={sections.formBasic}>表单</NavItem>
                     </SubNav>
                   </Nav>
 
