@@ -11,7 +11,7 @@ npm install ssc-grid --save
 ```
 
 ```
-import Grid from 'ssc-grid';
+import { Grid } from 'ssc-grid';
 ...
 render() {
   const cols = {...};
