@@ -113,6 +113,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "react-bootstrap": "^0.30.7",
+    "react-bootstrap-date-picker": "^4.0.0",
     "warning": "^3.0.0"
   },
   "release-script": {

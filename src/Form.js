@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
+
 import { Button, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
+import DatePicker from 'react-bootstrap-date-picker';
 
 export default class Form extends Component {
   static propTypes = {
@@ -16,6 +18,11 @@ export default class Form extends Component {
      * 点击提交时候调用该函数
      */
     onSubmit: PropTypes.func
+  };
+
+  state = {
+    datePickerValue: '',
+    datePickerFormattedValue: ''
   };
 
   constructor(props) {
@@ -46,17 +53,57 @@ export default class Form extends Component {
   handleReset() {
   }
 
+  // TODO: 支持多DatePicker
+  handleDatePickerChange(value, formattedValue) {
+    this.setState({
+      datePickerValue: value,
+      detePickerFormattedValue: formattedValue
+    });
+  }
+
   render() {
     const { formDefaultData, className } = this.props;
 
-    const FieldGroup = ({ key, id, label, help, ...props }) => {
-      return (
+    const FieldGroup = ({ key, id, type, label, help, fieldModel, ...props }) => {
+      let field, formCtrl;
+
+      // 根据字段类型，生成不同的UI组件
+      switch (type) {
+        // string为默认字段类型
+        default:
+        case 'string':
+          formCtrl = (<FormControl {...props} />);
+          break;
+        case 'date':
+          formCtrl = (
+            <DatePicker
+              id={id}
+              value={this.state.datePickerValue}
+              onChange={this.handleDatePickerChange.bind(this)}
+            />
+          );
+          break;
+        case 'money':
+          formCtrl = (<FormControl {...props} />);
+          break;
+        case 'combo':
+          const { cols, placeholder } = fieldModel;
+          formCtrl = (
+            <FormControl componentClass="select" placeholder={placeholder && '请选择'}>
+              {cols.map(opt => <option key={opt.key} value={opt.key}>{opt.label}</option>)}
+            </FormControl>
+          );
+          break;
+      }
+
+      field = (
         <FormGroup key={key} controlId={id}>
           <ControlLabel>{label}</ControlLabel>
-          <FormControl {...props} />
+          {formCtrl}
           {help && <HelpBlock>{help}</HelpBlock>}
         </FormGroup>
       );
+      return field;
     };
 
     return (
@@ -65,11 +112,12 @@ export default class Form extends Component {
           {formDefaultData.map(col =>
             <FieldGroup
               key={col.label}
-              id={`formControlsText-${col.label}`}
+              id={`formControls-${col.label}`}
               type={col.type}
               label={col.label}
               placeholder="Enter text"
               defaultValue={col.value}
+              fieldModel={col}
               onBlur={this.handleBlur.bind(this, col.label)}
             />
           )}
