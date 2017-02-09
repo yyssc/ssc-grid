@@ -64,11 +64,12 @@ export default class Form extends Component {
   render() {
     const { formDefaultData, className } = this.props;
 
-    const FieldGroup = ({ key, id, type, label, help, fieldModel, ...props }) => {
+    const FieldGroup = ({ id, label, help, fieldModel, ...props }) => {
       let field, formCtrl;
+      const { key } = fieldModel;
 
       // 根据字段类型，生成不同的UI组件
-      switch (type) {
+      switch (key) {
         // string为默认字段类型
         default:
         case 'string':
@@ -83,21 +84,21 @@ export default class Form extends Component {
             />
           );
           break;
-        case 'money':
+        case 'double':
           formCtrl = (<FormControl {...props} />);
           break;
-        case 'combo':
-          const { cols, placeholder } = fieldModel;
+        case 'enum':
+          const { data, placeholder } = fieldModel;
           formCtrl = (
             <FormControl componentClass="select" placeholder={placeholder && '请选择'}>
-              {cols.map(opt => <option key={opt.key} value={opt.key}>{opt.label}</option>)}
+              {data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
             </FormControl>
           );
           break;
       }
 
       field = (
-        <FormGroup key={key} controlId={id}>
+        <FormGroup key={label} controlId={id}>
           <ControlLabel>{label}</ControlLabel>
           {formCtrl}
           {help && <HelpBlock>{help}</HelpBlock>}
@@ -113,7 +114,6 @@ export default class Form extends Component {
             <FieldGroup
               key={col.label}
               id={`formControls-${col.label}`}
-              type={col.type}
               label={col.label}
               placeholder="Enter text"
               defaultValue={col.value}
