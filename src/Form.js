@@ -1,7 +1,10 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
+import update from 'react-addons-update';
 
-import { Button, FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
+import { Button, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
+// form control
+import { FormControl, Checkbox } from 'react-bootstrap';
 import DatePicker from 'react-bootstrap-date-picker';
 
 export default class Form extends Component {
@@ -47,10 +50,21 @@ export default class Form extends Component {
     }
   }
 
-  handleSelectChange(fieldIdx, event) {
-    const { formData } = this.state;
-    formData[fieldIdx].value = event.target.value;
-    this.setState({ formData });
+  // simple form control包括：input, select, checkbox
+  handleSimpleFormCtrlChange(fieldIdx, event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    // 根据字段的index，只更新指定字段的值
+    const newState = update(this.state, {
+      formData: {
+        [fieldIdx]: {
+          value: {$set: value}
+        }
+      }
+    });
+    this.setState(newState);
   }
 
   handleSubmit(event) {
@@ -80,13 +94,17 @@ export default class Form extends Component {
       const { key } = fieldModel;
 
       // 根据字段类型，生成不同的UI组件
+      // 每个类型后面跟着的数字是后端传过来的datatype
       switch (key) {
         // string为默认字段类型
         default:
-        case 'string':
+        case 'string': // 0
           formCtrl = (<FormControl {...props} />);
           break;
-        case 'date':
+        case 'double': // 2
+          formCtrl = (<FormControl {...props} />);
+          break;
+        case 'date': // 3
           formCtrl = (
             <DatePicker
               id={id}
@@ -95,15 +113,19 @@ export default class Form extends Component {
             />
           );
           break;
-        case 'double':
-          formCtrl = (<FormControl {...props} />);
+        case 'boolean': // 4
+          formCtrl = (
+            <Checkbox checked={this.state.formData[idx].value}
+              onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
+            ></Checkbox>
+          );
           break;
-        case 'enum':
+        case 'enum': // 6
           const { data, placeholder } = fieldModel;
           formCtrl = (
             <FormControl componentClass="select" placeholder={placeholder && '请选择'}
-              value={this.state.formData[idx].value}
-              onChange={this.handleSelectChange.bind(this, idx)}
+              value={this.state.formData[idx].value || null}
+              onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
             >
               {data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
             </FormControl>

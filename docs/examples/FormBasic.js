@@ -7,7 +7,9 @@ const formData = [
       {key: 'D3', value: '付款单'}
     ]
   },
-  {key: 'double', 'label': '金额'}
+  {key: 'double', 'label': '金额'},
+  {key: 'date', label: '单据日期'},
+  {key: 'boolean', label: '启用'}
 ];
 
 const FormExample = React.createClass({
@@ -20,7 +22,11 @@ const FormExample = React.createClass({
   },
 
   handleSubmit(event, formData) {
-    alert('提交的数据: \n' + JSON.stringify(formData, null, '  '));
+    alert('提交的数据: \n' + JSON.stringify(
+      formData.map(function(field) {
+        return field.value;
+      }),
+      null, '  '));
     event.preventDefault();
   },
 
