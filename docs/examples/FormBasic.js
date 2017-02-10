@@ -1,4 +1,4 @@
-const formData = [
+const mockFormData = [
   {key: 'string', 'label': '单据编号'},
   {key: 'enum', 'label': '单据类型', 'placeholder': '请选择单据类型',
     data: [
@@ -23,7 +23,7 @@ const FormExample = React.createClass({
 
   handleSubmit(event, formData) {
     alert('提交的数据: \n' + JSON.stringify(
-      formData.map(function(field) {
+      formData.map(function createValue(field) {
         return field.value;
       }),
       null, '  '));
@@ -32,7 +32,7 @@ const FormExample = React.createClass({
 
   render() {
     return (
-      <Form formDefaultData={formData}
+      <Form formDefaultData={mockFormData}
         onSubmit={this.handleSubmit}
         onBlur={this.handleBlur}
       />

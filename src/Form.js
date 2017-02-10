@@ -54,7 +54,7 @@ export default class Form extends Component {
   handleSimpleFormCtrlChange(fieldIdx, event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    // const name = target.name;
 
     // 根据字段的index，只更新指定字段的值
     const newState = update(this.state, {
@@ -117,7 +117,7 @@ export default class Form extends Component {
           formCtrl = (
             <Checkbox checked={this.state.formData[idx].value}
               onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
-            ></Checkbox>
+            />
           );
           break;
         case 'enum': // 6
