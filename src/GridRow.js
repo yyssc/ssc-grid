@@ -59,10 +59,26 @@ class GridRow extends Component {
     }
   }
 
-  renderCells = (cols, row) => {
+  renderCells = (columnsModel, row) => {
     return row.cols.map((col, colIdx) => {
-      let cellContent = col.value;
-      let className = cols[colIdx].type === 'money' ? 'text-right' : '';
+      const columnModel = columnsModel[colIdx];
+      let className = '', cellContent = '';
+      let { value } = col;
+      switch(columnModel.key) {
+        case 'double': // 之前的金额类型
+          className = 'text-right';
+          cellContent = value;
+          break;
+        case 'enum':
+          cellContent = columnModel.data.find(enumItem => (enumItem.key === value)).value;
+          break;
+        case 'boolean':
+          cellContent = value ? '是' : '否';
+          break;
+        default:
+          cellContent = value;
+          break;
+      }
       return <td key={colIdx} className={className}>{cellContent}</td>;
     });
   }
