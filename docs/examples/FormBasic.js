@@ -10,8 +10,29 @@ const formData = [
   {key: 'double', 'label': '金额'}
 ];
 
-const formInstance = (
-  <Form formDefaultData={formData} />
-);
+const FormExample = React.createClass({
+  getInitialState() {
+    return {
+    };
+  },
 
-ReactDOM.render(formInstance, mountNode);
+  handleBlur() {
+  },
+
+  handleSubmit(event, formData) {
+    alert('提交的数据: \n' + JSON.stringify(formData, null, '  '));
+    event.preventDefault();
+  },
+
+  render() {
+    return (
+      <Form formDefaultData={formData}
+        onSubmit={this.handleSubmit}
+        onBlur={this.handleBlur}
+      />
+    );
+  }
+
+});
+
+ReactDOM.render(<FormExample />, mountNode);

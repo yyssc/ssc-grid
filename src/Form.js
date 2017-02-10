@@ -22,7 +22,8 @@ export default class Form extends Component {
 
   state = {
     datePickerValue: '',
-    datePickerFormattedValue: ''
+    datePickerFormattedValue: '',
+    formData: this.props.formDefaultData
   };
 
   constructor(props) {
@@ -37,16 +38,25 @@ export default class Form extends Component {
 
   // Performance issue?
   // http://stackoverflow.com/questions/33266156/react-redux-input-onchange-is-very-slow-when-typing-in-when-the-input-have-a
-  handleBlur(label, event) {
+  handleBlur(idx, event) {
     if (this.props.onBlur) {
-      this.props.onBlur(label, event.target.value);
+      const { formData } = this.state;
+      formData[idx].value = event.target.value;
+      this.setState({ formData });
+      this.props.onBlur(idx, event.target.value);
     }
+  }
+
+  handleSelectChange(fieldIdx, event) {
+    const { formData } = this.state;
+    formData[fieldIdx].value = event.target.value;
+    this.setState({ formData });
   }
 
   handleSubmit(event) {
     event.preventDefault();
     if (this.props.onSubmit) {
-      this.props.onSubmit();
+      this.props.onSubmit(event, this.state.formData);
     }
   }
 
@@ -64,7 +74,8 @@ export default class Form extends Component {
   render() {
     const { formDefaultData, className } = this.props;
 
-    const FieldGroup = ({ id, label, help, fieldModel, ...props }) => {
+    // idx是field index，从0开始
+    const FieldGroup = ({ id, idx, label, help, fieldModel, ...props }) => {
       let field, formCtrl;
       const { key } = fieldModel;
 
@@ -90,7 +101,10 @@ export default class Form extends Component {
         case 'enum':
           const { data, placeholder } = fieldModel;
           formCtrl = (
-            <FormControl componentClass="select" placeholder={placeholder && '请选择'}>
+            <FormControl componentClass="select" placeholder={placeholder && '请选择'}
+              value={this.state.formData[idx].value}
+              onChange={this.handleSelectChange.bind(this, idx)}
+            >
               {data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
             </FormControl>
           );
@@ -110,15 +124,16 @@ export default class Form extends Component {
     return (
       <div className={classNames(className)}>
         <form>
-          {formDefaultData.map(col =>
+          {formDefaultData.map((col, idx) =>
             <FieldGroup
               key={col.label}
+              idx={idx}
               id={`formControls-${col.label}`}
               label={col.label}
-              placeholder="Enter text"
+              placeholder="请输入"
               defaultValue={col.value}
               fieldModel={col}
-              onBlur={this.handleBlur.bind(this, col.label)}
+              onBlur={this.handleBlur.bind(this, idx)}
             />
           )}
           <Button onClick={this.handleSubmit.bind(this)} type="submit">保存</Button>
