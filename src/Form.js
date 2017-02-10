@@ -120,6 +120,9 @@ export default class Form extends Component {
             />
           );
           break;
+        case 'ref': // 5
+          formCtrl = (<FormControl {...props} />);
+          break;
         case 'enum': // 6
           const { data, placeholder } = fieldModel;
           formCtrl = (

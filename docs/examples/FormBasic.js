@@ -9,7 +9,18 @@ const mockFormData = [
   },
   {key: 'double', 'label': '金额'},
   {key: 'date', label: '单据日期'},
-  {key: 'boolean', label: '启用'}
+  {key: 'boolean', label: '启用'},
+  {key: 'enum', label: '性别', data: [
+    {
+      key: "male",
+      value: "男"
+    },
+    {
+      key: "female",
+      value: "女"
+    }
+  ]},
+  {key: 'ref', label: '组织（参照类型）'}
 ];
 
 const FormExample = React.createClass({
