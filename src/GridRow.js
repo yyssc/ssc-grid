@@ -62,9 +62,10 @@ class GridRow extends Component {
   renderCells = (columnsModel, row) => {
     return row.cols.map((col, colIdx) => {
       const columnModel = columnsModel[colIdx];
-      let className = '', cellContent = '';
+      let className = '';
+      let cellContent = '';
       let { value } = col;
-      switch(columnModel.key) {
+      switch (columnModel.key) {
         case 'double': // 之前的金额类型
           className = 'text-right';
           cellContent = value;
