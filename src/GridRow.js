@@ -20,7 +20,14 @@ class GridRow extends Component {
      */
     rowIdx: PropTypes.number.isRequired,
     onRowSelection: PropTypes.func.isRequired,
+    /**
+     * 当点击“修改”按钮的时候
+     */
     onEdit: PropTypes.func.isRequired,
+    /**
+     * 当点击“删除”按钮的时候
+     */
+    onRemove: PropTypes.func.isRequired,
     /**
      * 每一行是否显示最左侧的复选框
      */
@@ -49,6 +56,10 @@ class GridRow extends Component {
 
   handleEdit(rowIdx, rowData) {
     this.props.onEdit(rowIdx, rowData);
+  }
+
+  handleRemove(rowIdx, rowData) {
+    this.props.onRemove(rowIdx, rowData);
   }
 
   // handleCheckbox(rowIdx, colIdx, e) {
@@ -96,8 +107,14 @@ class GridRow extends Component {
         }
         { this.renderCells(cols, row) }
         { operateColumn
-          ? <td><Button onClick={this.handleEdit.bind(this, rowIdx, row)}>修改</Button></td>
+          ? (<td>
+              <Button onClick={this.handleEdit.bind(this, rowIdx, row)}>修改</Button>
+              <Button onClick={this.handleRemove.bind(this, rowIdx, row)}>删除</Button>
+            </td>)
           : null }
+        {
+          this.props.children
+        }
       </tr>
     );
   }

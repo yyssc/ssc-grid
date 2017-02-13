@@ -34,6 +34,10 @@ class Grid extends Component {
      */
     onSelectOne: PropTypes.func,
     /**
+     * 删除
+     */
+    onRemove: PropTypes.func,
+    /**
      * 编辑
      */
     onEdit: PropTypes.func,
@@ -91,6 +95,12 @@ class Grid extends Component {
   handleEdit(rowIdx, rowData) {
     if (this.props.onEdit) {
       this.props.onEdit(rowIdx, rowData);
+    }
+  }
+
+  handleRemove(rowIdx, rowData) {
+    if (this.props.onRemove) {
+      this.props.onRemove(rowIdx, rowData);
     }
   }
 
@@ -162,8 +172,10 @@ class Grid extends Component {
                 cols={cols} rowIdx={rowIdx}
                 onRowSelection={self.handleSelectOne.bind(self)}
                 onEdit={self.handleEdit.bind(self)}
+                onRemove={self.handleRemove.bind(self)}
                 onCellChecked={self.handleCellChecked.bind(self)}
-              />);
+              >{this.props.children}
+              </GridRow>);
             })
           }
           </tbody>
