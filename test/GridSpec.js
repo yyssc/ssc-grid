@@ -64,7 +64,7 @@ describe('<Grid>', () => {
         cols={getCols()}
         itemsPerPage={5}
         className="admin-table"
-      >Grid content</Grid>
+      ></Grid>
     );
     assert.equal(ReactDOM.findDOMNode(instance).className, 'admin-table');
   });
