@@ -20,7 +20,7 @@ class Grid extends Component {
     /**
      * 表格填充数据
      */
-    tableData: PropTypes.object.isRequired,
+    tableData: PropTypes.array.isRequired,
     /**
      * 表头每一列的名称
      */
@@ -42,10 +42,6 @@ class Grid extends Component {
      */
     onEdit: PropTypes.func,
     /**
-     * 每页显示的数量
-     */
-    itemsPerPage: PropTypes.number,
-    /**
      * 是否在表格的最左边一列显示复选框
      */
     checkboxColumn: PropTypes.bool,
@@ -60,14 +56,21 @@ class Grid extends Component {
     /**
      * 是否显示分页
      */
-    paging: PropTypes.bool
+    paging: PropTypes.bool,
+    /**
+     * 页面数量
+     */
+    totalPage: PropTypes.number,
+    /**
+     * 当前页面号
+     */
+    activePage: PropTypes.number
   };
 
   static defaultProps = {
     checkboxColumn: false,
     operateColumn: false,
-    paging: false,
-    itemsPerPage: 5
+    paging: false
   };
 
   constructor(props) {
@@ -111,19 +114,14 @@ class Grid extends Component {
   }
 
   render() {
-    const { cols, tableData, itemsPerPage,
-      checkboxColumn, operateColumn,
-      className
+    const { cols, tableData,
+      checkboxColumn, operateColumn, className
     } = this.props;
 
-    if (!tableData) {
+    // 表格数据非空判断
+    if (!tableData || tableData.length === 0) {
       return (<div></div>);
     }
-
-    // 当前应该在哪个页面，start from `1`
-    let activePage = Math.ceil(tableData.startIndex / itemsPerPage);
-    // 一共有多少页
-    let totalPage = Math.ceil(tableData.totalItems / itemsPerPage);
 
     const renderTableHeader = () => (
       cols.map((col, key) => (
@@ -142,9 +140,9 @@ class Grid extends Component {
         first
         last
         ellipsis
-        items={totalPage}
+        items={this.props.totalPage}
         maxButtons={10}
-        activePage={activePage}
+        activePage={this.props.activePage}
         onSelect={this.handlePagination.bind(this)}
       />
     );
@@ -164,7 +162,7 @@ class Grid extends Component {
           </thead>
           <tbody>
           {
-            tableData.items.map((row, rowIdx) => {
+            tableData.map((row, rowIdx) => {
               return (<GridRow
                 checkboxColumn={checkboxColumn}
                 operateColumn={operateColumn}
