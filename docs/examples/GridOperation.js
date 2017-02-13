@@ -63,13 +63,24 @@ const GridExample = React.createClass({
     };
   },
 
-  handleClick(event) {
+  handleEdit(rowIdx, row, event) {
+    alert(`Row index is: ${rowIdx}`);
+    console.log('Edit button clicked,', rowIdx, row);
+    event.preventDefault();
+  },
+
+  handleRemove(rowIdx, row, event) {
+    alert(`Row index is: ${rowIdx}`);
+    console.log('Remove button clicked,', rowIdx, row);
     event.preventDefault();
   },
 
   render() {
     return (
-      <Grid cols={mockColumnsData} tableData={tableData} operateColumn>
+      <Grid cols={mockColumnsData} tableData={tableData} operateColumn
+        onEdit={this.handleEdit}
+        onRemove={this.handleRemove}
+      >
         {/* <td><input type='button' onClick={this.handleClick} value='修改' /></td> */}
       </Grid>
     );

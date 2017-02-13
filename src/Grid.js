@@ -92,15 +92,15 @@ class Grid extends Component {
     }
   }
 
-  handleEdit(rowIdx, rowData) {
+  handleEdit(rowIdx, rowData, event) {
     if (this.props.onEdit) {
-      this.props.onEdit(rowIdx, rowData);
+      this.props.onEdit(rowIdx, rowData, event);
     }
   }
 
-  handleRemove(rowIdx, rowData) {
+  handleRemove(rowIdx, rowData, event) {
     if (this.props.onRemove) {
-      this.props.onRemove(rowIdx, rowData);
+      this.props.onRemove(rowIdx, rowData, event);
     }
   }
 

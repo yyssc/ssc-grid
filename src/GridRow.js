@@ -54,12 +54,12 @@ class GridRow extends Component {
     this.props.onRowSelection(rowIdx, event.target.checked);
   }
 
-  handleEdit(rowIdx, rowData) {
-    this.props.onEdit(rowIdx, rowData);
+  handleEdit(rowIdx, rowData, event) {
+    this.props.onEdit(rowIdx, rowData, event);
   }
 
-  handleRemove(rowIdx, rowData) {
-    this.props.onRemove(rowIdx, rowData);
+  handleRemove(rowIdx, rowData, event) {
+    this.props.onRemove(rowIdx, rowData, event);
   }
 
   // handleCheckbox(rowIdx, colIdx, e) {
