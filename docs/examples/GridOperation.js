@@ -69,10 +69,8 @@ const GridExample = React.createClass({
 
   render() {
     return (
-      <Grid cols={mockColumnsData} tableData={tableData}
-        operateColumn={true}
-      >
-        {/*<td><input type='button' onClick={this.handleClick} value='修改' /></td>*/}
+      <Grid cols={mockColumnsData} tableData={tableData} operateColumn>
+        {/* <td><input type='button' onClick={this.handleClick} value='修改' /></td> */}
       </Grid>
     );
   }
