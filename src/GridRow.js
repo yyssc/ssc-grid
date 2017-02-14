@@ -10,13 +10,19 @@ class GridRow extends Component {
     /**
      * 用于指定列模型，比如每个字段的类型是什么，字段类型决定了单元格的样式。
      */
-    cols: PropTypes.array.isRequired,
+    columnsModel: PropTypes.array.isRequired,
     /**
-     * row.cols中存储了本行中每一列的数据
+     * 本行中每一列的数据
+     * <pre>
+     * {
+     *   id: '11',
+     *   danjuleixing: '123'
+     * }
+     * </pre>
      */
-    row: PropTypes.object.isRequired,
+    rowObj: PropTypes.object.isRequired,
     /**
-     * row index 从0开始，等同于key
+     * 表格中本行的index，从0开始，等同于key
      */
     rowIdx: PropTypes.number.isRequired,
     onRowSelection: PropTypes.func.isRequired,
@@ -70,13 +76,12 @@ class GridRow extends Component {
     }
   }
 
-  renderCells = (columnsModel, row) => {
-    return row.cols.map((col, colIdx) => {
-      const columnModel = columnsModel[colIdx];
+  renderCells = (columnsModel, rowObj) => {
+    return columnsModel.map((columnModel, colIdx) => {
       let className = '';
       let cellContent = '';
-      let { value } = col;
-      switch (columnModel.key) {
+      let value = rowObj[columnModel.id];
+      switch (columnModel.type) {
         case 'double': // 之前的金额类型
           className = 'text-right';
           cellContent = value;
@@ -96,7 +101,7 @@ class GridRow extends Component {
   }
 
   render() {
-    const { cols, row, rowIdx, checkboxColumn, operateColumn } = this.props;
+    const { columnsModel, rowObj, rowIdx, checkboxColumn, operateColumn } = this.props;
     return (
       <tr>
         {
@@ -105,11 +110,11 @@ class GridRow extends Component {
             ? <td><input type="checkbox" onChange={this.handleSelection.bind(this, rowIdx)} /></td>
             : null
         }
-        { this.renderCells(cols, row) }
+        { this.renderCells(columnsModel, rowObj) }
         { operateColumn
           ? (<td>
-              <Button onClick={this.handleEdit.bind(this, rowIdx, row)}>修改</Button>
-              <Button onClick={this.handleRemove.bind(this, rowIdx, row)}>删除</Button>
+              <Button onClick={this.handleEdit.bind(this, rowIdx, rowObj)}>修改</Button>
+              <Button onClick={this.handleRemove.bind(this, rowIdx, rowObj)}>删除</Button>
             </td>)
           : null }
         {

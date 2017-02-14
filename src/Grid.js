@@ -22,9 +22,9 @@ class Grid extends Component {
      */
     tableData: PropTypes.array.isRequired,
     /**
-     * 表头每一列的名称
+     * 表头每一列的名称和类型
      */
-    cols: PropTypes.array.isRequired,
+    columnsModel: PropTypes.array.isRequired,
     /**
      * 分页
      */
@@ -114,7 +114,7 @@ class Grid extends Component {
   }
 
   render() {
-    const { cols, tableData,
+    const { columnsModel, tableData,
       checkboxColumn, operateColumn, className
     } = this.props;
 
@@ -124,7 +124,7 @@ class Grid extends Component {
     }
 
     const renderTableHeader = () => (
-      cols.map((col, key) => (
+      columnsModel.map((col, key) => (
         <th key={key}>{col.label}</th>
       ))
     );
@@ -166,8 +166,8 @@ class Grid extends Component {
               return (<GridRow
                 checkboxColumn={checkboxColumn}
                 operateColumn={operateColumn}
-                row={row} key={rowIdx}
-                cols={cols} rowIdx={rowIdx}
+                rowObj={row} key={rowIdx}
+                columnsModel={columnsModel} rowIdx={rowIdx}
                 onRowSelection={self.handleSelectOne.bind(self)}
                 onEdit={self.handleEdit.bind(self)}
                 onRemove={self.handleRemove.bind(self)}

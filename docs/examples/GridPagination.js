@@ -1,6 +1,6 @@
 const mockColumnsData = [
-  {key: 'string', 'label': '单据编号'},
-  {key: 'double', 'label': '金额'}
+  {type: 'string', id: 'danjubianhao', 'label': '单据编号'},
+  {type: 'double', id: 'jine', 'label': '金额'}
 ];
 
 // 每个分页显示三行数据
@@ -9,27 +9,34 @@ const ItemsPerPage = 3;
 // 伪造AJAX请求，并返回分页后的数据
 function fakeAjax(startIndex, itemPerPage) {
   const db = [
-    {'id': 11, 'cols': [
-      {'value': '263X2016111400000081'}, {'value': '2.00'}
-    ]},
-    {'id': 22, 'cols': [
-      {'value': 'D32016091200000022'}, {'value': '12.00'}
-    ]},
-    {'id': 33, 'cols': [
-      {'value': '263X20160830000000345'}, {'value': '100.00'}
-    ]},
-    {'id': 44, 'cols': [
-      {'value': '263X2016083000002340025'}, {'value': '10430.00'}
-    ]},
-    {'id': 55, 'cols': [
-      {'value': '263X201608300005600025'}, {'value': '1400.00'}
-    ]},
-    {'id': 66, 'cols': [
-      {'value': '263X2016083000567000025'}, {'value': '1070.00'}
-    ]},
-    {'id': 77, 'cols': [
-      {'value': '263X2016083000234000025'}, {'value': '1800.00'}
-    ]}
+    {
+      danjubianhao: '263X2016111400000081',
+      jine: '2.00'
+    },
+    {
+      danjubianhao: 'D32016091200000022',
+      jine: '12.00'
+    },
+    {
+      danjubianhao: '263X20160830000000345',
+      jine: '100.00'
+    },
+    {
+      danjubianhao: '263X2016083000002340025',
+      jine: '10430.00'
+    },
+    {
+      danjubianhao: '263X201608300005600025',
+      jine: '1400.00'
+    },
+    {
+      danjubianhao: '263X2016083000567000025',
+      jine: '1070.00'
+    },
+    {
+      danjubianhao: '263X2016083000234000025',
+      jine: '1800.00'
+    }
   ];
   let index;
   let items = [];
@@ -43,7 +50,7 @@ function fakeAjax(startIndex, itemPerPage) {
   };
 }
 
-const GridExample = React.createClass({
+const GridPaginationExample = React.createClass({
   getInitialState() {
     return {
       tableData: [],
@@ -86,7 +93,7 @@ const GridExample = React.createClass({
   render() {
     return (
       <Grid
-        tableData={this.state.tableData} cols={mockColumnsData}
+        tableData={this.state.tableData} columnsModel={mockColumnsData}
         paging
         totalPage={this.state.totalPage}
         activePage={this.state.activePage}
@@ -96,4 +103,4 @@ const GridExample = React.createClass({
   }
 });
 
-ReactDOM.render(<GridExample />, mountNode);
+ReactDOM.render(<GridPaginationExample />, mountNode);
