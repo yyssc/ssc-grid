@@ -45,12 +45,12 @@ export default class Form extends Component {
 
   // Performance issue?
   // http://stackoverflow.com/questions/33266156/react-redux-input-onchange-is-very-slow-when-typing-in-when-the-input-have-a
-  handleBlur(idx, event) {
+  handleBlur(idx, fieldModel, event) {
     if (this.props.onBlur) {
       const { formData } = this.state;
       formData[this.props.fieldsModel[idx].id] = event.target.value;
       this.setState({ formData });
-      this.props.onBlur(idx, event.target.value);
+      this.props.onBlur(idx, fieldModel, event.target.value);
     }
   }
 
@@ -162,7 +162,7 @@ export default class Form extends Component {
               placeholder="请输入"
               defaultValue={this.state.formData[fieldModel.id]}
               fieldModel={fieldModel}
-              onBlur={this.handleBlur.bind(this, idx)}
+              onBlur={this.handleBlur.bind(this, idx, fieldModel)}
             />
           )}
           <Button onClick={this.handleSubmit.bind(this)} type="submit">保存</Button>

@@ -39,7 +39,7 @@ const FormExample = React.createClass({
     };
   },
 
-  handleBlur() {
+  handleBlur(/* index, fieldModel, value */) {
   },
 
   handleSubmit(event, formData) {
