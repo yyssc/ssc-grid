@@ -4,21 +4,32 @@ import ReactDOM from 'react-dom';
 
 import Form from '../src/Form';
 
-function getDefaultFormData() {
+function getFieldsModel() {
   return [
-    {'type': 'text', 'label': '单据编号'},
-    {'type': 'text', 'label': '单据类型'},
-    {'type': 'text', 'label': '单据状态'},
-    {'type': 'money', 'label': '金额'},
-    {'type': 'text', 'label': '单据日期'}
+    {'type': 'string', id: 'danjubianhao', 'label': '单据编号'},
+    {'type': 'string', id: 'danjuleixing', 'label': '单据类型'},
+    {'type': 'string', id: 'danjuzhuangtai', 'label': '单据状态'},
+    {'type': 'double', id: 'jine', 'label': '金额'},
+    {'type': 'string', id: 'danjuriqi', 'label': '单据日期'}
   ];
+}
+
+function getDefaultFormData() {
+  return {
+    danjubianhao: '123',
+    danjuleixing: '类型1',
+    danjuzhuangtai: '保存',
+    jine: '12.00',
+    danjuriqi: '2017-02-14'
+  };
 }
 
 describe('<Form>', () => {
   it('uses "div" by default', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Form
-        formDefaultData={getDefaultFormData()}
+        fieldsModel={getFieldsModel()}
+        defaultData={getDefaultFormData()}
       />
     );
 
@@ -28,7 +39,8 @@ describe('<Form>', () => {
   it('has "admin-form" class', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Form
-        formDefaultData={getDefaultFormData()}
+        fieldsModel={getFieldsModel()}
+        defaultData={getDefaultFormData()}
         className="admin-form"
       />
     );
@@ -38,7 +50,8 @@ describe('<Form>', () => {
   it('Should merge additional classes passed in', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Form
-        formDefaultData={getDefaultFormData()}
+        fieldsModel={getFieldsModel()}
+        defaultData={getDefaultFormData()}
       className="bob"/>
     );
     assert.ok(ReactDOM.findDOMNode(instance).className.match(/\bbob\b/));

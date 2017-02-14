@@ -1,16 +1,16 @@
-const mockFormData = [
-  {key: 'string', 'label': '单据编号'},
-  {key: 'enum', 'label': '单据类型', 'placeholder': '请选择单据类型',
+const mockFieldsModel = [
+  {type: 'string', id: 'danjubianhao', 'label': '单据编号'},
+  {type: 'enum', id: 'danjuleixing', 'label': '单据类型', 'placeholder': '请选择单据类型',
     data: [
       {key: '2631', value: '差旅费借款单'},
       {key: '2632', value: '会议费借款单'},
       {key: 'D3', value: '付款单'}
     ]
   },
-  {key: 'double', 'label': '金额'},
-  {key: 'date', label: '单据日期'},
-  {key: 'boolean', label: '启用'},
-  {key: 'enum', label: '性别', data: [
+  {type: 'double', id: 'jine', 'label': '金额'},
+  {type: 'date', id: 'danjuriqi', label: '单据日期'},
+  {type: 'boolean', id: 'qiyong', label: '启用'},
+  {type: 'enum', id: 'xingbie', label: '性别', data: [
     {
       key: 'male',
       value: '男'
@@ -20,8 +20,18 @@ const mockFormData = [
       value: '女'
     }
   ]},
-  {key: 'ref', label: '组织（参照类型）'}
+  {type: 'ref', id: 'zuzhi', label: '组织'}
 ];
+
+const mockFormData = {
+  danjubianhao: 'abc123',
+  danjuleixing: 'D3',
+  jine: '12.00',
+  danjuriqi: '2017-02-14',
+  qiyong: false,
+  xingbie: 'male',
+  zuzhi: '用友'
+};
 
 const FormExample = React.createClass({
   getInitialState() {
@@ -34,16 +44,16 @@ const FormExample = React.createClass({
 
   handleSubmit(event, formData) {
     alert('提交的数据: \n' + JSON.stringify(
-      formData.map(function createValue(field) {
-        return field.value;
-      }),
+      formData,
       null, '  '));
     event.preventDefault();
   },
 
   render() {
     return (
-      <Form formDefaultData={mockFormData}
+      <Form
+        fieldsModel={mockFieldsModel}
+        defaultData={mockFormData}
         onSubmit={this.handleSubmit}
         onBlur={this.handleBlur}
       />

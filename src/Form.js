@@ -12,7 +12,11 @@ export default class Form extends Component {
     /**
      * 表单中的数据
      */
-    formDefaultData: PropTypes.array.isRequired,
+    fieldsModel: PropTypes.array.isRequired,
+    /**
+     * 填充表单值
+     */
+    defaultData: PropTypes.object,
     /**
      * 光标离开文本框时候调用该函数
      */
@@ -26,7 +30,7 @@ export default class Form extends Component {
   state = {
     datePickerValue: '',
     datePickerFormattedValue: '',
-    formData: this.props.formDefaultData
+    formData: this.props.defaultData
   };
 
   constructor(props) {
@@ -44,7 +48,7 @@ export default class Form extends Component {
   handleBlur(idx, event) {
     if (this.props.onBlur) {
       const { formData } = this.state;
-      formData[idx].value = event.target.value;
+      formData[this.props.fieldsModel[idx].id] = event.target.value;
       this.setState({ formData });
       this.props.onBlur(idx, event.target.value);
     }
@@ -59,8 +63,8 @@ export default class Form extends Component {
     // 根据字段的index，只更新指定字段的值
     const newState = update(this.state, {
       formData: {
-        [fieldIdx]: {
-          value: {$set: value}
+        [this.props.fieldsModel[fieldIdx].id]: {
+          $set: value
         }
       }
     });
@@ -86,16 +90,16 @@ export default class Form extends Component {
   }
 
   render() {
-    const { formDefaultData, className } = this.props;
+    const { fieldsModel, className } = this.props;
 
     // idx是field index，从0开始
     const FieldGroup = ({ id, idx, label, help, fieldModel, ...props }) => {
       let field, formCtrl;
-      const { key } = fieldModel;
+      const { type } = fieldModel;
 
       // 根据字段类型，生成不同的UI组件
       // 每个类型后面跟着的数字是后端传过来的datatype
-      switch (key) {
+      switch (type) {
         // string为默认字段类型
         default:
         case 'string': // 0
@@ -115,7 +119,7 @@ export default class Form extends Component {
           break;
         case 'boolean': // 4
           formCtrl = (
-            <Checkbox checked={this.state.formData[idx].value}
+            <Checkbox checked={this.state.formData[fieldModel.id]}
               onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
             />
           );
@@ -127,7 +131,7 @@ export default class Form extends Component {
           const { data, placeholder } = fieldModel;
           formCtrl = (
             <FormControl componentClass="select" placeholder={placeholder && '请选择'}
-              value={this.state.formData[idx].value || null}
+              value={this.state.formData[fieldModel.id] || null}
               onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
             >
               {data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
@@ -137,7 +141,7 @@ export default class Form extends Component {
       }
 
       field = (
-        <FormGroup key={label} controlId={id}>
+        <FormGroup key={idx} controlId={id}>
           <ControlLabel>{label}</ControlLabel>
           {formCtrl}
           {help && <HelpBlock>{help}</HelpBlock>}
@@ -149,15 +153,15 @@ export default class Form extends Component {
     return (
       <div className={classNames(className)}>
         <form>
-          {formDefaultData.map((col, idx) =>
+          {fieldsModel.map((fieldModel, idx) =>
             <FieldGroup
-              key={col.label}
+              key={idx}
               idx={idx}
-              id={`formControls-${col.label}`}
-              label={col.label}
+              id={`formControls-${fieldModel.id}`}
+              label={fieldModel.label}
               placeholder="请输入"
-              defaultValue={col.value}
-              fieldModel={col}
+              defaultValue={this.state.formData[fieldModel.id]}
+              fieldModel={fieldModel}
               onBlur={this.handleBlur.bind(this, idx)}
             />
           )}
