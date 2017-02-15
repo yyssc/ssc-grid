@@ -1,4 +1,4 @@
-# SSC-Grid [![Travis][build-badge]][build] [![AppVeyor][appveyor-badge]][appveyor] [![npm][npm-badge]][npm] [![Codecov][codecov-badge]][codecov]
+# SSC-Comp [![Travis][build-badge]][build] [![AppVeyor][appveyor-badge]][appveyor] [![npm][npm-badge]][npm] [![Codecov][codecov-badge]][codecov]
 
 SSC 3.0 Grid组件
 
@@ -20,6 +20,13 @@ render() {
     <Grid cols={cols} tableData={tableData} />
   );
 }
+```
+
+## 从ssc-grid改名为ssc-comp
+
+```
+npm uninstall ssc-grid --save
+npm install ssc-comp --save
 ```
 
 ## 文档

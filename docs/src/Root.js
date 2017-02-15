@@ -47,7 +47,7 @@ const Root = React.createClass({
     };
 
     let head = {
-      __html: `<title>SSC-Grid</title>
+      __html: `<title>SSC-Comp</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="${Root.assetBaseUrl}/assets/bundle.css" rel="stylesheet">

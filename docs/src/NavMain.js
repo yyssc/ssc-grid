@@ -31,7 +31,7 @@ function NavMain({ activePage }) {
     >
       <Navbar.Header>
         <Navbar.Brand>
-          <Link to="/">SSC-Grid</Link>
+          <Link to="/">SSC-Comp</Link>
         </Navbar.Brand>
         <Navbar.Toggle />
       </Navbar.Header>
