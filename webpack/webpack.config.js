@@ -10,7 +10,7 @@ export default {
   output: {
     path: './dist',
     filename: options.optimizeMinimize ? '[name].min.js' : '[name].js',
-    library: 'SSCGrid',
+    library: 'SSCComp',
     libraryTarget: 'umd',
   },
 
