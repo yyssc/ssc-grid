@@ -35,6 +35,7 @@ alt="Demo of hot loader" width="240" height="180" border="10" /></a>
 - `docs/examples/TextInputBasic.js` 创建示例代码，这个示例代码会被添加到文档中。
 - `docs/src/sections/*Section.js` 根据组件的类型，比如`TextInput`从属于表单，那么就不用新建`TextInputSection.js`，而是修改已存在的`FormSection.js`文件。
 - `docs/src/ComponentsPage.js` 文档中的“组件列表”页面。在代码的最上面需要导入`docs/src/section/*Section.js`，然后将`<*Section>`添加到`render()`中，最后在右边栏中的`<Nav>`中添加组件的锚，方便在文档页面中快速定位到组件。
+- `docs/examples/.eslintrc` 将`TextInput`添加到`globals`中，也就是eslint在检查`docs/examples/*.js`的时候不检查`TextInput`这个全局变量。
 
 ## Production
 
