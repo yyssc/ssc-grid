@@ -4,7 +4,7 @@ export default {
   ...baseConfig,
 
   entry: {
-    'ssc-grid': './src/index.js',
+    'ssc-comp': './src/index.js',
   },
 
   output: {

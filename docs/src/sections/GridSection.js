@@ -14,7 +14,7 @@ export default function GridSection() {
 
       <h3><Anchor id="grids-basic">简单表格</Anchor></h3>
       <p>使用<code>tableData</code>参数可以往表格中传入数据。</p>
-      <p>导入方法：<code>{`import { Grid } from 'ssc-grid'`}</code></p>
+      <p>导入方法：<code>{`import { Grid } from 'ssc-comp'`}</code></p>
       <ReactPlayground codeText={Samples.GridBasic} />
 
       <h3><Anchor id="grids-operation-column">带操作列的表格</Anchor></h3>
