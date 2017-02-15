@@ -63,3 +63,4 @@ tmp-docs-repo/
 coverage/
 
 .*.swp
+.idea
