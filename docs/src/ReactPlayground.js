@@ -14,6 +14,8 @@ const SafeAnchor = require('react-bootstrap/lib/SafeAnchor');
 
 const Grid = require('../../src/Grid');
 const Form = require('../../src/Form');
+const Refer = require('../../src/Refer');
+const TreeRefer = require('../../src/TreeRefer');
 
 //const bootstrapUtils = require('../../src/utils/bootstrapUtils');
 const bootstrapUtils = require('react-bootstrap/lib/utils/bootstrapUtils');

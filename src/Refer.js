@@ -1,4 +1,4 @@
-// import '../node_modules/rc-tree-select/assets/index.css';
+// import 'rc-tree-select/assets/index.less';
 import TreeSelect from 'rc-tree-select';
 import React, { Component, PropTypes } from 'react';
 
@@ -8,17 +8,15 @@ import React, { Component, PropTypes } from 'react';
 
 class Refer extends Component {
   static propTypes = {
-    tsOpen: PropTypes.bool,
-    visible: PropTypes.bool,
+    treeData: PropTypes.array.isRequired,
     inputValue: PropTypes.object.isRequired,
     value: PropTypes.object.isRequired
   };
 
   static defaultProps = {
-    tsOpen: false,
-    visible: false,
     inputValue: '0-0-0-label',
     value: '0-0-0-value1'
+
   };
 
   constructor(props) {
@@ -29,14 +27,13 @@ class Refer extends Component {
     // console.log(value, arguments);
   }
 
-  onChange(value) {
-    // console.log('onChange', arguments);
-    this.setState({ value });
+  onSelect() {
+    // use onChange instead
+    // console.log(arguments);
   }
 
-
   render() {
-    // const {  } = this.props;
+    const { treeData, inputValue, value } = this.props;
     return (
         <TreeSelect
           style={{ width: 300 }}
@@ -46,22 +43,12 @@ class Refer extends Component {
           placeholder={<i>请下拉选择</i>}
           searchPlaceholder="please search"
           showSearch allowClear treeLine
-          inputValue={this.state.inputValue}
-          value={this.state.value}
-          treeData={{}}
+          inputValue={inputValue}
+          value={value}
+          treeData={treeData}
           treeNodeFilterProp="label"
           filterTreeNode={false}
           onSearch={this.onSearch}
-          open={this.state.tsOpen}
-          onChange={(value) => {
-            // console.log('onChange', arguments);
-            if (value === '0-0-0-0-value') {
-              this.setState({ tsOpen: true });
-            } else {
-              this.setState({ tsOpen: false });
-            }
-            this.setState({ value });
-          } }
           onDropdownVisibleChange={(v, info) => {
             // console.log('single onDropdownVisibleChange', v, info);
             // document clicked
