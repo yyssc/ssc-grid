@@ -32,9 +32,8 @@ const F0rmExample = React.createClass({
     this.setState(newState);
   },
 
-  handleSubmit(event) {
-    const formData = {};
-    alert('提交的数据: \n' + JSON.stringify(
+  handleSubmit(event, formData) {
+    alert('提交的数据: F0rm.state.formData: \n' + JSON.stringify(
       formData,
       null, '  '));
     event.preventDefault();
