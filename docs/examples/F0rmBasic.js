@@ -1,9 +1,9 @@
 const mockFieldsModel = [
   {type: 'string', id: 'danjubianhao', 'label': '单据编号'},
-  {type: 'string', id: 'jine', 'label': '金额'},
-  {type: 'string', id: 'danjuriqi', label: '单据日期'},
-  {type: 'string', id: 'qiyong', label: '启用'},
-  {type: 'string', id: 'zuzhi', label: '组织'}
+  {type: 'double', id: 'jine', 'label': '金额'},
+  {type: 'date', id: 'danjuriqi', label: '单据日期'},
+  {type: 'boolean', id: 'qiyong', label: '启用'},
+  {type: 'ref', id: 'zuzhi', label: '组织'}
 ];
 
 const mockFormData = {

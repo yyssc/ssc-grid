@@ -3,8 +3,16 @@ import React, { PropTypes } from 'react';
 
 import { Button, FormGroup, ControlLabel } from 'react-bootstrap';
 
-// form control
-import { FormControl } from 'react-bootstrap';
+/**
+ * 控件(control/widget)分类
+ * Command input: Button, Drop-down list, ...
+ * Data input-output: Checkbox Color picker Combo box Cycle button Date Picker Grid view List box List builder Radio button Scrollbar Search box Slider Spinner Text box
+ * 来源：https://en.wikipedia.org/wiki/Widget_(GUI)
+ */
+
+// 表单(form)控件(control/widget)
+import { FormControl, Checkbox } from 'react-bootstrap';
+import DatePicker from 'react-bootstrap-date-picker';
 
 export default React.createClass({
   propTypes: {
@@ -20,13 +28,21 @@ export default React.createClass({
     };
   },
 
-  handleChange(id, e) {
+  handleChange(fieldId, event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    // const name = target.name;
+
     const newState = {
       formData: this.state.formData
     };
-    newState.formData[id] = e.target.value;
+    newState.formData[fieldId] = value;
     this.setState(newState);
-    this.props.onChange(e, id);
+
+    this.props.onChange(event, fieldId);
+  },
+
+  handleDatePickerChange(/* fieldId, value, formattedValue */) {
   },
 
   handleSubmit(event) {
@@ -47,8 +63,9 @@ export default React.createClass({
       <form className={classNames(className)}>
         {
           fieldsModel.map((fieldModel, index) => {
+            const { id, type, label, placeholder } = fieldModel;
             let formCtrl;
-            switch(fieldModel.type) {
+            switch (type) {
               default:
               case 'string': // 0
               case 'double': // 2
@@ -57,25 +74,24 @@ export default React.createClass({
                 formCtrl = (
                   <FormControl
                     type="text"
-                    value={this.state.formData[fieldModel.id]}
-                    placeholder={fieldModel.placeholder}
-                    onChange={this.handleChange.bind(this, fieldModel.id)}
+                    value={this.state.formData[id]}
+                    placeholder={placeholder}
+                    onChange={this.handleChange.bind(this, id)}
                   />
                 );
                 break;
-              // case 'date': // 3
-              //   formCtrl = (
-              //     <DatePicker
-              //       id={id}
-              //       value={this.state.datePickerValue}
-              //       onChange={this.handleDatePickerChange.bind(this)}
-              //     />
-              //   );
-              //   break;
+              case 'date': // 3
+                formCtrl = (
+                  <DatePicker
+                    value={this.state.formData[id]}
+                    onChange={this.handleDatePickerChange.bind(this, id)}
+                  />
+                );
+                break;
               case 'boolean': // 4
                 formCtrl = (
-                  <Checkbox checked={this.state.formData[fieldModel.id]}
-                    onChange={this.handleChange.bind(this, fieldModel.id)}
+                  <Checkbox checked={this.state.formData[id]}
+                    onChange={this.handleChange.bind(this, id)}
                   />
                 );
                 break;
@@ -83,9 +99,9 @@ export default React.createClass({
             return (
               <FormGroup
                 key={index}
-                controlId={`formBasicText-${fieldModel.id}`}
+                controlId={`formControl-${id}`}
               >
-                <ControlLabel>{fieldModel.label}</ControlLabel>
+                <ControlLabel>{label}</ControlLabel>
                 {formCtrl}
                 <FormControl.Feedback />
               </FormGroup>
