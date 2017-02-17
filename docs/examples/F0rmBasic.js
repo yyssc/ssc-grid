@@ -1,5 +1,12 @@
 const mockFieldsModel = [
   {type: 'string', id: 'danjubianhao', 'label': '单据编号'},
+  {type: 'enum', id: 'danjuleixing', 'label': '单据类型', 'placeholder': '请选择单据类型',
+    data: [
+      {key: '2631', value: '差旅费借款单'},
+      {key: '2632', value: '会议费借款单'},
+      {key: 'D3', value: '付款单'}
+    ]
+  },
   {type: 'double', id: 'jine', 'label': '金额'},
   {type: 'date', id: 'danjuriqi', label: '单据日期'},
   {type: 'boolean', id: 'qiyong', label: '启用'},
@@ -8,6 +15,7 @@ const mockFieldsModel = [
 
 const mockFormData = {
   danjubianhao: 'abc123',
+  danjuleixing: 'D3',
   jine: '12.00',
   danjuriqi: '2017-02-14',
   qiyong: false,
@@ -17,18 +25,16 @@ const mockFormData = {
 const F0rmExample = React.createClass({
   getInitialState() {
     return {
-      foo: 'bar'
+      formData: {}
     };
   },
 
   handleBlur(/* index, fieldModel, value */) {
   },
 
-  handleChange(event, fieldId) {
-    const newState = {
-      formData: {}
-    };
-    newState.formData[fieldId] = event.target.value;
+  handleChange(fieldId, value) {
+    const newState = { ...this.state };
+    newState.formData[fieldId] = value;
     this.setState(newState);
   },
 

@@ -18,7 +18,22 @@ export default React.createClass({
   propTypes: {
     fieldsModel: PropTypes.array.isRequired,
     defaultData: PropTypes.object,
+    /**
+     * 当控件的值发生改变的时候触发
+     * 参数1, fieldId, 也就是传入组件中fieldsModel中的id
+     * 参数2, value, 改变之后的值
+     * 参数3, opt, 可选参数，当type为string/boolean/enum等简单类型的时候，可以
+     *             通过opt.event获取Event对象。
+     *             当type为date类型的时候，可以通过opt.formattedValue获取格式化
+     *             之后的时间值。
+     */
     onChange: PropTypes.func,
+    /**
+     * 当表单被提交的时候触发
+     * 参数1, event, Event对象
+     * 参数2. formData, 整个表单中所有控件的值，是一个JSON对象，结构和传入参数
+     *                  defaultData保持一致。
+     */
     onSubmit: PropTypes.func,
     onReset: PropTypes.func
   },
@@ -39,10 +54,19 @@ export default React.createClass({
     newState.formData[fieldId] = value;
     this.setState(newState);
 
-    this.props.onChange(event, fieldId);
+    if (this.props.onChange) {
+      this.props.onChange(fieldId, value, {
+        event
+      });
+    }
   },
 
-  handleDatePickerChange(/* fieldId, value, formattedValue */) {
+  handleDatePickerChange(fieldId, value, formattedValue) {
+    if (this.props.onChange) {
+      this.props.onChange(fieldId, value, {
+        formattedValue
+      });
+    }
   },
 
   handleSubmit(event) {
@@ -70,7 +94,6 @@ export default React.createClass({
               case 'string': // 0
               case 'double': // 2
               case 'ref': // 5
-              case 'enum': // 6
                 formCtrl = (
                   <FormControl
                     type="text"
@@ -93,6 +116,16 @@ export default React.createClass({
                   <Checkbox checked={this.state.formData[id]}
                     onChange={this.handleChange.bind(this, id)}
                   />
+                );
+                break;
+              case 'enum': // 6
+                formCtrl = (
+                  <FormControl componentClass="select" placeholder={placeholder && '请选择'}
+                    value={this.state.formData[id]}
+                    onChange={this.handleChange.bind(this, id)}
+                  >
+                    {fieldModel.data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
+                  </FormControl>
                 );
                 break;
             }
