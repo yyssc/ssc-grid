@@ -16,6 +16,9 @@ export default function FormSection() {
       <p>导入方法：<code>{`import { Form } from 'ssc-comp'`}</code></p>
       <ReactPlayground codeText={Samples.FormBasic} />
 
+      <p>调试使用，测试F0rm</p>
+      <ReactPlayground codeText={Samples.F0rmBasic} />
+
       <h3><Anchor id="form-props">属性</Anchor></h3>
       <PropTable component="Form"/>
     </div>

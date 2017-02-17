@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
-import update from 'react-addons-update';
+// import update from 'react-addons-update';
 
 import { Button, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 // form control
@@ -18,6 +18,10 @@ export default class Form extends Component {
      */
     defaultData: PropTypes.object,
     /**
+     * 当文本框内容发生变化的时候
+     */
+    onChange: PropTypes.func,
+    /**
      * 光标离开文本框时候调用该函数
      */
     onBlur: PropTypes.func,
@@ -30,7 +34,7 @@ export default class Form extends Component {
   state = {
     datePickerValue: '',
     datePickerFormattedValue: '',
-    formData: this.props.defaultData
+    formData: null
   };
 
   constructor(props) {
@@ -47,34 +51,35 @@ export default class Form extends Component {
   // http://stackoverflow.com/questions/33266156/react-redux-input-onchange-is-very-slow-when-typing-in-when-the-input-have-a
   handleBlur(idx, fieldModel, event) {
     if (this.props.onBlur) {
-      const { formData } = this.state;
-      formData[this.props.fieldsModel[idx].id] = event.target.value;
-      this.setState({ formData });
+      // const { formData } = this.state;
+      // formData[this.props.fieldsModel[idx].id] = event.target.value;
+      // this.setState({ formData });
       this.props.onBlur(idx, fieldModel, event.target.value);
     }
   }
 
   // simple form control包括：input, select, checkbox
   handleSimpleFormCtrlChange(fieldIdx, event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
+    // const target = event.target;
+    // const value = target.type === 'checkbox' ? target.checked : target.value;
     // const name = target.name;
 
     // 根据字段的index，只更新指定字段的值
-    const newState = update(this.state, {
-      formData: {
-        [this.props.fieldsModel[fieldIdx].id]: {
-          $set: value
-        }
-      }
-    });
-    this.setState(newState);
+    // const newState = update(this.state, {
+    //   formData: {
+    //     [this.props.fieldsModel[fieldIdx].id]: {
+    //       $set: value
+    //     }
+    //   }
+    // });
+    // this.setState(newState);
+    this.props.onChange(event, this.props.fieldsModel[fieldIdx].id);
   }
 
   handleSubmit(event) {
     event.preventDefault();
     if (this.props.onSubmit) {
-      this.props.onSubmit(event, this.state.formData);
+      this.props.onSubmit(event);
     }
   }
 
@@ -103,10 +108,14 @@ export default class Form extends Component {
         // string为默认字段类型
         default:
         case 'string': // 0
-          formCtrl = (<FormControl {...props} />);
+          formCtrl = (<FormControl {...props}
+            onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
+          />);
           break;
         case 'double': // 2
-          formCtrl = (<FormControl {...props} />);
+          formCtrl = (<FormControl {...props}
+            onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
+          />);
           break;
         case 'date': // 3
           formCtrl = (
@@ -119,19 +128,21 @@ export default class Form extends Component {
           break;
         case 'boolean': // 4
           formCtrl = (
-            <Checkbox checked={this.state.formData[fieldModel.id]}
+            <Checkbox checked={this.props.defaultData[fieldModel.id]}
               onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
             />
           );
           break;
         case 'ref': // 5
-          formCtrl = (<FormControl {...props} />);
+          formCtrl = (<FormControl {...props}
+            onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
+          />);
           break;
         case 'enum': // 6
           const { data, placeholder } = fieldModel;
           formCtrl = (
             <FormControl componentClass="select" placeholder={placeholder && '请选择'}
-              value={this.state.formData[fieldModel.id] || null}
+              value={this.props.defaultData[fieldModel.id] || null}
               onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
             >
               {data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
@@ -154,13 +165,23 @@ export default class Form extends Component {
       <div className={classNames(className)}>
         <form>
           {fieldsModel.map((fieldModel, idx) =>
-            <FieldGroup
+            this.state.formData ? <FieldGroup
               key={idx}
               idx={idx}
               id={`formControls-${fieldModel.id}`}
               label={fieldModel.label}
               placeholder="请输入"
-              defaultValue={this.state.formData[fieldModel.id]}
+              value={this.state.formData[fieldModel.id]}
+              fieldModel={fieldModel}
+              onBlur={this.handleBlur.bind(this, idx, fieldModel)}
+            />
+            : <FieldGroup
+              key={idx}
+              idx={idx}
+              id={`formControls-${fieldModel.id}`}
+              label={fieldModel.label}
+              placeholder="请输入"
+              defaultValue={this.props.defaultData[fieldModel.id]}
               fieldModel={fieldModel}
               onBlur={this.handleBlur.bind(this, idx, fieldModel)}
             />
