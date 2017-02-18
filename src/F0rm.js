@@ -22,6 +22,12 @@ export default class Form extends Component {
     fieldsModel: PropTypes.array.isRequired,
     /**
      * 填充表单值
+     * 时间类型比较特殊，请先转成
+     * <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>格式的字符串
+     * 之后，再传进来。
+     * defaultData = {
+     *   date: new Date('2017-02-14').toISOString()
+     * }
      */
     defaultData: PropTypes.object,
     /**
@@ -71,6 +77,10 @@ export default class Form extends Component {
   }
 
   handleDatePickerChange(fieldId, value, formattedValue) {
+    const newState = { ...this.state };
+    newState.formData[fieldId] = value;
+    this.setState(newState);
+
     if (this.props.onChange) {
       this.props.onChange(fieldId, value, {
         formattedValue
@@ -98,6 +108,11 @@ export default class Form extends Component {
           fieldsModel.map((fieldModel, index) => {
             const { id, type, label, placeholder } = fieldModel;
             let formCtrl;
+
+            // 根据字段类型，生成不同的表单控件
+            // 每个类型后面跟着的数字是后端传过来的datatype，这里提到的后端是
+            // 用友自己的后端，Form组件并不依赖这些datetype数值，写在这里只是
+            // 为了用友程序员调试方便。
             switch (type) {
               default:
               case 'string': // 0
@@ -113,6 +128,8 @@ export default class Form extends Component {
                 );
                 break;
               case 'date': // 3
+                // 注意value的格式
+                // value = new Date().toISOString()
                 formCtrl = (
                   <DatePicker
                     value={this.state.formData[id]}

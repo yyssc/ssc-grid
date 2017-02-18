@@ -17,7 +17,7 @@ const mockFormData = {
   danjubianhao: 'abc123',
   danjuleixing: 'D3',
   jine: '12.00',
-  danjuriqi: '2017-02-14',
+  danjuriqi: new Date('2017-02-14').toISOString(),
   qiyong: false,
   zuzhi: '用友'
 };
