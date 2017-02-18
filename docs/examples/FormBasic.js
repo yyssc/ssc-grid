@@ -10,16 +10,6 @@ const mockFieldsModel = [
   {type: 'double', id: 'jine', 'label': '金额'},
   {type: 'date', id: 'danjuriqi', label: '单据日期'},
   {type: 'boolean', id: 'qiyong', label: '启用'},
-  {type: 'enum', id: 'xingbie', label: '性别', data: [
-    {
-      key: 'male',
-      value: '男'
-    },
-    {
-      key: 'female',
-      value: '女'
-    }
-  ]},
   {type: 'ref', id: 'zuzhi', label: '组织'}
 ];
 
@@ -27,9 +17,8 @@ const mockFormData = {
   danjubianhao: 'abc123',
   danjuleixing: 'D3',
   jine: '12.00',
-  danjuriqi: '2017-02-14',
+  danjuriqi: new Date('2017-02-14').toISOString(),
   qiyong: false,
-  xingbie: 'male',
   zuzhi: '用友'
 };
 
@@ -43,17 +32,15 @@ const FormExample = React.createClass({
   handleBlur(/* index, fieldModel, value */) {
   },
 
-  handleChange(event, fieldId) {
-    const newState = {
-      formData: {}
-    };
-    newState.formData[fieldId] = event.target.value;
+  handleChange(fieldId, value) {
+    const newState = { ...this.state };
+    newState.formData[fieldId] = value;
     this.setState(newState);
   },
 
-  handleSubmit(event) {
-    alert('提交的数据: \n' + JSON.stringify(
-      this.state.formData,
+  handleSubmit(event, formData) {
+    alert('提交的数据: Form.state.formData: \n' + JSON.stringify(
+      formData,
       null, '  '));
     event.preventDefault();
   },

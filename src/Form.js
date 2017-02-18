@@ -1,9 +1,16 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
-// import update from 'react-addons-update';
 
-import { Button, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
-// form control
+import { Button, FormGroup, ControlLabel } from 'react-bootstrap';
+
+/**
+ * 控件(control/widget)分类
+ * Command input: Button, Drop-down list, ...
+ * Data input-output: Checkbox Color picker Combo box Cycle button Date Picker Grid view List box List builder Radio button Scrollbar Search box Slider Spinner Text box
+ * 来源：https://en.wikipedia.org/wiki/Widget_(GUI)
+ */
+
+// 表单(form)控件(control/widget)
 import { FormControl, Checkbox } from 'react-bootstrap';
 import DatePicker from 'react-bootstrap-date-picker';
 
@@ -14,182 +21,161 @@ export default class Form extends Component {
      */
     fieldsModel: PropTypes.array.isRequired,
     /**
-     * 填充表单值
+     * 填充表单值<br>
+     * 时间类型比较特殊，请先转成
+     * <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>格式的字符串
+     * 之后，再传进来。
+     * <pre><code>defaultData = {
+     *   date: new Date('2017-02-14').toISOString()
+     * }</code></pre>
      */
     defaultData: PropTypes.object,
     /**
-     * 当文本框内容发生变化的时候
+     * 当控件的值发生改变的时候触发<br>
+     * 参数1, <code>fieldId</code>, 也就是传入组件中fieldsModel中的id<br>
+     * 参数2, <code>value</code>, 改变之后的值<br>
+     * 参数3, <code>opt</code>, 可选参数，当type为string/boolean/enum等简单类型的时候，可以
+     *             通过opt.event获取Event对象。<br>
+     *             当type为date类型的时候，可以通过opt.formattedValue获取格式化
+     *             之后的时间值。<br>
      */
     onChange: PropTypes.func,
     /**
-     * 光标离开文本框时候调用该函数
+     * 当表单被提交的时候触发<br>
+     * 参数1, <code>event</code>, Event对象<br>
+     * 参数2. <code>formData</code>, 整个表单中所有控件的值，是一个JSON对象，结构和传入参数
+     *                  defaultData保持一致。<br>
      */
-    onBlur: PropTypes.func,
+    onSubmit: PropTypes.func,
     /**
-     * 点击提交时候调用该函数
+     * 当点击“重置”按钮的时候
      */
-    onSubmit: PropTypes.func
+    onReset: PropTypes.func
   };
 
   state = {
-    datePickerValue: '',
-    datePickerFormattedValue: '',
-    formData: null
+    formData: {...this.props.defaultData}
   };
 
   constructor(props) {
     super(props);
   }
 
-  getValidationState() {
-    // return 'error';
-    // return 'warning';
-    return 'success';
-  }
+  // 这里只处理简单类型的控件，比如input, select, checkbox
+  // 不处理复杂类型的空间，比如date-picker
+  handleChange(fieldId, event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    // const name = target.name;
 
-  // Performance issue?
-  // http://stackoverflow.com/questions/33266156/react-redux-input-onchange-is-very-slow-when-typing-in-when-the-input-have-a
-  handleBlur(idx, fieldModel, event) {
-    if (this.props.onBlur) {
-      // const { formData } = this.state;
-      // formData[this.props.fieldsModel[idx].id] = event.target.value;
-      // this.setState({ formData });
-      this.props.onBlur(idx, fieldModel, event.target.value);
+    const newState = {
+      formData: this.state.formData
+    };
+    newState.formData[fieldId] = value;
+    this.setState(newState);
+
+    if (this.props.onChange) {
+      this.props.onChange(fieldId, value, {
+        event
+      });
     }
   }
 
-  // simple form control包括：input, select, checkbox
-  handleSimpleFormCtrlChange(fieldIdx, event) {
-    // const target = event.target;
-    // const value = target.type === 'checkbox' ? target.checked : target.value;
-    // const name = target.name;
+  // 只处理date-picker控件
+  handleDatePickerChange(fieldId, value, formattedValue) {
+    const newState = { ...this.state };
+    newState.formData[fieldId] = value;
+    this.setState(newState);
 
-    // 根据字段的index，只更新指定字段的值
-    // const newState = update(this.state, {
-    //   formData: {
-    //     [this.props.fieldsModel[fieldIdx].id]: {
-    //       $set: value
-    //     }
-    //   }
-    // });
-    // this.setState(newState);
-    this.props.onChange(event, this.props.fieldsModel[fieldIdx].id);
+    if (this.props.onChange) {
+      this.props.onChange(fieldId, value, {
+        formattedValue
+      });
+    }
   }
 
   handleSubmit(event) {
-    event.preventDefault();
     if (this.props.onSubmit) {
-      this.props.onSubmit(event);
+      this.props.onSubmit(event, this.state.formData);
     }
   }
 
-  handleReset() {
-  }
-
-  // TODO: 支持多DatePicker
-  handleDatePickerChange(value, formattedValue) {
-    this.setState({
-      datePickerValue: value,
-      detePickerFormattedValue: formattedValue
-    });
+  handleReset(event) {
+    if (this.props.onReset) {
+      this.props.onReset(event);
+    }
   }
 
   render() {
     const { fieldsModel, className } = this.props;
-
-    // idx是field index，从0开始
-    const FieldGroup = ({ id, idx, label, help, fieldModel, ...props }) => {
-      let field, formCtrl;
-      const { type } = fieldModel;
-
-      // 根据字段类型，生成不同的UI组件
-      // 每个类型后面跟着的数字是后端传过来的datatype
-      switch (type) {
-        // string为默认字段类型
-        default:
-        case 'string': // 0
-          formCtrl = (<FormControl {...props}
-            onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
-          />);
-          break;
-        case 'double': // 2
-          formCtrl = (<FormControl {...props}
-            onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
-          />);
-          break;
-        case 'date': // 3
-          formCtrl = (
-            <DatePicker
-              id={id}
-              value={this.state.datePickerValue}
-              onChange={this.handleDatePickerChange.bind(this)}
-            />
-          );
-          break;
-        case 'boolean': // 4
-          formCtrl = (
-            <Checkbox checked={this.props.defaultData[fieldModel.id]}
-              onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
-            />
-          );
-          break;
-        case 'ref': // 5
-          formCtrl = (<FormControl {...props}
-            onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
-          />);
-          break;
-        case 'enum': // 6
-          const { data, placeholder } = fieldModel;
-          formCtrl = (
-            <FormControl componentClass="select" placeholder={placeholder && '请选择'}
-              value={this.props.defaultData[fieldModel.id] || null}
-              onChange={this.handleSimpleFormCtrlChange.bind(this, idx)}
-            >
-              {data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
-            </FormControl>
-          );
-          break;
-      }
-
-      field = (
-        <FormGroup key={idx} controlId={id}>
-          <ControlLabel>{label}</ControlLabel>
-          {formCtrl}
-          {help && <HelpBlock>{help}</HelpBlock>}
-        </FormGroup>
-      );
-      return field;
-    };
-
     return (
-      <div className={classNames(className)}>
-        <form>
-          {fieldsModel.map((fieldModel, idx) =>
-            this.state.formData ? <FieldGroup
-              key={idx}
-              idx={idx}
-              id={`formControls-${fieldModel.id}`}
-              label={fieldModel.label}
-              placeholder="请输入"
-              value={this.state.formData[fieldModel.id]}
-              fieldModel={fieldModel}
-              onBlur={this.handleBlur.bind(this, idx, fieldModel)}
-            />
-            : <FieldGroup
-              key={idx}
-              idx={idx}
-              id={`formControls-${fieldModel.id}`}
-              label={fieldModel.label}
-              placeholder="请输入"
-              defaultValue={this.props.defaultData[fieldModel.id]}
-              fieldModel={fieldModel}
-              onBlur={this.handleBlur.bind(this, idx, fieldModel)}
-            />
-          )}
-          <Button onClick={this.handleSubmit.bind(this)} type="submit">保存</Button>
-          <Button onClick={this.handleReset.bind(this)} type="reset">清空</Button>
-        </form>
-      </div>
+      <form className={classNames(className)}>
+        {
+          fieldsModel.map((fieldModel, index) => {
+            const { id, type, label, placeholder } = fieldModel;
+            let formCtrl;
+
+            // 根据字段类型，生成不同的表单控件
+            // 每个类型后面跟着的数字是后端传过来的datatype，这里提到的后端是
+            // 用友自己的后端，Form组件并不依赖这些datetype数值，写在这里只是
+            // 为了用友程序员调试方便。
+            switch (type) {
+              default:
+              case 'string': // 0
+              case 'double': // 2
+              case 'ref': // 5
+                formCtrl = (
+                  <FormControl
+                    type="text"
+                    value={this.state.formData[id]}
+                    placeholder={placeholder}
+                    onChange={this.handleChange.bind(this, id)}
+                  />
+                );
+                break;
+              case 'date': // 3
+                // 注意value的格式
+                // value = new Date().toISOString()
+                formCtrl = (
+                  <DatePicker
+                    value={this.state.formData[id]}
+                    onChange={this.handleDatePickerChange.bind(this, id)}
+                  />
+                );
+                break;
+              case 'boolean': // 4
+                formCtrl = (
+                  <Checkbox checked={this.state.formData[id]}
+                    onChange={this.handleChange.bind(this, id)}
+                  />
+                );
+                break;
+              case 'enum': // 6
+                formCtrl = (
+                  <FormControl componentClass="select" placeholder={placeholder && '请选择'}
+                    value={this.state.formData[id]}
+                    onChange={this.handleChange.bind(this, id)}
+                  >
+                    {fieldModel.data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
+                  </FormControl>
+                );
+                break;
+            }
+            return (
+              <FormGroup
+                key={index}
+                controlId={`formControl-${id}`}
+              >
+                <ControlLabel>{label}</ControlLabel>
+                {formCtrl}
+                <FormControl.Feedback />
+              </FormGroup>
+            );
+          })
+        }
+        <Button onClick={this.handleSubmit.bind(this)} type="submit">保存</Button>
+        <Button onClick={this.handleReset.bind(this)} type="reset">清空</Button>
+      </form>
     );
   }
 }

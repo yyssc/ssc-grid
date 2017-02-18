@@ -20,12 +20,12 @@ function getDefaultFormData() {
     danjuleixing: '类型1',
     danjuzhuangtai: '保存',
     jine: '12.00',
-    danjuriqi: '2017-02-14'
+    danjuriqi: new Date('2017-02-14').toISOString()
   };
 }
 
 describe('<Form>', () => {
-  it('uses "div" by default', () => {
+  it('uses "form" by default', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Form
         fieldsModel={getFieldsModel()}
@@ -33,7 +33,7 @@ describe('<Form>', () => {
       />
     );
 
-    assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'DIV');
+    assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'FORM');
   });
 
   it('has "admin-form" class', () => {
