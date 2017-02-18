@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import { Button, FormGroup, ControlLabel } from 'react-bootstrap';
 
@@ -14,9 +14,15 @@ import { Button, FormGroup, ControlLabel } from 'react-bootstrap';
 import { FormControl, Checkbox } from 'react-bootstrap';
 import DatePicker from 'react-bootstrap-date-picker';
 
-export default React.createClass({
-  propTypes: {
+export default class Form extends Component {
+  static propTypes = {
+    /**
+     * 表单中的数据
+     */
     fieldsModel: PropTypes.array.isRequired,
+    /**
+     * 填充表单值
+     */
     defaultData: PropTypes.object,
     /**
      * 当控件的值发生改变的时候触发
@@ -36,12 +42,15 @@ export default React.createClass({
      */
     onSubmit: PropTypes.func,
     onReset: PropTypes.func
-  },
-  getInitialState() {
-    return {
-      formData: {...this.props.defaultData}
-    };
-  },
+  };
+
+  state = {
+    formData: {...this.props.defaultData}
+  };
+
+  constructor(props) {
+    super(props);
+  }
 
   handleChange(fieldId, event) {
     const target = event.target;
@@ -59,7 +68,7 @@ export default React.createClass({
         event
       });
     }
-  },
+  }
 
   handleDatePickerChange(fieldId, value, formattedValue) {
     if (this.props.onChange) {
@@ -67,19 +76,19 @@ export default React.createClass({
         formattedValue
       });
     }
-  },
+  }
 
   handleSubmit(event) {
     if (this.props.onSubmit) {
       this.props.onSubmit(event, this.state.formData);
     }
-  },
+  }
 
   handleReset(event) {
     if (this.props.onReset) {
       this.props.onReset(event);
     }
-  },
+  }
 
   render() {
     const { fieldsModel, className } = this.props;
@@ -141,9 +150,9 @@ export default React.createClass({
             );
           })
         }
-        <Button onClick={this.handleSubmit} type="submit">保存</Button>
-        <Button onClick={this.handleReset} type="reset">清空</Button>
+        <Button onClick={this.handleSubmit.bind(this)} type="submit">保存</Button>
+        <Button onClick={this.handleReset.bind(this)} type="reset">清空</Button>
       </form>
     );
   }
-});
+}
