@@ -115,6 +115,11 @@ export default class Form extends Component {
             const { id, type, label, placeholder } = fieldModel;
             let formCtrl;
 
+            // 隐藏字段
+            if (fieldModel.hidden === true) {
+              return null;
+            }
+
             // 根据字段类型，生成不同的表单控件
             // 每个类型后面跟着的数字是后端传过来的datatype，这里提到的后端是
             // 用友自己的后端，Form组件并不依赖这些datetype数值，写在这里只是

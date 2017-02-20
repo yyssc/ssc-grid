@@ -108,6 +108,8 @@ release的流程在[这里](https://github.com/AlexKVal/release-script/blob/mast
 发版工具默认以`dry run`模式运行，防止误操作导致代码被`git push`到代码仓库，以及
 `npm publish`到npmjs.com中。
 
+在运行过`dry run`模式之后，由于`package.json`中的版本号被升级了，所以需要通过`git checkout -- .`来恢复原来的版本。（先确认local没有其他修改）
+
 你可以使用
 
 - 学到如何使用发版工具，以及发版工具是如何运行的。
