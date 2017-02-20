@@ -1,6 +1,7 @@
 const tableData = [
   {
     id: '11',
+    name: '测试名称1',
     danjubianhao: '263X2016111400000081',
     danjuleixing: '2632',
     jine: '2.00',
@@ -11,6 +12,7 @@ const tableData = [
   },
   {
     id: '22',
+    name: '测试名称2',
     danjubianhao: 'D32016091200000022',
     danjuleixing: 'D3',
     jine: '12.00',
@@ -21,6 +23,7 @@ const tableData = [
   },
   {
     id: '33',
+    name: '测试名称3',
     danjubianhao: '263X2016083000000025',
     danjuleixing: '2631',
     jine: '100.00',
@@ -33,6 +36,7 @@ const tableData = [
 
 const mockColumnsData = [
   {type: 'string', id: 'id', label: '主键'},
+  {type: 'string', id: 'name', label: '名称', hidden: true},
   {type: 'string', id: 'danjubianhao', label: '单据编号'},
   {type: 'enum', id: 'danjuleixing', label: '单据类型',
     data: [

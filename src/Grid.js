@@ -22,7 +22,8 @@ class Grid extends Component {
      */
     tableData: PropTypes.array.isRequired,
     /**
-     * 表头每一列的名称和类型
+     * 表格模型，表头每一列的名称和类型<br>
+     * 可以通过hidden来隐藏列，只有当hidden===true的时候隐藏
      */
     columnsModel: PropTypes.array.isRequired,
     /**
@@ -125,7 +126,7 @@ class Grid extends Component {
 
     const renderTableHeader = () => (
       columnsModel.map((col, key) => (
-        <th key={key}>{col.label}</th>
+        col.hidden === true ? null : <th key={key}>{col.label}</th>
       ))
     );
 

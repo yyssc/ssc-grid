@@ -96,7 +96,8 @@ class GridRow extends Component {
           cellContent = value;
           break;
       }
-      return <td key={colIdx} className={className}>{cellContent}</td>;
+      return columnModel.hidden === true ? null :
+        <td key={colIdx} className={className}>{cellContent}</td>;
     });
   }
 
