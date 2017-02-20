@@ -8,7 +8,11 @@ const tableData = [
     danjuriqi: '2016-11-14',
     qiyong: true,
     xingbie: 'male',
-    zuzhi: '组织1'
+    zuzhi: {
+      id: '22EA0EB9-FABA-4224-B290-5D041A1DF773',
+      code: '0403',
+      name: '委外部3'
+    }
   },
   {
     id: '22',
@@ -19,7 +23,11 @@ const tableData = [
     danjuriqi: '2016-09-12',
     qiyong: false,
     xingbie: 'female',
-    zuzhi: '组织2'
+    zuzhi: {
+      id: '22EA0EB9-FABA-4224-B290-5D041A1DF772',
+      code: '0402',
+      name: '委外部2'
+    }
   },
   {
     id: '33',
@@ -30,7 +38,7 @@ const tableData = [
     danjuriqi: '2016-08-30',
     qiyong: true,
     xingbie: 'male',
-    zuzhi: '组织3'
+    zuzhi: null
   }
 ];
 

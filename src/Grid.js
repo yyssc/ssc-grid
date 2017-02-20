@@ -18,7 +18,17 @@ class Grid extends Component {
 
   static propTypes = {
     /**
-     * 表格填充数据
+     * 表格填充数据<br>
+     * `type: boolean`，数据类型是
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Boolean_literals">boolean literal</a>或者是
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Data_types">Boolean类型</a>
+     * （注意和<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean全局对象</a>区分）<br>
+     * `type: ref`，参照的值比较特殊，是一个object:
+     * <pre><code>zuzhi: {
+     *   id: '22EA0EB9-FABA-4224-B290-5D041A1DF773',
+     *   code: '0403',
+     *   name: '委外部'
+     * }</code></pre>
      */
     tableData: PropTypes.array.isRequired,
     /**

@@ -80,8 +80,13 @@ class GridRow extends Component {
     return columnsModel.map((columnModel, colIdx) => {
       let className = '';
       let cellContent = '';
+      // value的可能不是string，比如参照类型，value的类型是object
       let value = rowObj[columnModel.id];
       switch (columnModel.type) {
+        default:
+        case 'string': // 0
+          cellContent = value;
+          break;
         case 'double': // 之前的金额类型
           className = 'text-right';
           cellContent = value;
@@ -92,9 +97,8 @@ class GridRow extends Component {
         case 'boolean':
           cellContent = value ? '是' : '否';
           break;
-        default:
-          cellContent = value;
-          break;
+        case 'ref': // 5
+          cellContent = value && value.name ? value.name : '';
       }
       return columnModel.hidden === true ? null :
         <td key={colIdx} className={className}>{cellContent}</td>;

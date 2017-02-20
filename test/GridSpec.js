@@ -13,7 +13,12 @@ function getTableData() {
       danjuleixing: '会议费借款单',
       danjuzhuangtai: '保存',
       jine: '2.00',
-      danjuriqi: '2016-11-14'
+      danjuriqi: '2016-11-14',
+      zuzhi: {
+        id: '22EA0EB9-FABA-4224-B290-5D041A1DF773',
+        code: '0403',
+        name: '委外部3'
+      }
     },
     {
       id: '00000022',
@@ -21,7 +26,12 @@ function getTableData() {
       danjuleixing: '付款单',
       danjuzhuangtai: '保存',
       jine: '12.00',
-      danjuriqi: '2016-09-12'
+      danjuriqi: '2016-09-12',
+      zuzhi: {
+        id: '22EA0EB9-FABA-4224-B290-5D041A1DF773',
+        code: '0403',
+        name: '委外部3'
+      }
     },
     {
       id: '000000025',
@@ -29,7 +39,8 @@ function getTableData() {
       danjuleixing: '差旅费借款单',
       danjuzhuangtai: '暂存',
       jine: '100.00',
-      danjuriqi: '2016-08-30'
+      danjuriqi: '2016-08-30',
+      zuzhi: null
     }
   ];
 }
@@ -42,11 +53,34 @@ function getCols() {
     {type: 'string', id: 'danjuleixing', label: '单据类型'},
     {type: 'string', id: 'danjuzhuangtai', label: '单据状态'},
     {type: 'double', id: 'jine', label: '金额'},
-    {type: 'date', id: 'danjuriqi', label: '单据日期'}
+    {type: 'date', id: 'danjuriqi', label: '单据日期'},
+    {type: 'ref', id: 'zuzhi', label: '组织'}
   ];
 }
 
 describe('<Grid>', () => {
+
+  // helper function
+
+  function getTableHead(instance) {
+    let node = ReactDOM.findDOMNode(instance); // <div> root node
+    let table = node.querySelector('table'); // <table>
+    return table.querySelector('thead'); // <thead>
+  }
+
+  function getTableBody(instance) {
+    let node = ReactDOM.findDOMNode(instance); // <div> root node
+    let table = node.querySelector('table'); // <table>
+    return table.querySelector('tbody'); // <tbody>
+  }
+
+  // 得到行号为index（从0开始）的行DOM节点
+  function getTableRow(instance, index) {
+    let tbody = getTableBody(instance);
+    let trs = tbody.querySelectorAll('tr');
+    return trs[index];
+  }
+
   it('uses "div" by default', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Grid
@@ -90,23 +124,43 @@ describe('<Grid>', () => {
         itemsPerPage={5}
       />
     );
-    let node = ReactDOM.findDOMNode(instance); // <div> root node
-    let table = node.querySelector('table'); // <table>
-    let ths = table.querySelectorAll('th'); // <th>s
+    let thead = getTableHead(instance); // <thead>
+    let ths = thead.querySelectorAll('th'); // <th>s
     // 测试表头
     assert.equal(getCols()[1].label, ths[0].textContent); // 单据编号
     assert.equal(getCols()[3].label, ths[1].textContent);
     assert.equal(getCols()[4].label, ths[2].textContent);
     assert.equal(getCols()[5].label, ths[3].textContent);
     assert.equal(getCols()[6].label, ths[4].textContent);
+    assert.equal(getCols()[7].label, ths[5].textContent); // 组织
     // 测试表体的第一行
-    let tbody = table.querySelector('tbody'); // <tbody>
-    let trs = tbody.querySelectorAll('tr'); // <tr>s
-    let tr0tds = trs[0].querySelectorAll('td'); // first <tr> -> <td>s
-    assert.equal(getTableData()[0].danjubianhao, tr0tds[0].textContent);
+    let tr0tds = getTableRow(instance, 0).querySelectorAll('td'); // first <tr> -> <td>s
+    assert.equal(getTableData()[0].danjubianhao, tr0tds[0].textContent); // 单据编号
     assert.equal(getTableData()[0].danjuleixing, tr0tds[1].textContent);
     assert.equal(getTableData()[0].danjuzhuangtai, tr0tds[2].textContent);
     assert.equal(getTableData()[0].jine, tr0tds[3].textContent);
     assert.equal(getTableData()[0].danjuriqi, tr0tds[4].textContent);
+    assert.equal(getTableData()[0].zuzhi.name, tr0tds[5].textContent); // 组织
+    // 测试参照value为null的情况
+    let tr2tds = getTableRow(instance, 2).querySelectorAll('td'); // third <tr> -> <td>s
+    assert.equal(getTableData()[2].zuzhi, null); // 组织
+    assert.equal(tr2tds[5].textContent, ''); // 组织
+  });
+
+  it('应该正确显示参照的值', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Grid
+        tableData={getTableData()}
+        columnsModel={getCols()}
+        itemsPerPage={5}
+      />
+    );
+    // 第一行，由于参照是一个对象（而不是字符串）zuzhi，所以应该显示zuzhi.name
+    let tr0tds = getTableRow(instance, 0).querySelectorAll('td'); // first <tr> -> <td>s
+    assert.equal(getTableData()[0].zuzhi.name, tr0tds[5].textContent); // 组织
+    // 第三行有参照的值不是一个对象，而是null，应该转换成空字符串
+    let tr2tds = getTableRow(instance, 2).querySelectorAll('td'); // third <tr> -> <td>s
+    assert.equal(getTableData()[2].zuzhi, null); // 组织
+    assert.equal(tr2tds[5].textContent, ''); // 组织
   });
 });
