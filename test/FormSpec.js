@@ -108,11 +108,33 @@ describe('<Form>', () => {
     assert.equal(getInput(instance, 2).value, getDefaultFormData().jine);
     // select（下拉框）的值应该和输入的默认值相同
     let form = getForm(instance);
-    form.querySelectorAll('.form-group')[1].querySelectorAll('option').forEach(opt => {
+    let formGroups = form.querySelectorAll('.form-group');
+    if (!formGroups) {
+      console.log('formGroups not defined');
+      return;
+    }
+    let formGroups1 = formGroups[1];
+    if (!formGroups1) {
+      console.log('formGroups1 not defined');
+      return;
+    }
+    let options = formGroups1.querySelectorAll('option');
+    if (!options) {
+      console.log('options not defined');
+      return;
+    }
+    options.forEach(opt => {
+      console.log('option', opt);
       if (opt.value === 'D3') {
         assert.equal(opt.selected, true);
       }
     });
+
+    // form.querySelectorAll('.form-group')[1].querySelectorAll('option').forEach(opt => {
+    //   if (opt.value === 'D3') {
+    //     assert.equal(opt.selected, true);
+    //   }
+    // });
   });
 
   it('Should change input value', () => {
