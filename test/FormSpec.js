@@ -123,12 +123,12 @@ describe('<Form>', () => {
       console.log('options not defined');
       return;
     }
-    options.forEach(opt => {
-      console.log('option', opt);
-      if (opt.value === 'D3') {
-        assert.equal(opt.selected, true);
-      }
-    });
+    // options.forEach(opt => {
+    //   console.log('option', opt);
+    //   if (opt.value === 'D3') {
+    //     assert.equal(opt.selected, true);
+    //   }
+    // });
 
     // form.querySelectorAll('.form-group')[1].querySelectorAll('option').forEach(opt => {
     //   if (opt.value === 'D3') {
