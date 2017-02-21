@@ -25,6 +25,10 @@ export default function GridSection() {
       <p>使用<code>paging</code>参数显示分页</p>
       <ReactPlayground codeText={Samples.GridPagination} />
 
+      <h3><Anchor id="grids-selection">行选择</Anchor></h3>
+      <p>使用<code>selectRow</code>参数显示行选择复选框/单选框</p>
+      <ReactPlayground codeText={Samples.GridSelection} />
+
       <h3><Anchor id="grid-props">属性</Anchor></h3>
       <PropTable component="Grid"/>
     </div>

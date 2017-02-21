@@ -106,6 +106,7 @@ describe('<Form>', () => {
     // input的值应该和输入的默认值相同。
     assert.equal(getInput(instance, 0).value, getDefaultFormData().danjubianhao);
     assert.equal(getInput(instance, 2).value, getDefaultFormData().jine);
+
     // select（下拉框）的值应该和输入的默认值相同
     let form = getForm(instance);
     let formGroups = form.querySelectorAll('.form-group');

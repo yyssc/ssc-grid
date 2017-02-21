@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 
-import { Table, Pagination, Checkbox } from 'react-bootstrap';
+import { Table, Pagination, /* Checkbox */ } from 'react-bootstrap';
 
 import GridRow from './GridRow';
 
@@ -41,10 +41,6 @@ class Grid extends Component {
      */
     onPagination: PropTypes.func,
     /**
-     * 选择
-     */
-    onSelectOne: PropTypes.func,
-    /**
      * 删除
      */
     onRemove: PropTypes.func,
@@ -53,9 +49,29 @@ class Grid extends Component {
      */
     onEdit: PropTypes.func,
     /**
-     * 是否在表格的最左边一列显示复选框
+     * 是否启用行选择，复选框/单选框<br>
+     * 默认为<code>null</code>，不显示
+     * <pre><code>{
+     *   mode: 'checkbox',
+     *   onSelect: (rowIdx, rowObj, isSelected, event) => {},
+     *   onSelectAll: (tableData, isSelected, event) => {}
+     * }</code></pre>
+     * <code>mode</code>，<code>checkbox</code>复选，<code>radio</code>单选<br>
+     * <code>onSelect</code>，当选择单行的时候触发，参数：
+     * <ul>
+     * <li><code>rowIdx</code></li>行index
+     * <li><code>rowObj</code></li>行数据
+     * <li><code>isSelected</code></li>复选框/单选框选中状态true/false
+     * <li><code>event</code></li>Event对象
+     * </ul>
+     * <code>onSelectAll</code>，当选择所有行的时候触发，参数：
+     * <ul>
+     * <li><code>tableData</code></li>所有行的数据
+     * <li><code>isSelected</code></li>复选框/单选框选中状态true/false
+     * <li><code>event</code></li>Event对象
+     * </ul>
      */
-    checkboxColumn: PropTypes.bool,
+    selectRow: PropTypes.object,
     /**
      * 是否在表格的最右边一列显示操作按钮
      */
@@ -79,7 +95,7 @@ class Grid extends Component {
   };
 
   static defaultProps = {
-    checkboxColumn: false,
+    selectRow: null,
     operateColumn: false,
     paging: false
   };
@@ -87,7 +103,6 @@ class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedRows: {}
     };
   }
 
@@ -97,12 +112,12 @@ class Grid extends Component {
     }
   }
 
-  handleSelectAll() {
-  }
-
-  handleSelectOne(rowIdx, checked) {
-    if (this.props.onSelectOne) {
-      this.props.onSelectOne(rowIdx, checked);
+  // 当选中所有行的时候
+  handleSelectAll(event) {
+    const { selectRow, tableData } = this.props;
+    const isSelected = event.target.checked;
+    if (selectRow && selectRow.onSelectAll) {
+      selectRow.onSelectAll(tableData, isSelected, event);
     }
   }
 
@@ -126,7 +141,7 @@ class Grid extends Component {
 
   render() {
     const { columnsModel, tableData,
-      checkboxColumn, operateColumn, className
+      selectRow, operateColumn, className
     } = this.props;
 
     // 表格数据非空判断
@@ -141,7 +156,8 @@ class Grid extends Component {
     );
 
     const renderCheckboxHeader = () => (
-      checkboxColumn ? <th><Checkbox onChange={this.handleSelectAll.bind(this)} /></th> : null
+      // selectRow ? <th><Checkbox onChange={this.handleSelectAll.bind(this)} /></th> : null
+      selectRow ? <th></th> : null
     );
 
     const pagination = (
@@ -175,11 +191,10 @@ class Grid extends Component {
           {
             tableData.map((row, rowIdx) => {
               return (<GridRow
-                checkboxColumn={checkboxColumn}
+                selectRow={selectRow}
                 operateColumn={operateColumn}
                 rowObj={row} key={rowIdx}
                 columnsModel={columnsModel} rowIdx={rowIdx}
-                onRowSelection={self.handleSelectOne.bind(self)}
                 onEdit={self.handleEdit.bind(self)}
                 onRemove={self.handleRemove.bind(self)}
                 onCellChecked={self.handleCellChecked.bind(self)}

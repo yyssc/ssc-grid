@@ -25,7 +25,10 @@ class GridRow extends Component {
      * 表格中本行的index，从0开始，等同于key
      */
     rowIdx: PropTypes.number.isRequired,
-    onRowSelection: PropTypes.func.isRequired,
+    /**
+     * 当点击行最左侧的复选框/单选框的时候
+     */
+    selectRow: PropTypes.object,
     /**
      * 当点击“修改”按钮的时候
      */
@@ -35,10 +38,6 @@ class GridRow extends Component {
      */
     onRemove: PropTypes.func.isRequired,
     /**
-     * 每一行是否显示最左侧的复选框
-     */
-    checkboxColumn: PropTypes.bool,
-    /**
      * 每一行是否显示最右侧的操作按钮列
      */
     operateColumn: PropTypes.bool,
@@ -47,7 +46,7 @@ class GridRow extends Component {
 
   static defaultProps = {
     selectable: true,
-    checkboxColumn: false,
+    selectRow: null,
     operateColumn: false
   };
 
@@ -55,9 +54,12 @@ class GridRow extends Component {
     super(props);
   }
 
-  handleSelection(rowIdx, event) {
-    // this.setState({value: event.target.value});
-    this.props.onRowSelection(rowIdx, event.target.checked);
+  handleSelect(rowIdx, rowObj, event) {
+    const { selectRow } = this.props;
+    const isSelected = event.target.checked;
+    if (selectRow && selectRow.onSelect) {
+      selectRow.onSelect(rowIdx, rowObj, isSelected, event);
+    }
   }
 
   handleEdit(rowIdx, rowData, event) {
@@ -106,13 +108,12 @@ class GridRow extends Component {
   }
 
   render() {
-    const { columnsModel, rowObj, rowIdx, checkboxColumn, operateColumn } = this.props;
+    const { columnsModel, rowObj, rowIdx, selectRow, operateColumn } = this.props;
     return (
       <tr>
         {
-          // <td><Checkbox onChange={::this.handleSelection} /></td>
-          checkboxColumn
-            ? <td><input type="checkbox" onChange={this.handleSelection.bind(this, rowIdx)} /></td>
+          selectRow && selectRow.mode
+            ? <td><input type={selectRow.mode} onChange={this.handleSelect.bind(this, rowIdx, rowObj)} /></td>
             : null
         }
         { this.renderCells(columnsModel, rowObj) }
