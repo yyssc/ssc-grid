@@ -53,6 +53,16 @@ describe('<Form>', () => {
     return node.querySelectorAll('input')[index];
   }
 
+  it('应该正常显示，当传入空数组和空对象的时候', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={[]}
+        defaultData={{}}
+      />
+    );
+    assert.equal(getForm(instance).querySelectorAll('.form-group').length, 0);
+  });
+
   it('uses "form" by default', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Form
