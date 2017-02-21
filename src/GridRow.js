@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'react-bootstrap';
+// import { Button } from 'react-bootstrap';
 
 /**
  * GridRow组件
@@ -119,8 +119,8 @@ class GridRow extends Component {
         { this.renderCells(columnsModel, rowObj) }
         { operateColumn
           ? (<td>
-              <Button onClick={this.handleEdit.bind(this, rowIdx, rowObj)}>修改</Button>
-              <Button onClick={this.handleRemove.bind(this, rowIdx, rowObj)}>删除</Button>
+              <span onClick={this.handleEdit.bind(this, rowIdx, rowObj)} className="glyphicon glyphicon-pencil"></span>
+              <span onClick={this.handleRemove.bind(this, rowIdx, rowObj)} className="glyphicon glyphicon-trash"></span>
             </td>)
           : null }
         {
