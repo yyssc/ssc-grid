@@ -185,10 +185,10 @@ export default class Form extends Component {
         }
         <FormGroup>
           <Col smOffset={2} sm={10}>
-            <Button bsStyle="" onClick={this.handleReset.bind(this)} type="reset">
+            <Button bsStyle="info" onClick={this.handleReset.bind(this)} type="reset">
               取消
             </Button>
-            <Button bsStyle="" onClick={this.handleSubmit.bind(this)} type="submit">
+            <Button bsStyle="info" onClick={this.handleSubmit.bind(this)} type="submit">
               完成
             </Button>
           </Col>
