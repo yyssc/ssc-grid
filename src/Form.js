@@ -1,7 +1,8 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 
-import { Button, FormGroup, ControlLabel } from 'react-bootstrap';
+import { Button, Form as ReactBootstrapForm, FormGroup, ControlLabel } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 
 /**
  * 控件(control/widget)分类
@@ -109,7 +110,7 @@ export default class Form extends Component {
   render() {
     const { fieldsModel, className } = this.props;
     return (
-      <form className={classNames(className)}>
+      <ReactBootstrapForm horizontal className={classNames(className)}>
         {
           fieldsModel.map((fieldModel, index) => {
             const { id, type, label, placeholder } = fieldModel;
@@ -171,16 +172,28 @@ export default class Form extends Component {
                 key={index}
                 controlId={`formControl-${id}`}
               >
-                <ControlLabel>{label}</ControlLabel>
-                {formCtrl}
+                <Col componentClass={ControlLabel} sm={2}>
+                  {label}
+                </Col>
+                <Col sm={10}>
+                  {formCtrl}
+                </Col>
                 <FormControl.Feedback />
               </FormGroup>
             );
           })
         }
-        <Button onClick={this.handleSubmit.bind(this)} type="submit">保存</Button>
-        <Button onClick={this.handleReset.bind(this)} type="reset">清空</Button>
-      </form>
+        <FormGroup>
+          <Col smOffset={2} sm={10}>
+            <Button onClick={this.handleReset.bind(this)} type="reset">
+              取消
+            </Button>
+            <Button onClick={this.handleSubmit.bind(this)} type="submit">
+              完成
+            </Button>
+          </Col>
+        </FormGroup>
+      </ReactBootstrapForm>
     );
   }
 }

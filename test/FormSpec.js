@@ -60,7 +60,8 @@ describe('<Form>', () => {
         defaultData={{}}
       />
     );
-    assert.equal(getForm(instance).querySelectorAll('.form-group').length, 0);
+    // 应该只有一个form-group，这个form-group包含了“取消”和“保存”两个按钮
+    assert.equal(getForm(instance).querySelectorAll('.form-group').length, 1);
   });
 
   it('uses "form" by default', () => {
@@ -82,7 +83,8 @@ describe('<Form>', () => {
         className="admin-form"
       />
     );
-    assert.equal(ReactDOM.findDOMNode(instance).className, 'admin-form');
+    // 默认的form是左右布局，左侧是label，右侧是input
+    assert.equal(ReactDOM.findDOMNode(instance).className, 'admin-form form-horizontal');
   });
 
   it('Should merge additional classes passed in', () => {
