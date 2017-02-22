@@ -111,6 +111,7 @@
     "yargs": "^6.6.0"
   },
   "dependencies": {
+    "babel-runtime": "^6.11.6",
     "classnames": "^2.2.5",
     "rc-tree-select": "^1.9.0",
     "react-addons-update": "^0.14.8",
