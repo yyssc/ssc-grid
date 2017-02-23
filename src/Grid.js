@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
+import elementType from 'react-prop-types/lib/elementType';
 
 import { Table, Pagination, /* Checkbox */ } from 'react-bootstrap';
 
@@ -41,14 +42,6 @@ class Grid extends Component {
      */
     onPagination: PropTypes.func,
     /**
-     * 删除
-     */
-    onRemove: PropTypes.func,
-    /**
-     * 编辑
-     */
-    onEdit: PropTypes.func,
-    /**
      * 是否启用行选择，复选框/单选框<br>
      * 默认为<code>null</code>，不显示
      * <pre><code>{
@@ -72,10 +65,23 @@ class Grid extends Component {
      * </ul>
      */
     selectRow: PropTypes.object,
+
     /**
-     * 是否在表格的最右边一列显示操作按钮
+     * 每一行是否显示操作按钮列<br>
+     * 默认的操作按钮在最右侧的列中，如果需要指定在左侧，可以通过
+     * <code>align</code>参数来设置<br>
+     * <pre><code>{
+     *   align: 'left'
+     * }</code></pre>
+     * 注意：当操作列和选择列同时存在的时候，选择列会显示在操作列的左侧
      */
-    operateColumn: PropTypes.bool,
+    operationColumn: PropTypes.object,
+    /**
+     * 自定义的操作列组件<br>
+     * 除非指定了<code>operationColumn</code>参数，否则操作列不会显示出来
+     */
+    operationColumnClass: elementType,
+
     /**
      * 选择一个单元格
      */
@@ -96,7 +102,8 @@ class Grid extends Component {
 
   static defaultProps = {
     selectRow: null,
-    operateColumn: false,
+    operationColumn: null, // 默认不显示操作列
+    operationColumnClass: 'td', // 默认的操作列必须是<td>组件
     paging: false
   };
 
@@ -121,18 +128,6 @@ class Grid extends Component {
     }
   }
 
-  handleEdit(rowIdx, rowData, event) {
-    if (this.props.onEdit) {
-      this.props.onEdit(rowIdx, rowData, event);
-    }
-  }
-
-  handleRemove(rowIdx, rowData, event) {
-    if (this.props.onRemove) {
-      this.props.onRemove(rowIdx, rowData, event);
-    }
-  }
-
   handleCellChecked(rowIdx, colIdx) {
     if (this.props.onCellChecked) {
       this.props.onCellChecked(rowIdx, colIdx);
@@ -141,7 +136,8 @@ class Grid extends Component {
 
   render() {
     const { columnsModel, tableData,
-      selectRow, operateColumn, className
+      selectRow, operationColumn, className,
+      operationColumnClass: CustomComponent
     } = this.props;
 
     // 表格数据非空判断
@@ -184,7 +180,7 @@ class Grid extends Component {
             <tr>
               { renderCheckboxHeader() }
               { renderTableHeader() }
-              { operateColumn ? <th>操作</th> : null }
+              { operationColumn ? <th>操作</th> : null }
             </tr>
           </thead>
           <tbody>
@@ -192,14 +188,12 @@ class Grid extends Component {
             tableData.map((row, rowIdx) => {
               return (<GridRow
                 selectRow={selectRow}
-                operateColumn={operateColumn}
+                operationColumn={operationColumn}
+                operationColumnClass={CustomComponent}
                 rowObj={row} key={rowIdx}
                 columnsModel={columnsModel} rowIdx={rowIdx}
-                onEdit={self.handleEdit.bind(self)}
-                onRemove={self.handleRemove.bind(self)}
                 onCellChecked={self.handleCellChecked.bind(self)}
-              >{this.props.children}
-              </GridRow>);
+              />);
             })
           }
           </tbody>

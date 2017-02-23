@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import elementType from 'react-prop-types/lib/elementType';
 // import { Button } from 'react-bootstrap';
 
 /**
@@ -13,12 +14,10 @@ class GridRow extends Component {
     columnsModel: PropTypes.array.isRequired,
     /**
      * 本行中每一列的数据
-     * <pre>
-     * {
+     * <pre><code>{
      *   id: '11',
      *   danjuleixing: '123'
-     * }
-     * </pre>
+     * }</code></pre>
      */
     rowObj: PropTypes.object.isRequired,
     /**
@@ -30,24 +29,26 @@ class GridRow extends Component {
      */
     selectRow: PropTypes.object,
     /**
-     * 当点击“修改”按钮的时候
+     * 每一行是否显示操作按钮列<br>
+     * 默认的操作按钮在最右侧的列中，如果需要指定在左侧，可以通过
+     * <code>align</code>参数来设置<br>
+     * <pre><code>{
+     *   align: 'left'
+     * }</code></pre>
+     * 注意：当操作列和选择列同时存在的时候，选择列会显示在操作列的左侧
      */
-    onEdit: PropTypes.func.isRequired,
+    operationColumn: PropTypes.object,
     /**
-     * 当点击“删除”按钮的时候
+     * 自定义的操作列组件<br>
+     * 除非指定了<code>operationColumn</code>参数，否则操作列不会显示出来
      */
-    onRemove: PropTypes.func.isRequired,
-    /**
-     * 每一行是否显示最右侧的操作按钮列
-     */
-    operateColumn: PropTypes.bool,
-    onCellChecked: PropTypes.func
+    operationColumnClass: elementType
   };
 
   static defaultProps = {
     selectable: true,
     selectRow: null,
-    operateColumn: false
+    operationColumn: false
   };
 
   constructor(props) {
@@ -59,22 +60,6 @@ class GridRow extends Component {
     const isSelected = event.target.checked;
     if (selectRow && selectRow.onSelect) {
       selectRow.onSelect(rowIdx, rowObj, isSelected, event);
-    }
-  }
-
-  handleEdit(rowIdx, rowData, event) {
-    this.props.onEdit(rowIdx, rowData, event);
-  }
-
-  handleRemove(rowIdx, rowData, event) {
-    this.props.onRemove(rowIdx, rowData, event);
-  }
-
-  // handleCheckbox(rowIdx, colIdx, e) {
-  handleCheckbox(rowIdx, colIdx) {
-    // e.target
-    if (this.props.onCellChecked) {
-      this.props.onCellChecked(rowIdx, colIdx);
     }
   }
 
@@ -107,27 +92,57 @@ class GridRow extends Component {
     });
   }
 
+  // 渲染操作列，比如修改和删除按钮
+  renderOperationColumn() {
+    const { rowIdx, rowObj, operationColumnClass: CustomComponent,
+      operationColumn
+    } = this.props;
+
+    if (!operationColumn) {
+      return null;
+    }
+
+    return (<CustomComponent
+      rowIdx={rowIdx}
+      rowObj={rowObj}
+    />);
+  }
+
+  renderSelectionColumn() {
+    const { rowIdx, rowObj, selectRow } = this.props;
+
+    if (!selectRow) {
+      return null;
+    }
+
+    return (<td>
+      <input type={selectRow.mode || 'checkbox'}
+        onChange={this.handleSelect.bind(this, rowIdx, rowObj)} />
+    </td>);
+  }
+
   render() {
-    const { columnsModel, rowObj, rowIdx, selectRow, operateColumn } = this.props;
-    return (
-      <tr>
-        {
-          selectRow && selectRow.mode
-            ? <td><input type={selectRow.mode} onChange={this.handleSelect.bind(this, rowIdx, rowObj)} /></td>
-            : null
-        }
-        { this.renderCells(columnsModel, rowObj) }
-        { operateColumn
-          ? (<td>
-              <span onClick={this.handleEdit.bind(this, rowIdx, rowObj)} className="glyphicon glyphicon-pencil"></span>
-              <span onClick={this.handleRemove.bind(this, rowIdx, rowObj)} className="glyphicon glyphicon-trash"></span>
-            </td>)
-          : null }
-        {
-          this.props.children
-        }
-      </tr>
-    );
+    const { columnsModel, rowObj, operationColumn } = this.props;
+    let row;
+    // 默认操作列在右侧，除非用户专门指定在左侧
+    if (operationColumn && operationColumn.align === 'left') {
+      row = (
+        <tr>
+          { this.renderSelectionColumn() }
+          { this.renderOperationColumn() }
+          { this.renderCells(columnsModel, rowObj) }
+        </tr>
+      );
+    } else {
+      row = (
+        <tr>
+          { this.renderSelectionColumn() }
+          { this.renderCells(columnsModel, rowObj) }
+          { this.renderOperationColumn() }
+        </tr>
+      );
+    }
+    return row;
   }
 }
 

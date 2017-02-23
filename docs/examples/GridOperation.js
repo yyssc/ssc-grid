@@ -57,30 +57,45 @@ const mockColumnsData = [
   {type: 'ref', id: 'zuzhi', label: '组织'}
 ];
 
+const CustomComponent = React.createClass({
+  handleUpdate(event) {
+    alert(`CustomComponent, handleUpdate,\n
+      Row index is: ${this.props.rowIdx},\n
+      Row obj.id is: ${this.props.rowObj.id}`);
+    event.preventDefault();
+  },
+
+  handleDelete(event) {
+    alert(`CustomComponent, handleDelete,\n
+      Row index is: ${this.props.rowIdx},\n
+      Row obj.id is: ${this.props.rowObj.id}`);
+    event.preventDefault();
+  },
+
+  render() {
+    return (
+      <td>
+        <span onClick={this.handleUpdate}
+          className="glyphicon glyphicon-pencil"></span>
+        <span onClick={this.handleDelete}
+          className="glyphicon glyphicon-trash"></span>
+      </td>
+    );
+  }
+});
+
 const GridOperationExample = React.createClass({
   getInitialState() {
     return {
     };
   },
 
-  handleEdit(rowIdx, row, event) {
-    alert(`Row index is: ${rowIdx}`);
-    event.preventDefault();
-  },
-
-  handleRemove(rowIdx, row, event) {
-    alert(`Row index is: ${rowIdx}`);
-    event.preventDefault();
-  },
-
   render() {
     return (
-      <Grid columnsModel={mockColumnsData} tableData={tableData} operateColumn
-        onEdit={this.handleEdit}
-        onRemove={this.handleRemove}
-      >
-        {/* <td><input type='button' onClick={this.handleClick} value='修改' /></td> */}
-      </Grid>
+      <Grid columnsModel={mockColumnsData} tableData={tableData}
+        operationColumn={{}}
+        operationColumnClass={CustomComponent}
+      />
     );
   }
 
