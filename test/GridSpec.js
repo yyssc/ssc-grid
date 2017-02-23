@@ -82,6 +82,16 @@ describe('<Grid>', () => {
     return trs[index];
   }
 
+  it('空数据的时候不应该报错', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Grid
+        tableData={[]}
+        columnsModel={[]}
+      />
+    );
+    assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'DIV');
+  });
+
   it('uses "div" by default', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Grid
