@@ -45,6 +45,7 @@ function getTableData() {
   ];
 }
 
+// 一共8列，应该显示6列，有2列是隐藏的
 function getCols() {
   return [
     {type: 'string', id: 'id', label: '主键', hidden: true},
@@ -163,4 +164,34 @@ describe('<Grid>', () => {
     assert.equal(getTableData()[2].zuzhi, null); // 组织
     assert.equal(tr2tds[5].textContent, ''); // 组织
   });
+
+  it('应该显示操作列', () => {
+    const CustomComponent = React.createClass({
+      handleUpdate() {},
+      handleDelete() {},
+      render() {
+        return (<td>
+          <span onClick={this.handleUpdate}
+            className="glyphicon glyphicon-pencil"></span>
+          <span onClick={this.handleDelete}
+            className="glyphicon glyphicon-trash"></span>
+        </td>);
+      }
+    });
+
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={getCols()}
+        tableData={getTableData()}
+        operationColumn={{}}
+        operationColumnClass={CustomComponent}
+      />
+    );
+
+    // 第一行所有<td>
+    let tr0tds = getTableRow(instance, 0).querySelectorAll('td'); // first <tr> -> <td>s
+    // 最后一列，有两个span，也就是两个操作按钮
+    assert.equal(tr0tds[6].querySelectorAll('span').length, 2);
+  });
+
 });
