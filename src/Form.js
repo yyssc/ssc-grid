@@ -172,11 +172,17 @@ export default class Form extends Component {
                 key={index}
                 controlId={`formControl-${id}`}
               >
+                <Col sm={2}>
+                  {}
+                </Col>
                 <Col componentClass={ControlLabel} sm={2}>
                   {label}
                 </Col>
-                <Col sm={10}>
+                <Col sm={5}>
                   {formCtrl}
+                </Col>
+                <Col sm={3}>
+                  {}
                 </Col>
                 <FormControl.Feedback />
               </FormGroup>
@@ -184,7 +190,7 @@ export default class Form extends Component {
           })
         }
         <FormGroup>
-          <Col smOffset={2} sm={10}>
+          <Col sm={12} className={'text-center'}>
             <Button bsStyle="info" onClick={this.handleReset.bind(this)} type="reset">
               取消
             </Button>
