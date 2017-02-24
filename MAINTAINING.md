@@ -17,6 +17,7 @@ sudo npm install webpack -g ## 有些js文件中通过exec()直接执行command 
 
 ```
 export CHROME_BIN=chromium-browser ## 如果操作系统为Linux，需要设定该环境变量
+export CHROME_BIN=google-chrome ## 如果操作系统为Linux，需要设定该环境变量
 npm test
 ```
 
