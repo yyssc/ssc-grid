@@ -87,6 +87,12 @@ npm run release major // 接口出现变化
 npm run release patch -- --run // 进行真实发版
 ```
 
+需要在yyssc.org上也部署一份文档，以解决github.io某些时候不能使用的问题。
+
+```
+rsync -arvzh -e "ssh -p 27495" --progress docs-built/ root@104.194.94.240:/var/www/ssc-grid/
+```
+
 如果在发布的时候，hang住了，通常是在git clone文档repo的时候，可以Ctrl+C之后执行（需要首先确认hang在哪里了）：
 
 ```
