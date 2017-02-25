@@ -140,8 +140,10 @@ class Grid extends Component {
       operationColumnClass: CustomComponent
     } = this.props;
 
-    // 表格数据非空判断
-    if (!tableData || tableData.length === 0) {
+    // 列模型不能为空，但是表体数据可以为空。
+    // 当全部为空，只显示一个空div
+    // 当只有表体数据为空，只显示表头
+    if (!columnsModel || columnsModel.length === 0) {
       return (<div></div>);
     }
 

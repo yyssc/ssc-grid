@@ -82,21 +82,31 @@ describe('<Grid>', () => {
     return trs[index];
   }
 
-  it('空数据的时候不应该报错', () => {
+  it('列模型为空，表体数据为空，不应该报错', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Grid
-        tableData={[]}
         columnsModel={[]}
+        tableData={[]}
       />
     );
     assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'DIV');
   });
 
+  it('列模型不为空，表体数据为空，应该显示表头，不显示表体', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={getCols()}
+        tableData={[]}
+      />
+    );
+    getTableHead(instance); // <thead>
+  });
+
   it('uses "div" by default', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Grid
-        tableData={getTableData()}
         columnsModel={getCols()}
+        tableData={getTableData()}
         itemsPerPage={5}
       />
     );
