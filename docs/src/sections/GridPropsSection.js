@@ -2,8 +2,6 @@ import React from 'react';
 
 import Anchor from '../Anchor';
 import PropTable from '../PropTable';
-import ReactPlayground from '../ReactPlayground';
-import Samples from '../Samples';
 
 export default function GridSection() {
   return (
