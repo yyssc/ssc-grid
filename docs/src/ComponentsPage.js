@@ -12,14 +12,26 @@ import PageHeader from './PageHeader';
 import PageFooter from './PageFooter';
 import SubNav from './SubNav';
 
-import GridSection from './sections/GridSection';
-import FormSection from './sections/FormSection';
+import GridBasicSection from './sections/GridBasicSection';
+import GridOperationSection from './sections/GridOperationSection';
+import GridPaginationSection from './sections/GridPaginationSection';
+import GridPropsSection from './sections/GridPropsSection';
+import GridSelectionSection from './sections/GridSelectionSection';
+import FormBasicSection from './sections/FormBasicSection';
+import FormPropsSection from './sections/FormPropsSection';
 
 // order matters
 /* eslint-disable indent */
 const sections = {
-  layout: '#page-layout',
-    grid: '#grid'
+  grid: '#grid',
+    gridBasic: '#grid-basic',
+    gridPagination: '#grid-pagination',
+    gridOperation: '#grid-operation',
+    gridSelection: '#grid-selection',
+    gridProps: '#grid-props',
+  form: '#form',
+    formBasic: '#form-basic',
+    formProps: '#form-props'
 };
 /* eslint-enable indent */
 
@@ -128,20 +140,39 @@ const ComponentsPage = React.createClass({
         <div ref="main" className="container bs-docs-container">
           <div className="row">
             <div className="col-md-9" role="main">
-              {this.renderScrollSpy(sections.layout)}
+              {this.renderScrollSpy(sections.grid)}
               <div className="bs-docs-section">
                 <h1 className="page-header">
-                  <Anchor id="page-layout">页面布局</Anchor>
+                  <Anchor id="grid">Grid组件</Anchor>
                 </h1>
 
                 <p className="lead"></p>
               </div>
 
-              {this.renderScrollSpy(sections.grid)}
-              <GridSection />
+              {this.renderScrollSpy(sections.gridBasic)}
+              <GridBasicSection />
+              {this.renderScrollSpy(sections.gridPagination)}
+              <GridPaginationSection />
+              {this.renderScrollSpy(sections.gridOperation)}
+              <GridOperationSection />
+              {this.renderScrollSpy(sections.gridSelection)}
+              <GridSelectionSection />
+              {this.renderScrollSpy(sections.gridProps)}
+              <GridPropsSection />
 
               {this.renderScrollSpy(sections.form)}
-              <FormSection />
+              <div className="bs-docs-section">
+                <h1 className="page-header">
+                  <Anchor id="form">Form组件</Anchor>
+                </h1>
+
+                <p className="lead"></p>
+              </div>
+
+              {this.renderScrollSpy(sections.formBasic)}
+              <FormBasicSection />
+              {this.renderScrollSpy(sections.formProps)}
+              <FormPropsSection />
             </div>
 
 
@@ -159,12 +190,17 @@ const ComponentsPage = React.createClass({
                     activeHref={this.state.activeNavItemHref}
                     onSelect={this.handleNavItemSelect}
                   >
-                    <SubNav href={sections.layout} text="页面布局">
-                      <NavItem href={sections.grid}>Grid组件（表格组件）</NavItem>
+                    <SubNav href={sections.grid} text="Grid组件">
+                      <NavItem href={sections.gridBasic}>简单表格</NavItem>
+                      <NavItem href={sections.gridPagination}>分页</NavItem>
+                      <NavItem href={sections.gridOperation}>操作列</NavItem>
+                      <NavItem href={sections.gridSelection}>行选择</NavItem>
+                      <NavItem href={sections.gridProps}><b>属性</b></NavItem>
                     </SubNav>
 
-                    <SubNav href={sections.form} text="Forms">
-                      <NavItem href={sections.formBasic}>表单</NavItem>
+                    <SubNav href={sections.form} text="Form组件">
+                      <NavItem href={sections.formBasic}>简单表单</NavItem>
+                      <NavItem href={sections.formProps}><b>属性</b></NavItem>
                     </SubNav>
                   </Nav>
 
