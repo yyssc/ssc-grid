@@ -12,15 +12,17 @@ import PageHeader from './PageHeader';
 import PageFooter from './PageFooter';
 import SubNav from './SubNav';
 
+import FormBasicSection from './sections/FormBasicSection';
+import FormPropsSection from './sections/FormPropsSection';
 import GridBasicSection from './sections/GridBasicSection';
 import GridOperationSection from './sections/GridOperationSection';
 import GridPaginationSection from './sections/GridPaginationSection';
 import GridPropsSection from './sections/GridPropsSection';
 import GridSelectionSection from './sections/GridSelectionSection';
-import FormBasicSection from './sections/FormBasicSection';
-import FormPropsSection from './sections/FormPropsSection';
+import TextFieldBasicSection from './sections/TextFieldBasicSection';
+import TextFieldPropsSection from './sections/TextFieldPropsSection';
 
-// order matters
+// order matters 顺序很重要！！
 /* eslint-disable indent */
 const sections = {
   grid: '#grid',
@@ -31,7 +33,10 @@ const sections = {
     gridProps: '#grid-props',
   form: '#form',
     formBasic: '#form-basic',
-    formProps: '#form-props'
+    formProps: '#form-props',
+  textField: '#text-field',
+    textFieldBasic: '#text-field-basic',
+    textFieldProps: '#text-field-props'
 };
 /* eslint-enable indent */
 
@@ -140,6 +145,9 @@ const ComponentsPage = React.createClass({
         <div ref="main" className="container bs-docs-container">
           <div className="row">
             <div className="col-md-9" role="main">
+
+              { /* Grid */ }
+
               {this.renderScrollSpy(sections.grid)}
               <div className="bs-docs-section">
                 <h1 className="page-header">
@@ -160,6 +168,8 @@ const ComponentsPage = React.createClass({
               {this.renderScrollSpy(sections.gridProps)}
               <GridPropsSection />
 
+              { /* Form */ }
+
               {this.renderScrollSpy(sections.form)}
               <div className="bs-docs-section">
                 <h1 className="page-header">
@@ -173,6 +183,22 @@ const ComponentsPage = React.createClass({
               <FormBasicSection />
               {this.renderScrollSpy(sections.formProps)}
               <FormPropsSection />
+
+              { /* TextField */ }
+
+              {this.renderScrollSpy(sections.textField)}
+              <div className="bs-docs-section">
+                <h1 className="page-header">
+                  <Anchor id="text-field">TextField组件</Anchor>
+                </h1>
+
+                <p className="lead"></p>
+              </div>
+
+              {this.renderScrollSpy(sections.textFieldBasic)}
+              <TextFieldBasicSection />
+              {this.renderScrollSpy(sections.textFieldProps)}
+              <TextFieldPropsSection />
             </div>
 
 
@@ -195,12 +221,17 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.gridPagination}>分页</NavItem>
                       <NavItem href={sections.gridOperation}>操作列</NavItem>
                       <NavItem href={sections.gridSelection}>行选择</NavItem>
-                      <NavItem href={sections.gridProps}><b>属性</b></NavItem>
+                      <NavItem href={sections.gridProps}>属性</NavItem>
                     </SubNav>
 
                     <SubNav href={sections.form} text="Form组件">
                       <NavItem href={sections.formBasic}>简单表单</NavItem>
-                      <NavItem href={sections.formProps}><b>属性</b></NavItem>
+                      <NavItem href={sections.formProps}>属性</NavItem>
+                    </SubNav>
+
+                    <SubNav href={sections.textField} text="TextField组件">
+                      <NavItem href={sections.textFieldBasic}>简单文本框</NavItem>
+                      <NavItem href={sections.textFieldProps}>属性</NavItem>
                     </SubNav>
                   </Nav>
 

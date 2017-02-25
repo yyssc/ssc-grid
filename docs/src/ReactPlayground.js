@@ -12,9 +12,10 @@ const ReactDOM = require('react-dom');
 const Alert = require('react-bootstrap/lib/Alert');
 const SafeAnchor = require('react-bootstrap/lib/SafeAnchor');
 
-const Grid = require('../../src/Grid');
 const Form = require('../../src/Form');
+const Grid = require('../../src/Grid');
 const Refer = require('../../src/Refer');
+const TextField = require('../../src/TextField');
 const TreeRefer = require('../../src/TreeRefer');
 
 //const bootstrapUtils = require('../../src/utils/bootstrapUtils');

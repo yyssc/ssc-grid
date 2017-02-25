@@ -15,6 +15,9 @@ import { Col } from 'react-bootstrap';
 import { FormControl, Checkbox } from 'react-bootstrap';
 import DatePicker from 'react-bootstrap-date-picker';
 
+// 使用我们自己造的轮子
+import TextField from './TextField';
+
 export default class Form extends Component {
   static propTypes = {
     /**
@@ -131,8 +134,7 @@ export default class Form extends Component {
               case 'double': // 2
               case 'ref': // 5
                 formCtrl = (
-                  <FormControl
-                    type="text"
+                  <TextField
                     value={this.state.formData[id]}
                     placeholder={placeholder}
                     onChange={this.handleChange.bind(this, id)}
