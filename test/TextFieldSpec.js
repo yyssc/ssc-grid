@@ -65,7 +65,7 @@ describe('<TextField>', () => {
   it('应该正确校验Email地址', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <TextField
-        validationType="email"
+        validation={{ type: 'email' }}
       />
     );
 

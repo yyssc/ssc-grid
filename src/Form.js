@@ -22,6 +22,15 @@ export default class Form extends Component {
   static propTypes = {
     /**
      * 表单中的数据
+     * 比如：
+     * <pre><code>[{
+     *   type: 'string',
+     *   id: 'formValidationEmail',
+     *   label: '邮箱地址',
+     *   validation: {
+     *     type: 'email'
+     *   }
+     * }]</code></pre>
      */
     fieldsModel: PropTypes.array.isRequired,
     /**
@@ -116,7 +125,7 @@ export default class Form extends Component {
       <ReactBootstrapForm horizontal className={classNames(className)}>
         {
           fieldsModel.map((fieldModel, index) => {
-            const { id, type, label, placeholder, validationType } = fieldModel;
+            const { id, type, label, placeholder, validation } = fieldModel;
             let formGroup, formCtrl;
 
             // 隐藏字段
@@ -162,7 +171,7 @@ export default class Form extends Component {
                     label={label}
                     value={this.state.formData[id]}
                     placeholder={placeholder}
-                    validationType={validationType}
+                    validation={validation}
                     inForm
                     onChange={this.handleChange.bind(this, id)}
                   />

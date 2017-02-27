@@ -1,7 +1,10 @@
 const mockFieldsModel = [
   {type: 'string', id: 'id', label: '主键', hidden: true},
   {type: 'string', id: 'formValidationDanjubianhao', label: '单据编号'},
-  {type: 'string', id: 'formValidationEmail', label: '邮箱地址', validationType: 'email'
+  {type: 'string', id: 'formValidationEmail', label: '邮箱地址',
+    validation: {
+      type: 'email'
+    }
   }
 ];
 

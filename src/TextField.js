@@ -44,9 +44,30 @@ export default class TextField extends Component {
      */
     placeholder: PropTypes.string,
     /**
-     * 校验类型，比如<code>email</code>
+     * 校验类型，比如
+     * <pre><code>{
+     *   type: 'email',
+     *   helpText: '请输入正确的邮箱地址'
+     * }</code></pre>
+     * <code>type</code>字段支持如下类型：
+     * <ul>
+     * <li><code>email</code>邮件地址</li>
+     * <li><code>decimal</code>数字，比如0.1, .3, 1.1, 1.00003, 4.0</li>
+     * <li><code>int</code>整数</li>
+     * <li><code>mobilePhone</code>手机号</li>
+     * <li><code>custom</code>自定义格式</li>
+     * </ul>
+     * <code>helpText</code>是错误提示。如果不提供，则使用默认错误提示。<br>
+     * 如果是自定义类型，则通过<code>matchFunc</code>参数传递校验函数
+     * <pre><code>{
+     *   type: 'custom',
+     *   helpText: '请输入正确的XX格式',
+     *   matchFunc: () => {}
+     * }</code></pre>
+     * 当<code>matchFunc</code>返回值为true的时候，认为校验通过<br>
+     * 对于自定义类型，如果不提供<code>helpText</code>，则默认不显示错误提示。
      */
-    validationType: PropTypes.string,
+    validation: PropTypes.object,
     /**
      * 是否没有被SSC自己的Form组件引用
      */
@@ -66,20 +87,50 @@ export default class TextField extends Component {
     super(props);
   }
 
-  // 返回值应该是'success', 'warning'或者'error'
-  getValidationState() {
+  getValidationObj() {
+    const { validation } = this.props;
     const vs = {
       email: {
-        func: validator.isEmail,
-        text: '请输入正确的邮箱格式！'
+        matchFunc: (value) => validator.isEmail(value),
+        helpText: '请输入正确的邮箱格式！'
+      },
+      decimal: {
+        matchFunc: (value) => validator.isDecimal(value),
+        helpText: '请输入正确的数字格式！'
+      },
+      int: {
+        matchFunc: (value) => validator.isInt(value),
+        helpText: '请输入正确的整数格式！'
+      },
+      mobilePhone: {
+        matchFunc: (value) => validator.isMobilePhone(value, 'zh-CN'),
+        helpText: '请输入正确的手机号格式!'
       }
     };
-    const { validationType } = this.props;
+
+    let validationObj;
+
+    if (validation.type === 'custom') {
+      // 自定义格式
+      validationObj = validation;
+    } else {
+      validationObj = vs[validation.type];
+      if (validation.helpText) {
+        // 自定义错误提示
+        validationObj.helpText = validation.helpText;
+      }
+    }
+
+    return validationObj;
+  }
+
+  getValidationState() {
     const { value } = this.state;
-    let validationState = vs[validationType].func(value);
+    let validationObj = this.getValidationObj();
+    let validationResult = validationObj.matchFunc(value);
     return {
-      validationState,
-      helpBlock: validationState ? '' : vs[validationType].text
+      stateText: validationResult ? 'success' : 'error',
+      helpText: validationResult ? '' : validationObj.helpText
     };
   }
 
@@ -93,7 +144,7 @@ export default class TextField extends Component {
   }
 
   render() {
-    const { controlId, label, validationType } = this.props;
+    const { controlId, label, validation } = this.props;
     let textField;
     let formCtrl = (
       <FormControl
@@ -104,15 +155,16 @@ export default class TextField extends Component {
       />
     );
     if (!this.props.inForm) {
-      if (validationType) {
+      if (validation) {
+        let { stateText, helpText } = this.getValidationState();
         textField = (
           <FormGroup
-            validationState={this.getValidationState().validationState ? 'success' : 'error'}
+            validationState={stateText}
             controlId={controlId}
           >
             {formCtrl}
             <FormControl.Feedback />
-            <HelpBlock>{this.getValidationState().helpBlock}</HelpBlock>
+            <HelpBlock>{helpText}</HelpBlock>
           </FormGroup>
         );
       } else {
@@ -125,10 +177,11 @@ export default class TextField extends Component {
         );
       }
     } else {
-      if (validationType) {
+      if (validation) {
+        let { stateText, helpText } = this.getValidationState();
         textField = (
           <FormGroup
-            validationState={this.getValidationState().validationState ? 'success' : 'error'}
+            validationState={stateText}
             controlId={controlId}
           >
             <Col sm={2}>
@@ -140,7 +193,7 @@ export default class TextField extends Component {
             <Col sm={5}>
               {formCtrl}
               <FormControl.Feedback />
-              <HelpBlock>{this.getValidationState().helpBlock}</HelpBlock>
+              <HelpBlock>{helpText}</HelpBlock>
             </Col>
             <Col sm={3}>
               {}
