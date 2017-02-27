@@ -12,6 +12,7 @@ const ReactDOM = require('react-dom');
 const Alert = require('react-bootstrap/lib/Alert');
 const SafeAnchor = require('react-bootstrap/lib/SafeAnchor');
 
+// 在这里引入src下的组件
 const Form = require('../../src/Form');
 const Grid = require('../../src/Grid');
 const Refer = require('../../src/Refer');
