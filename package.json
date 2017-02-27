@@ -118,6 +118,7 @@
     "react-bootstrap": "^0.30.7",
     "react-bootstrap-date-picker": "^4.0.0",
     "react-prop-types": "^0.4.0",
+    "validator": "^6.2.1",
     "warning": "^3.0.0"
   },
   "release-script": {

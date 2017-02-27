@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 
 // 表单(form)控件(control/widget)
-import { FormControl } from 'react-bootstrap';
+import { FormGroup, FormControl, HelpBlock } from 'react-bootstrap';
+
+import validator from 'validator';
 
 /**
  * 控件(control/widget)分类
@@ -26,17 +28,30 @@ export default class TextField extends Component {
      */
     placeholder: PropTypes.string,
     /**
+     * 校验类型，比如<code>email</code>
+     */
+    validationType: PropTypes.string,
+    /**
      * 当文本框内容被修改时候调用
      */
     onChange: PropTypes.func
   };
 
   state = {
-    value: this.props.value
+    value: this.props.value || ''
   };
 
   constructor(props) {
     super(props);
+  }
+
+  // 返回值应该是'success', 'warning'或者'error'
+  getValidationState() {
+    const { validationType } = this.props;
+    const { value } = this.state;
+    if (validationType === 'email') {
+      return validator.isEmail(value) ? 'success' : 'error';
+    }
   }
 
   handleChange(event) {
@@ -49,13 +64,31 @@ export default class TextField extends Component {
   }
 
   render() {
-    return (
-      <FormControl
-        type="text"
-        value={this.state.value}
-        placeholder={this.props.placeholder}
-        onChange={this.handleChange.bind(this)}
-      />
-    );
+    const { validationType } = this.props;
+    let textField;
+    if (validationType) {
+      textField = (
+        <FormGroup validationState={this.getValidationState()}>
+          <FormControl
+            type="text"
+            value={this.state.value}
+            placeholder={this.props.placeholder}
+            onChange={this.handleChange.bind(this)}
+          />
+          <FormControl.Feedback />
+          <HelpBlock>Help text with validation state.</HelpBlock>
+        </FormGroup>
+      );
+    } else {
+      textField = (
+        <FormControl
+          type="text"
+          value={this.state.value}
+          placeholder={this.props.placeholder}
+          onChange={this.handleChange.bind(this)}
+        />
+      );
+    }
+    return textField;
   }
 }

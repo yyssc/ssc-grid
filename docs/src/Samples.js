@@ -3,6 +3,7 @@
 // 请按照字母顺序进行排序
 export default {
   FormBasic:           require('fs').readFileSync(__dirname + '/../examples/FormBasic.js', 'utf8'),
+  FormValidation:      require('fs').readFileSync(__dirname + '/../examples/FormValidation.js', 'utf8'),
   GridBasic:           require('fs').readFileSync(__dirname + '/../examples/GridBasic.js', 'utf8'),
   GridOperation:       require('fs').readFileSync(__dirname + '/../examples/GridOperation.js', 'utf8'),
   GridPagination:      require('fs').readFileSync(__dirname + '/../examples/GridPagination.js', 'utf8'),

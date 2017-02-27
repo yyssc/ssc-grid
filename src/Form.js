@@ -116,7 +116,7 @@ export default class Form extends Component {
       <ReactBootstrapForm horizontal className={classNames(className)}>
         {
           fieldsModel.map((fieldModel, index) => {
-            const { id, type, label, placeholder } = fieldModel;
+            const { id, type, label, placeholder, validationType } = fieldModel;
             let formCtrl;
 
             // 隐藏字段
@@ -137,6 +137,7 @@ export default class Form extends Component {
                   <TextField
                     value={this.state.formData[id]}
                     placeholder={placeholder}
+                    validationType={validationType}
                     onChange={this.handleChange.bind(this, id)}
                   />
                 );

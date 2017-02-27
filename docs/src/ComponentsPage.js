@@ -13,6 +13,7 @@ import PageFooter from './PageFooter';
 import SubNav from './SubNav';
 
 import FormBasicSection from './sections/FormBasicSection';
+import FormValidationSection from './sections/FormValidationSection';
 import FormPropsSection from './sections/FormPropsSection';
 import GridBasicSection from './sections/GridBasicSection';
 import GridOperationSection from './sections/GridOperationSection';
@@ -33,6 +34,7 @@ const sections = {
     gridProps: '#grid-props',
   form: '#form',
     formBasic: '#form-basic',
+    formValidation: '#form-validation',
     formProps: '#form-props',
   textField: '#text-field',
     textFieldBasic: '#text-field-basic',
@@ -181,6 +183,8 @@ const ComponentsPage = React.createClass({
 
               {this.renderScrollSpy(sections.formBasic)}
               <FormBasicSection />
+              {this.renderScrollSpy(sections.formValidation)}
+              <FormValidationSection />
               {this.renderScrollSpy(sections.formProps)}
               <FormPropsSection />
 
@@ -226,6 +230,7 @@ const ComponentsPage = React.createClass({
 
                     <SubNav href={sections.form} text="Form组件">
                       <NavItem href={sections.formBasic}>简单表单</NavItem>
+                      <NavItem href={sections.formValidation}>表单验证</NavItem>
                       <NavItem href={sections.formProps}>属性</NavItem>
                     </SubNav>
 
