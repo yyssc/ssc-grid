@@ -7,11 +7,11 @@ SSC 3.0 Grid组件
 ## 使用
 
 ```
-npm install ssc-comp --save
+npm install ssc-grid --save
 ```
 
 ```
-import { Grid } from 'ssc-comp';
+import { Grid } from 'ssc-grid';
 ...
 render() {
   const cols = {...};
@@ -20,13 +20,6 @@ render() {
     <Grid cols={cols} tableData={tableData} />
   );
 }
-```
-
-## 从ssc-grid改名为ssc-comp
-
-```
-npm uninstall ssc-grid --save
-npm install ssc-comp --save
 ```
 
 ## 文档

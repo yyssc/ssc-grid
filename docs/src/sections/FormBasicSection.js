@@ -13,7 +13,7 @@ export default function FormSection() {
 
       <h3><Anchor id="form-basic">简单表单</Anchor></h3>
       <p>使用<code>formDefaultData</code>参数可以往表单中传入数据。</p>
-      <p>导入方法：<code>{`import { Form } from 'ssc-comp'`}</code></p>
+      <p>导入方法：<code>{`import { Form } from 'ssc-grid'`}</code></p>
       <ReactPlayground codeText={Samples.FormBasic} />
     </div>
   );
