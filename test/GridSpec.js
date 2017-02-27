@@ -49,7 +49,7 @@ function getTableData() {
 function getCols() {
   return [
     {type: 'string', id: 'id', label: '主键', hidden: true},
-    {type: 'string', id: 'danjubianhao', label: '单据编号'},
+    {type: 'string', id: 'danjubianhao', label: '单据编号', className: 'table-head-danjubianhao'},
     {type: 'string', id: 'name', label: '名称', hidden: true},
     {type: 'string', id: 'danjuleixing', label: '单据类型'},
     {type: 'string', id: 'danjuzhuangtai', label: '单据状态'},
@@ -212,6 +212,18 @@ describe('<Grid>', () => {
     let tr0tds = getTableRow(instance, 0).querySelectorAll('td'); // first <tr> -> <td>s
     // 最后一列，有两个span，也就是两个操作按钮
     assert.equal(tr0tds[6].querySelectorAll('span').length, 2);
+  });
+
+  it('应该在<th>上显示正确的className', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={getCols()}
+        tableData={getTableData()}
+      />
+    );
+    let thead = getTableHead(instance);
+    assert.equal(thead.querySelectorAll('th')[0].className, 'table-head-danjubianhao');
+    assert.equal(thead.querySelectorAll('th')[1].className, '');
   });
 
 });

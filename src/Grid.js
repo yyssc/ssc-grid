@@ -149,7 +149,7 @@ class Grid extends Component {
 
     const renderTableHeader = () => (
       columnsModel.map((col, key) => (
-        col.hidden === true ? null : <th key={key}>{col.label}</th>
+        col.hidden === true ? null : <th key={key} className={col.className}>{col.label}</th>
       ))
     );
 

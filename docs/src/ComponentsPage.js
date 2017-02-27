@@ -12,10 +12,12 @@ import PageHeader from './PageHeader';
 import PageFooter from './PageFooter';
 import SubNav from './SubNav';
 
+// 请按照字母顺序排序
 import FormBasicSection from './sections/FormBasicSection';
 import FormValidationSection from './sections/FormValidationSection';
 import FormPropsSection from './sections/FormPropsSection';
 import GridBasicSection from './sections/GridBasicSection';
+import GridColumnClassSection from './sections/GridColumnClassSection';
 import GridOperationSection from './sections/GridOperationSection';
 import GridPaginationSection from './sections/GridPaginationSection';
 import GridPropsSection from './sections/GridPropsSection';
@@ -25,6 +27,7 @@ import TextFieldValidationSection from './sections/TextFieldValidationSection';
 import TextFieldPropsSection from './sections/TextFieldPropsSection';
 
 // order matters 顺序很重要！！
+// 请遵循按照文章的段落顺序，而不是字母顺序
 /* eslint-disable indent */
 const sections = {
   grid: '#grid',
@@ -32,6 +35,7 @@ const sections = {
     gridPagination: '#grid-pagination',
     gridOperation: '#grid-operation',
     gridSelection: '#grid-selection',
+    gridColumnClass: '#grid-column-class',
     gridProps: '#grid-props',
   form: '#form',
     formBasic: '#form-basic',
@@ -169,6 +173,8 @@ const ComponentsPage = React.createClass({
               <GridOperationSection />
               {this.renderScrollSpy(sections.gridSelection)}
               <GridSelectionSection />
+              {this.renderScrollSpy(sections.gridColumnClass)}
+              <GridColumnClassSection />
               {this.renderScrollSpy(sections.gridProps)}
               <GridPropsSection />
 
@@ -229,6 +235,7 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.gridPagination}>分页</NavItem>
                       <NavItem href={sections.gridOperation}>操作列</NavItem>
                       <NavItem href={sections.gridSelection}>行选择</NavItem>
+                      <NavItem href={sections.gridColumnClass}>列类名</NavItem>
                       <NavItem href={sections.gridProps}>属性</NavItem>
                     </SubNav>
 
