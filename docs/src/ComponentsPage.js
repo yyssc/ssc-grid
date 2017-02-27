@@ -21,6 +21,7 @@ import GridPaginationSection from './sections/GridPaginationSection';
 import GridPropsSection from './sections/GridPropsSection';
 import GridSelectionSection from './sections/GridSelectionSection';
 import TextFieldBasicSection from './sections/TextFieldBasicSection';
+import TextFieldValidationSection from './sections/TextFieldValidationSection';
 import TextFieldPropsSection from './sections/TextFieldPropsSection';
 
 // order matters 顺序很重要！！
@@ -38,6 +39,7 @@ const sections = {
     formProps: '#form-props',
   textField: '#text-field',
     textFieldBasic: '#text-field-basic',
+    textFieldValidation: '#text-field-validation',
     textFieldProps: '#text-field-props'
 };
 /* eslint-enable indent */
@@ -201,6 +203,8 @@ const ComponentsPage = React.createClass({
 
               {this.renderScrollSpy(sections.textFieldBasic)}
               <TextFieldBasicSection />
+              {this.renderScrollSpy(sections.textFieldValidation)}
+              <TextFieldValidationSection />
               {this.renderScrollSpy(sections.textFieldProps)}
               <TextFieldPropsSection />
             </div>
@@ -236,6 +240,7 @@ const ComponentsPage = React.createClass({
 
                     <SubNav href={sections.textField} text="TextField组件">
                       <NavItem href={sections.textFieldBasic}>简单文本框</NavItem>
+                      <NavItem href={sections.textFieldValidation}>校验</NavItem>
                       <NavItem href={sections.textFieldProps}>属性</NavItem>
                     </SubNav>
                   </Nav>

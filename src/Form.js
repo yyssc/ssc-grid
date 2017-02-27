@@ -117,13 +117,35 @@ export default class Form extends Component {
         {
           fieldsModel.map((fieldModel, index) => {
             const { id, type, label, placeholder, validationType } = fieldModel;
-            let formCtrl;
+            let formGroup, formCtrl;
 
             // 隐藏字段
             if (fieldModel.hidden === true) {
               return null;
             }
 
+            const getDefaultFormGroup = (key, fieldId, fieldLabel, fieldFormCtrl) => {
+              return (
+                <FormGroup
+                  key={key}
+                  controlId={`formControl-${fieldId}`}
+                >
+                  <Col sm={2}>
+                    {}
+                  </Col>
+                  <Col componentClass={ControlLabel} sm={2}>
+                    {fieldLabel}
+                  </Col>
+                  <Col sm={5}>
+                    {fieldFormCtrl}
+                  </Col>
+                  <Col sm={3}>
+                    {}
+                  </Col>
+                  <FormControl.Feedback />
+                </FormGroup>
+              );
+            };
             // 根据字段类型，生成不同的表单控件
             // 每个类型后面跟着的数字是后端传过来的datatype，这里提到的后端是
             // 用友自己的后端，Form组件并不依赖这些datetype数值，写在这里只是
@@ -133,11 +155,15 @@ export default class Form extends Component {
               case 'string': // 0
               case 'double': // 2
               case 'ref': // 5
-                formCtrl = (
+                formGroup = (
                   <TextField
+                    key={index}
+                    controlId={`formControl-${id}`}
+                    label={label}
                     value={this.state.formData[id]}
                     placeholder={placeholder}
                     validationType={validationType}
+                    inForm
                     onChange={this.handleChange.bind(this, id)}
                   />
                 );
@@ -151,6 +177,7 @@ export default class Form extends Component {
                     onChange={this.handleDatePickerChange.bind(this, id)}
                   />
                 );
+                formGroup = getDefaultFormGroup(index, id, label, formCtrl);
                 break;
               case 'boolean': // 4
                 formCtrl = (
@@ -158,6 +185,7 @@ export default class Form extends Component {
                     onChange={this.handleChange.bind(this, id)}
                   />
                 );
+                formGroup = getDefaultFormGroup(index, id, label, formCtrl);
                 break;
               case 'enum': // 6
                 formCtrl = (
@@ -168,28 +196,10 @@ export default class Form extends Component {
                     {fieldModel.data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
                   </FormControl>
                 );
+                formGroup = getDefaultFormGroup(index, id, label, formCtrl);
                 break;
             }
-            return (
-              <FormGroup
-                key={index}
-                controlId={`formControl-${id}`}
-              >
-                <Col sm={2}>
-                  {}
-                </Col>
-                <Col componentClass={ControlLabel} sm={2}>
-                  {label}
-                </Col>
-                <Col sm={5}>
-                  {formCtrl}
-                </Col>
-                <Col sm={3}>
-                  {}
-                </Col>
-                <FormControl.Feedback />
-              </FormGroup>
-            );
+            return formGroup;
           })
         }
         <FormGroup>

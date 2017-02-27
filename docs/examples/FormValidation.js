@@ -1,15 +1,14 @@
 const mockFieldsModel = [
   {type: 'string', id: 'id', label: '主键', hidden: true},
-  {type: 'string', id: 'danjubianhao', label: '单据编号'},
-  {type: 'string', id: 'email', label: '邮箱地址'
-    , validationType: 'email'
+  {type: 'string', id: 'formValidationDanjubianhao', label: '单据编号'},
+  {type: 'string', id: 'formValidationEmail', label: '邮箱地址', validationType: 'email'
   }
 ];
 
 const mockFormData = {
   id: '22EA0EB9-FABA-4224-B290-4D041A1DF773',
-  danjubianhao: 'abc123',
-  email: 'a@b.com'
+  formValidationDanjubianhao: 'abc123',
+  formValidationEmail: 'a@b.com'
 };
 
 const FormValidationExample = React.createClass({
@@ -38,7 +37,7 @@ const FormValidationExample = React.createClass({
   render() {
     return (
       <Form
-        className='form-validation-example'
+        className="form-validation-example"
         fieldsModel={mockFieldsModel}
         defaultData={mockFormData}
         onChange={this.handleChange}

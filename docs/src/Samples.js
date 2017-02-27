@@ -10,5 +10,6 @@ export default {
   GridSelection:       require('fs').readFileSync(__dirname + '/../examples/GridSelection.js', 'utf8'),
   ReferBasic:          require('fs').readFileSync(__dirname + '/../examples/ReferBasic.js', 'utf8'),
   ReferTree:           require('fs').readFileSync(__dirname + '/../examples/ReferTree.js', 'utf8'),
-  TextFieldBasic:      require('fs').readFileSync(__dirname + '/../examples/TextFieldBasic.js', 'utf8')
+  TextFieldBasic:      require('fs').readFileSync(__dirname + '/../examples/TextFieldBasic.js', 'utf8'),
+  TextFieldValidation: require('fs').readFileSync(__dirname + '/../examples/TextFieldValidation.js', 'utf8')
 };
