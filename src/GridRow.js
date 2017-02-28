@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import elementType from 'react-prop-types/lib/elementType';
 // import { Button } from 'react-bootstrap';
 
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+
 /**
  * GridRow组件
  */
@@ -87,6 +90,20 @@ class GridRow extends Component {
           break;
         case 'ref': // 5
           cellContent = value && value.name ? value.name : '';
+          break;
+        case 'date':
+          let dateFormat = null;
+          // columnModel.formatter:
+          // undefined - 不进行格式化
+          // {} - 进行格式化，使用默认格式化模板
+          // { format: 'yy/mm/dd' } - 按照指定的模板进行格式化
+          if (columnModel.formatter) {
+            dateFormat = columnModel.formatter.format || 'YYYY-MM-DD';
+            cellContent = moment(value).format(dateFormat);
+          } else {
+            cellContent = value;
+          }
+          break;
       }
 
       // 用户自定义对齐方式

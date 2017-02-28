@@ -17,6 +17,7 @@ import FormBasicSection from './sections/FormBasicSection';
 import FormValidationSection from './sections/FormValidationSection';
 import FormPropsSection from './sections/FormPropsSection';
 import GridBasicSection from './sections/GridBasicSection';
+import GridCellFormatterSection from './sections/GridCellFormatterSection';
 import GridColumnAlignSection from './sections/GridColumnAlignSection';
 import GridColumnClassSection from './sections/GridColumnClassSection';
 import GridOperationSection from './sections/GridOperationSection';
@@ -38,6 +39,7 @@ const sections = {
     gridSelection: '#grid-selection',
     gridColumnClass: '#grid-column-class',
     gridColumnAlign: '#grid-column-align',
+    gridCellFormatter: '#grid-cell-formatter',
     gridProps: '#grid-props',
   form: '#form',
     formBasic: '#form-basic',
@@ -179,6 +181,8 @@ const ComponentsPage = React.createClass({
               <GridColumnClassSection />
               {this.renderScrollSpy(sections.gridColumnAlign)}
               <GridColumnAlignSection />
+              {this.renderScrollSpy(sections.gridCellFormatter)}
+              <GridCellFormatterSection />
               {this.renderScrollSpy(sections.gridProps)}
               <GridPropsSection />
 
@@ -241,6 +245,7 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.gridSelection}>行选择</NavItem>
                       <NavItem href={sections.gridColumnClass}>列类名</NavItem>
                       <NavItem href={sections.gridColumnAlign}>列对齐方式</NavItem>
+                      <NavItem href={sections.gridCellFormatter}>单元格格式化</NavItem>
                       <NavItem href={sections.gridProps}>属性</NavItem>
                     </SubNav>
 
