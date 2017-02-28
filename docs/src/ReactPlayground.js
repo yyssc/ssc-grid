@@ -13,11 +13,12 @@ const Alert = require('react-bootstrap/lib/Alert');
 const SafeAnchor = require('react-bootstrap/lib/SafeAnchor');
 
 // 在这里引入src下的组件
-const Form = require('../../src/Form');
-const Grid = require('../../src/Grid');
-const Refer = require('../../src/Refer');
-const TextField = require('../../src/TextField');
-const TreeRefer = require('../../src/TreeRefer');
+const index = require('../../src');
+const Form = index.Form;
+const Grid = index.Grid;
+const Refer = index.Refer;
+const TextField = index.TextField;
+const TreeRefer = index.TreeRefer;
 
 //const bootstrapUtils = require('../../src/utils/bootstrapUtils');
 const bootstrapUtils = require('react-bootstrap/lib/utils/bootstrapUtils');
