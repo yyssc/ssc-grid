@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 import React, { Component, PropTypes } from 'react';
 import elementType from 'react-prop-types/lib/elementType';
 // import { Button } from 'react-bootstrap';
@@ -53,9 +55,19 @@ class GridRow extends Component {
      */
     rowIdx: PropTypes.number.isRequired,
     /**
-     * 当点击行最左侧的复选框/单选框的时候
+     * 显示行选择复选框/单选框<br>
+     * mode 默认是checkbox，也可以是radio
+     * onSelect 当点击行最左侧的复选框/单选框的时候
      */
     selectRow: PropTypes.object,
+    selectionMode: PropTypes.string,
+    onSelect: PropTypes.func,
+    /**
+     * 改行是否被选择（单选框/复选框）
+     * 默认未被选中
+     * TODO 需要和selectRow属性合并
+     */
+    selected: PropTypes.bool,
     /**
      * 每一行是否显示操作按钮列<br>
      * 默认的操作按钮在最右侧的列中，如果需要指定在左侧，可以通过
@@ -76,6 +88,8 @@ class GridRow extends Component {
   static defaultProps = {
     selectable: true,
     selectRow: null,
+    selectionMode: 'checkbox',
+    selected: false,
     operationColumn: false
   };
 
@@ -84,10 +98,10 @@ class GridRow extends Component {
   }
 
   handleSelect(rowIdx, rowObj, event) {
-    const { selectRow } = this.props;
+    const { onSelect } = this.props;
     const isSelected = event.target.checked;
-    if (selectRow && selectRow.onSelect) {
-      selectRow.onSelect(rowIdx, rowObj, isSelected, event);
+    if (this.props.onSelect) {
+      this.props.onSelect(rowIdx, rowObj, isSelected, event);
     }
   }
 
@@ -186,14 +200,16 @@ class GridRow extends Component {
   }
 
   renderSelectionColumn() {
-    const { rowIdx, rowObj, selectRow } = this.props;
+    const { rowIdx, rowObj, selectRow, selectionMode, selected } = this.props;
 
     if (!selectRow) {
       return null;
     }
 
     return (<td>
-      <input type={selectRow.mode || 'checkbox'}
+      <input
+        type={selectionMode}
+        checked={selected}
         onChange={this.handleSelect.bind(this, rowIdx, rowObj)} />
     </td>);
   }

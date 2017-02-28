@@ -110,6 +110,7 @@ class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      selectedRowsObj: {}
     };
   }
 
@@ -119,10 +120,43 @@ class Grid extends Component {
     }
   }
 
+  // 在状态中选中所有行
+  selectAllRows(isSelected) {
+    const { tableData } = this.props;
+    const selectedRowsObj = {};
+    tableData.forEach((item, index) => {
+      selectedRowsObj[index] = {
+        selected: isSelected
+      };
+    });
+    this.setState({
+      selectedRowsObj
+    });
+  }
+
+  // 选中一行
+  handleSelect(rowIdx, rowObj, isSelected, event) {
+    const { selectRow, selectedRowsObj } = this.state;
+    selectedRowsObj[rowIdx] = {
+      selected: isSelected
+    };
+    this.setState({
+      selectedRowsObj
+    });
+
+    if (selectRow && selectRow.onSelect) {
+      selectRow.onSelect(rowIdx, rowObj, isSelected, event);
+    }
+  }
+
   // 当选中所有行的时候
   handleSelectAll(event) {
     const { selectRow, tableData } = this.props;
     const isSelected = event.target.checked;
+
+    // 在状态中选中所有行
+    this.selectAllRows(isSelected);
+
     if (selectRow && selectRow.onSelectAll) {
       selectRow.onSelectAll(tableData, isSelected, event);
     }
@@ -139,6 +173,8 @@ class Grid extends Component {
       selectRow, operationColumn, className,
       operationColumnClass: CustomComponent
     } = this.props;
+
+    const { selectedRowsObj } = this.state;
 
     // 列模型不能为空，但是表体数据可以为空。
     // 当全部为空，只显示一个空div
@@ -159,8 +195,10 @@ class Grid extends Component {
     );
 
     const renderCheckboxHeader = () => (
-      // selectRow ? <th><Checkbox onChange={this.handleSelectAll.bind(this)} /></th> : null
-      selectRow ? <th></th> : null
+      selectRow ? (<th>
+        <input type="checkbox"
+          onChange={this.handleSelectAll.bind(this)} />
+      </th>) : null
     );
 
     const pagination = (
@@ -193,8 +231,18 @@ class Grid extends Component {
           <tbody>
           {
             tableData.map((row, rowIdx) => {
+              let selected = false;
+
+              // 该行是否被选中
+              if (selectedRowsObj[rowIdx] && selectedRowsObj[rowIdx].selected) {
+                selected = true;
+              }
+
               return (<GridRow
                 selectRow={selectRow}
+                selectionMode={selectRow ? selectRow.mode : null}
+                onSelect={selectRow ? self.handleSelect.bind(self) : null}
+                selected={selected}
                 operationColumn={operationColumn}
                 operationColumnClass={CustomComponent}
                 rowObj={row} key={rowIdx}
