@@ -98,6 +98,10 @@ export default class TextField extends Component {
         matchFunc: (value) => validator.isDecimal(value),
         helpText: '请输入正确的数字格式！'
       },
+      currency: {
+        matchFunc: (value) => validator.isDecimal(value),
+        helpText: '请输入正确的货币格式！'
+      },
       int: {
         matchFunc: (value) => validator.isInt(value),
         helpText: '请输入正确的整数格式！'

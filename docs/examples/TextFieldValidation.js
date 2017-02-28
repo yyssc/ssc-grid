@@ -12,6 +12,11 @@ const TextFieldValidationExample = React.createClass({
           validation={{ type: 'decimal' }}
           value="1.23"
         />
+        <p>验证货币格式</p>
+        <TextField
+          validation={{ type: 'currency' }}
+          value="99.99"
+        />
         <p>验证整数格式</p>
         <TextField
           validation={{ type: 'int' }}
