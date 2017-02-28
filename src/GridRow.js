@@ -2,8 +2,33 @@ import React, { Component, PropTypes } from 'react';
 import elementType from 'react-prop-types/lib/elementType';
 // import { Button } from 'react-bootstrap';
 
+// 使用moment对单元格中的日期进行格式化
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+
+// 使用numeral对单元格中的数字进行格式化
+import numeral from 'numeral';
+// load a locale
+numeral.register('locale', 'chs', {
+  delimiters: {
+    thousands: ',',
+    decimal: '.'
+  },
+  abbreviations: {
+    thousand: '千',
+    million: '百万',
+    billion: '十亿',
+    trillion: '兆'
+  },
+  ordinal: (/* number */) => {
+    return '.';
+  },
+  currency: {
+    symbol: '¥'
+  }
+});
+// switch between locales
+numeral.locale('chs');
 
 /**
  * GridRow组件
@@ -66,6 +91,44 @@ class GridRow extends Component {
     }
   }
 
+  /**
+   * 日期类型格式化
+   * columnModel.formatter:
+   * undefined - 不进行格式化
+   * {} - 进行格式化，使用默认格式化模板
+   * { format: 'yy/mm/dd' } - 按照指定的模板进行格式化
+   */
+  getDateFormat(columnModel, value) {
+    let dateFormat = null;
+    let cellContent = '';
+    if (columnModel.formatter) {
+      dateFormat = columnModel.formatter.format || 'YYYY-MM-DD';
+      cellContent = moment(value).format(dateFormat);
+    } else {
+      cellContent = value;
+    }
+    return cellContent;
+  }
+
+  /**
+   * 数字类型格式化
+   * columnModel.formatter:
+   * undefined - 不进行格式化
+   * {} - 进行格式化，使用默认格式化模板
+   * { format: '$0,0.00' } - 按照指定的模板进行格式化
+   */
+  getNumberFormat(columnModel, value) {
+    let numFormat = null;
+    let cellContent = '';
+    if (columnModel.formatter) {
+      numFormat = columnModel.formatter.format || '0,0.00';
+      cellContent = numeral(value).format(numFormat);
+    } else {
+      cellContent = value;
+    }
+    return cellContent;
+  }
+
   renderCells = (columnsModel, rowObj) => {
     return columnsModel.map((columnModel, colIdx) => {
       let className = '';
@@ -80,7 +143,7 @@ class GridRow extends Component {
           break;
         case 'double': // 之前的金额类型
           className = 'text-right';
-          cellContent = value;
+          cellContent = this.getNumberFormat(columnModel, value);
           break;
         case 'enum':
           cellContent = columnModel.data.find(enumItem => (enumItem.key === value)).value;
@@ -92,17 +155,7 @@ class GridRow extends Component {
           cellContent = value && value.name ? value.name : '';
           break;
         case 'date':
-          let dateFormat = null;
-          // columnModel.formatter:
-          // undefined - 不进行格式化
-          // {} - 进行格式化，使用默认格式化模板
-          // { format: 'yy/mm/dd' } - 按照指定的模板进行格式化
-          if (columnModel.formatter) {
-            dateFormat = columnModel.formatter.format || 'YYYY-MM-DD';
-            cellContent = moment(value).format(dateFormat);
-          } else {
-            cellContent = value;
-          }
+          cellContent = this.getDateFormat(columnModel, value);
           break;
       }
 

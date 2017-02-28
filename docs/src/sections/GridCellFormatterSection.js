@@ -15,6 +15,7 @@ export default function GridCellFormatterSection() {
       <p>不同的类型有不同的格式化参数</p>
       <p>对于<code>date</code>类型，直接使用<code>moment().format()</code>进行格式化
       所以具体参数请参照<a href="https://momentjs.com/docs/#/displaying/format/">Moment.js文档</a></p>
+      <p>货币格式化参照<a href="http://numeraljs.com/#format">Numeral.js文档</a></p>
       <ReactPlayground codeText={Samples.GridCellFormatter} />
     </div>
   );
