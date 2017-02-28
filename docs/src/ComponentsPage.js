@@ -17,6 +17,7 @@ import FormBasicSection from './sections/FormBasicSection';
 import FormValidationSection from './sections/FormValidationSection';
 import FormPropsSection from './sections/FormPropsSection';
 import GridBasicSection from './sections/GridBasicSection';
+import GridColumnAlignSection from './sections/GridColumnAlignSection';
 import GridColumnClassSection from './sections/GridColumnClassSection';
 import GridOperationSection from './sections/GridOperationSection';
 import GridPaginationSection from './sections/GridPaginationSection';
@@ -36,6 +37,7 @@ const sections = {
     gridOperation: '#grid-operation',
     gridSelection: '#grid-selection',
     gridColumnClass: '#grid-column-class',
+    gridColumnAlign: '#grid-column-align',
     gridProps: '#grid-props',
   form: '#form',
     formBasic: '#form-basic',
@@ -175,6 +177,8 @@ const ComponentsPage = React.createClass({
               <GridSelectionSection />
               {this.renderScrollSpy(sections.gridColumnClass)}
               <GridColumnClassSection />
+              {this.renderScrollSpy(sections.gridColumnAlign)}
+              <GridColumnAlignSection />
               {this.renderScrollSpy(sections.gridProps)}
               <GridPropsSection />
 
@@ -236,6 +240,7 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.gridOperation}>操作列</NavItem>
                       <NavItem href={sections.gridSelection}>行选择</NavItem>
                       <NavItem href={sections.gridColumnClass}>列类名</NavItem>
+                      <NavItem href={sections.gridColumnAlign}>列对齐方式</NavItem>
                       <NavItem href={sections.gridProps}>属性</NavItem>
                     </SubNav>
 

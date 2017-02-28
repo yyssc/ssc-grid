@@ -148,9 +148,14 @@ class Grid extends Component {
     }
 
     const renderTableHeader = () => (
-      columnsModel.map((col, key) => (
-        col.hidden === true ? null : <th key={key} className={col.className}>{col.label}</th>
-      ))
+      columnsModel.map((col, key) => {
+        // 使用Bootstrap的alignment class来进行对齐
+        let alignClass = col.align ? `text-${col.align}` : '';
+        const th = (<th key={key}
+                        className={classNames(alignClass, col.className)}
+                   >{col.label}</th>);
+        return col.hidden === true ? null : th;
+      })
     );
 
     const renderCheckboxHeader = () => (
