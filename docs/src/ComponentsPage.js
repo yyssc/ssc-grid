@@ -14,6 +14,7 @@ import SubNav from './SubNav';
 
 // 请按照字母顺序排序
 import DatePickerBasicSection from './sections/DatePickerBasicSection';
+import DatePickerFormatterSection from './sections/DatePickerFormatterSection';
 import DatePickerPropsSection from './sections/DatePickerPropsSection';
 import FormBasicSection from './sections/FormBasicSection';
 import FormValidationSection from './sections/FormValidationSection';
@@ -53,6 +54,7 @@ const sections = {
     textFieldProps: '#text-field-props',
   datePicker: '#date-picker',
     datePickerBasic: '#date-picker-basic',
+    datePickerFormatter: '#date-picker-formatter',
     datePickerProps: '#date-picker-props'
 };
 /* eslint-enable indent */
@@ -240,6 +242,8 @@ const ComponentsPage = React.createClass({
 
               {this.renderScrollSpy(sections.datePickerBasic)}
               <DatePickerBasicSection />
+              {this.renderScrollSpy(sections.datePickerFormatter)}
+              <DatePickerFormatterSection />
               {this.renderScrollSpy(sections.datePickerProps)}
               <DatePickerPropsSection />
             </div>
@@ -284,6 +288,7 @@ const ComponentsPage = React.createClass({
 
                     <SubNav href={sections.datePicker} text="DatePicker组件">
                       <NavItem href={sections.datePickerBasic}>简单DatePicker</NavItem>
+                      <NavItem href={sections.datePickerFormatter}>DatePicker格式化</NavItem>
                       <NavItem href={sections.datePickerProps}>属性</NavItem>
                     </SubNav>
                   </Nav>

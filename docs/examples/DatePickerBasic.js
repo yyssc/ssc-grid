@@ -18,7 +18,11 @@ const DatePickerExample = React.createClass({
     // console.log(hiddenInputElement.getAttribute('data-formattedvalue')); // Formatted String, ex: "11/19/2016"
   },
   render() {
-    return <DatePicker id="example-datepicker" value={this.state.value} onChange={this.handleChange} />;
+    return (<DatePicker
+      id="example-datepicker"
+      value={this.state.value}
+      onChange={this.handleChange}
+    />);
   }
 });
 
