@@ -15,6 +15,7 @@ const SafeAnchor = require('react-bootstrap/lib/SafeAnchor');
 // 在这里引入src下的组件
 const index = require('../../src');
 const DatePicker = index.DatePicker;
+const DatePicker2 = index.DatePicker2;
 const Form = index.Form;
 const Grid = index.Grid;
 const Refer = index.Refer;

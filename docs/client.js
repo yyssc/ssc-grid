@@ -18,6 +18,9 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/solarized.css';
 import './assets/CodeMirror.css';
 
+// react-datepicker style
+import 'react-datepicker/dist/react-datepicker.css';
+
 import './assets/carousel.png';
 import './assets/logo.png';
 import './assets/favicon.ico';
