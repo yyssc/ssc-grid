@@ -7,6 +7,7 @@
     "React": false,
     "ReactDOM": false,
 
+    "DatePicker": false,
     "Form": false,
     "Grid": false,
     "Refer": false,

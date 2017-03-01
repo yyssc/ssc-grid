@@ -2,6 +2,7 @@
 
 // 请按照字母顺序进行排序
 export default {
+  DatePickerBasic:     require('fs').readFileSync(__dirname + '/../examples/DatePickerBasic.js', 'utf8'),
   FormBasic:           require('fs').readFileSync(__dirname + '/../examples/FormBasic.js', 'utf8'),
   FormValidation:      require('fs').readFileSync(__dirname + '/../examples/FormValidation.js', 'utf8'),
   GridBasic:           require('fs').readFileSync(__dirname + '/../examples/GridBasic.js', 'utf8'),

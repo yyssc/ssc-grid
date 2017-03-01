@@ -13,10 +13,10 @@ import { Col } from 'react-bootstrap';
 
 // 表单(form)控件(control/widget)
 import { FormControl, Checkbox } from 'react-bootstrap';
-import DatePicker from 'react-bootstrap-date-picker';
 
 // 使用我们自己造的轮子
 import TextField from './TextField';
+import DatePicker from './DatePicker';
 
 export default class Form extends Component {
   static propTypes = {

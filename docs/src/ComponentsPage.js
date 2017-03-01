@@ -13,6 +13,8 @@ import PageFooter from './PageFooter';
 import SubNav from './SubNav';
 
 // 请按照字母顺序排序
+import DatePickerBasicSection from './sections/DatePickerBasicSection';
+import DatePickerPropsSection from './sections/DatePickerPropsSection';
 import FormBasicSection from './sections/FormBasicSection';
 import FormValidationSection from './sections/FormValidationSection';
 import FormPropsSection from './sections/FormPropsSection';
@@ -48,7 +50,10 @@ const sections = {
   textField: '#text-field',
     textFieldBasic: '#text-field-basic',
     textFieldValidation: '#text-field-validation',
-    textFieldProps: '#text-field-props'
+    textFieldProps: '#text-field-props',
+  datePicker: '#date-picker',
+    datePickerBasic: '#date-picker-basic',
+    datePickerProps: '#date-picker-props'
 };
 /* eslint-enable indent */
 
@@ -221,6 +226,22 @@ const ComponentsPage = React.createClass({
               <TextFieldValidationSection />
               {this.renderScrollSpy(sections.textFieldProps)}
               <TextFieldPropsSection />
+
+              { /* DatePicker */ }
+
+              {this.renderScrollSpy(sections.datePicker)}
+              <div className="bs-docs-section">
+                <h1 className="page-header">
+                  <Anchor id="date-picker">DatePicker组件</Anchor>
+                </h1>
+
+                <p className="lead"></p>
+              </div>
+
+              {this.renderScrollSpy(sections.datePickerBasic)}
+              <DatePickerBasicSection />
+              {this.renderScrollSpy(sections.datePickerProps)}
+              <DatePickerPropsSection />
             </div>
 
 
@@ -259,6 +280,11 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.textFieldBasic}>简单文本框</NavItem>
                       <NavItem href={sections.textFieldValidation}>校验</NavItem>
                       <NavItem href={sections.textFieldProps}>属性</NavItem>
+                    </SubNav>
+
+                    <SubNav href={sections.datePicker} text="DatePicker组件">
+                      <NavItem href={sections.datePickerBasic}>简单DatePicker</NavItem>
+                      <NavItem href={sections.datePickerProps}>属性</NavItem>
                     </SubNav>
                   </Nav>
 
