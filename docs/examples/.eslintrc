@@ -15,6 +15,7 @@
     "Refer": false,
     "TreeRefer": false,
     "TextField": false,
+    "YearPicker": false,
 
     "bootstrapUtils": false,
 

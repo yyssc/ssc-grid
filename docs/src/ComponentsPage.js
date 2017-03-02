@@ -35,6 +35,8 @@ import MonthPickerPropsSection from './sections/MonthPickerPropsSection';
 import TextFieldBasicSection from './sections/TextFieldBasicSection';
 import TextFieldValidationSection from './sections/TextFieldValidationSection';
 import TextFieldPropsSection from './sections/TextFieldPropsSection';
+import YearPickerBasicSection from './sections/YearPickerBasicSection';
+import YearPickerPropsSection from './sections/YearPickerPropsSection';
 
 // order matters 顺序很重要！！
 // 请遵循按照文章的段落顺序，而不是字母顺序
@@ -67,7 +69,10 @@ const sections = {
     datePicker2Props: '#date-picker2-props',
   monthPicker: '#month-picker',
     monthPickerBasic: '#month-picker-basic',
-    monthPickerProps: '#month-picker-props'
+    monthPickerProps: '#month-picker-props',
+  yearPicker: '#year-picker',
+    yearPickerBasic: '#year-picker-basic',
+    yearPickerProps: '#year-picker-props'
 };
 /* eslint-enable indent */
 
@@ -279,7 +284,7 @@ const ComponentsPage = React.createClass({
 
               { /* MonthPicker */ }
 
-              {this.renderScrollSpy(sections.datePicker)}
+              {this.renderScrollSpy(sections.monthPicker)}
               <div className="bs-docs-section">
                 <h1 className="page-header">
                   <Anchor id="month-picker">MonthPicker组件</Anchor>
@@ -292,6 +297,22 @@ const ComponentsPage = React.createClass({
               <MonthPickerBasicSection />
               {this.renderScrollSpy(sections.monthPickerProps)}
               <MonthPickerPropsSection />
+
+              { /* YearPicker */ }
+
+              {this.renderScrollSpy(sections.yearPicker)}
+              <div className="bs-docs-section">
+                <h1 className="page-header">
+                  <Anchor id="year-picker">YearPicker组件</Anchor>
+                </h1>
+
+                <p className="lead"></p>
+              </div>
+
+              {this.renderScrollSpy(sections.yearPickerBasic)}
+              <YearPickerBasicSection />
+              {this.renderScrollSpy(sections.yearPickerProps)}
+              <YearPickerPropsSection />
             </div>
 
 
@@ -347,6 +368,11 @@ const ComponentsPage = React.createClass({
                     <SubNav href={sections.monthPicker} text="MonthPicker">
                       <NavItem href={sections.monthPickerBasic}>简单MonthPicker</NavItem>
                       <NavItem href={sections.monthPickerProps}>属性</NavItem>
+                    </SubNav>
+
+                    <SubNav href={sections.yearPicker} text="YearPicker">
+                      <NavItem href={sections.yearPickerBasic}>简单YearPicker</NavItem>
+                      <NavItem href={sections.yearPickerProps}>属性</NavItem>
                     </SubNav>
                   </Nav>
 

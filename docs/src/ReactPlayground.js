@@ -22,6 +22,7 @@ const MonthPicker = index.MonthPicker;
 const Refer = index.Refer;
 const TextField = index.TextField;
 const TreeRefer = index.TreeRefer;
+const YearPicker = index.YearPicker;
 
 //const bootstrapUtils = require('../../src/utils/bootstrapUtils');
 const bootstrapUtils = require('react-bootstrap/lib/utils/bootstrapUtils');
