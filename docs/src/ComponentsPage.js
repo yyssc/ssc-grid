@@ -14,6 +14,7 @@ import SubNav from './SubNav';
 
 // 请按照字母顺序排序
 import DatePicker2BasicSection from './sections/DatePicker2BasicSection';
+import DatePicker2FormatterSection from './sections/DatePicker2FormatterSection';
 import DatePicker2PropsSection from './sections/DatePicker2PropsSection';
 import DatePickerBasicSection from './sections/DatePickerBasicSection';
 import DatePickerFormatterSection from './sections/DatePickerFormatterSection';
@@ -60,6 +61,7 @@ const sections = {
     datePickerProps: '#date-picker-props',
   datePicker2: '#date-picker2',
     datePicker2Basic: '#date-picker2-basic',
+    datePicker2Formatter: '#date-picker2-formatter',
     datePicker2Props: '#date-picker2-props'
 };
 /* eslint-enable indent */
@@ -265,6 +267,8 @@ const ComponentsPage = React.createClass({
 
               {this.renderScrollSpy(sections.datePicker2Basic)}
               <DatePicker2BasicSection />
+              {this.renderScrollSpy(sections.datePicker2Formatter)}
+              <DatePicker2FormatterSection />
               {this.renderScrollSpy(sections.datePicker2Props)}
               <DatePicker2PropsSection />
             </div>
@@ -315,6 +319,7 @@ const ComponentsPage = React.createClass({
 
                     <SubNav href={sections.datePicker2} text="DatePicker2组件">
                       <NavItem href={sections.datePicker2Basic}>简单DatePicker2</NavItem>
+                      <NavItem href={sections.datePicker2Formatter}>格式化</NavItem>
                       <NavItem href={sections.datePicker2Props}>属性</NavItem>
                     </SubNav>
                   </Nav>
