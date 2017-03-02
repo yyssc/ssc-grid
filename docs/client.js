@@ -21,6 +21,9 @@ import './assets/CodeMirror.css';
 // react-datepicker style
 import 'react-datepicker/dist/react-datepicker.css';
 
+// react-month-picker style
+import 'react-month-picker/css/month-picker.css';
+
 import './assets/carousel.png';
 import './assets/logo.png';
 import './assets/favicon.ico';

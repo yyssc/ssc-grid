@@ -30,6 +30,8 @@ import GridOperationSection from './sections/GridOperationSection';
 import GridPaginationSection from './sections/GridPaginationSection';
 import GridPropsSection from './sections/GridPropsSection';
 import GridSelectionSection from './sections/GridSelectionSection';
+import MonthPickerBasicSection from './sections/MonthPickerBasicSection';
+import MonthPickerPropsSection from './sections/MonthPickerPropsSection';
 import TextFieldBasicSection from './sections/TextFieldBasicSection';
 import TextFieldValidationSection from './sections/TextFieldValidationSection';
 import TextFieldPropsSection from './sections/TextFieldPropsSection';
@@ -62,7 +64,10 @@ const sections = {
   datePicker2: '#date-picker2',
     datePicker2Basic: '#date-picker2-basic',
     datePicker2Formatter: '#date-picker2-formatter',
-    datePicker2Props: '#date-picker2-props'
+    datePicker2Props: '#date-picker2-props',
+  monthPicker: '#month-picker',
+    monthPickerBasic: '#month-picker-basic',
+    monthPickerProps: '#month-picker-props'
 };
 /* eslint-enable indent */
 
@@ -271,6 +276,22 @@ const ComponentsPage = React.createClass({
               <DatePicker2FormatterSection />
               {this.renderScrollSpy(sections.datePicker2Props)}
               <DatePicker2PropsSection />
+
+              { /* MonthPicker */ }
+
+              {this.renderScrollSpy(sections.datePicker)}
+              <div className="bs-docs-section">
+                <h1 className="page-header">
+                  <Anchor id="month-picker">MonthPicker组件</Anchor>
+                </h1>
+
+                <p className="lead"></p>
+              </div>
+
+              {this.renderScrollSpy(sections.monthPickerBasic)}
+              <MonthPickerBasicSection />
+              {this.renderScrollSpy(sections.monthPickerProps)}
+              <MonthPickerPropsSection />
             </div>
 
 
@@ -288,7 +309,7 @@ const ComponentsPage = React.createClass({
                     activeHref={this.state.activeNavItemHref}
                     onSelect={this.handleNavItemSelect}
                   >
-                    <SubNav href={sections.grid} text="Grid组件">
+                    <SubNav href={sections.grid} text="Grid">
                       <NavItem href={sections.gridBasic}>简单表格</NavItem>
                       <NavItem href={sections.gridPagination}>分页</NavItem>
                       <NavItem href={sections.gridOperation}>操作列</NavItem>
@@ -299,28 +320,33 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.gridProps}>属性</NavItem>
                     </SubNav>
 
-                    <SubNav href={sections.form} text="Form组件">
+                    <SubNav href={sections.form} text="Form">
                       <NavItem href={sections.formBasic}>简单表单</NavItem>
                       <NavItem href={sections.formValidation}>表单验证</NavItem>
                       <NavItem href={sections.formProps}>属性</NavItem>
                     </SubNav>
 
-                    <SubNav href={sections.textField} text="TextField组件">
+                    <SubNav href={sections.textField} text="TextField">
                       <NavItem href={sections.textFieldBasic}>简单文本框</NavItem>
                       <NavItem href={sections.textFieldValidation}>校验</NavItem>
                       <NavItem href={sections.textFieldProps}>属性</NavItem>
                     </SubNav>
 
-                    <SubNav href={sections.datePicker} text="DatePicker组件">
+                    <SubNav href={sections.datePicker} text="DatePicker">
                       <NavItem href={sections.datePickerBasic}>简单DatePicker</NavItem>
                       <NavItem href={sections.datePickerFormatter}>DatePicker格式化</NavItem>
                       <NavItem href={sections.datePickerProps}>属性</NavItem>
                     </SubNav>
 
-                    <SubNav href={sections.datePicker2} text="DatePicker2组件">
+                    <SubNav href={sections.datePicker2} text="DatePicker2">
                       <NavItem href={sections.datePicker2Basic}>简单DatePicker2</NavItem>
                       <NavItem href={sections.datePicker2Formatter}>格式化</NavItem>
                       <NavItem href={sections.datePicker2Props}>属性</NavItem>
+                    </SubNav>
+
+                    <SubNav href={sections.monthPicker} text="MonthPicker">
+                      <NavItem href={sections.monthPickerBasic}>简单MonthPicker</NavItem>
+                      <NavItem href={sections.monthPickerProps}>属性</NavItem>
                     </SubNav>
                   </Nav>
 

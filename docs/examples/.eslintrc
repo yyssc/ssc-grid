@@ -11,6 +11,7 @@
     "DatePicker2": false,
     "Form": false,
     "Grid": false,
+    "MonthPicker": false,
     "Refer": false,
     "TreeRefer": false,
     "TextField": false,
