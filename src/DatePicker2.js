@@ -52,10 +52,12 @@ export default class DatePicker2 extends Component {
   }
 
   render() {
-    // 使用otherProps获取react-datepicker的属性，然后往下传
-    const { value, ...otherProps } = this.props;
+    // 之前使用otherProps获取react-datepicker的属性，然后往下传
+    // 但是出现了bug#11
+    const { value, showMonthDropdown, showYearDropdown } = this.props;
     return (<ReactDatePicker
-      {...otherProps}
+      showMonthDropdown={showMonthDropdown}
+      showYearDropdown={showYearDropdown}
       selected={moment(value)}
       onChange={this.handleChange.bind(this)} />);
   }
