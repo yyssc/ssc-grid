@@ -1,0 +1,24 @@
+const DatePicker2YearMonthDropdownExample = React.createClass({
+  getInitialState() {
+    const value = new Date().toISOString();
+    return {
+      value
+    };
+  },
+  handleChange(value, formattedValue) {
+    this.setState({
+      value, // ISO String, ex: "2016-11-19T12:00:00.000Z"
+      formattedValue // Formatted String, ex: "11/19/2016"
+    });
+  },
+  render() {
+    return (<DatePicker2
+      value={this.state.value}
+      showMonthDropdown
+      showYearDropdown
+      onChange={this.handleChange}
+    />);
+  }
+});
+
+ReactDOM.render(<DatePicker2YearMonthDropdownExample />, mountNode);

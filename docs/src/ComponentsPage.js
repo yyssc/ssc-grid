@@ -15,6 +15,7 @@ import SubNav from './SubNav';
 // 请按照字母顺序排序
 import DatePicker2BasicSection from './sections/DatePicker2BasicSection';
 import DatePicker2FormatterSection from './sections/DatePicker2FormatterSection';
+import DatePicker2YearMonthDropdownSection from './sections/DatePicker2YearMonthDropdownSection';
 import DatePicker2PropsSection from './sections/DatePicker2PropsSection';
 import DatePickerBasicSection from './sections/DatePickerBasicSection';
 import DatePickerFormatterSection from './sections/DatePickerFormatterSection';
@@ -66,6 +67,7 @@ const sections = {
   datePicker2: '#date-picker2',
     datePicker2Basic: '#date-picker2-basic',
     datePicker2Formatter: '#date-picker2-formatter',
+    datePicker2YearMonthDropdown: '#date-picker2-year-month-dropdown',
     datePicker2Props: '#date-picker2-props',
   monthPicker: '#month-picker',
     monthPickerBasic: '#month-picker-basic',
@@ -279,6 +281,8 @@ const ComponentsPage = React.createClass({
               <DatePicker2BasicSection />
               {this.renderScrollSpy(sections.datePicker2Formatter)}
               <DatePicker2FormatterSection />
+              {this.renderScrollSpy(sections.datePicker2YearMonthDropdown)}
+              <DatePicker2YearMonthDropdownSection />
               {this.renderScrollSpy(sections.datePicker2Props)}
               <DatePicker2PropsSection />
 
@@ -362,6 +366,7 @@ const ComponentsPage = React.createClass({
                     <SubNav href={sections.datePicker2} text="DatePicker2">
                       <NavItem href={sections.datePicker2Basic}>简单DatePicker2</NavItem>
                       <NavItem href={sections.datePicker2Formatter}>格式化</NavItem>
+                      <NavItem href={sections.datePicker2YearMonthDropdown}>年份、月份下拉选择</NavItem>
                       <NavItem href={sections.datePicker2Props}>属性</NavItem>
                     </SubNav>
 

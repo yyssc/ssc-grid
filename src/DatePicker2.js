@@ -22,6 +22,8 @@ export default class DatePicker2 extends Component {
      * value 请使用ISO 8061格式
      */
     value: PropTypes.string,
+    showMonthDropdown: PropTypes.bool,
+    showYearDropdown: PropTypes.bool,
     /**
      * 参数：
      * - value: ISO 8061格式时间字符串
@@ -50,8 +52,10 @@ export default class DatePicker2 extends Component {
   }
 
   render() {
-    const { value } = this.props;
+    // 使用otherProps获取react-datepicker的属性，然后往下传
+    const { value, ...otherProps } = this.props;
     return (<ReactDatePicker
+      {...otherProps}
       selected={moment(value)}
       onChange={this.handleChange.bind(this)} />);
   }
