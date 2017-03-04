@@ -173,6 +173,10 @@ class GridRow extends Component {
           cellContent = this.getDateFormat(columnModel, value);
           break;
       }
+      // 如果用户提供的数据有问题，比如columnModel.type是string，但是value却是
+      // 一个Object，那么这里只能强制类型转换了。
+      // TODO 需要给用户提示数据错误问题。
+      cellContent = String(cellContent);
 
       // 用户自定义对齐方式
       if (columnModel.align) {

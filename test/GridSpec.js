@@ -226,4 +226,31 @@ describe('<Grid>', () => {
     assert.equal(thead.querySelectorAll('th')[1].className, '');
   });
 
+  it('应该正常渲染并且不报警告当id重复的时候', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={[
+          {type: 'string', id: 'id', label: '主键'},
+          {type: 'ref', id: 'classifyid', label: '银行类别'},
+          {type: 'string', id: 'classifyid', label: '账户性质'}
+        ]}
+        tableData={[
+          { id: '00000081', classifyid: {
+            "id": "1DCEF67B-C1BC-4BBF-A97C-B39FF3910A7A",
+            "code": "111",
+            "name": "测试银行类别" }, accountproperty: null },
+          { id: '00000082', classifyid: {
+            "id": "1DCEF67B-C1BC-4BBF-A97C-B39FF3910A7B",
+            "code": "112",
+            "name": "测试银行类别2" }, accountproperty: null }
+        ]}
+      />
+    );
+    let tr0 = getTableRow(instance, 0);
+    let tr1 = getTableRow(instance, 1);
+    // 第三列应该显示为[object Object]
+    assert.equal(tr0.querySelectorAll('td')[2].textContent, '[object Object]');
+    assert.equal(tr1.querySelectorAll('td')[2].textContent, '[object Object]');
+  });
+
 });
