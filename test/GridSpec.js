@@ -236,13 +236,13 @@ describe('<Grid>', () => {
         ]}
         tableData={[
           { id: '00000081', classifyid: {
-            "id": "1DCEF67B-C1BC-4BBF-A97C-B39FF3910A7A",
-            "code": "111",
-            "name": "测试银行类别" }, accountproperty: null },
+            'id': '1DCEF67B-C1BC-4BBF-A97C-B39FF3910A7A',
+            'code': '111',
+            'name': '测试银行类别' }, accountproperty: null },
           { id: '00000082', classifyid: {
-            "id": "1DCEF67B-C1BC-4BBF-A97C-B39FF3910A7B",
-            "code": "112",
-            "name": "测试银行类别2" }, accountproperty: null }
+            'id': '1DCEF67B-C1BC-4BBF-A97C-B39FF3910A7B',
+            'code': '112',
+            'name': '测试银行类别2' }, accountproperty: null }
         ]}
       />
     );
