@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import classNames from 'classnames';
 
 import React, { Component, PropTypes } from 'react';
 import elementType from 'react-prop-types/lib/elementType';
@@ -177,6 +178,9 @@ class GridRow extends Component {
       if (columnModel.align) {
         className = `text-${columnModel.align}`;
       }
+
+      // 添加列类名
+      className = classNames(className, columnModel.columnClassName);
 
       return columnModel.hidden === true ? null :
         <td key={colIdx} className={className}>{cellContent}</td>;

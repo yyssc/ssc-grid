@@ -187,9 +187,14 @@ class Grid extends Component {
       columnsModel.map((col, key) => {
         // 使用Bootstrap的alignment class来进行对齐
         let alignClass = col.align ? `text-${col.align}` : '';
-        const th = (<th key={key}
-                        className={classNames(alignClass, col.className)}
-                   >{col.label}</th>);
+        // 之前的className只能设定th的class，现在改成使用columnClassName
+        // 可以设定th和td的class
+        // 由于新旧接口共存，所以需要根据优先级设定好
+        const th = (
+          <th key={key}
+            className={classNames(alignClass, col.columnClassName, col.className)}
+          >{col.label}</th>
+        );
         return col.hidden === true ? null : th;
       })
     );

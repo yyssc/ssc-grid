@@ -26,15 +26,18 @@ const tableData = [
 ];
 
 const mockColumnsData = [
-  {type: 'string', id: 'name', label: '名称', className: 'table-head-name'},
+  {type: 'string', id: 'name', label: '名称', columnClassName: 'table-column-name'},
   {type: 'string', id: 'danjubianhao', label: '单据编号'},
-  {type: 'double', id: 'jine', label: '金额', className: 'table-head-jine'},
+  {type: 'double', id: 'jine', label: '金额', columnClassName: 'table-column-jine'},
   {type: 'date', id: 'danjuriqi', label: '单据日期'},
-  {type: 'boolean', id: 'qiyong', label: '启用', className: 'table-head-qiyong'}
+  {type: 'boolean', id: 'qiyong', label: '启用', columnClassName: 'table-column-qiyong'}
 ];
 
-const styles = `.table-head-jine {
+const styles = `th.table-column-jine {
   width: 300px;
+}
+td.table-column-jine {
+  font-style: italic;
 }`;
 
 const gridInstance = (
