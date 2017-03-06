@@ -161,7 +161,12 @@ class GridRow extends Component {
           cellContent = this.getNumberFormat(columnModel, value);
           break;
         case 'enum':
-          cellContent = columnModel.data.find(enumItem => (enumItem.key === value)).value;
+          if (columnModel.data) {
+            let foundEnumItem = columnModel.data.find(enumItem => (enumItem.key === value));
+            if (typeof foundEnumItem !== 'undefined') {
+              cellContent = foundEnumItem.value;
+            }
+          }
           break;
         case 'boolean':
           cellContent = value ? '是' : '否';

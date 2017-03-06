@@ -102,6 +102,25 @@ describe('<Grid>', () => {
     getTableHead(instance); // <thead>
   });
 
+  it('表格体，无论columnModel是什么类型，当单元格为null，都不应该报错', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={[
+          {type: 'string', id: 'zifuchuan', label: '字符串'},
+          {type: 'double', id: 'shuangjingdufudianshu', label: '双精度浮点数'},
+          {type: 'date', id: 'riqi', label: '日期'},
+          {type: 'enum', id: 'meiju', label: '枚举'},
+          {type: 'ref', id: 'canzhao', label: '参照'}
+        ]}
+        tableData={[
+          { zifuchuan: null, shuangjingdufudianshu: null, riqi: null, meiju: null, canzhao: null },
+          { zifuchuan: null, shuangjingdufudianshu: null, riqi: null, meiju: null, canzhao: null }
+        ]}
+      />
+    );
+    getTableHead(instance); // <thead>
+  });
+
   it('uses "div" by default', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Grid

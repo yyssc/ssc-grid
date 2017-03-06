@@ -37,7 +37,7 @@ const tableData = [
     jine: '100.00',
     danjuriqi: '2016-08-30',
     qiyong: true,
-    xingbie: 'male',
+    xingbie: null,
     zuzhi: null
   }
 ];
