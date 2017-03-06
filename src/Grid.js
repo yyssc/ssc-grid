@@ -110,8 +110,32 @@ class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedRowsObj: {}
+      /**
+       * 存储所有行被选中的状态，通过key:value
+       * 其中key就是row index，从0开始
+       * 注意主结构为Object而不是Array
+       * {
+       *   0: { selected: true  }, 第一行被选中
+       *   1: { selected: false }  第二行未被选中
+       * }
+       */
+      selectedRowsObj: {},
+      /**
+       * 表头行（全选）被选中状态
+       */
+      isHeadRowSelected: false
     };
+
+    // 初始化的时候所有行都未被选中
+    this.props.tableData.forEach((item, index) => {
+      this.state.selectedRowsObj[index] = {
+        selected: false
+      };
+    });
+
+    // TODO 使用flags和bitmasks来存储行被选中的状态，可以降低操作状态的难度
+    // 初始化0，相当于00000（对于5行来说）
+    this.state.selectedFlags = 0;
   }
 
   handlePagination(eventKey) {
@@ -120,8 +144,8 @@ class Grid extends Component {
     }
   }
 
-  // 在状态中选中所有行
-  selectAllRows(isSelected) {
+  // 同时更新所有行被选中的状态
+  updateAllRowsSelectedState(isSelected) {
     const { tableData } = this.props;
     const selectedRowsObj = {};
     tableData.forEach((item, index) => {
@@ -135,6 +159,8 @@ class Grid extends Component {
   }
 
   // 选中一行
+  // 1. 改变当前行被选中的状态
+  // 2. (可能)改变表头行（全选）状态
   handleSelect(rowIdx, rowObj, isSelected, event) {
     const { selectRow, selectedRowsObj } = this.state;
     selectedRowsObj[rowIdx] = {
@@ -144,18 +170,45 @@ class Grid extends Component {
       selectedRowsObj
     });
 
+    /**
+     * 检查当前状态中是否所有行都被选中
+     * @return {boolean} 如果是true说明所有行都被选中，否则有一行或者多行未被选中。
+     */
+    function isAllRowsSelected(obj) {
+      let ret = true;
+      let i;
+      for (i in obj) {
+        if (obj.hasOwnProperty(i)) {
+          ret = ret && obj[i].selected;
+        }
+      }
+      return ret;
+    }
+
+    this.setState({
+      isHeadRowSelected: isAllRowsSelected(selectedRowsObj)
+    });
+
+
     if (selectRow && selectRow.onSelect) {
       selectRow.onSelect(rowIdx, rowObj, isSelected, event);
     }
   }
 
   // 当选中所有行的时候
+  // 1. 同时改变所有行的选中状态
+  // 2. 改变表头行（全选）状态
   handleSelectAll(event) {
     const { selectRow, tableData } = this.props;
     const isSelected = event.target.checked;
 
     // 在状态中选中所有行
-    this.selectAllRows(isSelected);
+    this.updateAllRowsSelectedState(isSelected);
+
+    // 在状态中选中table head row
+    this.setState({
+      isHeadRowSelected: isSelected
+    });
 
     if (selectRow && selectRow.onSelectAll) {
       selectRow.onSelectAll(tableData, isSelected, event);
@@ -201,7 +254,7 @@ class Grid extends Component {
 
     const renderCheckboxHeader = () => (
       selectRow ? (<th>
-        <input type="checkbox"
+        <input type="checkbox" checked={this.state.isHeadRowSelected}
           onChange={this.handleSelectAll.bind(this)} />
       </th>) : null
     );
