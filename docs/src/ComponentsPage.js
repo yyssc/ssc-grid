@@ -27,6 +27,7 @@ import GridBasicSection from './sections/GridBasicSection';
 import GridCellFormatterSection from './sections/GridCellFormatterSection';
 import GridColumnAlignSection from './sections/GridColumnAlignSection';
 import GridColumnClassSection from './sections/GridColumnClassSection';
+import GridLocalSearchSection from './sections/GridLocalSearchSection';
 import GridOperationSection from './sections/GridOperationSection';
 import GridPaginationSection from './sections/GridPaginationSection';
 import GridPropsSection from './sections/GridPropsSection';
@@ -51,6 +52,7 @@ const sections = {
     gridColumnClass: '#grid-column-class',
     gridColumnAlign: '#grid-column-align',
     gridCellFormatter: '#grid-cell-formatter',
+    gridLocalSearch: '#grid-local-search',
     gridProps: '#grid-props',
   form: '#form',
     formBasic: '#form-basic',
@@ -209,6 +211,8 @@ const ComponentsPage = React.createClass({
               <GridColumnAlignSection />
               {this.renderScrollSpy(sections.gridCellFormatter)}
               <GridCellFormatterSection />
+              {this.renderScrollSpy(sections.gridLocalSearch)}
+              <GridLocalSearchSection />
               {this.renderScrollSpy(sections.gridProps)}
               <GridPropsSection />
 
@@ -342,6 +346,7 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.gridColumnClass}>列类名</NavItem>
                       <NavItem href={sections.gridColumnAlign}>列对齐方式</NavItem>
                       <NavItem href={sections.gridCellFormatter}>单元格格式化</NavItem>
+                      <NavItem href={sections.gridLocalSearch}>本地搜索</NavItem>
                       <NavItem href={sections.gridProps}>属性</NavItem>
                     </SubNav>
 

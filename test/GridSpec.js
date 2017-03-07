@@ -69,6 +69,17 @@ describe('<Grid>', () => {
     return table.querySelector('thead'); // <thead>
   }
 
+  function getTableHeadColumn(instance, index) {
+    let ths = getTableHead(instance).querySelectorAll('th');
+    return ths[index];
+  }
+
+  // 获得指定列头中的文本
+  // <th> -> textContent
+  function getTableHeadColumnContent(instance, index) {
+    return getTableHeadColumn(instance, index).textContent;
+  }
+
   function getTableBody(instance) {
     let node = ReactDOM.findDOMNode(instance); // <div> root node
     let table = node.querySelector('table'); // <table>
@@ -81,6 +92,42 @@ describe('<Grid>', () => {
     let trs = tbody.querySelectorAll('tr');
     return trs[index];
   }
+
+  // 获得单元格<td>节点
+  function getTableCell(instance, rowIndex, columnIndex) {
+    let trN = getTableRow(instance, rowIndex); // <tr> node
+    let tds = trN.querySelectorAll('td'); // <td> node list
+    return tds[columnIndex];
+  }
+
+  // 获得单元格中的内容，类型为string
+  function getTableCellContent(instance, rowIndex, columnIndex) {
+    return getTableCell(instance, rowIndex, columnIndex).textContent;
+  }
+
+  /**
+   * 将组件渲染到DOM中，是append的模式，所以每次调用都会创建一个新的<TextField>节点
+   * 通过instance.state可以获取到组件的状态。
+   * ```jsx
+   * let instance = ReactTestUtils.renderIntoDocument(
+   *   <TextField />
+   * );
+   * ```
+   * 如果需要渲染到指定节点中。
+   * 如果组件外部的数据更新了，仍然再次调用ReactDOM.render()方法，将新的数据通过
+   * props传进组件。调用了两次ReactDOM.render()方法，但是只有第一次会调用组件的
+   * 构造函数。
+   * 仍然可以通过component.state获取到<TextField>组件的状态
+   * ```
+   * let node = document.createElement('div');
+   * let component = ReactDOM.render(
+   *   <TextField />, node
+   * );
+   * ReactDOM.render(
+   *   <TextField value="123" />, node
+   * );
+   * ```
+   */
 
   it('列模型为空，表体数据为空，不应该报错', () => {
     let instance = ReactTestUtils.renderIntoDocument(
@@ -270,6 +317,57 @@ describe('<Grid>', () => {
     // 第三列应该显示为[object Object]
     assert.equal(tr0.querySelectorAll('td')[2].textContent, '[object Object]');
     assert.equal(tr1.querySelectorAll('td')[2].textContent, '[object Object]');
+  });
+
+  it('通过props更新表格数据，应该重新渲染为新数据', () => {
+    let node = document.createElement('div');
+    let mockColumnsModel;
+    let mockTableBody;
+    let component;
+
+    mockColumnsModel = [
+      {type: 'string', id: 'id', label: '主键'},
+      {type: 'string', id: 'name', label: '名称'}
+    ];
+    mockTableBody = [
+      { id: '0', name: 'n1' },
+      { id: '1', name: 'n2' }
+    ];
+    component = ReactDOM.render(
+      <Grid
+        columnsModel={mockColumnsModel}
+        tableData={mockTableBody}
+      />, node
+    );
+    // 通过component.state可以获取到组件的状态
+    assert.equal(getTableHeadColumnContent(component, 0), '主键');
+    assert.equal(getTableHeadColumnContent(component, 1), '名称');
+    assert.equal(getTableCellContent(component, 0, 0), '0');
+    assert.equal(getTableCellContent(component, 0, 1), 'n1');
+    assert.equal(getTableCellContent(component, 1, 0), '1');
+    assert.equal(getTableCellContent(component, 1, 1), 'n2');
+
+    // 修改数据，重新渲染
+    mockColumnsModel = [
+      {type: 'double', id: 'i2d', label: '主2键'},
+      {type: 'double', id: 'n2ame', label: '名2称'}
+    ];
+    mockTableBody = [
+      { i2d: '111', n2ame: '111000' },
+      { i2d: '222', n2ame: '222000' }
+    ];
+    component = ReactDOM.render(
+      <Grid
+        columnsModel={mockColumnsModel}
+        tableData={mockTableBody}
+      />, node
+    );
+    assert.equal(getTableHeadColumnContent(component, 0), '主2键');
+    assert.equal(getTableHeadColumnContent(component, 1), '名2称');
+    assert.equal(getTableCellContent(component, 0, 0), '111');
+    assert.equal(getTableCellContent(component, 0, 1), '111000');
+    assert.equal(getTableCellContent(component, 1, 0), '222');
+    assert.equal(getTableCellContent(component, 1, 1), '222000');
   });
 
 });

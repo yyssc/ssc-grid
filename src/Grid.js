@@ -1,10 +1,14 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import elementType from 'react-prop-types/lib/elementType';
+import update from 'react-addons-update';
 
 import { Table, Pagination, /* Checkbox */ } from 'react-bootstrap';
 
 import GridRow from './GridRow';
+import TextField from './TextField';
+
+import { searchFor } from './utils/sscgridUtils';
 
 /**
  * Grid组件
@@ -97,7 +101,15 @@ class Grid extends Component {
     /**
      * 当前页面号
      */
-    activePage: PropTypes.number
+    activePage: PropTypes.number,
+    /**
+     * 是否显示搜索框
+     */
+    localSearch: PropTypes.bool,
+    /**
+     * 当搜索框内容改变的时候
+     */
+    onSearchChange: PropTypes.func
   };
 
   static defaultProps = {
@@ -126,8 +138,13 @@ class Grid extends Component {
       isHeadRowSelected: false
     };
 
+    const { tableData } = this.props;
+
+    // 初始化表体数据
+    this.state.tableData = tableData;
+
     // 初始化的时候所有行都未被选中
-    this.props.tableData.forEach((item, index) => {
+    tableData.forEach((item, index) => {
       this.state.selectedRowsObj[index] = {
         selected: false
       };
@@ -138,6 +155,14 @@ class Grid extends Component {
     this.state.selectedFlags = 0;
   }
 
+  componentWillReceiveProps(nextProps) {
+    // 更新表格体数据
+    const nextState = update(this.state, {
+      tableData: { $set: nextProps.tableData }
+    });
+    this.setState(nextState);
+  }
+
   handlePagination(eventKey) {
     if (this.props.onPagination) {
       this.props.onPagination(eventKey);
@@ -146,7 +171,7 @@ class Grid extends Component {
 
   // 同时更新所有行被选中的状态
   updateAllRowsSelectedState(isSelected) {
-    const { tableData } = this.props;
+    const { tableData } = this.state;
     const selectedRowsObj = {};
     tableData.forEach((item, index) => {
       selectedRowsObj[index] = {
@@ -199,7 +224,7 @@ class Grid extends Component {
   // 1. 同时改变所有行的选中状态
   // 2. 改变表头行（全选）状态
   handleSelectAll(event) {
-    const { selectRow, tableData } = this.props;
+    const { selectRow } = this.props;
     const isSelected = event.target.checked;
 
     // 在状态中选中所有行
@@ -211,7 +236,7 @@ class Grid extends Component {
     });
 
     if (selectRow && selectRow.onSelectAll) {
-      selectRow.onSelectAll(tableData, isSelected, event);
+      selectRow.onSelectAll(this.state.tableData, isSelected, event);
     }
   }
 
@@ -221,8 +246,15 @@ class Grid extends Component {
     }
   }
 
+  // 搜索文本框内容改变之后，进行重新搜索
+  handleSearchChange(event) {
+    const searchText = event.target.value;
+    const tableData = searchFor(searchText, this.props.tableData);
+    this.setState({ tableData });
+  }
+
   render() {
-    const { columnsModel, tableData,
+    const { columnsModel,
       selectRow, operationColumn, className,
       operationColumnClass: CustomComponent
     } = this.props;
@@ -278,6 +310,9 @@ class Grid extends Component {
     // var onRow = this.props.onRow;
     return (
       <div className={classNames(className)}>
+        {this.props.localSearch ? <TextField
+          onChange={this.handleSearchChange.bind(this)}
+        /> : null}
         <Table striped bordered condensed hover>
           <thead>
             <tr>
@@ -288,7 +323,7 @@ class Grid extends Component {
           </thead>
           <tbody>
           {
-            tableData.map((row, rowIdx) => {
+            this.state.tableData.map((row, rowIdx) => {
               let selected = false;
 
               // 该行是否被选中

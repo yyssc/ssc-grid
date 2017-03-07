@@ -13,6 +13,7 @@ export default {
   GridCellFormatter:            require('fs').readFileSync(__dirname + '/../examples/GridCellFormatter.js', 'utf8'),
   GridColumnAlign:              require('fs').readFileSync(__dirname + '/../examples/GridColumnAlign.js', 'utf8'),
   GridColumnClass:              require('fs').readFileSync(__dirname + '/../examples/GridColumnClass.js', 'utf8'),
+  GridLocalSearch:              require('fs').readFileSync(__dirname + '/../examples/GridLocalSearch.js', 'utf8'),
   GridOperation:                require('fs').readFileSync(__dirname + '/../examples/GridOperation.js', 'utf8'),
   GridPagination:               require('fs').readFileSync(__dirname + '/../examples/GridPagination.js', 'utf8'),
   GridSelection:                require('fs').readFileSync(__dirname + '/../examples/GridSelection.js', 'utf8'),
