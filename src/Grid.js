@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import elementType from 'react-prop-types/lib/elementType';
-import update from 'react-addons-update';
+// import update from 'immutability-helper';
 
 import { Table, Pagination, /* Checkbox */ } from 'react-bootstrap';
 
@@ -141,7 +141,7 @@ class Grid extends Component {
     const { tableData } = this.props;
 
     // 初始化表体数据
-    this.state.tableData = tableData;
+    this.state.tableData = [ ...tableData ];
 
     // 初始化的时候所有行都未被选中
     tableData.forEach((item, index) => {
@@ -157,10 +157,9 @@ class Grid extends Component {
 
   componentWillReceiveProps(nextProps) {
     // 更新表格体数据
-    const nextState = update(this.state, {
-      tableData: { $set: nextProps.tableData }
+    this.setState({
+      tableData: nextProps.tableData
     });
-    this.setState(nextState);
   }
 
   handlePagination(eventKey) {
@@ -187,7 +186,8 @@ class Grid extends Component {
   // 1. 改变当前行被选中的状态
   // 2. (可能)改变表头行（全选）状态
   handleSelect(rowIdx, rowObj, isSelected, event) {
-    const { selectRow, selectedRowsObj } = this.state;
+    const { selectRow } = this.props;
+    const { selectedRowsObj } = this.state;
     selectedRowsObj[rowIdx] = {
       selected: isSelected
     };
@@ -233,6 +233,9 @@ class Grid extends Component {
     // 在状态中选中table head row
     this.setState({
       isHeadRowSelected: isSelected
+    }, () => {});
+    this.setState({
+      foo: 'bar'
     });
 
     if (selectRow && selectRow.onSelectAll) {
