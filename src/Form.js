@@ -70,7 +70,17 @@ export default class Form extends Component {
   };
 
   state = {
-    formData: {...this.props.defaultData}
+    formData: {...this.props.defaultData},
+    /**
+     * 字段email是fieldId, true表示校验成功
+     * ```
+     * {
+     *   email: true,
+     *   name: false
+     * }
+     * ```
+     */
+    fieldsValidationState: {}
   };
 
   constructor(props) {
@@ -79,7 +89,7 @@ export default class Form extends Component {
 
   // 这里只处理简单类型的控件，比如input, select, checkbox
   // 不处理复杂类型的空间，比如date-picker
-  handleChange(fieldId, event) {
+  handleChange(fieldId, event, validationState) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     // const name = target.name;
@@ -89,6 +99,15 @@ export default class Form extends Component {
     };
     newState.formData[fieldId] = value;
     this.setState(newState);
+
+    // undefined/null都不代表失败
+    this.setState(update(this.state, {
+      fieldsValidationState: {
+        [fieldId]: {
+          $set: !(validationState === false)
+        }
+      }
+    }));
 
     if (this.props.onChange) {
       this.props.onChange(fieldId, value, {
@@ -160,6 +179,17 @@ export default class Form extends Component {
   handleReferBlur() {
     // console.log('blurblurblur'+event);
     // console.log(JSON.stringify(this._myrefers.getInstance().hideRefers()));
+  }
+
+  calcAllFieldsValidationState(fieldsValidationState) {
+    let result = true;
+    let fieldId;
+    for (fieldId in fieldsValidationState) {
+      if (fieldsValidationState.hasOwnProperty(fieldId)) {
+        result = fieldsValidationState[fieldId] && result;
+      }
+    }
+    return result;
   }
 
   render() {
@@ -300,9 +330,9 @@ export default class Form extends Component {
             <Button bsStyle="info" onClick={this.handleReset.bind(this)} type="reset">
               取消
             </Button>
-            <Button bsStyle="info" onClick={this.handleSubmit.bind(this)} type="submit">
-              完成
-            </Button>
+            <Button bsStyle="info" onClick={this.handleSubmit.bind(this)}
+              type="submit" disabled={!this.calcAllFieldsValidationState(this.state.fieldsValidationState)}
+            >完成</Button>
           </Col>
         </FormGroup>
       </ReactBootstrapForm>

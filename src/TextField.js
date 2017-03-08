@@ -90,6 +90,10 @@ export default class TextField extends Component {
   getValidationObj() {
     const { validation } = this.props;
     const vs = {
+      required: {
+        matchFunc: (value) => !validator.isEmpty(value),
+        helpText: '必须输入该字段！'
+      },
       email: {
         matchFunc: (value) => validator.isEmail(value),
         helpText: '请输入正确的邮箱格式！'
@@ -128,39 +132,49 @@ export default class TextField extends Component {
     return validationObj;
   }
 
-  getValidationState() {
-    const { value } = this.state;
+  getValidationState(value) {
     let validationObj = this.getValidationObj();
     let validationResult = validationObj.matchFunc(value);
     return {
+      state: validationResult,
       stateText: validationResult ? 'success' : 'error',
       helpText: validationResult ? '' : validationObj.helpText
     };
   }
 
   handleChange(event) {
-    this.setState({
-      value: event.target.value
-    });
+    const { validation } = this.props;
+    const { value } = event.target;
+
+    this.setState({ value });
+
     if (this.props.onChange) {
-      this.props.onChange(event);
+      if (validation) {
+        const { state } = this.getValidationState(value);
+        this.props.onChange(event, state);
+      } else {
+        this.props.onChange(event);
+      }
     }
   }
 
   render() {
     const { controlId, label, validation } = this.props;
+    const { value } = this.state;
     let textField;
     let formCtrl = (
       <FormControl
         type="text"
-        value={this.state.value}
+        value={value}
         placeholder={this.props.placeholder}
         onChange={this.handleChange.bind(this)}
       />
     );
+
+    // 是否在SSC自己的form中
     if (!this.props.inForm) {
       if (validation) {
-        let { stateText, helpText } = this.getValidationState();
+        let { stateText, helpText } = this.getValidationState(value);
         textField = (
           <FormGroup
             validationState={stateText}
@@ -182,7 +196,7 @@ export default class TextField extends Component {
       }
     } else {
       if (validation) {
-        let { stateText, helpText } = this.getValidationState();
+        let { stateText, helpText } = this.getValidationState(value);
         textField = (
           <FormGroup
             validationState={stateText}
@@ -193,6 +207,8 @@ export default class TextField extends Component {
             </Col>
             <Col componentClass={ControlLabel} sm={2}>
               {label}
+              {validation.type === 'required' ?
+                <span style={{ color: 'red' }}>*</span> : null}
             </Col>
             <Col sm={5}>
               {formCtrl}
