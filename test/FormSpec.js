@@ -6,22 +6,23 @@ import Form from '../src/Form';
 
 function getFieldsModel() {
   return [
-    /* 0 */{type: 'string', id: 'id', 'label': '主键', hidden: true},
-    /* 1 */{type: 'string', id: 'danjubianhao', label: '单据编号'},
-    /* 2 */{type: 'string', id: 'name2', label: '名称2', hidden: true},
-    /* 3 */{type: 'string', id: 'name3', label: '名称3', hidden: true},
-    /* 4 */{type: 'string', id: 'name4', label: '名称4', hidden: true},
-    /* 5 */{type: 'enum', id: 'danjuleixing', label: '单据类型', placeholder: '请选择单据类型',
-              data: [
-                {key: '2631', value: '差旅费借款单'},
-                {key: '2632', value: '会议费借款单'},
-                {key: 'D3', value: '付款单'}
-              ]
-            },
-    /* 6 */{type: 'string', id: 'danjuzhuangtai', label: '单据状态'},
-    /* 7 */{type: 'double', id: 'jine', label: '金额'},
-    /* 8 */{type: 'date', id: 'danjuriqi', label: '单据日期'},
-    /* 9 */{type: 'boolean', id: 'qiyong', label: '启用'}
+    /*  0 */{type: 'string', id: 'id', 'label': '主键', hidden: true},
+    /*  1 */{type: 'string', id: 'danjubianhao', label: '单据编号'},
+    /*  2 */{type: 'string', id: 'name2', label: '名称2', hidden: true},
+    /*  3 */{type: 'string', id: 'name3', label: '名称3', hidden: true},
+    /*  4 */{type: 'string', id: 'name4', label: '名称4', hidden: true},
+    /*  5 */{type: 'enum', id: 'danjuleixing', label: '单据类型', placeholder: '请选择单据类型',
+               data: [
+                 {key: '2631', value: '差旅费借款单'},
+                 {key: '2632', value: '会议费借款单'},
+                 {key: 'D3', value: '付款单'}
+               ]
+             },
+    /*  6 */{type: 'string', id: 'danjuzhuangtai', label: '单据状态'},
+    /*  7 */{type: 'double', id: 'jine', label: '金额'},
+    /*  8 */{type: 'date', id: 'danjuriqi', label: '单据日期'},
+    /*  9 */{type: 'boolean', id: 'qiyong', label: '启用'},
+    /* 10 */{type: 'ref', id: 'zuzhi', label: '组织'}
   ];
 }
 
@@ -36,7 +37,20 @@ function getDefaultFormData() {
     danjuzhuangtai: '保存',
     jine: '12.00',
     danjuriqi: new Date('2017-02-14').toISOString(),
-    qiyong: false
+    qiyong: false,
+    zuzhi: {
+      id: '02EDD0F9-F384-43BF-9398-5E5781DAC5D0',
+      code: '0502',
+      name: '二车间',
+      config: {
+        referConditions: {
+          refCode: 'dept',
+          refType: 'tree',
+          rootName: '部门'
+        },
+        referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
+      }
+    }
   };
 }
 
