@@ -4,6 +4,8 @@ import React, { Component, PropTypes } from 'react';
 import { Button, Form as ReactBootstrapForm, FormGroup, ControlLabel } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 
+import update from 'immutability-helper';
+
 /**
  * 控件(control/widget)分类
  * Command input: Button, Drop-down list, ...
@@ -17,6 +19,7 @@ import { FormControl, Checkbox } from 'react-bootstrap';
 // 使用我们自己造的轮子
 import TextField from './TextField';
 import DatePicker from './DatePicker';
+import { Refers } from 'ssc-refer';
 
 export default class Form extends Component {
   static propTypes = {
@@ -119,6 +122,38 @@ export default class Form extends Component {
     }
   }
 
+  /**
+   * 参照的回调
+   * 目前不清楚为什么selected返回一个数组
+   * 先不管三七二十一，直接扔到state中，让用户可以获取到
+   * ```
+   * [
+   *   {
+   *     "id": "0500CC91-4A98-4C1D-A4D6-C6A0ABCC53AD",
+   *     "isLeaf": "true",
+   *     "name": "服务中心",
+   *     "pid": "",
+   *     "code": "02"
+   *   }
+   * ]
+   * ```
+   */
+  handleReferChange(fieldId, selected) {
+    this.setState(update(this.state, {
+      formData: {
+        [fieldId]: {
+          selected: {
+            $set: selected
+          }
+        }
+      }
+    }));
+  }
+  handleReferBlur(fieldId, event) {
+    // console.log('blurblurblur'+event);
+    // console.log(JSON.stringify(this._myrefers.getInstance().hideRefers()));
+  }
+
   render() {
     const { fieldsModel, className } = this.props;
     return (
@@ -163,7 +198,6 @@ export default class Form extends Component {
               default:
               case 'string': // 0
               case 'double': // 2
-              case 'ref': // 5
                 formGroup = (
                   <TextField
                     key={index}
@@ -192,6 +226,48 @@ export default class Form extends Component {
                 formCtrl = (
                   <Checkbox checked={this.state.formData[id]}
                     onChange={this.handleChange.bind(this, id)}
+                  />
+                );
+                formGroup = getDefaultFormGroup(index, id, label, formCtrl);
+                break;
+              case 'ref': // 5
+                const referValue = this.state.formData[id];
+                let defaultData =   [{
+                  "id": referValue.id,
+                  "code": referValue.code,
+                  "name": referValue.name,
+                  "pid": "",
+                  "isLeaf": "true"
+                }];
+                // 参照的示例数据
+                // ```js
+                // defaultData =   [{
+                //   "id": "02EDD0F9-F384-43BF-9398-5E5781DAC5D0",
+                //   "code": "0502",
+                //   "name": "二车间",
+                //   "pid": "",
+                //   "isLeaf": "true"
+                // }];
+                // const referConditions = {"refCode":"dept","refType":"tree","rootName":"部门"};
+                // const referDataUrl = "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
+                // ```
+                const { referConditions, referDataUrl } = referValue.config;
+                formCtrl = (
+                  <Refers
+                    disabled={false}
+                    dropup={true}
+                    minLength={0}
+                    align="justify"
+                    emptyLabel=""
+                    labelKey="name"
+                    onChange={this.handleReferChange.bind(this, id)}
+                    onBlur={this.handleReferBlur.bind(this, id)}
+                    placeholder="请选择..."
+                    referConditions={referConditions}
+                    referDataUrl={referDataUrl}
+                    referType="list"
+                    defaultSelected={defaultData}
+                    ref={ref => this._myrefers = ref}
                   />
                 );
                 formGroup = getDefaultFormGroup(index, id, label, formCtrl);
