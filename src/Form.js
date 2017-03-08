@@ -124,6 +124,8 @@ export default class Form extends Component {
 
   /**
    * 参照的回调
+   * @param {String} fieldId
+   * @param {Array} selected
    * 目前不清楚为什么selected返回一个数组
    * 先不管三七二十一，直接扔到state中，让用户可以获取到
    * ```
@@ -149,7 +151,13 @@ export default class Form extends Component {
       }
     }));
   }
-  handleReferBlur(fieldId, event) {
+
+  /**
+   * 参照回调
+   * @param {String} fieldId
+   * @param {Event} event
+   */
+  handleReferBlur() {
     // console.log('blurblurblur'+event);
     // console.log(JSON.stringify(this._myrefers.getInstance().hideRefers()));
   }
@@ -232,12 +240,12 @@ export default class Form extends Component {
                 break;
               case 'ref': // 5
                 const referValue = this.state.formData[id];
-                let defaultData =   [{
-                  "id": referValue.id,
-                  "code": referValue.code,
-                  "name": referValue.name,
-                  "pid": "",
-                  "isLeaf": "true"
+                let defaultData = [{
+                  'id': referValue.id,
+                  'code': referValue.code,
+                  'name': referValue.name,
+                  'pid': '',
+                  'isLeaf': 'true'
                 }];
                 // 参照的示例数据
                 // ```js
@@ -255,7 +263,7 @@ export default class Form extends Component {
                 formCtrl = (
                   <Refers
                     disabled={false}
-                    dropup={true}
+                    dropup
                     minLength={0}
                     align="justify"
                     emptyLabel=""
