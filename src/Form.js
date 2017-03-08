@@ -270,45 +270,61 @@ export default class Form extends Component {
                 break;
               case 'ref': // 5
                 const referValue = this.state.formData[id];
-                let defaultData = [{
-                  'id': referValue.id,
-                  'code': referValue.code,
-                  'name': referValue.name,
-                  'pid': '',
-                  'isLeaf': 'true'
-                }];
-                // 参照的示例数据
-                // ```js
-                // defaultData =   [{
-                //   "id": "02EDD0F9-F384-43BF-9398-5E5781DAC5D0",
-                //   "code": "0502",
-                //   "name": "二车间",
-                //   "pid": "",
-                //   "isLeaf": "true"
-                // }];
-                // const referConditions = {"refCode":"dept","refType":"tree","rootName":"部门"};
-                // const referDataUrl = "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
-                // ```
-                const { referConditions, referDataUrl } = referValue.config;
-                formCtrl = (
-                  <Refers
-                    disabled={false}
-                    dropup
-                    minLength={0}
-                    align="justify"
-                    emptyLabel=""
-                    labelKey="name"
-                    onChange={this.handleReferChange.bind(this, id)}
-                    onBlur={this.handleReferBlur.bind(this, id)}
-                    placeholder="请选择..."
-                    referConditions={referConditions}
-                    referDataUrl={referDataUrl}
-                    referType="list"
-                    defaultSelected={defaultData}
-                    ref={ref => this._myrefers = ref}
-                  />
-                );
-                formGroup = getDefaultFormGroup(index, id, label, formCtrl);
+                if (referValue && referValue.id && referValue.code && referValue.name) {
+                  let defaultData = [{
+                    'id': referValue.id,
+                    'code': referValue.code,
+                    'name': referValue.name,
+                    'pid': '',
+                    'isLeaf': 'true'
+                  }];
+                  // 参照的示例数据
+                  // ```js
+                  // defaultData =   [{
+                  //   "id": "02EDD0F9-F384-43BF-9398-5E5781DAC5D0",
+                  //   "code": "0502",
+                  //   "name": "二车间",
+                  //   "pid": "",
+                  //   "isLeaf": "true"
+                  // }];
+                  // const referConditions = {"refCode":"dept","refType":"tree","rootName":"部门"};
+                  // const referDataUrl = "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
+                  // ```
+                  const { referConditions, referDataUrl } = referValue.config;
+                  formCtrl = (
+                    <Refers
+                      disabled={false}
+                      dropup
+                      minLength={0}
+                      align="justify"
+                      emptyLabel=""
+                      labelKey="name"
+                      onChange={this.handleReferChange.bind(this, id)}
+                      onBlur={this.handleReferBlur.bind(this, id)}
+                      placeholder="请选择..."
+                      referConditions={referConditions}
+                      referDataUrl={referDataUrl}
+                      referType="list"
+                      defaultSelected={defaultData}
+                      ref={ref => this._myrefers = ref}
+                    />
+                  );
+                  formGroup = getDefaultFormGroup(index, id, label, formCtrl);
+                } else {
+                  // fallback到纯文本框
+                  formGroup = (
+                    <TextField
+                      key={index}
+                      controlId={`formControl-${id}`}
+                      label={label}
+                      value={this.state.formData[id]}
+                      placeholder={placeholder}
+                      validation={validation}
+                      inForm
+                      onChange={this.handleChange.bind(this, id)}
+                    />
+                  );
+                }
                 break;
               case 'enum': // 6
                 formCtrl = (

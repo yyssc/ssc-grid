@@ -22,7 +22,8 @@ function getFieldsModel() {
     /*  7 */{type: 'double', id: 'jine', label: '金额'},
     /*  8 */{type: 'date', id: 'danjuriqi', label: '单据日期'},
     /*  9 */{type: 'boolean', id: 'qiyong', label: '启用'},
-    /* 10 */{type: 'ref', id: 'zuzhi', label: '组织'}
+    /* 10 */{type: 'ref', id: 'zuzhi', label: '组织'},
+    /* 11 */{type: 'ref', id: 'zhuguan', label: '主管'}
   ];
 }
 
@@ -50,7 +51,8 @@ function getDefaultFormData() {
         },
         referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
       }
-    }
+    },
+    zhuguan: null
   };
 }
 

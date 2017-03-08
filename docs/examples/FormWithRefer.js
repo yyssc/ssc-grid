@@ -1,6 +1,7 @@
 const mockFieldsModel = [
   {type: 'string', id: 'id', label: '主键', hidden: true},
-  {type: 'ref', id: 'zuzhi', label: '组织'}
+  {type: 'ref', id: 'zuzhi', label: '组织'},
+  {type: 'ref', id: 'bumenzhuguan', label: '部门主管'}
 ];
 
 const mockFormData = {
@@ -17,7 +18,8 @@ const mockFormData = {
       },
       referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
     }
-  }
+  },
+  bumenzhuguan: null
 };
 
 const FormWithReferExample = React.createClass({
