@@ -19,9 +19,7 @@ const DatePicker2 = index.DatePicker2;
 const Form = index.Form;
 const Grid = index.Grid;
 const MonthPicker = index.MonthPicker;
-const Refer = index.Refer;
 const TextField = index.TextField;
-const TreeRefer = index.TreeRefer;
 const YearPicker = index.YearPicker;
 
 //const bootstrapUtils = require('../../src/utils/bootstrapUtils');

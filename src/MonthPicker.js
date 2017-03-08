@@ -6,13 +6,18 @@ import _ from 'lodash';
 
 import MonthBox from './MonthBox';
 
+const Lang = {
+  months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月',
+    '九月', '十月', '十一月', '十二月']
+};
+
 /**
  * MonthPicker控件
  */
 export default class MonthPicker extends Component {
   static defaultProps = {
     monthFormat: 'YYYY-MM',
-    value: moment().format('YYYY-MM')
+    value: null
   }
 
   static propTypes = {
@@ -32,8 +37,8 @@ export default class MonthPicker extends Component {
     monthFormat: PropTypes.string,
     /**
      * 参数
-     * - `value` 年月字符串，比如`2017-02`
-     * - `formattedValue` 按照用户要求进行格式化之后的字符串，比如`2017年02月`
+     * - `value {String}` 年月字符串，比如`2017-02`
+     * - `formattedValue {String}` 按照用户要求进行格式化之后的字符串，比如`2017年02月`
      */
     onChange: PropTypes.func
   };
@@ -68,25 +73,27 @@ export default class MonthPicker extends Component {
 
   render() {
     const { value, monthFormat } = this.props;
-    const formattedValue = moment(value).format(monthFormat);
+    let formattedValue;
+    let yearMonthValue;
 
-    // 输入2017-02
-    // 输出{ year: 2017, month: 2 }
-    const mvalue = {
-      year: moment(value).toArray()[0],
-      month: moment(value).toArray()[1] + 1
-    };
-
-    const pickerLang = {
-      months: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月',
-        '九月', '十月', '十一月', '十二月']
-    };
+    if (value) {
+      formattedValue = moment(value).format(monthFormat);
+      // 输入2017-02
+      // 输出{ year: 2017, month: 2 }
+      yearMonthValue = {
+        year: moment(value).toArray()[0],
+        month: moment(value).toArray()[1] + 1
+      };
+    } else {
+      formattedValue = '';
+      yearMonthValue = {};
+    }
 
     return (<BieRenDeLunZi
       ref="pickAMonth"
       years={_.range(1000, 9999, 1)}
-      value={mvalue}
-      lang={pickerLang.months}
+      value={yearMonthValue}
+      lang={Lang.months}
       onChange={this.handleChange.bind(this)}
       onDismiss={this.handleDissmis.bind(this)}
     >

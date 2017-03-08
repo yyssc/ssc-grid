@@ -10,12 +10,12 @@ const MonthBox = React.createClass({
   },
   getInitialState() {
     return {
-      value: this.props.value || 'N/A'
+      value: this.props.value || ''
     };
   },
   componentWillReceiveProps(nextProps) {
     this.setState({
-      value: nextProps.value || 'N/A'
+      value: nextProps.value || ''
     });
   },
   handleClick(event) {
