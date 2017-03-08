@@ -26,9 +26,9 @@ export default class DatePicker2 extends Component {
     showYearDropdown: PropTypes.bool,
     /**
      * 参数：
-     * - value: ISO 8061格式时间字符串
-     * - formattedValue: 按照用户指定格式进行了格式化后的字符串
-     * - momentDate: moment.js对象
+     * - `value {String}`: ISO 8061格式时间字符串
+     * - `formattedValue {String}`: 按照用户指定格式进行了格式化后的字符串
+     * - `momentDate {Object}`: moment.js对象
      */
     onChange: PropTypes.func
   };
@@ -58,7 +58,7 @@ export default class DatePicker2 extends Component {
     return (<ReactDatePicker
       showMonthDropdown={showMonthDropdown}
       showYearDropdown={showYearDropdown}
-      selected={moment(value)}
+      selected={value ? moment(value) : null}
       onChange={this.handleChange.bind(this)} />);
   }
 }

@@ -9,7 +9,7 @@ import moment from 'moment';
 export default class YearPicker extends Component {
   static defaultProps = {
     yearFormat: 'YYYY',
-    value: moment().format('YYYY') // 今年
+    value: null
   }
 
   static propTypes = {
@@ -83,15 +83,22 @@ export default class YearPicker extends Component {
   }
 
   render() {
-    const { value, ...other } = this.props;
+    const { ...other } = this.props;
 
-    return (<NumberPicker
-      {...other}
-      min={2000}
-      max={2020}
-      value={value}
-      renderOption={this.renderOption.bind(this)}
-      onChange={this.handleChange.bind(this)}
-    />);
+    let value = this.props.value || '';
+
+    return (
+      <div>
+        <input />
+        <NumberPicker
+          {...other}
+          min={2000}
+          max={2020}
+          value={value}
+          renderOption={this.renderOption.bind(this)}
+          onChange={this.handleChange.bind(this)}
+        />
+      </div>
+    );
   }
 }
