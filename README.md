@@ -6,11 +6,11 @@ SSC 3.0 Grid组件
 
 ## 使用
 
-```
+```bash
 npm install ssc-grid --save
 ```
 
-```
+```jsx
 import { Grid } from 'ssc-grid';
 ...
 render() {
