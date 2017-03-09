@@ -163,8 +163,8 @@ export default class Form extends Component {
     this.setState(update(this.state, {
       formData: {
         [fieldId]: {
-          selected: {
-            $set: selected
+          $set: {
+            selected
           }
         }
       }
