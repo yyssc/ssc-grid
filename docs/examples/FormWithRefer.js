@@ -1,7 +1,25 @@
 const mockFieldsModel = [
   {type: 'string', id: 'id', label: '主键', hidden: true},
-  {type: 'ref', id: 'zuzhi', label: '组织'},
-  {type: 'ref', id: 'bumenzhuguan', label: '部门主管'}
+  {type: 'ref', id: 'zuzhi', label: '组织',
+    referConfig: {
+      referConditions: {
+        refCode: 'dept',
+        refType: 'tree',
+        rootName: '部门'
+      },
+      referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
+    }
+  },
+  {type: 'ref', id: 'bumenzhuguan', label: '部门主管',
+    referConfig: {
+      referConditions: {
+        refCode: 'dept',
+        refType: 'tree',
+        rootName: '部门'
+      },
+      referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
+    }
+  }
 ];
 
 const mockFormData = {
@@ -10,14 +28,6 @@ const mockFormData = {
     id: '02EDD0F9-F384-43BF-9398-5E5781DAC5D0',
     code: '0502',
     name: '二车间',
-    config: {
-      referConditions: {
-        refCode: 'dept',
-        refType: 'tree',
-        rootName: '部门'
-      },
-      referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
-    }
   },
   bumenzhuguan: null
 };
