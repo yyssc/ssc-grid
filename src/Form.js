@@ -270,14 +270,17 @@ export default class Form extends Component {
                 break;
               case 'ref': // 5
                 const referValue = this.state.formData[id];
+                let defaultData = [{
+                  'id': '',
+                  'code': '',
+                  'name': '',
+                  'pid': '',
+                  'isLeaf': 'true'
+                }];
                 if (referValue && referValue.id && referValue.code && referValue.name) {
-                  let defaultData = [{
-                    'id': referValue.id,
-                    'code': referValue.code,
-                    'name': referValue.name,
-                    'pid': '',
-                    'isLeaf': 'true'
-                  }];
+                  defaultData[0] = { ...referValue };
+                }
+                if (fieldModel.referConfig) {
                   // 参照的示例数据
                   // ```js
                   // defaultData =   [{

@@ -41,7 +41,18 @@ function getFieldsModel() {
                 },
                 referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
               }
-            }
+            },
+    /* 12 */{type: 'ref', id: 'shangjibumen', label: '上级部门',
+              referConfig: {
+                referConditions: {
+                  refCode: 'dept',
+                  refType: 'tree',
+                  rootName: '部门'
+                },
+                referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
+              }
+            },
+    /* 13 */{type: 'ref', id: 'shangjibumen2', label: '上级部门2' }
   ];
 }
 
@@ -62,7 +73,13 @@ function getDefaultFormData() {
       code: '0502',
       name: '二车间',
     },
-    zhuguan: null
+    zhuguan: null,
+    shangjibumen: {
+      id: '',
+      code: '',
+      name: ''
+    },
+    shangjibumen2: null
   };
 }
 
