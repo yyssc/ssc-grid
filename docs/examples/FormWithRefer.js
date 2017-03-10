@@ -1,35 +1,35 @@
 const mockFieldsModel = [
   {type: 'string', id: 'id', label: '主键', hidden: true},
-  {type: 'ref', id: 'zuzhi', label: '组织',
+  {type: 'ref', id: 'pk_org', label: '组织',
     referConfig: {
       referConditions: {
-        refCode: 'dept',
+        refCode: 'org',
         refType: 'tree',
-        rootName: '部门'
+        rootName: '组织'
       },
-      referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
+      referDataUrl: 'http://172.20.4.88:8088/refbase_ctr/queryRefJSON'
     }
   },
-  {type: 'ref', id: 'bumenzhuguan', label: '部门主管',
+  {type: 'ref', id: 'person', label: '部门主管',
     referConfig: {
       referConditions: {
-        refCode: 'dept',
+        refCode: 'user',
         refType: 'tree',
-        rootName: '部门'
+        rootName: '部门主管'
       },
-      referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
+      referDataUrl: 'http://172.20.4.88:8088/userCenter/queryUserAndDeptByDeptPk'
     }
   }
 ];
 
 const mockFormData = {
   id: '22EA0EB9-FABA-4224-B290-4D041A1DF773',
-  zuzhi: {
-    id: '02EDD0F9-F384-43BF-9398-5E5781DAC5D0',
-    code: '0502',
-    name: '二车间',
+  pk_org: {
+    id: 'G001ZM0000BASEDOCDEFAULTORG000000000',
+    code: '0001',
+    name: '默认组织',
   },
-  bumenzhuguan: null
+  person: null
 };
 
 const FormWithReferExample = React.createClass({

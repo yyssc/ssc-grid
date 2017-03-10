@@ -160,15 +160,28 @@ export default class Form extends Component {
    * ```
    */
   handleReferChange(fieldId, selected) {
-    this.setState(update(this.state, {
-      formData: {
-        [fieldId]: {
-          $set: {
-            selected
+    // 该字段可能是null
+    if (this.state.formData[fieldId]) {
+      this.setState(update(this.state, {
+        formData: {
+          [fieldId]: {
+            selected: {
+              $set: selected
+            }
           }
         }
-      }
-    }));
+      }));
+    } else {
+      this.setState(update(this.state, {
+        formData: {
+          [fieldId]: {
+            $set: {
+              selected
+            }
+          }
+        }
+      }));
+    }
   }
 
   /**
