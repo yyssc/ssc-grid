@@ -109,14 +109,41 @@ class Grid extends Component {
     /**
      * 当搜索框内容改变的时候
      */
-    onSearchChange: PropTypes.func
+    onSearchChange: PropTypes.func,
+    /**
+     * 直接映射ReactBootstrap的属性
+     * http://getbootstrap.com/css/#tables-striped
+     */
+    striped: PropTypes.bool,
+    /**
+     * 直接映射ReactBootstrap的属性
+     * http://getbootstrap.com/css/#tables-bordered
+     */
+    bordered: PropTypes.bool,
+    /**
+     * 直接映射ReactBootstrap的属性
+     * http://getbootstrap.com/css/#tables-condensed
+     */
+    condensed: PropTypes.bool,
+    /**
+     * 直接映射ReactBootstrap的属性
+     * http://getbootstrap.com/css/#tables-hover-rows
+     */
+    hover: PropTypes.bool
   };
 
   static defaultProps = {
     selectRow: null,
     operationColumn: null, // 默认不显示操作列
     operationColumnClass: 'td', // 默认的操作列必须是<td>组件
-    paging: false
+    paging: false,
+    /**
+     * 直接映射ReactBootstrap的属性
+     */
+    striped: false,
+    bordered: false,
+    condensed: false,
+    hover: false
   };
 
   constructor(props) {
@@ -262,6 +289,10 @@ class Grid extends Component {
       operationColumnClass: CustomComponent
     } = this.props;
 
+    // 直接映射react-bootstrap的属性
+    const { striped, bordered, condensed, hover } = this.props;
+    const reactBootstrapProps = { striped, bordered, condensed, hover };
+
     const { selectedRowsObj } = this.state;
 
     // 列模型不能为空，但是表体数据可以为空。
@@ -316,7 +347,7 @@ class Grid extends Component {
         {this.props.localSearch ? <TextField
           onChange={this.handleSearchChange.bind(this)}
         /> : null}
-        <Table striped bordered condensed hover>
+        <Table {...reactBootstrapProps}>
           <thead>
             <tr>
               { renderCheckboxHeader() }

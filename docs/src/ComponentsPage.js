@@ -33,6 +33,7 @@ import GridOperationSection from './sections/GridOperationSection';
 import GridPaginationSection from './sections/GridPaginationSection';
 import GridPropsSection from './sections/GridPropsSection';
 import GridSelectionSection from './sections/GridSelectionSection';
+import GridStyleSection from './sections/GridStyleSection';
 import MonthPickerBasicSection from './sections/MonthPickerBasicSection';
 import MonthPickerPropsSection from './sections/MonthPickerPropsSection';
 import TextFieldBasicSection from './sections/TextFieldBasicSection';
@@ -54,6 +55,7 @@ const sections = {
     gridColumnAlign: '#grid-column-align',
     gridCellFormatter: '#grid-cell-formatter',
     gridLocalSearch: '#grid-local-search',
+    gridStyle: '#grid-style',
     gridProps: '#grid-props',
   form: '#form',
     formBasic: '#form-basic',
@@ -215,6 +217,8 @@ const ComponentsPage = React.createClass({
               <GridCellFormatterSection />
               {this.renderScrollSpy(sections.gridLocalSearch)}
               <GridLocalSearchSection />
+              {this.renderScrollSpy(sections.gridStyle)}
+              <GridStyleSection />
               {this.renderScrollSpy(sections.gridProps)}
               <GridPropsSection />
 
@@ -351,6 +355,7 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.gridColumnAlign}>列对齐方式</NavItem>
                       <NavItem href={sections.gridCellFormatter}>单元格格式化</NavItem>
                       <NavItem href={sections.gridLocalSearch}>本地搜索</NavItem>
+                      <NavItem href={sections.gridStyle}>样式</NavItem>
                       <NavItem href={sections.gridProps}>属性</NavItem>
                     </SubNav>
 
