@@ -107,6 +107,18 @@ describe('<Form>', () => {
     assert.equal(getForm(instance).querySelectorAll('.form-group').length, 1);
   });
 
+  it('应该正常显示，当fieldsModel有定义，但是defaultData为空的时候', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={getFieldsModel()}
+        defaultData={{}}
+      />
+    );
+    // 一个14个字段定义，4个隐藏，10个可显示字段，还有一个
+    // form-group，这个form-group包含了“取消”和“保存”两个按钮
+    assert.equal(getForm(instance).querySelectorAll('.form-group').length, 11);
+  });
+
   it('uses "form" by default', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Form
