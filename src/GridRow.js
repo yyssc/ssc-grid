@@ -176,7 +176,7 @@ class GridRow extends Component {
           break;
         case 'date':
           // 传入的数据为空的时候，UI上直接显示空字符串就行
-          if (value === '' || value == null || value == undefined) {
+          if (value === '' || value === null || value === undefined) {
             cellContent = '';
           } else {
             cellContent = this.getDateFormat(columnModel, value);
