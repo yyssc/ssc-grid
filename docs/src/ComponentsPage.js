@@ -28,6 +28,7 @@ import GridBasicSection from './sections/GridBasicSection';
 import GridCellFormatterSection from './sections/GridCellFormatterSection';
 import GridColumnAlignSection from './sections/GridColumnAlignSection';
 import GridColumnClassSection from './sections/GridColumnClassSection';
+import GridEmptyValueSection from './sections/GridEmptyValueSection';
 import GridLocalSearchSection from './sections/GridLocalSearchSection';
 import GridOperationSection from './sections/GridOperationSection';
 import GridPaginationSection from './sections/GridPaginationSection';
@@ -56,6 +57,7 @@ const sections = {
     gridCellFormatter: '#grid-cell-formatter',
     gridLocalSearch: '#grid-local-search',
     gridStyle: '#grid-style',
+    gridEmptyValue: '#grid-empty-value',
     gridProps: '#grid-props',
   form: '#form',
     formBasic: '#form-basic',
@@ -219,6 +221,8 @@ const ComponentsPage = React.createClass({
               <GridLocalSearchSection />
               {this.renderScrollSpy(sections.gridStyle)}
               <GridStyleSection />
+              {this.renderScrollSpy(sections.gridEmptyValue)}
+              <GridEmptyValueSection />
               {this.renderScrollSpy(sections.gridProps)}
               <GridPropsSection />
 
@@ -356,6 +360,7 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.gridCellFormatter}>单元格格式化</NavItem>
                       <NavItem href={sections.gridLocalSearch}>本地搜索</NavItem>
                       <NavItem href={sections.gridStyle}>样式</NavItem>
+                      <NavItem href={sections.gridEmptyValue}>演示空值</NavItem>
                       <NavItem href={sections.gridProps}>属性</NavItem>
                     </SubNav>
 

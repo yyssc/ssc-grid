@@ -370,7 +370,47 @@ describe('<Grid>', () => {
     assert.equal(getTableCellContent(component, 1, 1), '222000');
   });
 
-  it('当传入为date类型，并且值为""/null/undefined，UI上显示空字符串', () => {
+  it('当传入为string[0]类型，并且值为""/null/undefined，UI上显示空字符串', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={[
+          {type: 'string', id: 'name', label: '名称'}
+        ]}
+        tableData={[
+          {name: ''},
+          {name: null},
+          {name: undefined},
+          {}
+        ]}
+      />
+    );
+    assert.equal(getTableCellContent(instance, 0, 0), '');
+    assert.equal(getTableCellContent(instance, 1, 0), '');
+    assert.equal(getTableCellContent(instance, 2, 0), '');
+    assert.equal(getTableCellContent(instance, 3, 0), '');
+  });
+
+  it('当传入为double[2]类型，并且值为""/null/undefined，UI上显示空字符串', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={[
+          {type: 'double', id: 'jine', label: '金额'}
+        ]}
+        tableData={[
+          {name: ''},
+          {name: null},
+          {name: undefined},
+          {}
+        ]}
+      />
+    );
+    assert.equal(getTableCellContent(instance, 0, 0), '');
+    assert.equal(getTableCellContent(instance, 1, 0), '');
+    assert.equal(getTableCellContent(instance, 2, 0), '');
+    assert.equal(getTableCellContent(instance, 3, 0), '');
+  });
+
+  it('当传入为date[3]类型，并且值为""/null/undefined，UI上显示空字符串', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Grid
         columnsModel={[
@@ -390,11 +430,51 @@ describe('<Grid>', () => {
     assert.equal(getTableCellContent(instance, 3, 0), '');
   });
 
-  it('当传入为string类型，并且值为""/null/undefined，UI上显示空字符串', () => {
+  it('当传入为boolean[4]类型，并且值为""/null/undefined，UI上显示空字符串', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Grid
         columnsModel={[
-          {type: 'string', id: 'name', label: '名称'}
+          {type: 'boolean', id: 'sex', label: '性别'}
+        ]}
+        tableData={[
+          {name: ''},
+          {name: null},
+          {name: undefined},
+          {}
+        ]}
+      />
+    );
+    assert.equal(getTableCellContent(instance, 0, 0), '');
+    assert.equal(getTableCellContent(instance, 1, 0), '');
+    assert.equal(getTableCellContent(instance, 2, 0), '');
+    assert.equal(getTableCellContent(instance, 3, 0), '');
+  });
+
+  it('当传入为ref[5]类型，并且值为""/null/undefined，UI上显示空字符串', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={[
+          {type: 'ref', id: 'pk_org', label: '组织'}
+        ]}
+        tableData={[
+          {name: ''},
+          {name: null},
+          {name: undefined},
+          {}
+        ]}
+      />
+    );
+    assert.equal(getTableCellContent(instance, 0, 0), '');
+    assert.equal(getTableCellContent(instance, 1, 0), '');
+    assert.equal(getTableCellContent(instance, 2, 0), '');
+    assert.equal(getTableCellContent(instance, 3, 0), '');
+  });
+
+  it('当传入为enum[6]类型，并且值为""/null/undefined，UI上显示空字符串', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={[
+          {type: 'enum', id: 'danjuleixing', label: '单据类型'}
         ]}
         tableData={[
           {name: ''},

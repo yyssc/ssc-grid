@@ -108,10 +108,12 @@ class GridRow extends Component {
 
   /**
    * 日期类型格式化
-   * columnModel.formatter:
-   * undefined - 不进行格式化
-   * {} - 进行格式化，使用默认格式化模板
-   * { format: 'yy/mm/dd' } - 按照指定的模板进行格式化
+   * @param {Object} columnModel
+   *   columnModel.formatter:
+   *     - undefined - 不进行格式化
+   *     - {} - 进行格式化，使用默认格式化模板
+   *     - { format: 'yy/mm/dd' } - 按照指定的模板进行格式化
+   * @param {String} value 必须是非空的字符串
    */
   getDateFormat(columnModel, value) {
     let dateFormat = null;
@@ -160,30 +162,38 @@ class GridRow extends Component {
             cellContent = value;
           }
           break;
-        case 'double': // 之前的金额类型
+        case 'double': // 2 之前的金额类型
           className = 'text-right';
-          cellContent = this.getNumberFormat(columnModel, value);
-          break;
-        case 'enum':
-          if (columnModel.data) {
-            let foundEnumItem = columnModel.data.find(enumItem => (enumItem.key === value));
-            if (typeof foundEnumItem !== 'undefined') {
-              cellContent = foundEnumItem.value;
-            }
+          if (value === null || value === undefined) {
+            cellContent = '';
+          } else {
+            cellContent = this.getNumberFormat(columnModel, value);
           }
           break;
-        case 'boolean':
-          cellContent = value ? '是' : '否';
-          break;
-        case 'ref': // 5
-          cellContent = value && value.name ? value.name : '';
-          break;
-        case 'date':
+        case 'date': // 3
           // 传入的数据为空的时候，UI上直接显示空字符串就行
           if (value === '' || value === null || value === undefined) {
             cellContent = '';
           } else {
             cellContent = this.getDateFormat(columnModel, value);
+          }
+          break;
+        case 'boolean': // 4
+          if (value === null || value === undefined) {
+            cellContent = '';
+          } else {
+            cellContent = value ? '是' : '否';
+          }
+          break;
+        case 'ref': // 5
+          cellContent = value && value.name ? value.name : '';
+          break;
+        case 'enum': // 6
+          if (columnModel.data) {
+            let foundEnumItem = columnModel.data.find(enumItem => (enumItem.key === value));
+            if (typeof foundEnumItem !== 'undefined') {
+              cellContent = foundEnumItem.value;
+            }
           }
           break;
       }
