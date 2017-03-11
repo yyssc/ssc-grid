@@ -9,13 +9,31 @@ const mockFieldsModel = [
     validation: {
       type: 'email'
     }
-  }
+  },
+  {type: 'ref', id: 'formValidationPkOrg', label: '组织',
+    validation: {
+      type: 'required'
+    },
+    referConfig: {
+      referConditions: {
+        refCode: 'org',
+        refType: 'tree',
+        rootName: '组织'
+      },
+      referDataUrl: 'http://172.20.4.88:8088/refbase_ctr/queryRefJSON'
+    }
+  },
 ];
 
 const mockFormData = {
   id: '22EA0EB9-FABA-4224-B290-4D041A1DF773',
   formValidationDanjubianhao: 'abc123',
-  formValidationEmail: 'a@b.com'
+  formValidationEmail: 'a@b.com',
+  formValidationPkOrg: {
+    id: 'G001ZM0000BASEDOCDEFAULTORG000000000',
+    code: '0001',
+    name: '默认组织',
+  },
 };
 
 const FormValidationExample = React.createClass({

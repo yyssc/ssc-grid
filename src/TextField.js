@@ -207,8 +207,11 @@ export default class TextField extends Component {
             </Col>
             <Col componentClass={ControlLabel} sm={2}>
               {label}
-              {validation.type === 'required' ?
-                <span style={{ color: 'red' }}>*</span> : null}
+              {
+                validation && validation.type === 'required'
+                  ? <span style={{ color: 'red' }}>*</span>
+                  : null
+              }
             </Col>
             <Col sm={5}>
               {formCtrl}

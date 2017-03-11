@@ -219,7 +219,7 @@ export default class Form extends Component {
               return null;
             }
 
-            const getDefaultFormGroup = (key, fieldId, fieldLabel, fieldFormCtrl) => {
+            function getDefaultFormGroup(key, fieldId, fieldLabel, fieldFormCtrl, fm) {
               return (
                 <FormGroup
                   key={key}
@@ -230,6 +230,11 @@ export default class Form extends Component {
                   </Col>
                   <Col componentClass={ControlLabel} sm={2}>
                     {fieldLabel}
+                    {
+                      fm.validation && fm.validation.type === 'required'
+                        ? <span style={{ color: 'red' }}>*</span>
+                        : null
+                    }
                   </Col>
                   <Col sm={5}>
                     {fieldFormCtrl}
@@ -240,7 +245,8 @@ export default class Form extends Component {
                   <FormControl.Feedback />
                 </FormGroup>
               );
-            };
+            }
+
             // 根据字段类型，生成不同的表单控件
             // 每个类型后面跟着的数字是后端传过来的datatype，这里提到的后端是
             // 用友自己的后端，Form组件并不依赖这些datetype数值，写在这里只是
@@ -271,7 +277,7 @@ export default class Form extends Component {
                     onChange={this.handleDatePickerChange.bind(this, id)}
                   />
                 );
-                formGroup = getDefaultFormGroup(index, id, label, formCtrl);
+                formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
                 break;
               case 'boolean': // 4
                 formCtrl = (
@@ -279,7 +285,7 @@ export default class Form extends Component {
                     onChange={this.handleChange.bind(this, id)}
                   />
                 );
-                formGroup = getDefaultFormGroup(index, id, label, formCtrl);
+                formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
                 break;
               case 'ref': // 5
                 const referValue = this.state.formData[id];
@@ -325,7 +331,7 @@ export default class Form extends Component {
                       ref={ref => this._myrefers = ref}
                     />
                   );
-                  formGroup = getDefaultFormGroup(index, id, label, formCtrl);
+                  formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
                 } else {
                   // fallback到纯文本框
                   formGroup = (
@@ -351,7 +357,7 @@ export default class Form extends Component {
                     {fieldModel.data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
                   </FormControl>
                 );
-                formGroup = getDefaultFormGroup(index, id, label, formCtrl);
+                formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
                 break;
             }
             return formGroup;
