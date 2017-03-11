@@ -370,4 +370,24 @@ describe('<Grid>', () => {
     assert.equal(getTableCellContent(component, 1, 1), '222000');
   });
 
+  it('当传入的时间为""/null/undefined，UI上显示空字符串', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={[
+          {type: 'date', id: 'riqi', label: '日期'}
+        ]}
+        tableData={[
+          { riqi: ''},
+          { riqi: null},
+          { riqi: undefined},
+          {}
+        ]}
+      />
+    );
+    assert.equal(getTableCellContent(instance, 0, 0), '');
+    assert.equal(getTableCellContent(instance, 1, 0), '');
+    assert.equal(getTableCellContent(instance, 2, 0), '');
+    assert.equal(getTableCellContent(instance, 3, 0), '');
+  });
+
 });
