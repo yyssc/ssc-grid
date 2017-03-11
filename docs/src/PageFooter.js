@@ -12,7 +12,7 @@ const PageFooter = React.createClass({
     return (
         <footer className="bs-docs-footer" role="contentinfo">
           <div className="container">
-            <div className="bs-docs-social">
+            {/* <div className="bs-docs-social">
               <ul className="bs-docs-social-buttons">
                 <li>
                   <iframe className="github-btn"
@@ -29,7 +29,7 @@ const PageFooter = React.createClass({
                     title="Fork on GitHub" />
                 </li>
               </ul>
-            </div>
+            </div> */}
             <p>Code licensed under <a href="https://github.com/yyssc/ssc-grid/blob/master/LICENSE" target="_blank">MIT</a>.</p>
             <ul className="bs-docs-footer-links muted">
               <li>最新版 v{version}</li>
