@@ -154,7 +154,11 @@ class GridRow extends Component {
       switch (columnModel.type) {
         default:
         case 'string': // 0
-          cellContent = value;
+          if (value === null || value === undefined) {
+            cellContent = '';
+          } else {
+            cellContent = value;
+          }
           break;
         case 'double': // 之前的金额类型
           className = 'text-right';
