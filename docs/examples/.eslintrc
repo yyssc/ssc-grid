@@ -9,6 +9,7 @@
 
     "DatePicker": false,
     "DatePicker2": false,
+    "Dropdown": false,
     "Form": false,
     "Grid": false,
     "MonthPicker": false,

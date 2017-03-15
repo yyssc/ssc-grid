@@ -168,17 +168,17 @@ describe('<Form>', () => {
     let form = getForm(instance);
     let formGroups = form.querySelectorAll('.form-group');
     if (!formGroups) {
-      console.log('formGroups not defined');
+      // console.log('formGroups not defined');
       return;
     }
     let formGroups1 = formGroups[1];
     if (!formGroups1) {
-      console.log('formGroups1 not defined');
+      // console.log('formGroups1 not defined');
       return;
     }
     let options = formGroups1.querySelectorAll('option');
     if (!options) {
-      console.log('options not defined');
+      // console.log('options not defined');
       return;
     }
     // options.forEach(opt => {

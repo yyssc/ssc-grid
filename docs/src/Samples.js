@@ -7,6 +7,7 @@ export default {
   DatePicker2YearMonthDropdown: require('fs').readFileSync(__dirname + '/../examples/DatePicker2YearMonthDropdown.js', 'utf8'),
   DatePickerBasic:              require('fs').readFileSync(__dirname + '/../examples/DatePickerBasic.js', 'utf8'),
   DatePickerFormatter:          require('fs').readFileSync(__dirname + '/../examples/DatePickerFormatter.js', 'utf8'),
+  DropdownBasic:                require('fs').readFileSync(__dirname + '/../examples/DropdownBasic.js', 'utf8'),
   FormBasic:                    require('fs').readFileSync(__dirname + '/../examples/FormBasic.js', 'utf8'),
   FormCustomField:              require('fs').readFileSync(__dirname + '/../examples/FormCustomField.js', 'utf8'),
   FormValidation:               require('fs').readFileSync(__dirname + '/../examples/FormValidation.js', 'utf8'),

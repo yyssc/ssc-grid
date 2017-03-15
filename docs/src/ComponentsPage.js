@@ -20,6 +20,8 @@ import DatePicker2PropsSection from './sections/DatePicker2PropsSection';
 import DatePickerBasicSection from './sections/DatePickerBasicSection';
 import DatePickerFormatterSection from './sections/DatePickerFormatterSection';
 import DatePickerPropsSection from './sections/DatePickerPropsSection';
+import DropdownBasicSection from './sections/DropdownBasicSection';
+import DropdownPropsSection from './sections/DropdownPropsSection';
 import FormBasicSection from './sections/FormBasicSection';
 import FormCustomFieldSection from './sections/FormCustomFieldSection';
 import FormValidationSection from './sections/FormValidationSection';
@@ -89,7 +91,10 @@ const sections = {
     yearPickerProps: '#year-picker-props',
   tree: '#tree',
     treeBasic: '#tree-basic',
-    treeProps: '#tree-props'
+    treeProps: '#tree-props',
+  dropdown: '#dropdown',
+    dropdownBasic: '#dropdown-basic',
+    dropdownProps: '#dropdown-props'
 };
 /* eslint-enable indent */
 
@@ -358,6 +363,22 @@ const ComponentsPage = React.createClass({
               <TreeBasicSection />
               {this.renderScrollSpy(sections.treeProps)}
               <TreePropsSection />
+
+              { /* Dropdown */ }
+
+              {this.renderScrollSpy(sections.dropdown)}
+              <div className="bs-docs-section">
+                <h1 className="page-header">
+                  <Anchor id="dropdown">Dropdown组件</Anchor>
+                </h1>
+
+                <p className="lead"></p>
+              </div>
+
+              {this.renderScrollSpy(sections.dropdownBasic)}
+              <DropdownBasicSection />
+              {this.renderScrollSpy(sections.dropdownProps)}
+              <DropdownPropsSection />
             </div>
 
 
@@ -429,6 +450,11 @@ const ComponentsPage = React.createClass({
                     <SubNav href={sections.tree} text="Tree">
                       <NavItem href={sections.treeBasic}>简单Tree</NavItem>
                       <NavItem href={sections.treeProps}>属性</NavItem>
+                    </SubNav>
+
+                    <SubNav href={sections.dropdown} text="Dropdown">
+                      <NavItem href={sections.dropdownBasic}>简单Dropdown</NavItem>
+                      <NavItem href={sections.dropdownProps}>属性</NavItem>
                     </SubNav>
                   </Nav>
 
