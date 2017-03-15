@@ -18,6 +18,8 @@
     "Tree": false,
     "YearPicker": false,
 
+    "FormControl": false,
+
     "bootstrapUtils": false,
 
     "mountNode": false

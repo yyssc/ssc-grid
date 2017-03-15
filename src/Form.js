@@ -25,15 +25,37 @@ export default class Form extends Component {
   static propTypes = {
     /**
      * 表单中的数据
+     * 字段类型type:
+     * - `string` 字符类型
+     * - `double` 数值类型
+     * - `date` 日期类型
+     * - `boolean` 布尔类型
+     * - `ref` 参照类型
+     * - `custom` 自定义类型
      * 比如：
-     * <pre><code>[{
-     *   type: 'string',
-     *   id: 'formValidationEmail',
-     *   label: '邮箱地址',
-     *   validation: {
-     *     type: 'email'
+     * ```json
+     * [
+     *   {
+     *     type: 'string',
+     *     id: 'formValidationEmail',
+     *     label: '邮箱地址',
+     *     validation: {
+     *       type: 'email'
+     *     }
+     *   },
+     *   {
+     *    type: 'custom',
+     *    component: <CustomComponent>
      *   }
-     * }]</code></pre>
+     * ]
+     * ```
+     * 对于自定义类型，需要调用者传入一个组件，下面提供了组件接口：
+     * ```
+     * propTypes: {
+     *   value: React.PropTypes.string,
+     *   onChange: React.PropTypes.func
+     * },
+     * ```
      */
     fieldsModel: PropTypes.array.isRequired,
     /**
@@ -41,16 +63,18 @@ export default class Form extends Component {
      * 时间类型比较特殊，请先转成
      * <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>格式的字符串
      * 之后，再传进来。
-     * <pre><code>defaultData = {
+     * ```
+     * defaultData = {
      *   date: new Date('2017-02-14').toISOString()
-     * }</code></pre>
+     * }
+     * ```
      */
     defaultData: PropTypes.object,
     /**
-     * 当控件的值发生改变的时候触发<br>
-     * 参数1, <code>fieldId</code>, 也就是传入组件中fieldsModel中的id<br>
-     * 参数2, <code>value</code>, 改变之后的值<br>
-     * 参数3, <code>opt</code>, 可选参数，当type为string/boolean/enum等简单类型的时候，可以
+     * 当控件的值发生改变的时候触发
+     * @param {String} `fieldId` 也就是传入组件中fieldsModel中的id<br>
+     * @param {String} `value` 改变之后的值<br>
+     * @param {Object} `opt` 可选参数，当type为string/boolean/enum等简单类型的时候，可以
      *             通过opt.event获取Event对象。<br>
      *             当type为date类型的时候，可以通过opt.formattedValue获取格式化
      *             之后的时间值。<br>
@@ -125,6 +149,27 @@ export default class Form extends Component {
     if (this.props.onChange) {
       this.props.onChange(fieldId, value, {
         formattedValue
+      });
+    }
+  }
+
+  /**
+   * 自定义类型字段发生变化的时候
+   * @param {String} fieldId 字段ID
+   * @param {*} value value为动态类型，具体类型由`CustomComponent.prop.value`的类型决定
+   */
+  handleCustomFieldChange(fieldId, value) {
+    this.setState(update(this.state, {
+      formData: {
+        [fieldId]: {
+          $set: value
+        }
+      }
+    }));
+
+    if (this.props.onChange) {
+      this.props.onChange(fieldId, value, {
+        event
       });
     }
   }
@@ -356,6 +401,15 @@ export default class Form extends Component {
                   >
                     {fieldModel.data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
                   </FormControl>
+                );
+                formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
+                break;
+              case 'custom': // 后端没有该类型，这是前端自己定义的
+                formCtrl = (
+                  <fieldModel.component
+                    value={this.state.formData[id]}
+                    onChange={this.handleCustomFieldChange.bind(this, id)}
+                  />
                 );
                 formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
                 break;

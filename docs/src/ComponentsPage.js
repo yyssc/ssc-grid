@@ -21,6 +21,7 @@ import DatePickerBasicSection from './sections/DatePickerBasicSection';
 import DatePickerFormatterSection from './sections/DatePickerFormatterSection';
 import DatePickerPropsSection from './sections/DatePickerPropsSection';
 import FormBasicSection from './sections/FormBasicSection';
+import FormCustomFieldSection from './sections/FormCustomFieldSection';
 import FormValidationSection from './sections/FormValidationSection';
 import FormWithReferSection from './sections/FormWithReferSection';
 import FormPropsSection from './sections/FormPropsSection';
@@ -65,6 +66,7 @@ const sections = {
     formBasic: '#form-basic',
     formValidation: '#form-validation',
     formWithRefer: '#form-with-refer',
+    formCustomField: '#form-custom-field',
     formProps: '#form-props',
   textField: '#text-field',
     textFieldBasic: '#text-field-basic',
@@ -248,6 +250,8 @@ const ComponentsPage = React.createClass({
               <FormValidationSection />
               {this.renderScrollSpy(sections.formWithRefer)}
               <FormWithReferSection />
+              {this.renderScrollSpy(sections.formCustomField)}
+              <FormCustomFieldSection />
               {this.renderScrollSpy(sections.formProps)}
               <FormPropsSection />
 
@@ -389,6 +393,7 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.formBasic}>简单表单</NavItem>
                       <NavItem href={sections.formValidation}>表单验证</NavItem>
                       <NavItem href={sections.formWithRefer}>参照</NavItem>
+                      <NavItem href={sections.formCustomField}>自定义类型字段</NavItem>
                       <NavItem href={sections.formProps}>属性</NavItem>
                     </SubNav>
 

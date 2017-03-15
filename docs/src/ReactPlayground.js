@@ -23,6 +23,9 @@ const TextField = index.TextField;
 const Tree = index.Tree;
 const YearPicker = index.YearPicker;
 
+// 例子中有些地方使用到了这些组件
+const FormControl = require('react-bootstrap/lib/FormControl');
+
 //const bootstrapUtils = require('../../src/utils/bootstrapUtils');
 const bootstrapUtils = require('react-bootstrap/lib/utils/bootstrapUtils');
 
