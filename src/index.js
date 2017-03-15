@@ -5,6 +5,7 @@ export Grid from './Grid';
 export GridRow from './GridRow';
 export MonthPicker from './MonthPicker';
 export TextField from './TextField';
+export Tree from './Tree';
 export YearPicker from './YearPicker';
 
 // export * as utils from './utils';

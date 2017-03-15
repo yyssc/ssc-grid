@@ -40,6 +40,8 @@ import MonthPickerPropsSection from './sections/MonthPickerPropsSection';
 import TextFieldBasicSection from './sections/TextFieldBasicSection';
 import TextFieldValidationSection from './sections/TextFieldValidationSection';
 import TextFieldPropsSection from './sections/TextFieldPropsSection';
+import TreeBasicSection from './sections/TreeBasicSection';
+import TreePropsSection from './sections/TreePropsSection';
 import YearPickerBasicSection from './sections/YearPickerBasicSection';
 import YearPickerPropsSection from './sections/YearPickerPropsSection';
 
@@ -82,7 +84,10 @@ const sections = {
     monthPickerProps: '#month-picker-props',
   yearPicker: '#year-picker',
     yearPickerBasic: '#year-picker-basic',
-    yearPickerProps: '#year-picker-props'
+    yearPickerProps: '#year-picker-props',
+  tree: '#tree',
+    treeBasic: '#tree-basic',
+    treeProps: '#tree-props'
 };
 /* eslint-enable indent */
 
@@ -333,6 +338,22 @@ const ComponentsPage = React.createClass({
               <YearPickerBasicSection />
               {this.renderScrollSpy(sections.yearPickerProps)}
               <YearPickerPropsSection />
+
+              { /* Tree */ }
+
+              {this.renderScrollSpy(sections.tree)}
+              <div className="bs-docs-section">
+                <h1 className="page-header">
+                  <Anchor id="tree">Tree组件</Anchor>
+                </h1>
+
+                <p className="lead"></p>
+              </div>
+
+              {this.renderScrollSpy(sections.treeBasic)}
+              <TreeBasicSection />
+              {this.renderScrollSpy(sections.treeProps)}
+              <TreePropsSection />
             </div>
 
 
@@ -398,6 +419,11 @@ const ComponentsPage = React.createClass({
                     <SubNav href={sections.yearPicker} text="YearPicker">
                       <NavItem href={sections.yearPickerBasic}>简单YearPicker</NavItem>
                       <NavItem href={sections.yearPickerProps}>属性</NavItem>
+                    </SubNav>
+
+                    <SubNav href={sections.tree} text="Tree">
+                      <NavItem href={sections.treeBasic}>简单Tree</NavItem>
+                      <NavItem href={sections.treeProps}>属性</NavItem>
                     </SubNav>
                   </Nav>
 

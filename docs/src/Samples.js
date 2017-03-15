@@ -23,5 +23,6 @@ export default {
   MonthPickerBasic:             require('fs').readFileSync(__dirname + '/../examples/MonthPickerBasic.js', 'utf8'),
   TextFieldBasic:               require('fs').readFileSync(__dirname + '/../examples/TextFieldBasic.js', 'utf8'),
   TextFieldValidation:          require('fs').readFileSync(__dirname + '/../examples/TextFieldValidation.js', 'utf8'),
+  TreeBasic:                    require('fs').readFileSync(__dirname + '/../examples/TreeBasic.js', 'utf8'),
   YearPickerBasic:              require('fs').readFileSync(__dirname + '/../examples/YearPickerBasic.js', 'utf8')
 };

@@ -20,6 +20,7 @@ const Form = index.Form;
 const Grid = index.Grid;
 const MonthPicker = index.MonthPicker;
 const TextField = index.TextField;
+const Tree = index.Tree;
 const YearPicker = index.YearPicker;
 
 //const bootstrapUtils = require('../../src/utils/bootstrapUtils');
