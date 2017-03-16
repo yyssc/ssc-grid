@@ -59,11 +59,13 @@ export default class TextField extends Component {
      * </ul>
      * <code>helpText</code>是错误提示。如果不提供，则使用默认错误提示。<br>
      * 如果是自定义类型，则通过<code>matchFunc</code>参数传递校验函数
-     * <pre><code>{
+     * ```
+     * {
      *   type: 'custom',
      *   helpText: '请输入正确的XX格式',
      *   matchFunc: () => {}
-     * }</code></pre>
+     * }
+     * ```
      * 当<code>matchFunc</code>返回值为true的时候，认为校验通过<br>
      * 对于自定义类型，如果不提供<code>helpText</code>，则默认不显示错误提示。
      */

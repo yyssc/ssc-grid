@@ -96,6 +96,11 @@ describe('<Form>', () => {
     return node.querySelectorAll('input')[index];
   }
 
+  function getSubmitButton(component) {
+    let formNode = getForm(component);
+    return formNode.querySelector('button[type=submit]');
+  }
+
   it('应该正常显示，当传入空数组和空对象的时候', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Form
@@ -212,4 +217,78 @@ describe('<Form>', () => {
     assert.equal(firstInputNode.value, 'test');
     assert.equal(instance.state.formData.danjubianhao, 'test');
   });
+
+  it('表单中必选项初始内容为空，验证初始状态应该是未知', () => {
+    let text0;
+    let text1;
+    let component = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={[
+          {type: 'string', id: 'name0', label: '名称0', validation: {type: 'required'}},
+          {type: 'string', id: 'name1', label: '名称1', validation: {type: 'required'}}
+        ]}
+        defaultData={{name0: '', name1: ''}}
+      />
+    );
+    // 提交按钮
+    let submitButton = getSubmitButton(component);
+
+    // 初始的时候，保存按钮状态不应该是disabled
+    assert.strictEqual(submitButton.disabled, false);
+
+    // 模拟鼠标点击提交按钮，提交按钮状态应该变成disabled
+    ReactTestUtils.Simulate.click(submitButton);
+    //assert.strictEqual(submitButton.disabled, true);
+
+    // 初始验证状态应该是未知
+    assert.strictEqual(component.state.fieldsValidationState.name0, null);
+    assert.strictEqual(component.state.fieldsValidationState.name1, null);
+
+    // 在表单中第一个文本框中输入内容，第一个文本框应该验证成功
+    text0 = getInput(component, 0);
+    text0.value = 'test';
+    ReactTestUtils.Simulate.change(text0);
+    assert.strictEqual(component.state.fieldsValidationState.name0, true);
+    assert.strictEqual(component.state.fieldsValidationState.name1, null);
+
+    // 在表单中第二个文本框中输入内容，第二个文本框应该验证成功
+    text1 = getInput(component, 1);
+    text1.value = 'test';
+    ReactTestUtils.Simulate.change(text1);
+    assert.strictEqual(component.state.fieldsValidationState.name0, true);
+    assert.strictEqual(component.state.fieldsValidationState.name1, true);
+
+    // 清空表单中第一个文本框中的内容，第一个文本框应该验证失败
+    text0 = getInput(component, 0);
+    text0.value = '';
+    ReactTestUtils.Simulate.change(text0);
+    assert.strictEqual(component.state.fieldsValidationState.name0, false);
+    assert.strictEqual(component.state.fieldsValidationState.name1, true);
+  });
+
+  it('表单中必填项初始有内容，后被清空，应该验证失败', () => {
+    let text0;
+    let text1;
+    let component = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={[
+          {type: 'string', id: 'name0', label: '名称0', validation: {type: 'required'}},
+          {type: 'string', id: 'name1', label: '名称1', validation: {type: 'required'}}
+        ]}
+        defaultData={{name0: 'test0', name1: 'test1'}}
+      />
+    );
+
+    // 初始验证状态应该是验证状态未知
+    assert.strictEqual(component.state.fieldsValidationState.name0, null);
+    assert.strictEqual(component.state.fieldsValidationState.name1, null);
+
+    // 清空表单中第一个文本框中的内容，第一个文本框应该验证失败
+    text0 = getInput(component, 0);
+    text0.value = '';
+    ReactTestUtils.Simulate.change(text0);
+    assert.strictEqual(component.state.fieldsValidationState.name0, false);
+    assert.strictEqual(component.state.fieldsValidationState.name1, null);
+  });
+
 });

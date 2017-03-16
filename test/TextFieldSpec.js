@@ -62,6 +62,11 @@ describe('<TextField>', () => {
     assert.equal(instance.state.value, 'modified');
   });
 
+  // 1. 初始输入框为空，没有显示校验错误的红色字样
+  // 2. 用户focus输入框，开始输入，不应该显示校验错误的红色字样
+  // 3. 用户blur输入框，应该显示红色字样
+  // 4. 用户focus输入框，继续输入，仍然显示红色字样
+  // 5. 输入了正确的Email地址，不再显示红色字样
   it('应该正确校验Email地址', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <TextField
@@ -69,9 +74,13 @@ describe('<TextField>', () => {
       />
     );
 
-    // 修改文本框中的值
     let textField = getTextField(instance);
     let inputNode = getInputInTextField(instance);
+
+    // 初始状态，不进行验证，UI不应该显示红色字体
+    assert.equal(textField.className.indexOf('has-error'), -1);
+
+    // 修改文本框中的值
     inputNode.value = 'not_email';
     ReactTestUtils.Simulate.change(inputNode);
     // 如果验证错误，会自动添加has-error，UI就可以显示红色字体了

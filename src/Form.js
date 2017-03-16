@@ -93,22 +93,50 @@ export default class Form extends Component {
     onReset: PropTypes.func
   };
 
-  state = {
-    formData: {...this.props.defaultData},
+  constructor(props) {
+    super(props);
     /**
-     * 字段email是fieldId, true表示校验成功
+     * 暂时只用于使用ref获取子组件的校验状态
+     * 结构示例
      * ```
      * {
-     *   email: true,
-     *   name: false
+     *   id: {TextField},
+     *   name: {TextField}
      * }
      * ```
      */
-    fieldsValidationState: {}
-  };
+    this.fieldRefs = {};
+    this.state = {
+      formData: {...this.props.defaultData},
+      /**
+       * 记录当前表单的验证状态，这是一个键值对，用户需要自己判断所有字段是否都
+       * 验证通过了
+       * 字段email是fieldId, true表示校验成功，false表示验证失败，
+       * null表示未知状态，比如Form组件刚初始化的时候，Form无法得知TextField组件的验证状态，
+       * 直到TextField的onChange事件触发的时候，才会将验证状态从TextField组件往上
+       * 传给Form组件
+       * ```
+       * {
+       *   email: true,
+       *   name: false,
+       *   name2: null
+       * }
+       * ```
+       */
+      fieldsValidationState: {}
+    };
+    // 初始化表单项的验证状态，全部为未定义
+    this.props.fieldsModel.forEach(fieldModel => {
+      if (fieldModel.validation) {
+        this.state.fieldsValidationState[fieldModel.id] = null;
+      }
+    });
+  }
 
-  constructor(props) {
-    super(props);
+  componentWillMount() {
+  }
+
+  componentDidMount() {
   }
 
   // 这里只处理简单类型的控件，比如input, select, checkbox
@@ -175,6 +203,9 @@ export default class Form extends Component {
   }
 
   handleSubmit(event) {
+    if (this.fieldRefs.name0) {
+      //console.log(this.fieldRefs.name0.state);
+    }
     if (this.props.onSubmit) {
       this.props.onSubmit(event, this.state.formData);
     }
@@ -239,12 +270,29 @@ export default class Form extends Component {
     // console.log(JSON.stringify(this._myrefers.getInstance().hideRefers()));
   }
 
-  calcAllFieldsValidationState(fieldsValidationState) {
+  /**
+   * 由于state只存储了所有字段的验证状态，所以需要专门计算一下总的状态
+   * 可以用在验证表单是否允许提交
+   * @param {Object} states 所有字段的验证状态
+   * 是一个键值对，比如{name: null, descr: null}，其中key表示字段id，value表示
+   * 验证状态，验证状态分三种
+   * - true 验证成功
+   * - false 验证失败
+   * - null 未知状态，比如TextField组件刚mount上的时候，还不知道验证状态，除非
+   *   触发了一次onChange事件，才能知道其验证状态
+   * @return {boolean} 验证状态
+   * - true 所有字段验证通过
+   * - false 有一个或者多个字段验证失败
+   * ({a: null, b: null}) => (true)
+   * ({a: true, b: true}) => (true)
+   * ({a: true, b: false}) => (false)
+   */
+  calcAllFieldsValidationState(states) {
     let result = true;
     let fieldId;
-    for (fieldId in fieldsValidationState) {
-      if (fieldsValidationState.hasOwnProperty(fieldId)) {
-        result = fieldsValidationState[fieldId] && result;
+    for (fieldId in states) {
+      if (states.hasOwnProperty(fieldId)) {
+        result = (states[fieldId] !== false) && result;
       }
     }
     return result;
@@ -303,6 +351,7 @@ export default class Form extends Component {
                 formGroup = (
                   <TextField
                     key={index}
+                    ref={(textField) => { this.fieldRefs[id] = textField; }}
                     controlId={`formControl-${id}`}
                     label={label}
                     value={this.state.formData[id]}
