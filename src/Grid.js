@@ -23,21 +23,23 @@ class Grid extends Component {
 
   static propTypes = {
     /**
-     * 表格填充数据<br>
+     * 表格填充数据
      * `type: boolean`，数据类型是
      * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Boolean_literals">boolean literal</a>或者是
      * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Data_types">Boolean类型</a>
-     * （注意和<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean全局对象</a>区分）<br>
+     * （注意和<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean全局对象</a>区分）
      * `type: ref`，参照的值比较特殊，是一个object:
-     * <pre><code>zuzhi: {
+     * ```
+     * pk_org: {
      *   id: '22EA0EB9-FABA-4224-B290-5D041A1DF773',
      *   code: '0403',
      *   name: '委外部'
-     * }</code></pre>
+     * }
+     * ```
      */
     tableData: PropTypes.array.isRequired,
     /**
-     * 表格模型，表头每一列的名称和类型<br>
+     * 表格模型，表头每一列的名称和类型
      * 可以通过hidden来隐藏列，只有当hidden===true的时候隐藏
      */
     columnsModel: PropTypes.array.isRequired,
@@ -46,43 +48,43 @@ class Grid extends Component {
      */
     onPagination: PropTypes.func,
     /**
-     * 是否启用行选择，复选框/单选框<br>
-     * 默认为<code>null</code>，不显示
-     * <pre><code>{
+     * 是否启用行选择，复选框/单选框
+     * 默认为`null`，不显示
+     * ```json
+     * {
      *   mode: 'checkbox',
      *   onSelect: (rowIdx, rowObj, isSelected, event) => {},
      *   onSelectAll: (tableData, isSelected, event) => {}
-     * }</code></pre>
-     * <code>mode</code>，<code>checkbox</code>复选，<code>radio</code>单选<br>
-     * <code>onSelect</code>，当选择单行的时候触发，参数：
-     * <ul>
-     * <li><code>rowIdx</code></li>行index
-     * <li><code>rowObj</code></li>行数据
-     * <li><code>isSelected</code></li>复选框/单选框选中状态true/false
-     * <li><code>event</code></li>Event对象
-     * </ul>
-     * <code>onSelectAll</code>，当选择所有行的时候触发，参数：
-     * <ul>
-     * <li><code>tableData</code></li>所有行的数据
-     * <li><code>isSelected</code></li>复选框/单选框选中状态true/false
-     * <li><code>event</code></li>Event对象
-     * </ul>
+     * }
+     * ```
+     * `mode`，`checkbox`复选，`radio`单选
+     * `onSelect`，当选择单行的时候触发，参数：
+     * - `rowIdx` 行index
+     * - `rowObj` 行数据
+     * - `isSelected` 复选框/单选框选中状态true/false
+     * - `event` Event对象
+     * `onSelectAll`，当选择所有行的时候触发，参数：
+     * - `tableData` 所有行的数据
+     * - `isSelected` 复选框/单选框选中状态true/false
+     * - `event` Event对象
      */
     selectRow: PropTypes.object,
 
     /**
-     * 每一行是否显示操作按钮列<br>
+     * 每一行是否显示操作按钮列
      * 默认的操作按钮在最右侧的列中，如果需要指定在左侧，可以通过
-     * <code>align</code>参数来设置<br>
-     * <pre><code>{
+     * `align`参数来设置
+     * ```
+     * {
      *   align: 'left'
-     * }</code></pre>
+     * }
+     * ```
      * 注意：当操作列和选择列同时存在的时候，选择列会显示在操作列的左侧
      */
     operationColumn: PropTypes.object,
     /**
-     * 自定义的操作列组件<br>
-     * 除非指定了<code>operationColumn</code>参数，否则操作列不会显示出来
+     * 自定义的操作列组件
+     * 除非指定了`operationColumn`参数，否则操作列不会显示出来
      */
     operationColumnClass: elementType,
 
@@ -165,13 +167,17 @@ class Grid extends Component {
       isHeadRowSelected: false
     };
 
-    const { tableData } = this.props;
-
-    // 初始化表体数据
-    this.state.tableData = [ ...tableData ];
+    /**
+     * 初始化表体数据
+     * props.tableData 用户传入的表体数据
+     * state.viewedTableData 显示在UI上的表体数据
+     * 因为Grid组件提供了本地搜索功能，所以props.tableData和state.viewedTableData
+     * 可能是不一样的
+     */
+    this.state.viewedTableData = [ ...this.props.tableData ];
 
     // 初始化的时候所有行都未被选中
-    tableData.forEach((item, index) => {
+    this.props.tableData.forEach((item, index) => {
       this.state.selectedRowsObj[index] = {
         selected: false
       };
@@ -185,8 +191,14 @@ class Grid extends Component {
   componentWillReceiveProps(nextProps) {
     // 更新表格体数据
     this.setState({
-      tableData: nextProps.tableData
+      viewedTableData: nextProps.tableData
     });
+    // 如果表格数据发生了变化，则清空行选中的状态
+    // console.log('===', nextProps.tableData === this.state.viewedTableData);
+    // console.log('==', nextProps.tableData == this.state.viewedTableData);
+    if (nextProps.tableData !== this.state.viewedTableData) {
+      this.updateAllRowsSelectedState(false);
+    }
   }
 
   handlePagination(eventKey) {
@@ -197,9 +209,8 @@ class Grid extends Component {
 
   // 同时更新所有行被选中的状态
   updateAllRowsSelectedState(isSelected) {
-    const { tableData } = this.state;
     const selectedRowsObj = {};
-    tableData.forEach((item, index) => {
+    this.state.viewedTableData.forEach((item, index) => {
       selectedRowsObj[index] = {
         selected: isSelected
       };
@@ -279,8 +290,9 @@ class Grid extends Component {
   // 搜索文本框内容改变之后，进行重新搜索
   handleSearchChange(event) {
     const searchText = event.target.value;
-    const tableData = searchFor(searchText, this.props.tableData);
-    this.setState({ tableData });
+    this.setState({
+      viewedTableData: searchFor(searchText, this.props.tableData)
+    });
   }
 
   render() {
@@ -357,7 +369,7 @@ class Grid extends Component {
           </thead>
           <tbody>
           {
-            this.state.tableData.map((row, rowIdx) => {
+            this.state.viewedTableData.map((row, rowIdx) => {
               let selected = false;
 
               // 该行是否被选中
