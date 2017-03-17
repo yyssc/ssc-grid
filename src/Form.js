@@ -6,6 +6,8 @@ import { Col } from 'react-bootstrap';
 
 import update from 'immutability-helper';
 
+import { getValidationObj } from './utils/validation';
+
 /**
  * 控件(control/widget)分类
  * Command input: Button, Drop-down list, ...
@@ -21,7 +23,7 @@ import TextField from './TextField';
 import DatePicker from './DatePicker';
 import { Refers } from 'ssc-refer';
 
-export default class Form extends Component {
+export default class SSCForm extends Component {
   static propTypes = {
     /**
      * 表单中的数据
@@ -109,26 +111,47 @@ export default class Form extends Component {
     this.state = {
       formData: {...this.props.defaultData},
       /**
-       * 记录当前表单的验证状态，这是一个键值对，用户需要自己判断所有字段是否都
-       * 验证通过了
-       * 字段email是fieldId, true表示校验成功，false表示验证失败，
-       * null表示未知状态，比如Form组件刚初始化的时候，Form无法得知TextField组件的验证状态，
-       * 直到TextField的onChange事件触发的时候，才会将验证状态从TextField组件往上
-       * 传给Form组件
+       * 记录当前表单的验证状态，这是一个键值对，其中key表示字段id，value表示
+       * 验证状态，用户需要自己判断所有字段是否都验证通过了
+       * 验证状态，验证状态分三种:
+       * - 'success' 验证成功
+       * - 'error' 验证失败
+       * - null 未知状态，比如TextField组件刚mount上的时候，还不知道验证状态，
+       * 除非触发了一次onChange事件，或者onSubmit才能知道其验证状态
        * ```
        * {
-       *   email: true,
-       *   name: false,
+       *   email: 'success',
+       *   name: 'error',
        *   name2: null
        * }
+       * 字段email是fieldId, 'success'是验证状态
+       * 这是react-bootstrap中关于form validation的直接映射
        * ```
        */
-      fieldsValidationState: {}
+      fieldsValidationState: {},
+      /**
+       * 验证失败时候显示的帮助信息
+       * ```
+       * {
+       *   email: '请输入正确的邮件地址',
+       *   name: '请输入必选项内容'
+       * }
+       * ```
+       * 这是react-bootstrap中关于form validation的直接映射
+       */
+      fieldsHelpText: {},
+      /**
+       * 提交按钮是否被禁用
+       * 当值为true的时候，提交按钮的样式为“禁用”
+       */
+      submitButtonDisabled: false
     };
+
     // 初始化表单项的验证状态，全部为未定义
     this.props.fieldsModel.forEach(fieldModel => {
       if (fieldModel.validation) {
         this.state.fieldsValidationState[fieldModel.id] = null;
+        this.state.fieldsHelpText[fieldModel.id] = '';
       }
     });
   }
@@ -139,9 +162,11 @@ export default class Form extends Component {
   componentDidMount() {
   }
 
-  // 这里只处理简单类型的控件，比如input, select, checkbox
-  // 不处理复杂类型的空间，比如date-picker
-  handleChange(fieldId, event, validationState) {
+  /**
+   * 这里只处理简单类型的控件，比如input, select, checkbox
+   * 不处理复杂类型的空间，比如date-picker
+   */
+  handleChange(fieldId, validation, event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     // const name = target.name;
@@ -152,14 +177,21 @@ export default class Form extends Component {
     newState.formData[fieldId] = value;
     this.setState(newState);
 
-    // undefined/null都不代表失败
-    this.setState(update(this.state, {
-      fieldsValidationState: {
-        [fieldId]: {
-          $set: !(validationState === false)
+    // 如果该字段需要校验，那么设置校验状态
+    if (validation) {
+      this.setState(update(this.state, {
+        fieldsValidationState: {
+          [fieldId]: {
+            $set: this.calcValidationState(value, validation).validationState
+          }
         }
-      }
-    }));
+      }), (/* prevState, props */) => {
+        // 现在校验状态来决定提交按钮的状态
+        this.setState({
+          submitButtonDisabled: !this.isStatesValid(this.state.fieldsValidationState)
+        });
+      });
+    }
 
     if (this.props.onChange) {
       this.props.onChange(fieldId, value, {
@@ -203,11 +235,44 @@ export default class Form extends Component {
   }
 
   handleSubmit(event) {
-    if (this.fieldRefs.name0) {
-      //console.log(this.fieldRefs.name0.state);
-    }
-    if (this.props.onSubmit) {
-      this.props.onSubmit(event, this.state.formData);
+    const { formData } = this.state;
+    let fieldsValidationState = {};
+    let fieldsHelpText = {};
+
+    // 遍历所有表单项然后一一做校验
+    this.props.fieldsModel.forEach(fieldModel => {
+      if (fieldModel.validation) {
+        let value = '';
+        if (fieldModel.type === 'ref') {
+          value = formData[fieldModel.id].name;
+        } else {
+          value = formData[fieldModel.id];
+        }
+        let result = this.calcValidationState(value, fieldModel.validation);
+        fieldsValidationState[fieldModel.id] = result.validationState;
+        fieldsHelpText[fieldModel.id] = result.helpText;
+      }
+    });
+    this.setState(update(this.state, {
+      fieldsValidationState: {
+        $set: fieldsValidationState
+      },
+      fieldsHelpText: {
+        $set: fieldsHelpText
+      }
+    }));
+
+    if (this.isStatesValid(fieldsValidationState)) {
+      this.setState({
+        submitButtonDisabled: false
+      });
+      if (this.props.onSubmit) {
+        this.props.onSubmit(event, formData);
+      }
+    } else {
+      this.setState({
+        submitButtonDisabled: true
+      });
     }
   }
 
@@ -271,31 +336,63 @@ export default class Form extends Component {
   }
 
   /**
+   * 校验字段
+   * @param {String|null} vstate react-bootstrap的验证状态
+   */
+  isFieldValid(vstate) {
+    return vstate !== 'error';
+  }
+
+  /**
    * 由于state只存储了所有字段的验证状态，所以需要专门计算一下总的状态
    * 可以用在验证表单是否允许提交
-   * @param {Object} states 所有字段的验证状态
-   * 是一个键值对，比如{name: null, descr: null}，其中key表示字段id，value表示
-   * 验证状态，验证状态分三种
-   * - true 验证成功
-   * - false 验证失败
-   * - null 未知状态，比如TextField组件刚mount上的时候，还不知道验证状态，除非
-   *   触发了一次onChange事件，才能知道其验证状态
    * @return {boolean} 验证状态
    * - true 所有字段验证通过
    * - false 有一个或者多个字段验证失败
-   * ({a: null, b: null}) => (true)
-   * ({a: true, b: true}) => (true)
-   * ({a: true, b: false}) => (false)
+   * ({name: null, age: null}) => (true)
+   * ({name: 'success', age: 'success'}) => (true)
+   * ({name: 'success', age: 'error'}) => (false)
    */
-  calcAllFieldsValidationState(states) {
-    let result = true;
+  isAllFieldsValid() {
+    const { fieldsValidationState } = this.state;
+    return this.isStatesValid(fieldsValidationState);
+  }
+
+  isStatesValid(states) {
+    let isAllValid = true;
     let fieldId;
+
+    // 遍历检查每个需要校验的字段的状态
     for (fieldId in states) {
       if (states.hasOwnProperty(fieldId)) {
-        result = (states[fieldId] !== false) && result;
+        isAllValid = isAllValid && this.isFieldValid(states[fieldId]);
       }
     }
-    return result;
+
+    return isAllValid;
+  }
+
+  calcValidationState(value, validation) {
+    let validationObj = getValidationObj(validation);
+    let validationResult = validationObj.matchFunc(value);
+    return {
+      validationState: validationResult ? 'success' : 'error',
+      helpText: validationResult ? '' : validationObj.helpText
+    };
+  }
+
+  /**
+   * 校验状态
+   */
+  getFieldValidationState(fieldId) {
+    return this.state.fieldsValidationState[fieldId];
+  }
+
+  /**
+   * 校验帮助信息
+   */
+  getFieldHelpText(fieldId) {
+    return this.state.fieldsHelpText[fieldId];
   }
 
   render() {
@@ -357,8 +454,10 @@ export default class Form extends Component {
                     value={this.state.formData[id]}
                     placeholder={placeholder}
                     validation={validation}
+                    validationState={this.getFieldValidationState(id)}
+                    helpText={this.isFieldValid(id) ? null : this.getFieldHelpText(id)}
                     inForm
-                    onChange={this.handleChange.bind(this, id)}
+                    onChange={this.handleChange.bind(this, id, validation)}
                   />
                 );
                 break;
@@ -376,7 +475,7 @@ export default class Form extends Component {
               case 'boolean': // 4
                 formCtrl = (
                   <Checkbox checked={this.state.formData[id]}
-                    onChange={this.handleChange.bind(this, id)}
+                    onChange={this.handleChange.bind(this, id, validation)}
                   />
                 );
                 formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
@@ -437,7 +536,7 @@ export default class Form extends Component {
                       placeholder={placeholder}
                       validation={validation}
                       inForm
-                      onChange={this.handleChange.bind(this, id)}
+                      onChange={this.handleChange.bind(this, id, validation)}
                     />
                   );
                 }
@@ -446,7 +545,7 @@ export default class Form extends Component {
                 formCtrl = (
                   <FormControl componentClass="select" placeholder={placeholder && '请选择'}
                     value={this.state.formData[id]}
-                    onChange={this.handleChange.bind(this, id)}
+                    onChange={this.handleChange.bind(this, id, validation)}
                   >
                     {fieldModel.data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
                   </FormControl>
@@ -471,8 +570,11 @@ export default class Form extends Component {
             <Button bsStyle="info" onClick={this.handleReset.bind(this)} type="reset">
               取消
             </Button>
-            <Button bsStyle="info" onClick={this.handleSubmit.bind(this)}
-              type="submit" disabled={!this.calcAllFieldsValidationState(this.state.fieldsValidationState)}
+            <Button
+              bsStyle="info"
+              type="submit"
+              disabled={this.state.submitButtonDisabled}
+              onClick={this.handleSubmit.bind(this)}
             >完成</Button>
           </Col>
         </FormGroup>

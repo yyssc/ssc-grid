@@ -1,7 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 
-import { Col } from 'react-bootstrap';
+// 表单(form)控件(control/widget)
 import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
+
+// 布局
+import { Col } from 'react-bootstrap';
+
+// import validator from 'validator';
+
+import { getValidationObj } from './utils/validation';
 
 /**
  * 控件(control/widget)分类
@@ -19,7 +26,7 @@ export default class TextField extends Component {
   static defaultProps = {
     value: '',
     inForm: false,
-    validationState: null
+    runValidation: false,
   }
 
   static propTypes = {
@@ -71,15 +78,10 @@ export default class TextField extends Component {
      */
     inForm: PropTypes.bool,
     /**
-     * one of: 'success', 'warning', 'error', null
-     * 这是react-bootstrap中FormGroup的validationState的直接映射
-     * https://react-bootstrap.github.io/components.html#forms-props-form-group
+     * 通过这个开关来让父组件可以“调用”子组件的校验方法
+     * 初始值是false，如果用户传入true，则调用校验方法
      */
-    validationState: PropTypes.string,
-    /**
-     * 显示验证帮助
-     */
-    helpText: PropTypes.string,
+    runValidation: PropTypes.bool,
     /**
      * 当文本框内容被修改时候调用
      */
@@ -89,26 +91,79 @@ export default class TextField extends Component {
   state = {
     value: this.props.value,
     helpText: '',
+    /**
+     * one of: 'success', 'warning', 'error', null
+     * 这是react-bootstrap中FormGroup的validationState的直接映射
+     * https://react-bootstrap.github.io/components.html#forms-props-form-group
+     */
+    validationState: null
   };
 
   constructor(props) {
     super(props);
   }
 
+  calcValidationState(value) {
+    let validationObj = getValidationObj(this.props.validation);
+    let validationResult = validationObj.matchFunc(value);
+    return {
+      state: validationResult,
+      validationState: validationResult ? 'success' : 'error',
+      helpText: validationResult ? '' : validationObj.helpText
+    };
+  }
+
   handleChange(event) {
+    const { validation } = this.props;
     const { value } = event.target;
 
     this.setState({ value });
 
+    // 如果需要校验，则调用校验函数，然后设置校验状态
+    if (validation) {
+      const { validationState, helpText } = this.calcValidationState(value);
+      this.setState({
+        validationState,
+        helpText
+      }, () => {
+      });
+    }
+
     if (this.props.onChange) {
-      this.props.onChange(event);
+      if (validation) {
+        const { state } = this.calcValidationState(value);
+        this.props.onChange(event, state);
+      } else {
+        this.props.onChange(event);
+      }
     }
   }
 
-  handleBlur(/* event */) {
+  handleBlur(event) {
+    const { value } = event.target;
+    // 如果需要校验，则调用校验函数，然后设置校验状态
+    if (this.props.validation) {
+      const { validationState, helpText } = this.calcValidationState(value);
+      this.setState({
+        validationState,
+        helpText
+      });
+    }
   }
 
   handleFocus(/* event */) {
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // 父组件通过修改这个属性来调用组件内的方法
+    if (nextProps.runValidation === true) {
+      const { validationState, helpText } = this.calcValidationState(this.state.value);
+      this.setState({
+        validationState,
+        helpText
+      }, (/* prevState, props */) => {
+      });
+    }
   }
 
   render() {
@@ -131,12 +186,12 @@ export default class TextField extends Component {
       if (validation) {
         textField = (
           <FormGroup
-            validationState={this.props.validationState}
+            validationState={this.state.validationState}
             controlId={controlId}
           >
             {formCtrl}
             <FormControl.Feedback />
-            <HelpBlock>{this.props.helpText}</HelpBlock>
+            <HelpBlock>{this.state.helpText}</HelpBlock>
           </FormGroup>
         );
       } else {
@@ -152,7 +207,7 @@ export default class TextField extends Component {
       if (validation) {
         textField = (
           <FormGroup
-            validationState={this.props.validationState}
+            validationState={this.state.validationState}
             controlId={controlId}
           >
             <Col sm={2}>
@@ -169,7 +224,7 @@ export default class TextField extends Component {
             <Col sm={5}>
               {formCtrl}
               <FormControl.Feedback />
-              <HelpBlock>{this.props.helpText}</HelpBlock>
+              <HelpBlock>{this.state.helpText}</HelpBlock>
             </Col>
             <Col sm={3}>
               {}

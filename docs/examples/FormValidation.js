@@ -1,14 +1,13 @@
 const mockFieldsModel = [
   {type: 'string', id: 'id', label: '主键', hidden: true},
+  {type: 'string', id: 'formValidationName', label: '名称',
+    validation: {type: 'required'}
+  },
   {type: 'string', id: 'formValidationDanjubianhao', label: '单据编号',
-    validation: {
-      type: 'required'
-    }
+    validation: {type: 'required'}
   },
   {type: 'string', id: 'formValidationEmail', label: '邮箱地址',
-    validation: {
-      type: 'email'
-    }
+    validation: {type: 'email'}
   },
   {type: 'ref', id: 'formValidationPkOrg', label: '组织',
     validation: {
@@ -27,6 +26,7 @@ const mockFieldsModel = [
 
 const mockFormData = {
   id: '22EA0EB9-FABA-4224-B290-4D041A1DF773',
+  formValidationName: '',
   formValidationDanjubianhao: 'abc123',
   formValidationEmail: 'a@b.com',
   formValidationPkOrg: {
