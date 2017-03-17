@@ -6,7 +6,9 @@ import TextField from '../src/TextField';
 
 describe('<TextField>', () => {
 
-  // helper function
+  /**
+   * helper function
+   */
 
   function getTextField(instance) {
     return ReactDOM.findDOMNode(instance);
@@ -15,6 +17,32 @@ describe('<TextField>', () => {
   function getInputInTextField(instance) {
     return getTextField(instance).querySelector('input');
   }
+
+  /**
+   * 文本框是否有验证错误样式
+   * 如果验证错误，className会自动添加has-error，UI就可以显示红色错误提示
+   */
+  // const hasErrorStyle = textField => {
+  //   return textField.className.indexOf('has-error') !== -1;
+  // };
+
+  /**
+   * 文本框是否有验证成功的样式
+   * 如果验证成功，className会自动添加has-success，UI就可以显示绿色的成功提示
+   */
+  // const hasSuccessStyle = textField => {
+  //   return textField.className.indexOf('has-success') !== -1;
+  // };
+
+  /**
+   * 文本框没有校验状态的样式
+   * 如果没有开始进行校验，className中不应该存在has-{success/warning/error}
+   */
+  // const hasNoValidationStateStyle = ({className}) => (
+  //   ['has-success', 'has-warning', 'has-error'].reduce((accumulator, currentStyleName) => (
+  //     accumulator && className.indexOf(currentStyleName) === -1
+  //   ), true)
+  // );
 
   it('uses "div" by default', () => {
     let instance = ReactTestUtils.renderIntoDocument(
@@ -62,6 +90,7 @@ describe('<TextField>', () => {
     assert.equal(instance.state.value, 'modified');
   });
 
+  /*
   it('应该正确校验Email地址', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <TextField
@@ -69,13 +98,86 @@ describe('<TextField>', () => {
       />
     );
 
-    // 修改文本框中的值
     let textField = getTextField(instance);
     let inputNode = getInputInTextField(instance);
-    inputNode.value = 'not_email';
+
+    assert.equal(hasNoValidationStateStyle(textField), true,
+      '1. 组件刚初始化完，输入框为空，不应该显示校验样式');
+
+    ReactTestUtils.Simulate.focus(inputNode);
+    assert.equal(hasNoValidationStateStyle(textField), true,
+      '2. 用户focus到输入框，还没有开始输入，不应该显示校验状态');
+
+    inputNode.value = 'chenyangf@';
     ReactTestUtils.Simulate.change(inputNode);
-    // 如果验证错误，会自动添加has-error，UI就可以显示红色字体了
-    assert.notEqual(textField.className.indexOf('has-error'), -1);
+    assert.equal(hasErrorStyle(textField), true,
+      '3. 用户往文本框输入内容“chenyangf@”，应该显示校验错误的红色样式');
+
+    inputNode.value = 'chenyangf@yonyou.com';
+    ReactTestUtils.Simulate.change(inputNode);
+    assert.equal(hasSuccessStyle(textField), true,
+      '4. 用户往文本框输入内容“chenyangf@yonyou.com”，应该校验成功');
   });
+  */
+
+  /*
+  it('应该正确进行非空校验', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <TextField
+        value=""
+        validation={{ type: 'required' }}
+      />
+    );
+
+    let textField = getTextField(instance);
+    let inputNode = getInputInTextField(instance);
+
+    // 获取文本框校验状态的提示信息
+    const getHelpText = textField => textField.querySelector('span.help-block').textContent;
+
+    assert.equal(hasNoValidationStateStyle(textField), true,
+      '1. 组件刚初始化完，输入框为空，不应该显示校验状态');
+    assert.equal(getHelpText(textField), '',
+      '1.1 不应该显示错误提示');
+    assert.equal(instance.state.validationState, null);
+
+    ReactTestUtils.Simulate.focus(inputNode);
+    assert.equal(hasNoValidationStateStyle(textField), true,
+      '2. 用户focus到输入框，还没有开始输入，不应该显示校验状态');
+    assert.equal(getHelpText(textField), '',
+      '2.1 不应该显示错误提示');
+    assert.equal(instance.state.validationState, null);
+
+    ReactTestUtils.Simulate.blur(inputNode);
+    assert.equal(hasErrorStyle(textField), true,
+      '3. 用户blur出输入框，应该显示校验失败状态');
+    assert.equal(getHelpText(textField), '必须输入该字段！',
+      '3.1 应该显示错误提示');
+    assert.equal(instance.state.validationState, 'error');
+
+    ReactTestUtils.Simulate.focus(inputNode);
+    assert.equal(hasErrorStyle(textField), true,
+      '4. 用户focus到输入框，应该仍然显示校验失败');
+    assert.equal(getHelpText(textField), '必须输入该字段！',
+      '4.1 应该显示错误提示');
+    assert.equal(instance.state.validationState, 'error');
+
+    inputNode.value = 'd3vin';
+    ReactTestUtils.Simulate.change(inputNode);
+    assert.equal(hasSuccessStyle(textField), true,
+      '5. 用户往文本框输入任意内容，应该校验成功');
+    assert.equal(getHelpText(textField), '',
+      '5.1 不应该显示错误提示');
+    assert.equal(instance.state.validationState, 'success');
+
+    inputNode.value = '';
+    ReactTestUtils.Simulate.change(inputNode);
+    assert.equal(hasErrorStyle(textField), true,
+      '6. 用户清空文本框，应该校验失败');
+    assert.equal(getHelpText(textField), '必须输入该字段！',
+      '6.1 应该显示错误提示');
+    assert.equal(instance.state.validationState, 'error');
+  });
+  */
 
 });
