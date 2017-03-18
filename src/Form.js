@@ -455,7 +455,11 @@ export default class SSCForm extends Component {
                     placeholder={placeholder}
                     validation={validation}
                     validationState={this.getFieldValidationState(id)}
-                    helpText={this.isFieldValid(id) ? null : this.getFieldHelpText(id)}
+                    helpText={
+                      this.isFieldValid(this.state.fieldsValidationState[id])
+                      ? null
+                      : this.getFieldHelpText(id)
+                    }
                     inForm
                     onChange={this.handleChange.bind(this, id, validation)}
                   />
