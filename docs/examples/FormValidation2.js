@@ -19,7 +19,7 @@ const mockFieldsModel = [
         refType: 'tree',
         rootName: '组织'
       },
-      referDataUrl: 'http://172.20.4.88:8088/refbase_ctr/queryRefJSON'
+      referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON'
     }
   },
 ];

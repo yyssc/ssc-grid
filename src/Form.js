@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 
-import { Button, Form as ReactBootstrapForm, FormGroup, ControlLabel } from 'react-bootstrap';
+import { Button, Form as ReactBootstrapForm, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 
 import update from 'immutability-helper';
@@ -22,6 +22,135 @@ import { FormControl, Checkbox } from 'react-bootstrap';
 import TextField from './TextField';
 import DatePicker from './DatePicker';
 import { Refers } from 'ssc-refer';
+
+/**
+ * helper functions
+ */
+
+/**
+ * 校验字段
+ * @param {String|null} vstate react-bootstrap的验证状态
+ */
+function isFieldValid(vstate) {
+  return vstate !== 'error';
+}
+
+/**
+ * 判断校验对象是否全部正确
+ * @param {Object} states
+ * @return {boolean}
+ */
+function isStatesValid(states) {
+  let isAllValid = true;
+  let fieldId;
+
+  // 遍历检查每个需要校验的字段的状态
+  for (fieldId in states) {
+    if (states.hasOwnProperty(fieldId)) {
+      isAllValid = isAllValid && isFieldValid(states[fieldId]);
+    }
+  }
+
+  return isAllValid;
+}
+
+
+/**
+ * 对一个字段进行校验
+ * @param {String} value
+ * @param {Object} validation
+ */
+function calcValidationState(value, validation) {
+  let validationObj = getValidationObj(validation);
+  let validationResult = validationObj.matchFunc(value);
+  return {
+    validationState: validationResult ? 'success' : 'error',
+    helpText: validationResult ? '' : validationObj.helpText
+  };
+}
+
+/**
+ * 从表单数据中获取值
+ * @param {Object} fieldModel
+ * @param {Object} formData
+ * @return {String} 对于参照这种复杂类型，需要返回字符类型的显示值
+ * stateless
+ */
+function getFieldValue(fieldModel, formData) {
+  let value = '';
+  if (fieldModel.type === 'ref') {
+    value = formData[fieldModel.id]
+      ? formData[fieldModel.id].name
+      : '';
+  } else {
+    value = formData[fieldModel.id];
+  }
+  return value;
+}
+
+/**
+ * 模拟redux dispatch去更新state
+ * https://medium.com/@wereHamster/beware-react-setstate-is-asynchronous-ce87ef1a9cf3#.52vhwpymp
+ */
+
+/**
+ * 更新表单中一个字段
+ * @param {String} fieldId
+ * @param {Array} selected 该字段的类型由Refer组件决定，可能会变化，
+ * 现在假定是如下结构
+ * ```
+ * [{
+ *     "id": "E6CB6CBE-C701-48EC-A3EB-C823DF8DBEED",
+ *     "isLeaf": "true",
+ *     "name": "测试组织1",
+ *     "pid": "FBA1DBB5-24A2-4A78-A4D5-453F7CC46AA6",
+ *     "code": "02"
+ * }]
+ * ```
+ */
+function updateReferFieldValue(fieldId, selected) {
+  return (prevState/* , props */) => {
+    return update(prevState, {
+      formData: {
+        [fieldId]: { $set: selected[0] }
+      }
+    });
+  };
+}
+
+/**
+ * 更新表单字段的验证状态
+ * stateless
+ * @param {String} fieldId
+ * @param {String} value
+ * @param {Object} validation
+ */
+function updateFormFieldValidationState(fieldId, value, validation) {
+  return (prevState/* , props */) => {
+    return update(prevState, {
+      fieldsValidationState: {
+        [fieldId]: {
+          $set: calcValidationState(value, validation).validationState
+        }
+      }
+    });
+  };
+}
+
+/**
+ * 更新提交按钮的状态
+ * @param {String} fieldId
+ * @param {Array} selected 该字段的类型由Refer组件决定，可能会变化
+ */
+function updateSubmitButtonState() {
+  return (prevState/* , props */) => {
+    return update(prevState, {
+      submitButtonDisabled: {
+        $set: !isStatesValid(prevState.fieldsValidationState)
+      }
+    });
+  };
+}
 
 export default class SSCForm extends Component {
   static propTypes = {
@@ -182,13 +311,13 @@ export default class SSCForm extends Component {
       this.setState(update(this.state, {
         fieldsValidationState: {
           [fieldId]: {
-            $set: this.calcValidationState(value, validation).validationState
+            $set: calcValidationState(value, validation).validationState
           }
         }
       }), (/* prevState, props */) => {
         // 现在校验状态来决定提交按钮的状态
         this.setState({
-          submitButtonDisabled: !this.isStatesValid(this.state.fieldsValidationState)
+          submitButtonDisabled: !isStatesValid(this.state.fieldsValidationState)
         });
       });
     }
@@ -232,28 +361,12 @@ export default class SSCForm extends Component {
    * ```
    */
   handleReferChange(fieldId, validation, selected) {
-    // 该字段初始值可能是null
-    if (this.state.formData[fieldId]) {
-      this.setState(update(this.state, {
-        formData: {
-          [fieldId]: {
-            selected: {
-              $set: selected
-            }
-          }
-        }
-      }));
-    } else {
-      this.setState(update(this.state, {
-        formData: {
-          [fieldId]: {
-            $set: {
-              selected
-            }
-          }
-        }
-      }));
+    // 参照组件会多次调用onChange回调，即使没有发生change
+    if (selected && selected.length === 0) {
+      return;
     }
+
+    this.setState(updateReferFieldValue(fieldId, selected), () => {});
 
     // 如果该字段需要校验，那么设置校验状态
     if (validation) {
@@ -262,17 +375,10 @@ export default class SSCForm extends Component {
       if (selected[0]) {
         value = selected[0].name || '';
       }
-      this.setState(update(this.state, {
-        fieldsValidationState: {
-          [fieldId]: {
-            $set: this.calcValidationState(value, validation).validationState
-          }
-        }
-      }), (/* prevState, props */) => {
+
+      this.setState(updateFormFieldValidationState(fieldId, value, validation), (/* prevState, props */) => {
         // 现在校验状态来决定提交按钮的状态
-        this.setState({
-          submitButtonDisabled: !this.isStatesValid(this.state.fieldsValidationState)
-        });
+        this.setState(updateSubmitButtonState());
       });
     }
   }
@@ -282,7 +388,7 @@ export default class SSCForm extends Component {
    * @param {String} fieldId
    * @param {Event} event
    */
-  handleReferBlur() {
+  handleReferBlur(/* fieldId, validation , event */) {
     // console.log('blurblurblur'+event);
     // console.log(JSON.stringify(this._myrefers.getInstance().hideRefers()));
   }
@@ -316,8 +422,8 @@ export default class SSCForm extends Component {
     // 遍历所有表单项然后一一做校验
     this.props.fieldsModel.forEach(fieldModel => {
       if (fieldModel.validation) {
-        let value = this.getFieldValue(fieldModel, formData);
-        let result = this.calcValidationState(value, fieldModel.validation);
+        let value = getFieldValue(fieldModel, formData);
+        let result = calcValidationState(value, fieldModel.validation);
         fieldsValidationState[fieldModel.id] = result.validationState;
         fieldsHelpText[fieldModel.id] = result.helpText;
       }
@@ -331,7 +437,7 @@ export default class SSCForm extends Component {
       }
     }));
 
-    if (this.isStatesValid(fieldsValidationState)) {
+    if (isStatesValid(fieldsValidationState)) {
       this.setState({
         submitButtonDisabled: false
       });
@@ -363,41 +469,7 @@ export default class SSCForm extends Component {
    */
   isAllFieldsValid() {
     const { fieldsValidationState } = this.state;
-    return this.isStatesValid(fieldsValidationState);
-  }
-
-  /**
-   * [stateless] 校验字段
-   * @param {String|null} vstate react-bootstrap的验证状态
-   */
-  isFieldValid(vstate) {
-    return vstate !== 'error';
-  }
-
-  /**
-   * [stateless] 判断校验对象是否全部正确
-   */
-  isStatesValid(states) {
-    let isAllValid = true;
-    let fieldId;
-
-    // 遍历检查每个需要校验的字段的状态
-    for (fieldId in states) {
-      if (states.hasOwnProperty(fieldId)) {
-        isAllValid = isAllValid && this.isFieldValid(states[fieldId]);
-      }
-    }
-
-    return isAllValid;
-  }
-
-  calcValidationState(value, validation) {
-    let validationObj = getValidationObj(validation);
-    let validationResult = validationObj.matchFunc(value);
-    return {
-      validationState: validationResult ? 'success' : 'error',
-      helpText: validationResult ? '' : validationObj.helpText
-    };
+    return isStatesValid(fieldsValidationState);
   }
 
   /**
@@ -412,25 +484,6 @@ export default class SSCForm extends Component {
    */
   getFieldHelpText(fieldId) {
     return this.state.fieldsHelpText[fieldId];
-  }
-
-  /**
-   * 从表单数据中获取值
-   * @param {Object} fieldModel
-   * @param {Object} formData
-   * @return {String} 对于参照这种复杂类型，需要返回字符类型的显示值
-   * stateless
-   */
-  getFieldValue(fieldModel, formData) {
-    let value = '';
-    if (fieldModel.type === 'ref') {
-      value = formData[fieldModel.id]
-        ? formData[fieldModel.id].name
-        : '';
-    } else {
-      value = formData[fieldModel.id];
-    }
-    return value;
   }
 
   render() {
@@ -494,7 +547,7 @@ export default class SSCForm extends Component {
                     validation={validation}
                     validationState={this.getFieldValidationState(id)}
                     helpText={
-                      this.isFieldValid(this.state.fieldsValidationState[id])
+                      isFieldValid(this.state.fieldsValidationState[id])
                       ? null
                       : this.getFieldHelpText(id)
                     }
@@ -549,22 +602,32 @@ export default class SSCForm extends Component {
                   // ```
                   const { referConditions, referDataUrl } = fieldModel.referConfig;
                   formCtrl = (
-                    <Refers
-                      disabled={false}
-                      dropup
-                      minLength={0}
-                      align="justify"
-                      emptyLabel=""
-                      labelKey="name"
-                      onChange={this.handleReferChange.bind(this, id, validation)}
-                      onBlur={this.handleReferBlur.bind(this, id)}
-                      placeholder="请选择..."
-                      referConditions={referConditions}
-                      referDataUrl={referDataUrl}
-                      referType="list"
-                      defaultSelected={defaultData}
-                      ref={ref => this._myrefers = ref}
-                    />
+                    <div>
+                      <Refers
+                        disabled={false}
+                        dropup
+                        minLength={0}
+                        align="justify"
+                        emptyLabel=""
+                        labelKey="name"
+                        onChange={this.handleReferChange.bind(this, id, validation)}
+                        onBlur={this.handleReferBlur.bind(this, id, validation)}
+                        placeholder="请选择..."
+                        referConditions={referConditions}
+                        referDataUrl={referDataUrl}
+                        referType="list"
+                        defaultSelected={defaultData}
+                        ref={ref => this._myrefers = ref}
+                      />
+                      {/* <FormControl.Feedback /> */}
+                      <HelpBlock>
+                      {
+                        isFieldValid(this.state.fieldsValidationState[id])
+                        ? null
+                        : this.getFieldHelpText(id)
+                      }
+                      </HelpBlock>
+                    </div>
                   );
                   formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
                 } else {
