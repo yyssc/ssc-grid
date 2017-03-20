@@ -11,7 +11,7 @@ import TextField from './TextField';
 import { searchFor } from './utils/sscgridUtils';
 
 /**
- * Grid组件
+ * SSCGrid组件
  *
  * Options: https://datatables.net/reference/option/
  *
@@ -19,7 +19,7 @@ import { searchFor } from './utils/sscgridUtils';
  *
  */
 
-class Grid extends Component {
+class SSCGrid extends Component {
 
   static propTypes = {
     /**
@@ -398,4 +398,4 @@ class Grid extends Component {
   }
 }
 
-export default Grid;
+export default SSCGrid;
