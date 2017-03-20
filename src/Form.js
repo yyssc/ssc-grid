@@ -500,11 +500,14 @@ export default class SSCForm extends Component {
               return null;
             }
 
-            function getDefaultFormGroup(key, fieldId, fieldLabel, fieldFormCtrl, fm) {
+            function getDefaultFormGroup(key, fieldId, fieldLabel, fieldFormCtrl, fm,
+              validationState, helpText
+            ) {
               return (
                 <FormGroup
                   key={key}
                   controlId={`formControl-${fieldId}`}
+                  validationState={validationState}
                 >
                   <Col sm={2}>
                     {}
@@ -519,11 +522,12 @@ export default class SSCForm extends Component {
                   </Col>
                   <Col sm={5}>
                     {fieldFormCtrl}
+                    {fm.type !== 'ref' ? <FormControl.Feedback /> : null}
+                    <HelpBlock>{helpText}</HelpBlock>
                   </Col>
                   <Col sm={3}>
                     {}
                   </Col>
-                  <FormControl.Feedback />
                 </FormGroup>
               );
             }
@@ -602,34 +606,31 @@ export default class SSCForm extends Component {
                   // ```
                   const { referConditions, referDataUrl } = fieldModel.referConfig;
                   formCtrl = (
-                    <div>
-                      <Refers
-                        disabled={false}
-                        dropup
-                        minLength={0}
-                        align="justify"
-                        emptyLabel=""
-                        labelKey="name"
-                        onChange={this.handleReferChange.bind(this, id, validation)}
-                        onBlur={this.handleReferBlur.bind(this, id, validation)}
-                        placeholder="请选择..."
-                        referConditions={referConditions}
-                        referDataUrl={referDataUrl}
-                        referType="list"
-                        defaultSelected={defaultData}
-                        ref={ref => this._myrefers = ref}
-                      />
-                      {/* <FormControl.Feedback /> */}
-                      <HelpBlock>
-                      {
-                        isFieldValid(this.state.fieldsValidationState[id])
-                        ? null
-                        : this.getFieldHelpText(id)
-                      }
-                      </HelpBlock>
-                    </div>
+                    <Refers
+                      disabled={false}
+                      dropup
+                      minLength={0}
+                      align="justify"
+                      emptyLabel=""
+                      labelKey="name"
+                      onChange={this.handleReferChange.bind(this, id, validation)}
+                      onBlur={this.handleReferBlur.bind(this, id, validation)}
+                      placeholder="请选择..."
+                      referConditions={referConditions}
+                      referDataUrl={referDataUrl}
+                      referType="list"
+                      defaultSelected={defaultData}
+                      ref={ref => this._myrefers = ref}
+                    />
                   );
-                  formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
+                  formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
+                    this.getFieldValidationState(id),
+                    (
+                      isFieldValid(this.state.fieldsValidationState[id])
+                      ? null
+                      : this.getFieldHelpText(id)
+                    )
+                  );
                 } else {
                   // fallback到纯文本框
                   formGroup = (
