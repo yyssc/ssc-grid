@@ -316,8 +316,16 @@ class SSCGrid extends Component {
 
     const renderTableHeader = () => (
       columnsModel.map((col, key) => {
+        let alignClass = '';
+        // 一般数值型都是金额，所以默认右对齐
+        // 但是会被column model中的align属性覆盖
+        if (col.type === 'double') {
+          alignClass = 'text-right';
+        }
         // 使用Bootstrap的alignment class来进行对齐
-        let alignClass = col.align ? `text-${col.align}` : '';
+        if (col.align) {
+          alignClass = `text-${col.align}`;
+        }
         // 之前的className只能设定th的class，现在改成使用columnClassName
         // 可以设定th和td的class
         // 由于新旧接口共存，所以需要根据优先级设定好
