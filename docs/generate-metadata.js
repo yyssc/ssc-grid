@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 import fsp from 'fs-promise';
 import glob from 'glob';
 import marked from 'marked';
@@ -127,7 +129,11 @@ export default function generate(destination, options = { mixins: true, inferCom
               try {
                 // require the actual component to inspect props we can only get a runtime
                 Component = require(`../src/${key}`);
-              } catch (e) {} // eslint-disable-line no-empty
+              } catch (e) {
+                // 为啥实际运行时候没有显示成红色呢？
+                // 即使import 'colors'也不行
+                console.log('生成组件的metadata的时候出现错误：\n'.red, e);
+              }
 
               const component = components[key];
 

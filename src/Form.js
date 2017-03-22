@@ -152,7 +152,7 @@ function updateSubmitButtonState() {
   };
 }
 
-export default class SSCForm extends Component {
+export default class Form extends Component {
   static propTypes = {
     /**
      * 表单中的数据
