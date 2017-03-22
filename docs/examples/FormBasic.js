@@ -51,6 +51,9 @@ const FormExample = React.createClass({
     event.preventDefault();
   },
 
+  handleReset(/* event */) {
+  },
+
   render() {
     return (
       <Form
@@ -59,6 +62,7 @@ const FormExample = React.createClass({
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
         onBlur={this.handleBlur}
+        onReset={this.handleReset}
       />
     );
   }
