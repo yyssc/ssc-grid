@@ -15,6 +15,7 @@ export default {
   FormWithRefer:                require('fs').readFileSync(__dirname + '/../examples/FormWithRefer.js', 'utf8'),
   GridBasic:                    require('fs').readFileSync(__dirname + '/../examples/GridBasic.js', 'utf8'),
   GridCellFormatter:            require('fs').readFileSync(__dirname + '/../examples/GridCellFormatter.js', 'utf8'),
+  GridClickEvent:               require('fs').readFileSync(__dirname + '/../examples/GridClickEvent.js', 'utf8'),
   GridColumnAlign:              require('fs').readFileSync(__dirname + '/../examples/GridColumnAlign.js', 'utf8'),
   GridColumnClass:              require('fs').readFileSync(__dirname + '/../examples/GridColumnClass.js', 'utf8'),
   GridEmptyValue:               require('fs').readFileSync(__dirname + '/../examples/GridEmptyValue.js', 'utf8'),

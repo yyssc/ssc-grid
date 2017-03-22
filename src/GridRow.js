@@ -83,7 +83,11 @@ class GridRow extends Component {
      * 自定义的操作列组件<br>
      * 除非指定了<code>operationColumn</code>参数，否则操作列不会显示出来
      */
-    operationColumnClass: elementType
+    operationColumnClass: elementType,
+    /**
+     * 行双击事件
+     */
+    onRowDoubleClick: PropTypes.func
   };
 
   static defaultProps = {
@@ -103,6 +107,12 @@ class GridRow extends Component {
     const isSelected = event.target.checked;
     if (this.props.onSelect) {
       this.props.onSelect(rowIdx, rowObj, isSelected, event);
+    }
+  }
+
+  handleRowDoubleClick(rowObj, event) {
+    if (this.props.onRowDoubleClick) {
+      this.props.onRowDoubleClick(event, rowObj);
     }
   }
 
@@ -260,7 +270,7 @@ class GridRow extends Component {
       );
     } else {
       row = (
-        <tr>
+        <tr onDoubleClick={this.handleRowDoubleClick.bind(this, rowObj)}>
           { this.renderSelectionColumn() }
           { this.renderCells(columnsModel, rowObj) }
           { this.renderOperationColumn() }

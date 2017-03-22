@@ -1,9 +1,8 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 import elementType from 'react-prop-types/lib/elementType';
-// import update from 'immutability-helper';
 
-import { Table, Pagination, /* Checkbox */ } from 'react-bootstrap';
+import { Table, Pagination } from 'react-bootstrap';
 
 import GridRow from './GridRow';
 import TextField from './TextField';
@@ -131,7 +130,13 @@ class Grid extends Component {
      * 直接映射ReactBootstrap的属性
      * http://getbootstrap.com/css/#tables-hover-rows
      */
-    hover: PropTypes.bool
+    hover: PropTypes.bool,
+    /**
+     * 行双击事件
+     * @param {Event} event
+     * @param {Object} rowObj 行数据对象
+     */
+    onRowDoubleClick: PropTypes.func
   };
 
   static defaultProps = {
@@ -295,6 +300,12 @@ class Grid extends Component {
     });
   }
 
+  handleRowDoubleClick(event) {
+    if (this.props.onRowDoubleClick) {
+      this.props.onRowDoubleClick(event);
+    }
+  }
+
   render() {
     const { columnsModel,
       selectRow, operationColumn, className,
@@ -395,6 +406,7 @@ class Grid extends Component {
                 rowObj={row} key={rowIdx}
                 columnsModel={columnsModel} rowIdx={rowIdx}
                 onCellChecked={self.handleCellChecked.bind(self)}
+                onRowDoubleClick={this.props.onRowDoubleClick}
               />);
             })
           }

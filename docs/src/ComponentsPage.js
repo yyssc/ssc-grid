@@ -29,6 +29,7 @@ import FormWithReferSection from './sections/FormWithReferSection';
 import FormPropsSection from './sections/FormPropsSection';
 import GridBasicSection from './sections/GridBasicSection';
 import GridCellFormatterSection from './sections/GridCellFormatterSection';
+import GridClickEventSection from './sections/GridClickEventSection';
 import GridColumnAlignSection from './sections/GridColumnAlignSection';
 import GridColumnClassSection from './sections/GridColumnClassSection';
 import GridEmptyValueSection from './sections/GridEmptyValueSection';
@@ -63,6 +64,7 @@ const sections = {
     gridLocalSearch: '#grid-local-search',
     gridStyle: '#grid-style',
     gridEmptyValue: '#grid-empty-value',
+    gridClickEvent: '#grid-click-event',
     gridProps: '#grid-props',
   form: '#form',
     formBasic: '#form-basic',
@@ -235,6 +237,8 @@ const ComponentsPage = React.createClass({
               <GridStyleSection />
               {this.renderScrollSpy(sections.gridEmptyValue)}
               <GridEmptyValueSection />
+              {this.renderScrollSpy(sections.gridClickEvent)}
+              <GridClickEventSection />
               {this.renderScrollSpy(sections.gridProps)}
               <GridPropsSection />
 
@@ -407,6 +411,7 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.gridLocalSearch}>本地搜索</NavItem>
                       <NavItem href={sections.gridStyle}>样式</NavItem>
                       <NavItem href={sections.gridEmptyValue}>演示空值</NavItem>
+                      <NavItem href={sections.gridClickEvent}>鼠标点击事件</NavItem>
                       <NavItem href={sections.gridProps}>属性</NavItem>
                     </SubNav>
 
