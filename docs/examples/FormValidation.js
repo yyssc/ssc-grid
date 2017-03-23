@@ -10,25 +10,33 @@ const mockFieldsModel = [
     validation: {type: 'email'}
   },
   {type: 'ref', id: 'formValidationPkOrg', label: '组织',
+    referConfig: {
+      referConditions: {refCode: 'org', refType: 'tree', rootName: '组织'},
+      referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON'
+    },
     validation: {
       type: 'required'
-    },
-    referConfig: {
-      referConditions: {
-        refCode: 'org',
-        refType: 'tree',
-        rootName: '组织'
-      },
-      referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON'
     }
   },
+  {type: 'enum', label: '账户性质', id: 'formValidationAccountProperty',
+    data: [
+      {key: 'BASE', value: '基本'},
+      {key: 'NORMAL', value: '一般'},
+      {key: 'TEMPORARY', value: '临时'},
+      {key: 'SPECIAL', value: '专用'}
+    ],
+    validation: {
+      type: 'required'
+    }
+  }
 ];
 
 const mockFormData = {
   formValidationName: '',
   formValidationDanjubianhao: '',
   formValidationEmail: '',
-  formValidationPkOrg: null
+  formValidationPkOrg: null,
+  formValidationAccountProperty: ''
 };
 
 const FormValidationExample = React.createClass({
@@ -48,7 +56,7 @@ const FormValidationExample = React.createClass({
   },
 
   handleSubmit(event, formData) {
-    alert('提交的数据: Form.state.formData: \n' + JSON.stringify(
+    alert('提交的数据: formData: \n' + JSON.stringify(
       formData,
       null, '  '));
     event.preventDefault();

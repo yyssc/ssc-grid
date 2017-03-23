@@ -286,6 +286,13 @@ export default class Form extends Component {
         this.state.fieldsHelpText[fieldModel.id] = '';
       }
     });
+
+    // 如果是枚举型，默认使用第一个选项的值
+    this.props.fieldsModel.forEach(fieldModel => {
+      if (fieldModel.type === 'enum') {
+        this.state.formData[fieldModel.id] = fieldModel.data[0].key;
+      }
+    });
   }
 
   componentWillMount() {
@@ -653,15 +660,29 @@ export default class Form extends Component {
                 }
                 break;
               case 'enum': // 6
+                // 当值为空（null/undefined）的时候，需要计算一下默认值，默认选择第一条
+                let enumValue = fieldModel.data[0].key;
+                if (this.state.formData[id]) {
+                  enumValue = this.state.formData[id];
+                }
                 formCtrl = (
-                  <FormControl componentClass="select" placeholder={placeholder && '请选择'}
-                    value={this.state.formData[id]}
+                  <FormControl
+                    componentClass="select"
+                    placeholder={placeholder || '请选择'}
+                    value={enumValue}
                     onChange={this.handleChange.bind(this, id, validation)}
                   >
                     {fieldModel.data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
                   </FormControl>
                 );
-                formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
+                formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
+                  this.getFieldValidationState(id),
+                  (
+                    isFieldValid(this.state.fieldsValidationState[id])
+                    ? null
+                    : this.getFieldHelpText(id)
+                  )
+                );
                 break;
               case 'custom': // 后端没有该类型，这是前端自己定义的
                 formCtrl = (
