@@ -107,12 +107,15 @@ function getFieldValue(fieldModel, formData) {
  *     "code": "02"
  * }]
  * ```
+ * 当参照被清空之后，这里传过来的是个空数组
  */
 function updateReferFieldValue(fieldId, selected) {
   return (prevState/* , props */) => {
     return update(prevState, {
       formData: {
-        [fieldId]: { $set: selected[0] }
+        [fieldId]: {
+          $set: selected.length === 0 ? null : selected[0]
+        }
       }
     });
   };
@@ -361,19 +364,23 @@ export default class Form extends Component {
    * ```
    */
   handleReferChange(fieldId, validation, selected) {
+    // 清空或者设置新值
+    this.setState(updateReferFieldValue(fieldId, selected), () => {});
+
     // 参照组件会多次调用onChange回调，即使没有发生change
     if (selected && selected.length === 0) {
       return;
     }
 
-    this.setState(updateReferFieldValue(fieldId, selected), () => {});
-
     // 如果该字段需要校验，那么设置校验状态
     if (validation) {
-      // 对参照的API不了解，所以写死获取第一个
+      // 参照是一个复杂类型的值，需要专门处理。
       let value = '';
-      if (selected[0]) {
+      // 对参照的API不了解，所以写死获取第一个
+      if (selected && selected[0]) {
         value = selected[0].name || '';
+      } else {
+        value = '';
       }
 
       this.setState(updateFormFieldValidationState(fieldId, value, validation), (/* prevState, props */) => {
@@ -384,13 +391,12 @@ export default class Form extends Component {
   }
 
   /**
- * 参照回调
+   * 参照回调
    * @param {String} fieldId
+   * @param {Object} validation
    * @param {Event} event
    */
   handleReferBlur(/* fieldId, validation , event */) {
-    // console.log('blurblurblur'+event);
-    // console.log(JSON.stringify(this._myrefers.getInstance().hideRefers()));
   }
 
   /**
