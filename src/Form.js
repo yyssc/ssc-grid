@@ -608,7 +608,6 @@ export default class Form extends Component {
                   formCtrl = (
                     <Refers
                       disabled={false}
-                      dropup
                       minLength={0}
                       align="justify"
                       emptyLabel=""
