@@ -227,8 +227,16 @@ describe('<Form>', () => {
     let component = ReactTestUtils.renderIntoDocument(
       <Form
         fieldsModel={[
-          {type: 'string', id: 'name0', label: '名称0', validation: {type: 'required'}},
-          {type: 'string', id: 'name1', label: '名称1', validation: {type: 'required'}}
+          {type: 'string', id: 'name0', label: '名称0',
+            validators: [
+              {type: 'required'}
+            ]
+          },
+          {type: 'string', id: 'name1', label: '名称1',
+            validators: [
+              {type: 'required'}
+            ]
+          }
         ]}
         defaultData={{name0: '', name1: ''}}
       />
@@ -289,8 +297,16 @@ describe('<Form>', () => {
     let component = ReactTestUtils.renderIntoDocument(
       <Form
         fieldsModel={[
-          {type: 'string', id: 'name0', label: '名称0', validation: {type: 'required'}},
-          {type: 'string', id: 'name1', label: '名称1', validation: {type: 'required'}}
+          {type: 'string', id: 'name0', label: '名称0',
+            validators: [
+              {type: 'required'}
+            ]
+          },
+          {type: 'string', id: 'name1', label: '名称1',
+            validators: [
+              {type: 'required'}
+            ]
+          }
         ]}
         defaultData={{name0: '', name1: ''}}
       />
@@ -351,8 +367,16 @@ describe('<Form>', () => {
     let component = ReactTestUtils.renderIntoDocument(
       <Form
         fieldsModel={[
-          {type: 'string', id: 'name0', label: '名称0', validation: {type: 'required'}},
-          {type: 'string', id: 'name1', label: '名称1', validation: {type: 'required'}}
+          {type: 'string', id: 'name0', label: '名称0',
+            validators: [
+              {type: 'required'}
+            ]
+          },
+          {type: 'string', id: 'name1', label: '名称1',
+            validators: [
+              {type: 'required'}
+            ]
+          }
         ]}
         defaultData={{name0: 'test0', name1: 'test1'}}
       />

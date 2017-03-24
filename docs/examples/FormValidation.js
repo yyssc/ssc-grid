@@ -1,22 +1,29 @@
 const mockFieldsModel = [
   {type: 'string', id: 'id', label: '主键', hidden: true},
   {type: 'string', id: 'formValidationName', label: '名称',
-    validation: {type: 'required'}
+    validators: [
+      {type: 'required'},
+      {type: 'length', options: {min: 3, max: 6}}
+    ]
   },
   {type: 'string', id: 'formValidationDanjubianhao', label: '单据编号',
-    validation: {type: 'required'}
+    validators: [
+      {type: 'required'}
+    ]
   },
   {type: 'string', id: 'formValidationEmail', label: '邮箱地址',
-    validation: {type: 'email'}
+    validators: [
+      {type: 'email'}
+    ]
   },
-  {type: 'ref', id: 'formValidationPkOrg', label: '组织',
+  {type: 'ref', id: 'formValidationParentId', label: '上级部门',
     referConfig: {
-      referConditions: {refCode: 'org', refType: 'tree', rootName: '组织'},
+      referConditions: {refCode: 'dept', refType: 'tree', rootName: '部门'},
       referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON'
     },
-    validation: {
-      type: 'required'
-    }
+    validators: [
+      {type: 'required'}
+    ]
   },
   {type: 'enum', label: '账户性质', id: 'formValidationAccountProperty',
     data: [
@@ -25,9 +32,9 @@ const mockFieldsModel = [
       {key: 'TEMPORARY', value: '临时'},
       {key: 'SPECIAL', value: '专用'}
     ],
-    validation: {
-      type: 'required'
-    }
+    validators: [
+      {type: 'required'}
+    ]
   }
 ];
 
@@ -35,7 +42,7 @@ const mockFormData = {
   formValidationName: '',
   formValidationDanjubianhao: '',
   formValidationEmail: '',
-  formValidationPkOrg: null,
+  formValidationParengId: null,
   formValidationAccountProperty: ''
 };
 

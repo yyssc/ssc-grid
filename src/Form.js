@@ -4,9 +4,8 @@ import React, { Component, PropTypes } from 'react';
 import { Button, Form as ReactBootstrapForm, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 
-import update from 'immutability-helper';
-
-import { getValidationObj } from './utils/validation';
+import * as validationUtils from './utils/validation';
+import * as actions from './Form.actions';
 
 /**
  * 控件(control/widget)分类
@@ -27,132 +26,16 @@ import { Refers } from 'ssc-refer';
  * helper functions
  */
 
-/**
- * 校验字段
- * @param {String|null} vstate react-bootstrap的验证状态
- */
-function isFieldValid(vstate) {
-  return vstate !== 'error';
-}
 
 /**
- * 判断校验对象是否全部正确
- * @param {Object} states
- * @return {boolean}
+ * @param {Array|Null} validators 当不需要校验的时候为null
+ * @return {boolean} 当是必选项的时候，输出true否则为false
  */
-function isStatesValid(states) {
-  let isAllValid = true;
-  let fieldId;
-
-  // 遍历检查每个需要校验的字段的状态
-  for (fieldId in states) {
-    if (states.hasOwnProperty(fieldId)) {
-      isAllValid = isAllValid && isFieldValid(states[fieldId]);
-    }
+function showRequiredStar(validators) {
+  if (!validators) {
+    return false;
   }
-
-  return isAllValid;
-}
-
-
-/**
- * 对一个字段进行校验
- * @param {String} value
- * @param {Object} validation
- */
-function calcValidationState(value, validation) {
-  let validationObj = getValidationObj(validation);
-  let validationResult = validationObj.matchFunc(value);
-  return {
-    validationState: validationResult ? 'success' : 'error',
-    helpText: validationResult ? '' : validationObj.helpText
-  };
-}
-
-/**
- * 从表单数据中获取值
- * @param {Object} fieldModel
- * @param {Object} formData
- * @return {String} 对于参照这种复杂类型，需要返回字符类型的显示值
- * stateless
- */
-function getFieldValue(fieldModel, formData) {
-  let value = '';
-  if (fieldModel.type === 'ref') {
-    value = formData[fieldModel.id]
-      ? formData[fieldModel.id].name
-      : '';
-  } else {
-    value = formData[fieldModel.id];
-  }
-  return value;
-}
-
-/**
- * 模拟redux dispatch去更新state
- * https://medium.com/@wereHamster/beware-react-setstate-is-asynchronous-ce87ef1a9cf3#.52vhwpymp
- */
-
-/**
- * 更新表单中一个字段
- * @param {String} fieldId
- * @param {Array} selected 该字段的类型由Refer组件决定，可能会变化，
- * 现在假定是如下结构
- * ```
- * [{
- *     "id": "E6CB6CBE-C701-48EC-A3EB-C823DF8DBEED",
- *     "isLeaf": "true",
- *     "name": "测试组织1",
- *     "pid": "FBA1DBB5-24A2-4A78-A4D5-453F7CC46AA6",
- *     "code": "02"
- * }]
- * ```
- * 当参照被清空之后，这里传过来的是个空数组
- */
-function updateReferFieldValue(fieldId, selected) {
-  return (prevState/* , props */) => {
-    return update(prevState, {
-      formData: {
-        [fieldId]: {
-          $set: selected.length === 0 ? null : selected[0]
-        }
-      }
-    });
-  };
-}
-
-/**
- * 更新表单字段的验证状态
- * stateless
- * @param {String} fieldId
- * @param {String} value
- * @param {Object} validation
- */
-function updateFormFieldValidationState(fieldId, value, validation) {
-  return (prevState/* , props */) => {
-    return update(prevState, {
-      fieldsValidationState: {
-        [fieldId]: {
-          $set: calcValidationState(value, validation).validationState
-        }
-      }
-    });
-  };
-}
-
-/**
- * 更新提交按钮的状态
- * @param {String} fieldId
- * @param {Array} selected 该字段的类型由Refer组件决定，可能会变化
- */
-function updateSubmitButtonState() {
-  return (prevState/* , props */) => {
-    return update(prevState, {
-      submitButtonDisabled: {
-        $set: !isStatesValid(prevState.fieldsValidationState)
-      }
-    });
-  };
+  return validators.find(({type}) => type === 'required') !== undefined;
 }
 
 export default class Form extends Component {
@@ -173,9 +56,9 @@ export default class Form extends Component {
      *     type: 'string',
      *     id: 'formValidationEmail',
      *     label: '邮箱地址',
-     *     validation: {
-     *       type: 'email'
-     *     }
+     *     validators: [
+     *       {type: 'email'}
+     *     ]
      *   },
      *   {
      *    type: 'custom',
@@ -190,6 +73,31 @@ export default class Form extends Component {
      *   onChange: React.PropTypes.func
      * },
      * ```
+     * 校验类型，比如
+     * validators: [
+     *   {type: 'required'},
+     *   {type: 'length', min: 3, max: 6,
+     *     helpText: '字符串长度应该大于等于3小于等于6'}
+     * ]
+     * <code>type</code>字段支持如下类型：
+     * <ul>
+     * <li><code>email</code>邮件地址</li>
+     * <li><code>decimal</code>数字，比如0.1, .3, 1.1, 1.00003, 4.0</li>
+     * <li><code>int</code>整数</li>
+     * <li><code>mobilePhone</code>手机号</li>
+     * <li><code>custom</code>自定义格式</li>
+     * </ul>
+     * <code>helpText</code>是错误提示。如果不提供，则使用默认错误提示。<br>
+     * 如果是自定义类型，则通过<code>matchFunc</code>参数传递校验函数
+     * ```
+     * {
+     *   type: 'custom',
+     *   helpText: '请输入正确的XX格式',
+     *   matchFunc: () => {}
+     * }
+     * ```
+     * 当<code>matchFunc</code>返回值为true的时候，认为校验通过<br>
+     * 对于自定义类型，如果不提供<code>helpText</code>，则默认不显示错误提示。
      */
     fieldsModel: PropTypes.array.isRequired,
     /**
@@ -279,9 +187,9 @@ export default class Form extends Component {
       submitButtonDisabled: false
     };
 
-    // 初始化表单项的验证状态，全部为未定义
+    // 初始化表单项的验证状态，全部为null
     this.props.fieldsModel.forEach(fieldModel => {
-      if (fieldModel.validation) {
+      if (fieldModel.validators) {
         this.state.fieldsValidationState[fieldModel.id] = null;
         this.state.fieldsHelpText[fieldModel.id] = '';
       }
@@ -305,31 +213,24 @@ export default class Form extends Component {
    * 这里只处理简单类型的控件，比如input, select, checkbox
    * 不处理复杂类型的空间，比如date-picker
    */
-  handleChange(fieldId, validation, event) {
+  handleChange(fieldId, validators, event) {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     // const name = target.name;
 
-    const newState = {
-      formData: this.state.formData
-    };
-    newState.formData[fieldId] = value;
-    this.setState(newState);
+    this.setState(
+      actions.updateFieldValue(fieldId, value)
+    );
 
     // 如果该字段需要校验，那么设置校验状态
-    if (validation) {
-      this.setState(update(this.state, {
-        fieldsValidationState: {
-          [fieldId]: {
-            $set: calcValidationState(value, validation).validationState
-          }
+    if (validators) {
+      this.setState(
+        actions.updateFormFieldValidationState(fieldId, value, validators),
+        (/* prevState, props */) => {
+          // 现在校验状态来决定提交按钮的状态
+          this.setState(actions.updateSubmitButtonState());
         }
-      }), (/* prevState, props */) => {
-        // 现在校验状态来决定提交按钮的状态
-        this.setState({
-          submitButtonDisabled: !isStatesValid(this.state.fieldsValidationState)
-        });
-      });
+      );
     }
 
     if (this.props.onChange) {
@@ -359,7 +260,7 @@ export default class Form extends Component {
    * 目前不清楚为什么selected返回一个数组
    * 先不管三七二十一，直接扔到state中，让用户可以获取到
    * ```
-   * [
+   * selected = [
    *   {
    *     "id": "0500CC91-4A98-4C1D-A4D6-C6A0ABCC53AD",
    *     "isLeaf": "true",
@@ -370,9 +271,9 @@ export default class Form extends Component {
    * ]
    * ```
    */
-  handleReferChange(fieldId, validation, selected) {
+  handleReferChange(fieldId, validators, selected) {
     // 清空或者设置新值
-    this.setState(updateReferFieldValue(fieldId, selected), () => {});
+    this.setState(actions.updateReferFieldValue(fieldId, selected), () => {});
 
     // 参照组件会多次调用onChange回调，即使没有发生change
     if (selected && selected.length === 0) {
@@ -380,7 +281,7 @@ export default class Form extends Component {
     }
 
     // 如果该字段需要校验，那么设置校验状态
-    if (validation) {
+    if (validators) {
       // 参照是一个复杂类型的值，需要专门处理。
       let value = '';
       // 对参照的API不了解，所以写死获取第一个
@@ -390,20 +291,23 @@ export default class Form extends Component {
         value = '';
       }
 
-      this.setState(updateFormFieldValidationState(fieldId, value, validation), (/* prevState, props */) => {
-        // 现在校验状态来决定提交按钮的状态
-        this.setState(updateSubmitButtonState());
-      });
+      this.setState(
+        actions.updateFormFieldValidationState(fieldId, value, validators),
+        (/* prevState, props */) => {
+          // 现在校验状态来决定提交按钮的状态
+          this.setState(actions.updateSubmitButtonState());
+        }
+      );
     }
   }
 
   /**
    * 参照回调
    * @param {String} fieldId
-   * @param {Object} validation
+   * @param {Array} validators
    * @param {Event} event
    */
-  handleReferBlur(/* fieldId, validation , event */) {
+  handleReferBlur(/* fieldId, validators, event */) {
   }
 
   /**
@@ -412,13 +316,9 @@ export default class Form extends Component {
    * @param {*} value value为动态类型，具体类型由`CustomComponent.prop.value`的类型决定
    */
   handleCustomFieldChange(fieldId, value) {
-    this.setState(update(this.state, {
-      formData: {
-        [fieldId]: {
-          $set: value
-        }
-      }
-    }));
+    this.setState(
+      actions.updateFieldValue(fieldId, value)
+    );
 
     if (this.props.onChange) {
       this.props.onChange(fieldId, value, {
@@ -429,39 +329,23 @@ export default class Form extends Component {
 
   handleSubmit(event) {
     const { formData } = this.state;
-    let fieldsValidationState = {};
-    let fieldsHelpText = {};
+    const { fieldsModel } = this.props;
 
-    // 遍历所有表单项然后一一做校验
-    this.props.fieldsModel.forEach(fieldModel => {
-      if (fieldModel.validation) {
-        let value = getFieldValue(fieldModel, formData);
-        let result = calcValidationState(value, fieldModel.validation);
-        fieldsValidationState[fieldModel.id] = result.validationState;
-        fieldsHelpText[fieldModel.id] = result.helpText;
+    // 更新所有字段的校验状态，并更新提交按钮的状态，最后再给用户回调
+    this.setState(
+      actions.updateAllFormFieldsValidationState(fieldsModel, formData),
+      (/* prevState, props */) => {
+        // 现在校验状态来决定提交按钮的状态
+        this.setState(
+          actions.updateSubmitButtonState()
+        );
+        if (validationUtils.isStatesValid(this.state.fieldsValidationState)) {
+          if (this.props.onSubmit) {
+            this.props.onSubmit(event, formData);
+          }
+        }
       }
-    });
-    this.setState(update(this.state, {
-      fieldsValidationState: {
-        $set: fieldsValidationState
-      },
-      fieldsHelpText: {
-        $set: fieldsHelpText
-      }
-    }));
-
-    if (isStatesValid(fieldsValidationState)) {
-      this.setState({
-        submitButtonDisabled: false
-      });
-      if (this.props.onSubmit) {
-        this.props.onSubmit(event, formData);
-      }
-    } else {
-      this.setState({
-        submitButtonDisabled: true
-      });
-    }
+    );
   }
 
   handleReset(event) {
@@ -482,7 +366,7 @@ export default class Form extends Component {
    */
   isAllFieldsValid() {
     const { fieldsValidationState } = this.state;
-    return isStatesValid(fieldsValidationState);
+    return validationUtils.isStatesValid(fieldsValidationState);
   }
 
   /**
@@ -505,13 +389,14 @@ export default class Form extends Component {
       <ReactBootstrapForm horizontal className={classNames(className)}>
         {
           fieldsModel.map((fieldModel, index) => {
-            const { id, type, label, placeholder, validation } = fieldModel;
+            const { id, type, label, placeholder, validators } = fieldModel;
             let formGroup, formCtrl;
 
             // 隐藏字段
             if (fieldModel.hidden === true) {
               return null;
             }
+
 
             function getDefaultFormGroup(key, fieldId, fieldLabel, fieldFormCtrl, fm,
               validationState, helpText
@@ -526,12 +411,12 @@ export default class Form extends Component {
                     {}
                   </Col>
                   <Col componentClass={ControlLabel} sm={2}>
+                  <div>
                     {fieldLabel}
-                    {
-                      fm.validation && fm.validation.type === 'required'
-                        ? <span style={{ color: 'red' }}>*</span>
-                        : null
-                    }
+                    <span style={{ color: 'red' }}>
+                      {showRequiredStar(validators) ? '*' : null}
+                    </span>
+                    </div>
                   </Col>
                   <Col sm={5}>
                     {fieldFormCtrl}
@@ -561,15 +446,16 @@ export default class Form extends Component {
                     label={label}
                     value={this.state.formData[id]}
                     placeholder={placeholder}
-                    validation={validation}
+                    showValidationStyle={typeof validators === 'object'}
                     validationState={this.getFieldValidationState(id)}
                     helpText={
-                      isFieldValid(this.state.fieldsValidationState[id])
+                      validationUtils.isFieldValid(this.state.fieldsValidationState[id])
                       ? null
                       : this.getFieldHelpText(id)
                     }
+                    showRequiredStar={showRequiredStar(validators)}
                     inForm
-                    onChange={this.handleChange.bind(this, id, validation)}
+                    onChange={this.handleChange.bind(this, id, validators)}
                   />
                 );
                 break;
@@ -587,7 +473,7 @@ export default class Form extends Component {
               case 'boolean': // 4
                 formCtrl = (
                   <Checkbox checked={this.state.formData[id]}
-                    onChange={this.handleChange.bind(this, id, validation)}
+                    onChange={this.handleChange.bind(this, id, validators)}
                   />
                 );
                 formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
@@ -625,8 +511,8 @@ export default class Form extends Component {
                       align="justify"
                       emptyLabel=""
                       labelKey="name"
-                      onChange={this.handleReferChange.bind(this, id, validation)}
-                      onBlur={this.handleReferBlur.bind(this, id, validation)}
+                      onChange={this.handleReferChange.bind(this, id, validators)}
+                      onBlur={this.handleReferBlur.bind(this, id, validators)}
                       placeholder="请选择..."
                       referConditions={referConditions}
                       referDataUrl={referDataUrl}
@@ -638,7 +524,7 @@ export default class Form extends Component {
                   formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
                     this.getFieldValidationState(id),
                     (
-                      isFieldValid(this.state.fieldsValidationState[id])
+                      validationUtils.isFieldValid(this.state.fieldsValidationState[id])
                       ? null
                       : this.getFieldHelpText(id)
                     )
@@ -652,9 +538,8 @@ export default class Form extends Component {
                       label={label}
                       value={this.state.formData[id]}
                       placeholder={placeholder}
-                      validation={validation}
                       inForm
-                      onChange={this.handleChange.bind(this, id, validation)}
+                      onChange={this.handleChange.bind(this, id, validators)}
                     />
                   );
                 }
@@ -670,7 +555,7 @@ export default class Form extends Component {
                     componentClass="select"
                     placeholder={placeholder || '请选择'}
                     value={enumValue}
-                    onChange={this.handleChange.bind(this, id, validation)}
+                    onChange={this.handleChange.bind(this, id, validators)}
                   >
                     {fieldModel.data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
                   </FormControl>
@@ -678,7 +563,7 @@ export default class Form extends Component {
                 formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
                   this.getFieldValidationState(id),
                   (
-                    isFieldValid(this.state.fieldsValidationState[id])
+                    validationUtils.isFieldValid(this.state.fieldsValidationState[id])
                     ? null
                     : this.getFieldHelpText(id)
                   )

@@ -19,7 +19,8 @@ export default class TextField extends Component {
   static defaultProps = {
     value: '',
     inForm: false,
-    validationState: null
+    validationState: null,
+    showRequiredStar: false
   }
 
   static propTypes = {
@@ -40,32 +41,9 @@ export default class TextField extends Component {
      */
     placeholder: PropTypes.string,
     /**
-     * 校验类型，比如
-     * <pre><code>{
-     *   type: 'email',
-     *   helpText: '请输入正确的邮箱地址'
-     * }</code></pre>
-     * <code>type</code>字段支持如下类型：
-     * <ul>
-     * <li><code>email</code>邮件地址</li>
-     * <li><code>decimal</code>数字，比如0.1, .3, 1.1, 1.00003, 4.0</li>
-     * <li><code>int</code>整数</li>
-     * <li><code>mobilePhone</code>手机号</li>
-     * <li><code>custom</code>自定义格式</li>
-     * </ul>
-     * <code>helpText</code>是错误提示。如果不提供，则使用默认错误提示。<br>
-     * 如果是自定义类型，则通过<code>matchFunc</code>参数传递校验函数
-     * ```
-     * {
-     *   type: 'custom',
-     *   helpText: '请输入正确的XX格式',
-     *   matchFunc: () => {}
-     * }
-     * ```
-     * 当<code>matchFunc</code>返回值为true的时候，认为校验通过<br>
-     * 对于自定义类型，如果不提供<code>helpText</code>，则默认不显示错误提示。
+     * 是否显示校验的样式
      */
-    validation: PropTypes.object,
+    showValidationStyle: PropTypes.bool,
     /**
      * 是否没有被SSC自己的Form组件引用
      */
@@ -83,7 +61,11 @@ export default class TextField extends Component {
     /**
      * 当文本框内容被修改时候调用
      */
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    /**
+     * 当是必选项的时候，显示一个红色的星号
+     */
+    showRequiredStar: PropTypes.bool
   };
 
   state = {
@@ -112,7 +94,7 @@ export default class TextField extends Component {
   }
 
   render() {
-    const { controlId, label, validation } = this.props;
+    const { controlId, label } = this.props;
 
     let textField;
     let formCtrl = (
@@ -127,8 +109,9 @@ export default class TextField extends Component {
     );
 
     // 是否在SSC自己的form中
+    // 如果是在SSC自己的form中，需要在FormGroup中进行layout
     if (!this.props.inForm) {
-      if (validation) {
+      if (this.props.showValidationStyle) {
         textField = (
           <FormGroup
             validationState={this.props.validationState}
@@ -149,7 +132,7 @@ export default class TextField extends Component {
         );
       }
     } else {
-      if (validation) {
+      if (this.props.showValidationStyle) {
         textField = (
           <FormGroup
             validationState={this.props.validationState}
@@ -160,11 +143,9 @@ export default class TextField extends Component {
             </Col>
             <Col componentClass={ControlLabel} sm={2}>
               {label}
-              {
-                validation && validation.type === 'required'
-                  ? <span style={{ color: 'red' }}>*</span>
-                  : null
-              }
+              <span style={{ color: 'red' }}>
+                {this.props.showRequiredStar ? '*' : null}
+              </span>
             </Col>
             <Col sm={5}>
               {formCtrl}
