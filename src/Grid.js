@@ -8,6 +8,7 @@ import GridRow from './GridRow';
 import TextField from './TextField';
 
 import { searchFor } from './utils/sscgridUtils';
+import * as actions from './Grid.actions';
 
 /**
  * Grid组件
@@ -179,7 +180,7 @@ class Grid extends Component {
      * 因为Grid组件提供了本地搜索功能，所以props.tableData和state.viewedTableData
      * 可能是不一样的
      */
-    this.state.viewedTableData = [ ...this.props.tableData ];
+    this.state.viewedTableData = this.props.tableData;
 
     // 初始化的时候所有行都未被选中
     this.props.tableData.forEach((item, index) => {
@@ -202,7 +203,9 @@ class Grid extends Component {
     // console.log('===', nextProps.tableData === this.state.viewedTableData);
     // console.log('==', nextProps.tableData == this.state.viewedTableData);
     if (nextProps.tableData !== this.state.viewedTableData) {
-      this.updateAllRowsSelectedState(false);
+      this.setState(
+        actions.updateAllRowsSelectedState(false)
+      );
     }
   }
 
@@ -210,19 +213,6 @@ class Grid extends Component {
     if (this.props.onPagination) {
       this.props.onPagination(eventKey);
     }
-  }
-
-  // 同时更新所有行被选中的状态
-  updateAllRowsSelectedState(isSelected) {
-    const selectedRowsObj = {};
-    this.state.viewedTableData.forEach((item, index) => {
-      selectedRowsObj[index] = {
-        selected: isSelected
-      };
-    });
-    this.setState({
-      selectedRowsObj
-    });
   }
 
   // 选中一行
@@ -253,9 +243,11 @@ class Grid extends Component {
       return ret;
     }
 
-    this.setState({
-      isHeadRowSelected: isAllRowsSelected(selectedRowsObj)
-    });
+    this.setState(
+      actions.updateTableHeadRowSelectedState(
+        isAllRowsSelected(selectedRowsObj)
+      )
+    );
 
 
     if (selectRow && selectRow.onSelect) {
@@ -271,15 +263,14 @@ class Grid extends Component {
     const isSelected = event.target.checked;
 
     // 在状态中选中所有行
-    this.updateAllRowsSelectedState(isSelected);
+    this.setState(
+      actions.updateAllRowsSelectedState(isSelected)
+    );
 
     // 在状态中选中table head row
-    this.setState({
-      isHeadRowSelected: isSelected
-    }, () => {});
-    this.setState({
-      foo: 'bar'
-    });
+    this.setState(
+      actions.updateTableHeadRowSelectedState(isSelected)
+    );
 
     if (selectRow && selectRow.onSelectAll) {
       selectRow.onSelectAll(this.state.viewedTableData, isSelected, event);
