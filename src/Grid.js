@@ -282,7 +282,7 @@ class Grid extends Component {
     });
 
     if (selectRow && selectRow.onSelectAll) {
-      selectRow.onSelectAll(this.state.tableData, isSelected, event);
+      selectRow.onSelectAll(this.state.viewedTableData, isSelected, event);
     }
   }
 

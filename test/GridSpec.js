@@ -551,4 +551,24 @@ describe('<Grid>', () => {
     assert.equal(component.state.selectedRowsObj[0].selected, false);
   });
 
+  it('应该正确设置表格内的状态', () => {
+    let component = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={[
+          {type: 'double', id: 'jine', label: '金额'}
+        ]}
+        tableData={[
+          {jine: ''},
+          {jine: null},
+          {jine: undefined},
+          {jine: 123}
+        ]}
+      />
+    );
+    assert.equal(component.state.viewedTableData[0].jine, '');
+    assert.equal(component.state.viewedTableData[1].jine, null);
+    assert.equal(component.state.viewedTableData[2].jine, undefined);
+    assert.equal(component.state.viewedTableData[3].jine, 123);
+  });
+
 });
