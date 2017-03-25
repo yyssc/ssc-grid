@@ -198,7 +198,10 @@ export default class Form extends Component {
     // 如果是枚举型，默认使用第一个选项的值
     this.props.fieldsModel.forEach(fieldModel => {
       if (fieldModel.type === 'enum') {
-        this.state.formData[fieldModel.id] = fieldModel.data[0].key;
+        // 当值为空（null/undefined）的时候，需要计算一下默认值，默认选择第一条
+        if (!this.state.formData[fieldModel.id]) {
+          this.state.formData[fieldModel.id] = fieldModel.data[0].key;
+        }
       }
     });
   }
@@ -534,7 +537,7 @@ export default class Form extends Component {
                   formGroup = (
                     <TextField
                       key={index}
-                      controlId={`formControl-${id}`}
+                      controlId={'formControl-' + id}
                       label={label}
                       value={this.state.formData[id]}
                       placeholder={placeholder}
@@ -545,16 +548,11 @@ export default class Form extends Component {
                 }
                 break;
               case 'enum': // 6
-                // 当值为空（null/undefined）的时候，需要计算一下默认值，默认选择第一条
-                let enumValue = fieldModel.data[0].key;
-                if (this.state.formData[id]) {
-                  enumValue = this.state.formData[id];
-                }
                 formCtrl = (
                   <FormControl
                     componentClass="select"
                     placeholder={placeholder || '请选择'}
-                    value={enumValue}
+                    value={this.state.formData[id]}
                     onChange={this.handleChange.bind(this, id, validators)}
                   >
                     {fieldModel.data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}

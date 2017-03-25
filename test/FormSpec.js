@@ -174,35 +174,43 @@ describe('<Form>', () => {
     assert.equal(getInput(instance, 0).value, getDefaultFormData().danjubianhao);
     assert.equal(getInput(instance, 2).value, getDefaultFormData().jine);
 
-    // select（下拉框）的值应该和输入的默认值相同
-    let form = getForm(instance);
-    let formGroups = form.querySelectorAll('.form-group');
-    if (!formGroups) {
-      // console.log('formGroups not defined');
-      return;
-    }
-    let formGroups1 = formGroups[1];
-    if (!formGroups1) {
-      // console.log('formGroups1 not defined');
-      return;
-    }
-    let options = formGroups1.querySelectorAll('option');
-    if (!options) {
-      // console.log('options not defined');
-      return;
-    }
-    // options.forEach(opt => {
-    //   console.log('option', opt);
-    //   if (opt.value === 'D3') {
-    //     assert.equal(opt.selected, true);
-    //   }
-    // });
-
     // form.querySelectorAll('.form-group')[1].querySelectorAll('option').forEach(opt => {
     //   if (opt.value === 'D3') {
     //     assert.equal(opt.selected, true);
     //   }
     // });
+  });
+
+  it('应该将下拉菜单正确设置为输入的默认值', () => {
+    let component = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={[
+          {type: 'enum', id: 'danjuleixing', label: '单据类型',
+            data: [
+              {key: '2631', value: '差旅费借款单'},
+              {key: '2632', value: '会议费借款单'},
+              {key: 'D3', value: '付款单'}
+            ]
+          }
+        ]}
+        defaultData={{
+          danjuleixing: 'D3'
+        }}
+      />
+    );
+    assert.equal(component.state.formData['danjuleixing'], 'D3');
+
+    // select（下拉框）的值应该和输入的默认值相同
+    let form = getForm(component);
+    let formGroups = form.querySelectorAll('.form-group');
+    let options = formGroups[0].querySelectorAll('option');
+    options.forEach(opt => {
+      if (opt.value === 'D3') {
+        assert.equal(opt.selected, true);
+      } else {
+        assert.equal(opt.selected, false);
+      }
+    });
   });
 
   it('Should change input value', () => {
