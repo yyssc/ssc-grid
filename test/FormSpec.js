@@ -198,7 +198,7 @@ describe('<Form>', () => {
         }}
       />
     );
-    assert.equal(component.state.formData['danjuleixing'], 'D3');
+    assert.equal(component.state.formData.danjuleixing, 'D3');
 
     // select（下拉框）的值应该和输入的默认值相同
     let form = getForm(component);
