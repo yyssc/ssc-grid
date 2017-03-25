@@ -205,6 +205,8 @@ describe('<Form>', () => {
     let formGroups = form.querySelectorAll('.form-group');
     let options = formGroups[0].querySelectorAll('option');
     console.log(options);
+    console.log(typeof options);
+    console.log(typeof options.forEach);
     options.forEach(opt => {
       if (opt.value === 'D3') {
         assert.equal(opt.selected, true);
