@@ -101,6 +101,17 @@ describe('<Form>', () => {
     return formNode.querySelector('button[type=submit]');
   }
 
+  // 打印节点类型
+  function printType(element) {
+    let types = ['HTMLElement', 'NodeList'];
+    types.forEach(type => console.log(type, element instanceof window[type]));
+  }
+
+  function printChromeVersion() {
+    let raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+    console.log('Chrome version:', raw ? parseInt(raw[2], 10) : false);
+  }
+
   /**
    * 只运行一个测试
    * it.only('', () => {});
@@ -200,6 +211,7 @@ describe('<Form>', () => {
     );
     assert.equal(component.state.formData.danjuleixing, 'D3');
 
+
     // select（下拉框）的值应该和输入的默认值相同
     let form = getForm(component);
     let formGroups = form.querySelectorAll('.form-group');
@@ -207,6 +219,8 @@ describe('<Form>', () => {
     console.log(options);
     console.log(typeof options);
     console.log(typeof options.forEach);
+    printType(options);
+    printChromeVersion();
     options.forEach(opt => {
       if (opt.value === 'D3') {
         assert.equal(opt.selected, true);
