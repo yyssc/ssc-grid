@@ -3,6 +3,9 @@ import ReactTestUtils from 'react-addons-test-utils';
 import ReactDOM from 'react-dom';
 
 import Grid from '../src/Grid';
+import { getTableHead, getTableRow, getTableHeadColumnContent,
+  getTableCellContent
+} from './helpers';
 
 function getTableData() {
   return [
@@ -60,50 +63,6 @@ function getCols() {
 }
 
 describe('<Grid>', () => {
-
-  // helper function
-
-  function getTableHead(instance) {
-    let node = ReactDOM.findDOMNode(instance); // <div> root node
-    let table = node.querySelector('table'); // <table>
-    return table.querySelector('thead'); // <thead>
-  }
-
-  function getTableHeadColumn(instance, index) {
-    let ths = getTableHead(instance).querySelectorAll('th');
-    return ths[index];
-  }
-
-  // 获得指定列头中的文本
-  // <th> -> textContent
-  function getTableHeadColumnContent(instance, index) {
-    return getTableHeadColumn(instance, index).textContent;
-  }
-
-  function getTableBody(instance) {
-    let node = ReactDOM.findDOMNode(instance); // <div> root node
-    let table = node.querySelector('table'); // <table>
-    return table.querySelector('tbody'); // <tbody>
-  }
-
-  // 得到行号为index（从0开始）的行DOM节点
-  function getTableRow(instance, index) {
-    let tbody = getTableBody(instance);
-    let trs = tbody.querySelectorAll('tr');
-    return trs[index];
-  }
-
-  // 获得单元格<td>节点
-  function getTableCell(instance, rowIndex, columnIndex) {
-    let trN = getTableRow(instance, rowIndex); // <tr> node
-    let tds = trN.querySelectorAll('td'); // <td> node list
-    return tds[columnIndex];
-  }
-
-  // 获得单元格中的内容，类型为string
-  function getTableCellContent(instance, rowIndex, columnIndex) {
-    return getTableCell(instance, rowIndex, columnIndex).textContent;
-  }
 
   /**
    * 将组件渲染到DOM中，是append的模式，所以每次调用都会创建一个新的<TextField>节点

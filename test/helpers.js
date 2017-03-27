@@ -31,3 +31,49 @@ export function getOne(collection) {
   expect(collection.length).to.equal(1);
   return collection[0];
 }
+
+/**
+ * Grid helper function
+ */
+
+export function getTableHead(instance) {
+  let node = ReactDOM.findDOMNode(instance); // <div> root node
+  let table = node.querySelector('table'); // <table>
+  return table.querySelector('thead'); // <thead>
+}
+
+export function getTableHeadColumn(instance, index) {
+  let ths = getTableHead(instance).querySelectorAll('th');
+  return ths[index];
+}
+
+// 获得指定列头中的文本
+// <th> -> textContent
+export function getTableHeadColumnContent(instance, index) {
+  return getTableHeadColumn(instance, index).textContent;
+}
+
+export function getTableBody(instance) {
+  let node = ReactDOM.findDOMNode(instance); // <div> root node
+  let table = node.querySelector('table'); // <table>
+  return table.querySelector('tbody'); // <tbody>
+}
+
+// 得到行号为index（从0开始）的行DOM节点
+export function getTableRow(instance, index) {
+  let tbody = getTableBody(instance);
+  let trs = tbody.querySelectorAll('tr');
+  return trs[index];
+}
+
+// 获得单元格<td>节点
+export function getTableCell(instance, rowIndex, columnIndex) {
+  let trN = getTableRow(instance, rowIndex); // <tr> node
+  let tds = trN.querySelectorAll('td'); // <td> node list
+  return tds[columnIndex];
+}
+
+// 获得单元格中的内容，类型为string
+export function getTableCellContent(instance, rowIndex, columnIndex) {
+  return getTableCell(instance, rowIndex, columnIndex).textContent;
+}

@@ -39,8 +39,27 @@ class Grid extends Component {
      */
     tableData: PropTypes.array.isRequired,
     /**
-     * 表格模型，表头每一列的名称和类型
-     * 可以通过hidden来隐藏列，只有当hidden===true的时候隐藏
+     * 表格模型，表头每一列的名称和类型，比如：
+     * ```js
+     * {
+     *   id: 'code',
+     *   type: 'string',
+     *   label: '编码'
+     * }
+     * ```
+     * 隐藏列
+     * ```js
+     * {
+     *   hidden: true
+     * }
+     * ```
+     * 自定义格式化
+     * ```js
+     * formatter: {
+     *   type: 'custom',
+     *   callback: value => `前缀_${value}_后缀`
+     * }
+     * ```
      */
     columnsModel: PropTypes.array.isRequired,
     /**

@@ -163,50 +163,58 @@ class GridRow extends Component {
 
       // value的可能不是string，比如参照类型，value的类型是object
       let value = rowObj[columnModel.id];
-      switch (columnModel.type) {
-        default:
-        case 'string': // 0
-          if (value === null || value === undefined) {
-            cellContent = '';
-          } else {
-            cellContent = value;
-          }
-          break;
-        case 'double': // 2 之前的金额类型
-          className = 'text-right';
-          if (value === null || value === undefined) {
-            cellContent = '';
-          } else {
-            cellContent = this.getNumberFormat(columnModel, value);
-          }
-          break;
-        case 'date': // 3
-          // 传入的数据为空的时候，UI上直接显示空字符串就行
-          if (value === '' || value === null || value === undefined) {
-            cellContent = '';
-          } else {
-            cellContent = this.getDateFormat(columnModel, value);
-          }
-          break;
-        case 'boolean': // 4
-          if (value === null || value === undefined) {
-            cellContent = '';
-          } else {
-            cellContent = value ? '是' : '否';
-          }
-          break;
-        case 'ref': // 5
-          cellContent = value && value.name ? value.name : '';
-          break;
-        case 'enum': // 6
-          if (columnModel.data) {
-            let foundEnumItem = columnModel.data.find(enumItem => (enumItem.key === value));
-            if (typeof foundEnumItem !== 'undefined') {
-              cellContent = foundEnumItem.value;
+
+      // 如果用户提供了自定义格式化方式，首选指定方法
+      if (columnModel.formatter && columnModel.formatter.type === 'custom') {
+        cellContent = columnModel.formatter.callback(value);
+      } else {
+        // 根据不同类型，渲染成不同值
+        switch (columnModel.type) {
+          default:
+          case 'string': // 0
+            if (value === null || value === undefined) {
+              cellContent = '';
+            } else {
+              cellContent = value;
             }
-          }
-          break;
+            break;
+          case 'double': // 2 之前的金额类型
+            className = 'text-right';
+            if (value === null || value === undefined) {
+              cellContent = '';
+            } else {
+              cellContent = this.getNumberFormat(columnModel, value);
+            }
+            break;
+          case 'date': // 3
+            // 传入的数据为空的时候，UI上直接显示空字符串就行
+            if (value === '' || value === null || value === undefined) {
+              cellContent = '';
+            } else {
+              cellContent = this.getDateFormat(columnModel, value);
+            }
+            break;
+          case 'boolean': // 4
+            if (value === null || value === undefined) {
+              cellContent = '';
+            } else {
+              cellContent = value;
+            }
+            break;
+          case 'ref': // 5
+            cellContent = value && value.name ? value.name : '';
+            break;
+          case 'enum': // 6
+            if (columnModel.data) {
+              let foundEnumItem = columnModel.data.find(enumItem => (enumItem.key === value));
+              if (typeof foundEnumItem !== 'undefined') {
+                cellContent = foundEnumItem.value;
+              }
+            }
+            break;
+        }
       }
+
       // 如果用户提供的数据有问题，比如columnModel.type是string，但是value却是
       // 一个Object，那么这里只能强制类型转换了。
       // TODO 需要给用户提示数据错误问题。
