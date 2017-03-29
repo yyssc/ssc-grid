@@ -124,8 +124,7 @@ export default class Form extends Component {
     onChange: PropTypes.func,
     /**
      * 当表单被提交的时候触发<br>
-     * 参数1, <code>event</code>, Event对象<br>
-     * 参数2. <code>formData</code>, 整个表单中所有控件的值，是一个JSON对象，结构和传入参数
+     * 参数1. `formData`, 整个表单中所有控件的值，是一个JSON对象，结构和传入参数
      *                  defaultData保持一致。<br>
      */
     onSubmit: PropTypes.func,
@@ -344,11 +343,12 @@ export default class Form extends Component {
         );
         if (validationUtils.isStatesValid(this.state.fieldsValidationState)) {
           if (this.props.onSubmit) {
-            this.props.onSubmit(event, formData);
+            this.props.onSubmit(formData);
           }
         }
       }
     );
+    event.preventDefault();
   }
 
   handleReset(event) {

@@ -62,11 +62,10 @@ const FormValidationExample = React.createClass({
     this.setState(newState);
   },
 
-  handleSubmit(event, formData) {
+  handleSubmit(formData) {
     alert('提交的数据: formData: \n' + JSON.stringify(
       formData,
       null, '  '));
-    event.preventDefault();
   },
 
   render() {
