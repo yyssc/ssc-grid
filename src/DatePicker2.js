@@ -67,6 +67,7 @@ export default class DatePicker2 extends Component {
     const { value, showMonthDropdown, showYearDropdown } = this.props;
     return (
       <ReactDatePicker
+        locale="zh-CN"
         className={this.props.className}
         calendarClassName={this.props.calendarClassName}
         showMonthDropdown={showMonthDropdown}
