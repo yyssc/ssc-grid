@@ -514,6 +514,7 @@ export default class Form extends Component {
                       align="justify"
                       emptyLabel=""
                       labelKey="name"
+                      multiple
                       onChange={this.handleReferChange.bind(this, id, validators)}
                       onBlur={this.handleReferBlur.bind(this, id, validators)}
                       placeholder="请选择..."
