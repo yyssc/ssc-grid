@@ -483,13 +483,7 @@ export default class Form extends Component {
                 break;
               case 'ref': // 5
                 const referValue = this.state.formData[id];
-                let defaultData = [{
-                  'id': '',
-                  'code': '',
-                  'name': '',
-                  'pid': '',
-                  'isLeaf': 'true'
-                }];
+                let defaultData = [];
                 if (referValue && referValue.id && referValue.code && referValue.name) {
                   defaultData[0] = { ...referValue };
                 }
