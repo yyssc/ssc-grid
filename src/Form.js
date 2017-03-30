@@ -570,8 +570,8 @@ export default class Form extends Component {
               case 'custom': // 后端没有该类型，这是前端自己定义的
                 formCtrl = (
                   <fieldModel.component
-                    value={this.state.formData[id]}
-                    onChange={this.handleCustomFieldChange.bind(this, id)}
+                    customFieldValue={this.state.formData[id]}
+                    onCustomFieldChange={this.handleCustomFieldChange.bind(this, id)}
                   />
                 );
                 formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
