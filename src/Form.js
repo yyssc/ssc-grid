@@ -517,6 +517,13 @@ export default class Form extends Component {
                       referType="list"
                       defaultSelected={defaultData}
                       ref={ref => this._myrefers = ref}
+                      renderMenuItemChildren={(option, /* props, index */) => {
+                        return [
+                          <div>
+                            {option.code + ' ' + option.name}
+                          </div>
+                        ];
+                      }}
                     />
                   );
                   formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,

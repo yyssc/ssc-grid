@@ -7,7 +7,17 @@ const mockFieldsModel = [
         refType: 'tree',
         rootName: '组织'
       },
-      referDataUrl: 'http://172.20.4.88:8088/refbase_ctr/queryRefJSON'
+      referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON'
+    }
+  },
+  {type: 'ref', id: 'parentid', label: '上级部门',
+    referConfig: {
+      referConditions: {
+        refCode: 'dept',
+        refType: 'tree',
+        rootName: '部门'
+      },
+      referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON'
     }
   },
   {type: 'ref', id: 'person', label: '部门主管',
@@ -28,6 +38,11 @@ const mockFormData = {
     id: 'G001ZM0000BASEDOCDEFAULTORG000000000',
     code: '0001',
     name: '默认组织',
+  },
+  parentid: {
+    code: 'fi',
+    name: '财务部门',
+    id: '27A8CFA0-A8EF-4D0B-AF99-B31861849471'
   },
   person: null
 };
