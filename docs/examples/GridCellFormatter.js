@@ -45,7 +45,10 @@ const mockColumnsData = [
   {type: 'date', id: 'danjuriqi2', label: '单据日期2', formatter: {}},
   {type: 'date', id: 'danjuriqi3', label: '单据日期3',
     formatter: { format: 'dddd, MMMM Do YYYY, h:mm:ss a' }},
-  {type: 'boolean', id: 'qiyong', label: '启用'}
+  {type: 'boolean', id: 'qiyong', label: '启用', formatter: {
+    type: 'custom',
+    callback: value => value ? '启用' : '禁用'
+  }}
 ];
 
 const GridColumnAlignExample = React.createClass({
