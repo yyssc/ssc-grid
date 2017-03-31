@@ -282,9 +282,11 @@ class Grid extends Component {
       )
     );
 
-
     if (selectRow && selectRow.onSelect) {
-      selectRow.onSelect(rowIdx, rowObj, isSelected, event, selectedRowsObj);
+      let selectedRowsArr = this.props.tableData.filter(
+        (row, idx) => selectedRowsObj[idx].selected === true
+      );
+      selectRow.onSelect(rowIdx, rowObj, isSelected, event, selectedRowsArr);
     }
   }
 
