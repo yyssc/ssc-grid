@@ -77,15 +77,29 @@ class Grid extends Component {
      * }
      * ```
      * `mode`，`checkbox`复选，`radio`单选
-     * `onSelect`，当选择单行的时候触发，参数：
-     * - `rowIdx` 行index
-     * - `rowObj` 行数据
-     * - `isSelected` 复选框/单选框选中状态true/false
-     * - `event` Event对象
-     * `onSelectAll`，当选择所有行的时候触发，参数：
-     * - `tableData` 所有行的数据
-     * - `isSelected` 复选框/单选框选中状态true/false
-     * - `event` Event对象
+     * `onSelect()`，当选择单行的时候触发，参数：
+     * - `@param {Number} rowIdx` 行index
+     * - `@param {Object} rowObj` 行数据
+     * - `@param {boolean} isSelected` 复选框/单选框选中状态true/false
+     * - `@param {Event} event` Event对象
+     * - `@param {Object} selectedRowsObj` 当前被选中的行，比如：
+     *   ```js
+     *   {
+     *     0: {selected: true}, // 第一行被选中
+     *     1: {selected: false} // 第二行未被选中
+     *   }
+     *   ```
+     * `onSelectAll()`，当选择所有行的时候触发，参数：
+     * - `@param {Object} tableData` 所有行的数据
+     * - `@param {boolean} isSelected` 复选框/单选框选中状态true/false
+     * - `@param {Event} event` Event对象
+     * - `@param {Object} selectedRowsObj` 当前被选中的行，比如：
+     *   ```js
+     *   {
+     *     0: {selected: true}, // 第一行被选中
+     *     1: {selected: false} // 第二行未被选中
+     *   }
+     *   ```
      */
     selectRow: PropTypes.object,
 
@@ -270,7 +284,7 @@ class Grid extends Component {
 
 
     if (selectRow && selectRow.onSelect) {
-      selectRow.onSelect(rowIdx, rowObj, isSelected, event);
+      selectRow.onSelect(rowIdx, rowObj, isSelected, event, selectedRowsObj);
     }
   }
 
@@ -292,7 +306,14 @@ class Grid extends Component {
     );
 
     if (selectRow && selectRow.onSelectAll) {
-      selectRow.onSelectAll(this.state.viewedTableData, isSelected, event);
+      let selectedRowsObj = {};
+
+      this.state.viewedTableData.forEach((item, index) => {
+        selectedRowsObj[index] = {};
+        selectedRowsObj[index].selected = isSelected;
+      });
+      selectRow.onSelectAll(this.state.viewedTableData, isSelected, event,
+        selectedRowsObj);
     }
   }
 

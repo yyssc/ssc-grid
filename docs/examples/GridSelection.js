@@ -77,7 +77,7 @@ const GridSelectionExample = React.createClass({
     });
   },
 
-  handleSelect(rowIdx, rowObj, selected/* , event */) {
+  handleSelect(rowIdx, rowObj, selected/* , event, selectedRowsObj */) {
     const { selectedRowsObj } = this.state;
     selectedRowsObj[rowIdx] = { selected };
     this.setState({
@@ -85,7 +85,7 @@ const GridSelectionExample = React.createClass({
     });
   },
 
-  handleSelectAll(tableData, selected/* , event */) {
+  handleSelectAll(tableData, selected/* , event, selectedRowsObj */) {
     let selectedRowsObj = {};
     tableData.forEach((row, idx) => {
       selectedRowsObj[idx] = { selected };
