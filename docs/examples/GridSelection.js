@@ -77,12 +77,13 @@ const GridSelectionExample = React.createClass({
     });
   },
 
-  handleSelect(rowIdx, rowObj, selected/* , event, selectedRowsObj */) {
+  handleSelect(rowIdx, rowObj, selected, event, selectedRows) {
     const { selectedRowsObj } = this.state;
     selectedRowsObj[rowIdx] = { selected };
     this.setState({
       selectedRowsObj
     });
+    alert('被选中的数据：\n' + JSON.stringify(selectedRows, null, '  '));
   },
 
   handleSelectAll(tableData, selected/* , event, selectedRowsObj */) {
