@@ -185,11 +185,14 @@ describe('<Form>', () => {
     assert.equal(getInput(instance, 0).value, getDefaultFormData().danjubianhao);
     assert.equal(getInput(instance, 2).value, getDefaultFormData().jine);
 
-    // form.querySelectorAll('.form-group')[1].querySelectorAll('option').forEach(opt => {
-    //   if (opt.value === 'D3') {
-    //     assert.equal(opt.selected, true);
-    //   }
-    // });
+    let form = getForm(instance);
+    let options = form.querySelectorAll('.form-group')[1].querySelectorAll('option');
+    for (let i = 0; i < options.length; ++i) {
+      let item = options[i];  // Calling myNodeList.item(i) isn't necessary in JavaScript
+      if (item.value === 'D3') {
+        assert.equal(item.selected, true);
+      }
+    }
   });
 
   it('应该将下拉菜单正确设置为输入的默认值', () => {
@@ -219,15 +222,16 @@ describe('<Form>', () => {
     console.log(options);
     console.log(typeof options);
     console.log(typeof options.forEach);
+    for (let i = 0; i < options.length; ++i) {
+      let item = options[i];  // Calling myNodeList.item(i) isn't necessary in JavaScript
+      if (item.value === 'D3') {
+        assert.equal(item.selected, true);
+      } else {
+        assert.equal(item.selected, false);
+      }
+    }
     printType(options);
     printChromeVersion();
-    options.forEach(opt => {
-      if (opt.value === 'D3') {
-        assert.equal(opt.selected, true);
-      } else {
-        assert.equal(opt.selected, false);
-      }
-    });
   });
 
   it('Should change input value', () => {
