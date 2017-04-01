@@ -590,6 +590,7 @@ export default class Form extends Component {
             <Button bsStyle="info" onClick={this.handleReset.bind(this)} type="reset">
               取消
             </Button>
+            {' '}
             <Button
               bsStyle="info"
               type="submit"
