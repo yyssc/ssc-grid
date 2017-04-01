@@ -245,6 +245,9 @@ class Grid extends Component {
       this.setState(
         actions.updateAllRowsSelectedState(false)
       );
+      this.setState(
+        actions.updateTableHeadRowSelectedState(false)
+      );
     }
   }
 
