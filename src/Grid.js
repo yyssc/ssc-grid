@@ -37,7 +37,10 @@ class Grid extends Component {
      * }
      * ```
      */
-    tableData: PropTypes.array.isRequired,
+    tableData: PropTypes.oneOfType([
+      PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
+      PropTypes.object
+    ]).isRequired,
     /**
      * 表格模型，表头每一列的名称和类型，比如：
      * ```js
@@ -61,7 +64,10 @@ class Grid extends Component {
      * }
      * ```
      */
-    columnsModel: PropTypes.array.isRequired,
+    columnsModel: PropTypes.oneOfType([
+      PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
+      PropTypes.object
+    ]).isRequired,
     /**
      * 分页
      */

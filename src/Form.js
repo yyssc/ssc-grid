@@ -99,7 +99,10 @@ export default class Form extends Component {
      * 当<code>matchFunc</code>返回值为true的时候，认为校验通过<br>
      * 对于自定义类型，如果不提供<code>helpText</code>，则默认不显示错误提示。
      */
-    fieldsModel: PropTypes.array.isRequired,
+    fieldsModel: PropTypes.oneOfType([
+      PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
+      PropTypes.object
+    ]).isRequired,
     /**
      * 填充表单值<br>
      * 时间类型比较特殊，请先转成
