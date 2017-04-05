@@ -23,24 +23,9 @@ class Grid extends Component {
 
   static propTypes = {
     /**
-     * 表格填充数据
-     * `type: boolean`，数据类型是
-     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Boolean_literals">boolean literal</a>或者是
-     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Data_types">Boolean类型</a>
-     * （注意和<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean全局对象</a>区分）
-     * `type: ref`，参照的值比较特殊，是一个object:
-     * ```
-     * pk_org: {
-     *   id: '22EA0EB9-FABA-4224-B290-5D041A1DF773',
-     *   code: '0403',
-     *   name: '委外部'
-     * }
-     * ```
+     * 当前页面号
      */
-    tableData: PropTypes.oneOfType([
-      PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
-      PropTypes.object
-    ]).isRequired,
+    activePage: PropTypes.number,
     /**
      * 表格模型，表头每一列的名称和类型，比如：
      * ```js
@@ -69,9 +54,36 @@ class Grid extends Component {
       PropTypes.object
     ]).isRequired,
     /**
+     * 选择一个单元格
+     */
+    onCellChecked: PropTypes.func,
+    /**
      * 分页
      */
     onPagination: PropTypes.func,
+    /**
+     * 每一行是否显示操作按钮列
+     * 默认的操作按钮在最右侧的列中，如果需要指定在左侧，可以通过
+     * `align`参数来设置
+     * ```
+     * {
+     *   align: 'left',
+     *   className: 'operation',
+     *   text: '操作'
+     * }
+     * ```
+     * 注意：当操作列和选择列同时存在的时候，选择列会显示在操作列的左侧
+     */
+    operationColumn: PropTypes.object,
+    /**
+     * 自定义的操作列组件
+     * 除非指定了`operationColumn`参数，否则操作列不会显示出来
+     */
+    operationColumnClass: elementType,
+    /**
+     * 是否显示分页
+     */
+    paging: PropTypes.bool,
     /**
      * 是否启用行选择，复选框/单选框
      * 默认为`null`，不显示
@@ -108,41 +120,29 @@ class Grid extends Component {
      *   ```
      */
     selectRow: PropTypes.object,
-
     /**
-     * 每一行是否显示操作按钮列
-     * 默认的操作按钮在最右侧的列中，如果需要指定在左侧，可以通过
-     * `align`参数来设置
+     * 表格填充数据
+     * `type: boolean`，数据类型是
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Boolean_literals">boolean literal</a>或者是
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Data_types">Boolean类型</a>
+     * （注意和<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean全局对象</a>区分）
+     * `type: ref`，参照的值比较特殊，是一个object:
      * ```
-     * {
-     *   align: 'left'
+     * pk_org: {
+     *   id: '22EA0EB9-FABA-4224-B290-5D041A1DF773',
+     *   code: '0403',
+     *   name: '委外部'
      * }
      * ```
-     * 注意：当操作列和选择列同时存在的时候，选择列会显示在操作列的左侧
      */
-    operationColumn: PropTypes.object,
-    /**
-     * 自定义的操作列组件
-     * 除非指定了`operationColumn`参数，否则操作列不会显示出来
-     */
-    operationColumnClass: elementType,
-
-    /**
-     * 选择一个单元格
-     */
-    onCellChecked: PropTypes.func,
-    /**
-     * 是否显示分页
-     */
-    paging: PropTypes.bool,
+    tableData: PropTypes.oneOfType([
+      PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
+      PropTypes.object
+    ]).isRequired,
     /**
      * 页面数量
      */
     totalPage: PropTypes.number,
-    /**
-     * 当前页面号
-     */
-    activePage: PropTypes.number,
     /**
      * 是否显示搜索框
      */
@@ -350,7 +350,7 @@ class Grid extends Component {
 
   render() {
     const { columnsModel,
-      selectRow, operationColumn, className,
+      selectRow, operationColumn,
       operationColumnClass: CustomComponent
     } = this.props;
 
@@ -398,6 +398,17 @@ class Grid extends Component {
       </th>) : null
     );
 
+    /**
+     * 渲染操作列的表头
+     */
+    const renderOperationHeader = ({ className, text }) => {
+      return (
+        <th className={classNames(className)}>
+          {text || '操作'}
+        </th>
+      );
+    };
+
     const pagination = (
       <Pagination className="pagination"
         prev
@@ -416,7 +427,7 @@ class Grid extends Component {
 
     // var onRow = this.props.onRow;
     return (
-      <div className={classNames(className)}>
+      <div className={classNames(this.props.className)}>
         {this.props.localSearch ? <TextField
           onChange={this.handleSearchChange.bind(this)}
         /> : null}
@@ -425,7 +436,7 @@ class Grid extends Component {
             <tr>
               { renderCheckboxHeader() }
               { renderTableHeader() }
-              { operationColumn ? <th>操作</th> : null }
+              { operationColumn ? renderOperationHeader(operationColumn) : null }
             </tr>
           </thead>
           <tbody>

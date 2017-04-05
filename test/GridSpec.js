@@ -210,35 +210,6 @@ describe('<Grid>', () => {
     assert.equal(tr2tds[5].textContent, ''); // 组织
   });
 
-  it('应该显示操作列', () => {
-    const CustomComponent = React.createClass({
-      handleUpdate() {},
-      handleDelete() {},
-      render() {
-        return (<td>
-          <span onClick={this.handleUpdate}
-            className="glyphicon glyphicon-pencil"></span>
-          <span onClick={this.handleDelete}
-            className="glyphicon glyphicon-trash"></span>
-        </td>);
-      }
-    });
-
-    let instance = ReactTestUtils.renderIntoDocument(
-      <Grid
-        columnsModel={getCols()}
-        tableData={getTableData()}
-        operationColumn={{}}
-        operationColumnClass={CustomComponent}
-      />
-    );
-
-    // 第一行所有<td>
-    let tr0tds = getTableRow(instance, 0).querySelectorAll('td'); // first <tr> -> <td>s
-    // 最后一列，有两个span，也就是两个操作按钮
-    assert.equal(tr0tds[6].querySelectorAll('span').length, 2);
-  });
-
   it('应该在<th>上显示正确的className', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Grid

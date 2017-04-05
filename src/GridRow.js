@@ -95,7 +95,7 @@ class GridRow extends Component {
     selectRow: null,
     selectionMode: 'checkbox',
     selected: false,
-    operationColumn: false
+    operationColumn: null
   };
 
   constructor(props) {

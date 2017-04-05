@@ -214,14 +214,10 @@ describe('<Form>', () => {
     );
     assert.equal(component.state.formData.danjuleixing, 'D3');
 
-
     // select（下拉框）的值应该和输入的默认值相同
     let form = getForm(component);
     let formGroups = form.querySelectorAll('.form-group');
     let options = formGroups[0].querySelectorAll('option');
-    console.log(options);
-    console.log(typeof options);
-    console.log(typeof options.forEach);
     for (let i = 0; i < options.length; ++i) {
       let item = options[i];  // Calling myNodeList.item(i) isn't necessary in JavaScript
       if (item.value === 'D3') {
@@ -230,8 +226,8 @@ describe('<Form>', () => {
         assert.equal(item.selected, false);
       }
     }
-    printType(options);
-    printChromeVersion();
+    // printType(options);
+    // printChromeVersion();
   });
 
   it('Should change input value', () => {
