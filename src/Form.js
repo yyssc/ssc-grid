@@ -512,7 +512,7 @@ export default class Form extends Component {
                       minLength={0}
                       align="justify"
                       emptyLabel=""
-                      labelKey="name"
+                      labelKey={referConditions.labelKey || 'name'}
                       multiple={false}
                       onChange={this.handleReferChange.bind(this, id, validators)}
                       onBlur={this.handleReferBlur.bind(this, id, validators)}
