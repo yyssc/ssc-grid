@@ -3,6 +3,7 @@ import ReactTestUtils from 'react-addons-test-utils';
 import ReactDOM from 'react-dom';
 
 import Form from '../src/Form';
+import { getForm, getInput, getSubmitButton } from './helpers';
 
 function getFieldsModel() {
   return [
@@ -86,31 +87,6 @@ function getDefaultFormData() {
 describe('<Form>', () => {
 
   // helper function
-
-  function getForm(instance) {
-    return ReactDOM.findDOMNode(instance);
-  }
-
-  function getInput(instance, index) {
-    const node = ReactDOM.findDOMNode(instance);
-    return node.querySelectorAll('input')[index];
-  }
-
-  function getSubmitButton(component) {
-    let formNode = getForm(component);
-    return formNode.querySelector('button[type=submit]');
-  }
-
-  // 打印节点类型
-  // function printType(element) {
-  //   let types = ['HTMLElement', 'NodeList'];
-  //   types.forEach(type => console.log(type, element instanceof window[type]));
-  // }
-
-  // function printChromeVersion() {
-  //   let raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
-  //   console.log('Chrome version:', raw ? parseInt(raw[2], 10) : false);
-  // }
 
   /**
    * 只运行一个测试

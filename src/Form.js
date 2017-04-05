@@ -581,6 +581,14 @@ export default class Form extends Component {
                 );
                 formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
                 break;
+              case 'hidden':
+                formGroup = (
+                  <input
+                    key={index}
+                    type="hidden"
+                    value={this.state.formData[id]}
+                  />
+                );
             }
             return formGroup;
           })
