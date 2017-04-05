@@ -11,6 +11,11 @@ import 'moment/locale/zh-cn';
 
 // 使用numeral对单元格中的数字进行格式化
 import numeral from 'numeral';
+
+// YBZSAAS-461
+// IE11不支持Array.prototype.find()
+import 'core-js/fn/array/find';
+
 // load a locale
 numeral.register('locale', 'chs', {
   delimiters: {

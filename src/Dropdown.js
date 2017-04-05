@@ -2,6 +2,10 @@ import React, { Component, PropTypes } from 'react';
 
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 
+// YBZSAAS-461
+// IE11不支持Array.prototype.find()
+import 'core-js/fn/array/find';
+
 /** 下拉菜单组件 */
 export default class Dropdown extends Component {
   static propTypes = {
