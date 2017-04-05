@@ -22,6 +22,8 @@ import DatePickerFormatterSection from './sections/DatePickerFormatterSection';
 import DatePickerPropsSection from './sections/DatePickerPropsSection';
 import DropdownBasicSection from './sections/DropdownBasicSection';
 import DropdownPropsSection from './sections/DropdownPropsSection';
+import Form2BasicSection from './sections/Form2BasicSection';
+import Form2PropsSection from './sections/Form2PropsSection';
 import FormBasicSection from './sections/FormBasicSection';
 import FormCustomFieldSection from './sections/FormCustomFieldSection';
 import FormValidationSection from './sections/FormValidationSection';
@@ -72,6 +74,9 @@ const sections = {
     formWithRefer: '#form-with-refer',
     formCustomField: '#form-custom-field',
     formProps: '#form-props',
+  form2: '#form2',
+    form2Basic: '#form2-basic',
+    form2Props: '#form2-props',
   textField: '#text-field',
     textFieldBasic: '#text-field-basic',
     textFieldValidation: '#text-field-validation',
@@ -264,6 +269,22 @@ const ComponentsPage = React.createClass({
               {this.renderScrollSpy(sections.formProps)}
               <FormPropsSection />
 
+              { /* Form2 */ }
+
+              {this.renderScrollSpy(sections.form2)}
+              <div className="bs-docs-section">
+                <h1 className="page-header">
+                  <Anchor id="form2">Form2组件</Anchor>
+                </h1>
+
+                <p className="lead"></p>
+              </div>
+
+              {this.renderScrollSpy(sections.form2Basic)}
+              <Form2BasicSection />
+              {this.renderScrollSpy(sections.form2Props)}
+              <Form2PropsSection />
+
               { /* TextField */ }
 
               {this.renderScrollSpy(sections.textField)}
@@ -421,6 +442,11 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.formWithRefer}>参照</NavItem>
                       <NavItem href={sections.formCustomField}>自定义类型字段</NavItem>
                       <NavItem href={sections.formProps}>属性</NavItem>
+                    </SubNav>
+
+                    <SubNav href={sections.form2} text="Form2">
+                      <NavItem href={sections.form2Basic}>简单表单</NavItem>
+                      <NavItem href={sections.form2Props}>属性</NavItem>
                     </SubNav>
 
                     <SubNav href={sections.textField} text="TextField">

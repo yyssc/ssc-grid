@@ -2,7 +2,14 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import ReactDOM from 'react-dom';
 
-import Form from '../src/Form';
+import Form from '../src/Form2';
+
+/**
+ * 是否启用日志
+ * 1 启用日志
+ * 0 禁用日志
+ */
+const LOG = 0;
 
 function getFieldsModel() {
   return [
@@ -83,7 +90,7 @@ function getDefaultFormData() {
   };
 }
 
-describe('<Form>', () => {
+describe('<Form2>', () => {
 
   // helper function
 
@@ -103,11 +110,13 @@ describe('<Form>', () => {
 
   // 打印节点类型
   function printType(element) {
+    if (LOG !== 1) return;
     let types = ['HTMLElement', 'NodeList'];
     types.forEach(type => console.log(type, element instanceof window[type]));
   }
 
   function printChromeVersion() {
+    if (LOG !== 1) return;
     let raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
     console.log('Chrome version:', raw ? parseInt(raw[2], 10) : false);
   }
@@ -230,8 +239,8 @@ describe('<Form>', () => {
         assert.equal(item.selected, false);
       }
     }
-    // printType(options);
-    // printChromeVersion();
+    printType(options);
+    printChromeVersion();
   });
 
   it('Should change input value', () => {

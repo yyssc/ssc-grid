@@ -18,6 +18,7 @@ const DatePicker = index.DatePicker;
 const DatePicker2 = index.DatePicker2;
 const Dropdown = index.Dropdown;
 const Form = index.Form;
+const Form2 = index.Form2;
 const Grid = index.Grid;
 const MonthPicker = index.MonthPicker;
 const TextField = index.TextField;
@@ -26,6 +27,12 @@ const YearPicker = index.YearPicker;
 
 // 例子中有些地方使用到了这些组件
 const FormControl = require('react-bootstrap/lib/FormControl');
+const FormGroup = require('react-bootstrap/lib/FormGroup');
+const ControlLabel = require('react-bootstrap/lib/ControlLabel');
+const Button = require('react-bootstrap/lib/Button');
+const ReactBootstrapGrid = require('react-bootstrap/lib/Grid');
+const Row = require('react-bootstrap/lib/Row');
+const Col = require('react-bootstrap/lib/Col');
 const Refers = require('ssc-refer').Refers;
 
 //const bootstrapUtils = require('../../src/utils/bootstrapUtils');

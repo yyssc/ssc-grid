@@ -1,0 +1,20 @@
+import React from 'react';
+
+import Anchor from '../Anchor';
+import ReactPlayground from '../ReactPlayground';
+import Samples from '../Samples';
+
+export default function FormSection() {
+  return (
+    <div className="bs-docs-section">
+      <h2 className="page-header">
+        <Anchor id="form2-description">Form2组件（表单组件）</Anchor> <small><code>&lt;Form2&gt;</code></small>
+      </h2>
+
+      <h3><Anchor id="form2-basic">简单表单</Anchor></h3>
+      <p>使用<code>formDefaultData</code>参数可以往表单中传入数据。</p>
+      <p>导入方法：<code>{`import { Form2 } from 'ssc-grid'`}</code></p>
+      <ReactPlayground codeText={Samples.Form2Basic} />
+    </div>
+  );
+}
