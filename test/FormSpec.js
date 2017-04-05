@@ -102,15 +102,15 @@ describe('<Form>', () => {
   }
 
   // 打印节点类型
-  function printType(element) {
-    let types = ['HTMLElement', 'NodeList'];
-    types.forEach(type => console.log(type, element instanceof window[type]));
-  }
+  // function printType(element) {
+  //   let types = ['HTMLElement', 'NodeList'];
+  //   types.forEach(type => console.log(type, element instanceof window[type]));
+  // }
 
-  function printChromeVersion() {
-    let raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
-    console.log('Chrome version:', raw ? parseInt(raw[2], 10) : false);
-  }
+  // function printChromeVersion() {
+  //   let raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+  //   console.log('Chrome version:', raw ? parseInt(raw[2], 10) : false);
+  // }
 
   /**
    * 只运行一个测试
