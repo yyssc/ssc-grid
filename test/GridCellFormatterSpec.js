@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-addons-test-utils';
 import Grid from '../src/Grid';
 import { getTableCellContent } from './helpers';
 
-describe('<Grid>', () => {
+describe('<Grid>单元格格式', () => {
 
   it('应该正确格式化boolean型', () => {
     let component = ReactTestUtils.renderIntoDocument(

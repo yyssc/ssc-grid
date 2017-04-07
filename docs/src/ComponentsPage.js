@@ -26,6 +26,7 @@ import Form2BasicSection from './sections/Form2BasicSection';
 import Form2PropsSection from './sections/Form2PropsSection';
 import FormBasicSection from './sections/FormBasicSection';
 import FormCustomFieldSection from './sections/FormCustomFieldSection';
+import FormHiddenFieldSection from './sections/FormHiddenFieldSection';
 import FormValidationSection from './sections/FormValidationSection';
 import FormWithReferSection from './sections/FormWithReferSection';
 import FormPropsSection from './sections/FormPropsSection';
@@ -73,6 +74,7 @@ const sections = {
     formValidation: '#form-validation',
     formWithRefer: '#form-with-refer',
     formCustomField: '#form-custom-field',
+    formHiddenField: '#form-hidden-field',
     formProps: '#form-props',
   form2: '#form2',
     form2Basic: '#form2-basic',
@@ -266,6 +268,8 @@ const ComponentsPage = React.createClass({
               <FormWithReferSection />
               {this.renderScrollSpy(sections.formCustomField)}
               <FormCustomFieldSection />
+              {this.renderScrollSpy(sections.formHiddenField)}
+              <FormHiddenFieldSection />
               {this.renderScrollSpy(sections.formProps)}
               <FormPropsSection />
 
@@ -441,6 +445,7 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.formValidation}>表单验证</NavItem>
                       <NavItem href={sections.formWithRefer}>参照</NavItem>
                       <NavItem href={sections.formCustomField}>自定义类型字段</NavItem>
+                      <NavItem href={sections.formHiddenField}>隐藏字段</NavItem>
                       <NavItem href={sections.formProps}>属性</NavItem>
                     </SubNav>
 

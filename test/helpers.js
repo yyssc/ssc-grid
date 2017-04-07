@@ -33,6 +33,21 @@ export function getOne(collection) {
 }
 
 /**
+ * debug
+ */
+
+// 打印节点类型
+export function printType(element) {
+  let types = ['HTMLElement', 'NodeList'];
+  types.forEach(type => console.log(type, element instanceof window[type]));
+}
+
+export function printChromeVersion() {
+  let raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+  console.log('Chrome version:', raw ? parseInt(raw[2], 10) : false);
+}
+
+/**
  * Grid helper function
  */
 
@@ -76,4 +91,22 @@ export function getTableCell(instance, rowIndex, columnIndex) {
 // 获得单元格中的内容，类型为string
 export function getTableCellContent(instance, rowIndex, columnIndex) {
   return getTableCell(instance, rowIndex, columnIndex).textContent;
+}
+
+/**
+ * Form组件 helper function
+ */
+
+export function getForm(instance) {
+  return ReactDOM.findDOMNode(instance);
+}
+
+export function getInput(instance, index) {
+  const node = ReactDOM.findDOMNode(instance);
+  return node.querySelectorAll('input')[index];
+}
+
+export function getSubmitButton(component) {
+  let formNode = getForm(component);
+  return formNode.querySelector('button[type=submit]');
 }

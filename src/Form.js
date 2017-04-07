@@ -3,6 +3,12 @@ import React, { Component, PropTypes } from 'react';
 
 import { Button, Form as ReactBootstrapForm, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
+// 表单(form)控件(control/widget)
+import { FormControl, Checkbox } from 'react-bootstrap';
+
+// YBZSAAS-461
+// IE11不支持Array.prototype.find()
+import 'core-js/fn/array/find';
 
 import * as validationUtils from './utils/validation';
 import * as actions from './Form.actions';
@@ -14,9 +20,6 @@ import * as actions from './Form.actions';
  * 来源：https://en.wikipedia.org/wiki/Widget_(GUI)
  */
 
-// 表单(form)控件(control/widget)
-import { FormControl, Checkbox } from 'react-bootstrap';
-
 // 使用我们自己造的轮子
 import TextField from './TextField';
 import DatePicker from './DatePicker';
@@ -25,7 +28,6 @@ import { Refers } from 'ssc-refer';
 /**
  * helper functions
  */
-
 
 /**
  * @param {Array|Null} validators 当不需要校验的时候为null
@@ -510,7 +512,7 @@ export default class Form extends Component {
                       minLength={0}
                       align="justify"
                       emptyLabel=""
-                      labelKey="name"
+                      labelKey={referConditions.labelKey || 'name'}
                       multiple={false}
                       onChange={this.handleReferChange.bind(this, id, validators)}
                       onBlur={this.handleReferBlur.bind(this, id, validators)}
@@ -581,6 +583,14 @@ export default class Form extends Component {
                 );
                 formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
                 break;
+              case 'hidden':
+                formGroup = (
+                  <input
+                    key={index}
+                    type="hidden"
+                    value={this.state.formData[id]}
+                  />
+                );
             }
             return formGroup;
           })
