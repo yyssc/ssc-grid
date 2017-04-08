@@ -48,6 +48,13 @@ export function printChromeVersion() {
 }
 
 /**
+ * 组件通用helper function
+ */
+export function getNode(instance) {
+  return ReactDOM.findDOMNode(instance);
+}
+
+/**
  * Grid helper function
  */
 
