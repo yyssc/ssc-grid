@@ -1,8 +1,9 @@
 import classNames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 
-import { Button, Form as ReactBootstrapForm, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
+import { Button, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
+import * as ReactBootstrap from 'react-bootstrap';
 // 表单(form)控件(control/widget)
 import { FormControl, Checkbox } from 'react-bootstrap';
 
@@ -117,6 +118,12 @@ export default class Form extends Component {
      * ```
      */
     defaultData: PropTypes.object,
+    /**
+     * 自定义布局
+     */
+    layout: PropTypes.shape({
+      columns: React.PropTypes.number
+    }),
     /**
      * 当控件的值发生改变的时候触发
      * @param {String} `fieldId` 也就是传入组件中fieldsModel中的id<br>
@@ -391,229 +398,464 @@ export default class Form extends Component {
     return this.state.fieldsHelpText[fieldId];
   }
 
-  render() {
-    const { fieldsModel, className } = this.props;
-    return (
-      <ReactBootstrapForm horizontal className={classNames(className)}>
-        {
-          fieldsModel.map((fieldModel, index) => {
-            const { id, type, label, placeholder, validators } = fieldModel;
-            let formGroup, formCtrl;
+  genFormGroup(fieldModel, index) {
+    const { id, type, label, placeholder, validators } = fieldModel;
+    let formGroup, formCtrl;
 
-            // 隐藏字段
-            if (fieldModel.hidden === true) {
-              return null;
-            }
+    // 隐藏字段
+    if (fieldModel.hidden === true) {
+      return null;
+    }
 
-
-            function getDefaultFormGroup(key, fieldId, fieldLabel, fieldFormCtrl, fm,
-              validationState, helpText
-            ) {
-              return (
-                <FormGroup
-                  key={key}
-                  controlId={`formControl-${fieldId}`}
-                  validationState={validationState}
-                >
-                  <Col sm={2}>
-                    {}
-                  </Col>
-                  <Col componentClass={ControlLabel} sm={2}>
-                  <div>
-                    {fieldLabel}
-                    <span style={{ color: 'red' }}>
-                      {showRequiredStar(validators) ? '*' : null}
-                    </span>
-                    </div>
-                  </Col>
-                  <Col sm={5}>
-                    {fieldFormCtrl}
-                    {fm.type !== 'ref' ? <FormControl.Feedback /> : null}
-                    <HelpBlock>{helpText}</HelpBlock>
-                  </Col>
-                  <Col sm={3}>
-                    {}
-                  </Col>
-                </FormGroup>
-              );
-            }
-
-            // 根据字段类型，生成不同的表单控件
-            // 每个类型后面跟着的数字是后端传过来的datatype，这里提到的后端是
-            // 用友自己的后端，Form组件并不依赖这些datetype数值，写在这里只是
-            // 为了用友程序员调试方便。
-            switch (type) {
-              default:
-              case 'string': // 0
-              case 'double': // 2
-                formGroup = (
-                  <TextField
-                    key={index}
-                    ref={(textField) => { this.fieldRefs[id] = textField; }}
-                    controlId={`formControl-${id}`}
-                    label={label}
-                    value={this.state.formData[id]}
-                    placeholder={placeholder}
-                    showValidationStyle={typeof validators === 'object'}
-                    validationState={this.getFieldValidationState(id)}
-                    helpText={
-                      validationUtils.isFieldValid(this.state.fieldsValidationState[id])
-                      ? null
-                      : this.getFieldHelpText(id)
-                    }
-                    showRequiredStar={showRequiredStar(validators)}
-                    inForm
-                    onChange={this.handleChange.bind(this, id, validators)}
-                  />
-                );
-                break;
-              case 'date': // 3
-                // 注意value的格式
-                // value = new Date().toISOString()
-                formCtrl = (
-                  <DatePicker
-                    value={this.state.formData[id]}
-                    onChange={this.handleDatePickerChange.bind(this, id)}
-                  />
-                );
-                formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
-                break;
-              case 'boolean': // 4
-                formCtrl = (
-                  <Checkbox checked={this.state.formData[id]}
-                    onChange={this.handleChange.bind(this, id, validators)}
-                  />
-                );
-                formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
-                break;
-              case 'ref': // 5
-                const referValue = this.state.formData[id];
-                let defaultData = [];
-                if (referValue && referValue.id && referValue.code && referValue.name) {
-                  defaultData[0] = { ...referValue };
-                }
-                if (fieldModel.referConfig) {
-                  // 参照的示例数据
-                  // ```js
-                  // defaultData =   [{
-                  //   "id": "02EDD0F9-F384-43BF-9398-5E5781DAC5D0",
-                  //   "code": "0502",
-                  //   "name": "二车间",
-                  //   "pid": "",
-                  //   "isLeaf": "true"
-                  // }];
-                  // const referConditions = {"refCode":"dept","refType":"tree","rootName":"部门"};
-                  // const referDataUrl = "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
-                  // ```
-                  const {
-                    referConditions,
-                    referDataUrl,
-                    labelKey
-                  } = fieldModel.referConfig;
-                  formCtrl = (
-                    <Refers
-                      disabled={false}
-                      minLength={0}
-                      align="justify"
-                      emptyLabel=""
-                      labelKey={labelKey || 'name'}
-                      multiple={false}
-                      onChange={this.handleReferChange.bind(this, id, validators)}
-                      onBlur={this.handleReferBlur.bind(this, id, validators)}
-                      placeholder="请选择..."
-                      referConditions={referConditions}
-                      referDataUrl={referDataUrl}
-                      referType="list"
-                      defaultSelected={defaultData}
-                      ref={ref => this._myrefers = ref}
-                      renderMenuItemChildren={(option, /* props, index */) => {
-                        return [
-                          <div>
-                            {option.code + ' ' + option.name}
-                          </div>
-                        ];
-                      }}
-                    />
-                  );
-                  formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
-                    this.getFieldValidationState(id),
-                    (
-                      validationUtils.isFieldValid(this.state.fieldsValidationState[id])
-                      ? null
-                      : this.getFieldHelpText(id)
-                    )
-                  );
-                } else {
-                  // fallback到纯文本框
-                  formGroup = (
-                    <TextField
-                      key={index}
-                      controlId={'formControl-' + id}
-                      label={label}
-                      value={this.state.formData[id]}
-                      placeholder={placeholder}
-                      inForm
-                      onChange={this.handleChange.bind(this, id, validators)}
-                    />
-                  );
-                }
-                break;
-              case 'enum': // 6
-                formCtrl = (
-                  <FormControl
-                    componentClass="select"
-                    placeholder={placeholder || '请选择'}
-                    value={this.state.formData[id]}
-                    onChange={this.handleChange.bind(this, id, validators)}
-                  >
-                    {fieldModel.data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
-                  </FormControl>
-                );
-                formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
-                  this.getFieldValidationState(id),
-                  (
-                    validationUtils.isFieldValid(this.state.fieldsValidationState[id])
-                    ? null
-                    : this.getFieldHelpText(id)
-                  )
-                );
-                break;
-              case 'custom': // 后端没有该类型，这是前端自己定义的
-                formCtrl = (
-                  <fieldModel.component
-                    customFieldValue={this.state.formData[id]}
-                    onCustomFieldChange={this.handleCustomFieldChange.bind(this, id)}
-                  />
-                );
-                formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
-                break;
-              case 'hidden':
-                formGroup = (
-                  <input
-                    key={index}
-                    type="hidden"
-                    value={this.state.formData[id]}
-                  />
-                );
-            }
-            return formGroup;
-          })
-        }
-        <FormGroup>
-          <Col sm={12} className={'text-center'}>
-            <Button bsStyle="info" onClick={this.handleReset.bind(this)} type="reset">
-              取消
-            </Button>
-            {' '}
-            <Button
-              bsStyle="info"
-              type="submit"
-              disabled={this.state.submitButtonDisabled}
-              onClick={this.handleSubmit.bind(this)}
-            >完成</Button>
+    function getDefaultFormGroup(key, fieldId, fieldLabel, fieldFormCtrl, fm,
+      validationState, helpText
+    ) {
+      return (
+        <FormGroup
+          key={key}
+          controlId={`formControl-${fieldId}`}
+          validationState={validationState}
+        >
+          <Col sm={2}>
+            {}
+          </Col>
+          <Col componentClass={ControlLabel} sm={2}>
+          <div>
+            {fieldLabel}
+            <span style={{ color: 'red' }}>
+              {showRequiredStar(validators) ? '*' : null}
+            </span>
+            </div>
+          </Col>
+          <Col sm={5}>
+            {fieldFormCtrl}
+            {fm.type !== 'ref' ? <FormControl.Feedback /> : null}
+            <HelpBlock>{helpText}</HelpBlock>
+          </Col>
+          <Col sm={3}>
+            {}
           </Col>
         </FormGroup>
-      </ReactBootstrapForm>
-    );
+      );
+    }
+
+    // 根据字段类型，生成不同的表单控件
+    // 每个类型后面跟着的数字是后端传过来的datatype，这里提到的后端是
+    // 用友自己的后端，Form组件并不依赖这些datetype数值，写在这里只是
+    // 为了用友程序员调试方便。
+    switch (type) {
+      default:
+      case 'string': // 0
+      case 'double': // 2
+        formGroup = (
+          <TextField
+            key={index}
+            ref={(textField) => { this.fieldRefs[id] = textField; }}
+            controlId={`formControl-${id}`}
+            label={label}
+            value={this.state.formData[id]}
+            placeholder={placeholder}
+            showValidationStyle={typeof validators === 'object'}
+            validationState={this.getFieldValidationState(id)}
+            helpText={
+              validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+              ? null
+              : this.getFieldHelpText(id)
+            }
+            showRequiredStar={showRequiredStar(validators)}
+            inForm
+            onChange={this.handleChange.bind(this, id, validators)}
+          />
+        );
+        break;
+      case 'date': // 3
+        // 注意value的格式
+        // value = new Date().toISOString()
+        formCtrl = (
+          <DatePicker
+            value={this.state.formData[id]}
+            onChange={this.handleDatePickerChange.bind(this, id)}
+          />
+        );
+        formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
+        break;
+      case 'boolean': // 4
+        formCtrl = (
+          <Checkbox checked={this.state.formData[id]}
+            onChange={this.handleChange.bind(this, id, validators)}
+          />
+        );
+        formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
+        break;
+      case 'ref': // 5
+        const referValue = this.state.formData[id];
+        let defaultData = [];
+        if (referValue && referValue.id && referValue.code && referValue.name) {
+          defaultData[0] = { ...referValue };
+        }
+        if (fieldModel.referConfig) {
+          // 参照的示例数据
+          // ```js
+          // defaultData =   [{
+          //   "id": "02EDD0F9-F384-43BF-9398-5E5781DAC5D0",
+          //   "code": "0502",
+          //   "name": "二车间",
+          //   "pid": "",
+          //   "isLeaf": "true"
+          // }];
+          // const referConditions = {"refCode":"dept","refType":"tree","rootName":"部门"};
+          // const referDataUrl = "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
+          // ```
+          const { referConditions, referDataUrl } = fieldModel.referConfig;
+          formCtrl = (
+            <Refers
+              disabled={false}
+              minLength={0}
+              align="justify"
+              emptyLabel=""
+              labelKey={referConditions.labelKey || 'name'}
+              multiple={false}
+              onChange={this.handleReferChange.bind(this, id, validators)}
+              onBlur={this.handleReferBlur.bind(this, id, validators)}
+              placeholder="请选择..."
+              referConditions={referConditions}
+              referDataUrl={referDataUrl}
+              referType="list"
+              defaultSelected={defaultData}
+              ref={ref => this._myrefers = ref}
+              renderMenuItemChildren={(option, /* props, index */) => {
+                return [
+                  <div>
+                    {option.code + ' ' + option.name}
+                  </div>
+                ];
+              }}
+            />
+          );
+          formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
+            this.getFieldValidationState(id),
+            (
+              validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+              ? null
+              : this.getFieldHelpText(id)
+            )
+          );
+        } else {
+          // fallback到纯文本框
+          formGroup = (
+            <TextField
+              key={index}
+              controlId={'formControl-' + id}
+              label={label}
+              value={this.state.formData[id]}
+              placeholder={placeholder}
+              inForm
+              onChange={this.handleChange.bind(this, id, validators)}
+            />
+          );
+        }
+        break;
+      case 'enum': // 6
+        formCtrl = (
+          <FormControl
+            componentClass="select"
+            placeholder={placeholder || '请选择'}
+            value={this.state.formData[id]}
+            onChange={this.handleChange.bind(this, id, validators)}
+          >
+            {fieldModel.data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
+          </FormControl>
+        );
+        formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+            ? null
+            : this.getFieldHelpText(id)
+          )
+        );
+        break;
+      case 'custom': // 后端没有该类型，这是前端自己定义的
+        formCtrl = (
+          <fieldModel.component
+            customFieldValue={this.state.formData[id]}
+            onCustomFieldChange={this.handleCustomFieldChange.bind(this, id)}
+          />
+        );
+        formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
+        break;
+      case 'hidden':
+        formGroup = (
+          <input
+            key={index}
+            type="hidden"
+            value={this.state.formData[id]}
+          />
+        );
+    }
+    return formGroup;
+  }
+
+  genField(fieldModel) {
+    const { id, type, label, placeholder, validators } = fieldModel;
+    let formGroup, formCtrl;
+
+    // 隐藏字段
+    if (fieldModel.hidden === true) {
+      return null;
+    }
+
+    function getDefaultFormGroup(fieldId, fieldLabel, fieldFormCtrl, fm,
+      validationState, helpText
+    ) {
+      return (
+        <FormGroup
+          controlId={`formControl-${fieldId}`}
+          validationState={validationState}
+        >
+          <ControlLabel>{fieldLabel}</ControlLabel>
+          <span style={{ color: 'red' }}>
+            {showRequiredStar(validators) ? '*' : null}
+          </span>
+          {fieldFormCtrl}
+          {fm.type !== 'ref' ? <FormControl.Feedback /> : null}
+          <HelpBlock>{helpText}</HelpBlock>
+        </FormGroup>
+      );
+    }
+
+    // 根据字段类型，生成不同的表单控件
+    // 每个类型后面跟着的数字是后端传过来的datatype，这里提到的后端是
+    // 用友自己的后端，Form组件并不依赖这些datetype数值，写在这里只是
+    // 为了用友程序员调试方便。
+    switch (type) {
+      default:
+      case 'string': // 0
+      case 'double': // 2
+        formGroup = (
+          <TextField
+            ref={(textField) => { this.fieldRefs[id] = textField; }}
+            controlId={`formControl-${id}`}
+            label={label}
+            value={this.state.formData[id]}
+            placeholder={placeholder}
+            showValidationStyle={typeof validators === 'object'}
+            validationState={this.getFieldValidationState(id)}
+            helpText={
+              validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+              ? null
+              : this.getFieldHelpText(id)
+            }
+            showRequiredStar={showRequiredStar(validators)}
+            inForm
+            onChange={this.handleChange.bind(this, id, validators)}
+          />
+        );
+        break;
+      case 'date': // 3
+        // 注意value的格式
+        // value = new Date().toISOString()
+        formCtrl = (
+          <DatePicker
+            value={this.state.formData[id]}
+            onChange={this.handleDatePickerChange.bind(this, id)}
+          />
+        );
+        formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel);
+        break;
+      case 'boolean': // 4
+        formCtrl = (
+          <Checkbox checked={this.state.formData[id]}
+            onChange={this.handleChange.bind(this, id, validators)}
+          />
+        );
+        formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel);
+        break;
+      case 'ref': // 5
+        const referValue = this.state.formData[id];
+        let defaultData = [];
+        if (referValue && referValue.id && referValue.code && referValue.name) {
+          defaultData[0] = { ...referValue };
+        }
+        if (fieldModel.referConfig) {
+          // 参照的示例数据
+          // ```js
+          // defaultData =   [{
+          //   "id": "02EDD0F9-F384-43BF-9398-5E5781DAC5D0",
+          //   "code": "0502",
+          //   "name": "二车间",
+          //   "pid": "",
+          //   "isLeaf": "true"
+          // }];
+          // const referConditions = {"refCode":"dept","refType":"tree","rootName":"部门"};
+          // const referDataUrl = "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
+          // ```
+          const { referConditions, referDataUrl } = fieldModel.referConfig;
+          formCtrl = (
+            <Refers
+              disabled={false}
+              minLength={0}
+              align="justify"
+              emptyLabel=""
+              labelKey={referConditions.labelKey || 'name'}
+              multiple={false}
+              onChange={this.handleReferChange.bind(this, id, validators)}
+              onBlur={this.handleReferBlur.bind(this, id, validators)}
+              placeholder="请选择..."
+              referConditions={referConditions}
+              referDataUrl={referDataUrl}
+              referType="list"
+              defaultSelected={defaultData}
+              ref={ref => this._myrefers = ref}
+              renderMenuItemChildren={(option, /* props, index */) => {
+                return [
+                  <div>
+                    {option.code + ' ' + option.name}
+                  </div>
+                ];
+              }}
+            />
+          );
+          formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel,
+            this.getFieldValidationState(id),
+            (
+              validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+              ? null
+              : this.getFieldHelpText(id)
+            )
+          );
+        } else {
+          // fallback到纯文本框
+          formGroup = (
+            <TextField
+              controlId={'formControl-' + id}
+              label={label}
+              value={this.state.formData[id]}
+              placeholder={placeholder}
+              inForm
+              onChange={this.handleChange.bind(this, id, validators)}
+            />
+          );
+        }
+        break;
+      case 'enum': // 6
+        formCtrl = (
+          <FormControl
+            componentClass="select"
+            placeholder={placeholder || '请选择'}
+            value={this.state.formData[id]}
+            onChange={this.handleChange.bind(this, id, validators)}
+          >
+            {fieldModel.data.map(opt => <option key={opt.key} value={opt.key}>{opt.value}</option>)}
+          </FormControl>
+        );
+        formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+            ? null
+            : this.getFieldHelpText(id)
+          )
+        );
+        break;
+      case 'custom': // 后端没有该类型，这是前端自己定义的
+        formCtrl = (
+          <fieldModel.component
+            customFieldValue={this.state.formData[id]}
+            onCustomFieldChange={this.handleCustomFieldChange.bind(this, id)}
+          />
+        );
+        formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel);
+        break;
+      case 'hidden':
+        formGroup = (
+          <input
+            type="hidden"
+            value={this.state.formData[id]}
+          />
+        );
+    }
+    return formGroup;
+  }
+
+  render() {
+    let form;
+    if (this.props.layout) {
+      const FormCol = ({fieldModel}) => (
+        <ReactBootstrap.Col md={3}>
+          {
+            this.genField(fieldModel)
+          }
+        </ReactBootstrap.Col>
+      );
+      const FormRow = ({rowFieldsModel}) => (
+        <ReactBootstrap.Row>
+        {
+          rowFieldsModel.map((fieldModel, index) => (
+            <FormCol key={index} fieldModel={fieldModel} />
+          ))
+        }
+        </ReactBootstrap.Row>
+      );
+      // 一维数组变二维数组
+      // http://stackoverflow.com/a/22464838/4685522
+      // 还可以使用math.js提供的reshape http://mathjs.org/docs/reference/functions/reshape.html
+      let layoutFieldModel = [];
+      let formFieldIndex = 0;
+      while (this.props.fieldsModel.length) {
+        layoutFieldModel.push(this.props.fieldsModel.splice(0, 3));
+        formFieldIndex++;
+      }
+      form = (
+        <ReactBootstrap.Form inline className={classNames(this.props.className)}>
+          <ReactBootstrap.Grid>
+            {
+              layoutFieldModel.map((fieldsModel, index) => (
+                <FormRow key={index} rowFieldsModel={fieldsModel} />
+              ))
+            }
+            <ReactBootstrap.Row>
+              <ReactBootstrap.Col className={'text-center'}>
+                <FormGroup>
+                  <Button bsStyle="info" onClick={this.handleReset.bind(this)} type="reset">
+                    取消
+                  </Button>
+                  {' '}
+                  <Button
+                    bsStyle="info"
+                    type="submit"
+                    disabled={this.state.submitButtonDisabled}
+                    onClick={this.handleSubmit.bind(this)}
+                  >完成</Button>
+                </FormGroup>
+              </ReactBootstrap.Col>
+            </ReactBootstrap.Row>
+          </ReactBootstrap.Grid>
+        </ReactBootstrap.Form>
+      );
+    } else {
+      form = (
+        <ReactBootstrap.Form horizontal className={classNames(this.props.className)}>
+          {
+            this.props.fieldsModel.map(this.genFormGroup.bind(this))
+          }
+          <FormGroup>
+            <Col sm={12} className={'text-center'}>
+              <Button bsStyle="info" onClick={this.handleReset.bind(this)} type="reset">
+                取消
+              </Button>
+              {' '}
+              <Button
+                bsStyle="info"
+                type="submit"
+                disabled={this.state.submitButtonDisabled}
+                onClick={this.handleSubmit.bind(this)}
+              >完成</Button>
+            </Col>
+          </FormGroup>
+        </ReactBootstrap.Form>
+      );
+    }
+    return form;
   }
 }
