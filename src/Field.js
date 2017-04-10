@@ -43,12 +43,17 @@ export default class Field extends Component {
     placeholder: PropTypes.string,
     /**
      * 字段类型
+     * 目前支持的字段类型:
+     * - date
+     * - double
+     * - enum
+     * - string
      */
     type: (props, propName, componentName) => {
-      if (!/(string|double|enum)/.test(props[propName])) {
+      if (!/(date|double|enum|string)/.test(props[propName])) {
         return new Error(
           '`<' + componentName + ' ' + propName + '=' + props[propName] + ' ... >` ' +
-          '错误的字段类型，字段类型必须是：string, double, enum之一'
+          '错误的字段类型，字段类型必须是：date, double, enum, string之一'
         );
       }
     },
@@ -101,12 +106,14 @@ export default class Field extends Component {
       default:
       case 'string': // 0
       case 'double': // 2
+      case 'date': // 3
         formGroup = (
           <FormGroup
             controlId={controlId}
             validationState={validationState}
           >
             <ControlLabel>{label}</ControlLabel>
+            {' '}
             <FormControl
               type="text"
               value={this.state.value}

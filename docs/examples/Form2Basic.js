@@ -1,32 +1,4 @@
-const mockFieldsModel = [
-  {type: 'string', id: 'id', label: '主键', hidden: true},
-  {type: 'string', id: 'danjubianhao', label: '单据编号'},
-  {type: 'string', id: 'name2', label: '名称2', hidden: true},
-  {type: 'string', id: 'name3', label: '名称3', hidden: true},
-  {type: 'string', id: 'name4', label: '名称4', hidden: true},
-  {type: 'enum', id: 'danjuleixing', label: '单据类型', placeholder: '请选择单据类型',
-    data: [
-      {key: '2631', value: '差旅费借款单'},
-      {key: '2632', value: '会议费借款单'},
-      {key: 'D3', value: '付款单'}
-    ]
-  },
-  {type: 'double', id: 'jine', label: '金额'},
-  {type: 'date', id: 'danjuriqi', label: '单据日期'},
-  {type: 'boolean', id: 'qiyong', label: '启用'}
-];
-
-const mockFormData = {
-  id: '22EA0EB9-FABA-4224-B290-4D041A1DF773',
-  danjubianhao: 'abc123',
-  name2: '名称2',
-  name3: '名称3',
-  name4: '名称4',
-  danjuleixing: 'D3',
-  jine: '12.00',
-  danjuriqi: new Date('2017-02-14').toISOString(),
-  qiyong: false
-};
+// const ReactBootstrap = require('react-bootstrap/lib/');
 
 const Form2BasicExample = React.createClass({
   getInitialState() {
@@ -55,35 +27,44 @@ const Form2BasicExample = React.createClass({
 
   render() {
     return (
-      <ReactBootstrapGrid>
+      <ReactBootstrap.Grid>
         <Form2
-          fieldsModel={mockFieldsModel}
-          defaultData={mockFormData}
           onChange={this.handleChange}
           onSubmit={this.handleSubmit}
           onBlur={this.handleBlur}
           onReset={this.handleReset}
         >
-        <Row>
-          <Col>
-        <FormGroup controlId="formInlineName">
-          <ControlLabel>Name</ControlLabel>
-          {' '}
-          <FormControl type="text" placeholder="Jane Doe" />
-        </FormGroup>
-        {' '}
-        <FormGroup controlId="formInlineEmail">
-          <ControlLabel>Email</ControlLabel>
-          {' '}
-          <FormControl type="email" placeholder="jane.doe@example.com" />
-        </FormGroup>
-          </Col>
-        </Row>
-        <Button type="submit">
-          Send invitation
-        </Button>
+        <ReactBootstrap.Row>
+          <ReactBootstrap.Col md={4}>
+            <Field type="string" label="借款单位" value="东海天海光电有限公司" required />
+          </ReactBootstrap.Col>
+          <ReactBootstrap.Col md={4}>
+            <Field type="string" label="单据编号" disabled />
+          </ReactBootstrap.Col>
+          <ReactBootstrap.Col md={4}>
+            <Field type="string" label="单据状态" disabled />
+          </ReactBootstrap.Col>
+        </ReactBootstrap.Row>
+        <ReactBootstrap.Row>
+          <ReactBootstrap.Col md={4}>
+            <Field type="date" label="单据日期" required />
+          </ReactBootstrap.Col>
+          <ReactBootstrap.Col md={4}>
+            <Field type="string" label="币种" value="人民币" required />
+          </ReactBootstrap.Col>
+          <ReactBootstrap.Col md={4}>
+            <Field type="double" label="合计金额" value="0.00" disabled required />
+          </ReactBootstrap.Col>
+        </ReactBootstrap.Row>
+        <ReactBootstrap.Row>
+          <ReactBootstrap.Col md={12}>
+            <ReactBootstrap.Button type="submit">
+              提交
+            </ReactBootstrap.Button>
+          </ReactBootstrap.Col>
+        </ReactBootstrap.Row>
         </Form2>
-      </ReactBootstrapGrid>
+      </ReactBootstrap.Grid>
     );
   }
 

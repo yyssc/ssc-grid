@@ -10,6 +10,7 @@
     "DatePicker": false,
     "DatePicker2": false,
     "Dropdown": false,
+    "Field": false,
     "Form": false,
     "Form2": false,
     "Grid": false,
@@ -21,7 +22,7 @@
     "YearPicker": false,
 
     "FormControl": false,
-    "ReactBootstrapGrid": false,
+    "ReactBootstrap": false,
 
     "bootstrapUtils": false,
 
