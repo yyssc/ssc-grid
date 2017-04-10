@@ -101,6 +101,26 @@ export default class Form extends Component {
      * ```
      * 当<code>matchFunc</code>返回值为true的时候，认为校验通过<br>
      * 对于自定义类型，如果不提供<code>helpText</code>，则默认不显示错误提示。
+     * 参照类型
+     * ```js
+     * {
+     *   type: 'ref',
+     *   referConfig: {
+     *     referConditions: {
+     *       refCode: 'org',
+     *       refType: 'tree',
+     *       rootName: '组织'
+     *     },
+     *     referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON',
+     *     renderMenuItemChildren: (option, props, index) => ([
+     *       <div>{option.code + ' ' + option.name}</div>
+     *     ])
+     *     labelKey: 'name'
+     *   }
+     * }
+     * ```
+     * renderMenuItemChildren: 详见[ssc-refer](https://ssc-refer.github.io/components.html)
+     * labelKey: 详见[ssc-refer](https://ssc-refer.github.io/components.html)
      */
     fieldsModel: PropTypes.oneOfType([
       PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
@@ -506,14 +526,19 @@ export default class Form extends Component {
           // const referConditions = {"refCode":"dept","refType":"tree","rootName":"部门"};
           // const referDataUrl = "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
           // ```
-          const { referConditions, referDataUrl } = fieldModel.referConfig;
+          const {
+            referConditions,
+            referDataUrl,
+            labelKey,
+            renderMenuItemChildren
+          } = fieldModel.referConfig;
           formCtrl = (
             <Refers
               disabled={false}
               minLength={0}
               align="justify"
               emptyLabel=""
-              labelKey={referConditions.labelKey || 'name'}
+              labelKey={labelKey || 'name'}
               multiple={false}
               onChange={this.handleReferChange.bind(this, id, validators)}
               onBlur={this.handleReferBlur.bind(this, id, validators)}
@@ -523,13 +548,11 @@ export default class Form extends Component {
               referType="list"
               defaultSelected={defaultData}
               ref={ref => this._myrefers = ref}
-              renderMenuItemChildren={(option, /* props, index */) => {
-                return [
-                  <div>
-                    {option.code + ' ' + option.name}
-                  </div>
-                ];
-              }}
+              renderMenuItemChildren={renderMenuItemChildren
+                ? renderMenuItemChildren
+                : (option, /* props, index */) => ([
+                  <div>{option.code + ' ' + option.name}</div>
+                ])}
             />
           );
           formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
@@ -690,14 +713,19 @@ export default class Form extends Component {
           // const referConditions = {"refCode":"dept","refType":"tree","rootName":"部门"};
           // const referDataUrl = "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
           // ```
-          const { referConditions, referDataUrl } = fieldModel.referConfig;
+          const {
+            referConditions,
+            referDataUrl,
+            labelKey,
+            renderMenuItemChildren
+          } = fieldModel.referConfig;
           formCtrl = (
             <Refers
               disabled={false}
               minLength={0}
               align="justify"
               emptyLabel=""
-              labelKey={referConditions.labelKey || 'name'}
+              labelKey={labelKey || 'name'}
               multiple={false}
               onChange={this.handleReferChange.bind(this, id, validators)}
               onBlur={this.handleReferBlur.bind(this, id, validators)}
@@ -707,13 +735,11 @@ export default class Form extends Component {
               referType="list"
               defaultSelected={defaultData}
               ref={ref => this._myrefers = ref}
-              renderMenuItemChildren={(option, /* props, index */) => {
-                return [
-                  <div>
-                    {option.code + ' ' + option.name}
-                  </div>
-                ];
-              }}
+              renderMenuItemChildren={renderMenuItemChildren
+                ? renderMenuItemChildren
+                : (option, /* props, index */) => ([
+                  <div>{option.code + ' ' + option.name}</div>
+                ])}
             />
           );
           formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel,
