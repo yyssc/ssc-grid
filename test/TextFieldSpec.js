@@ -14,10 +14,6 @@ describe('<TextField>', () => {
     return ReactDOM.findDOMNode(instance);
   }
 
-  function getInputInTextField(instance) {
-    return getTextField(instance).querySelector('input');
-  }
-
   /**
    * 文本框是否有验证错误样式
    * 如果验证错误，className会自动添加has-error，UI就可以显示红色错误提示
@@ -49,7 +45,7 @@ describe('<TextField>', () => {
       <TextField />
     );
 
-    assert.equal(getTextField(instance).nodeName, 'DIV');
+    assert.equal(getTextField(instance).nodeName, 'INPUT');
   });
 
   it('正确显示通过value传入的值', () => {
@@ -59,7 +55,7 @@ describe('<TextField>', () => {
       />
     );
 
-    assert.equal(getInputInTextField(instance).value, 'abc123');
+    assert.equal(getTextField(instance).value, 'abc123');
   });
 
   it('当用户修改文本框中的值的时候，输入框中的值和组件的state.value应该相应变化', () => {
@@ -70,7 +66,7 @@ describe('<TextField>', () => {
     );
 
     // 修改文本框中的值
-    let inputNode = getInputInTextField(instance);
+    let inputNode = getTextField(instance);
     inputNode.value = 'abc123 modified';
     ReactTestUtils.Simulate.change(inputNode);
     assert.equal(inputNode.value, 'abc123 modified');
@@ -83,7 +79,7 @@ describe('<TextField>', () => {
     );
 
     // 修改文本框中的值
-    let inputNode = getInputInTextField(instance);
+    let inputNode = getTextField(instance);
     inputNode.value = 'modified';
     ReactTestUtils.Simulate.change(inputNode);
     assert.equal(inputNode.value, 'modified');

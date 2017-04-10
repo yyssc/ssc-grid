@@ -139,10 +139,17 @@ export default class Form extends Component {
      */
     defaultData: PropTypes.object,
     /**
-     * 自定义布局
+     * 自定义布局（bootstrap列布局）
+     * ```js
+     * {
+     *   columnCount: 3
+     *   columnWidth: 4
+     * }
+     * ```
      */
     layout: PropTypes.shape({
-      columns: React.PropTypes.number
+      columnCount: React.PropTypes.number,
+      columnWidth: React.PropTypes.number
     }),
     /**
      * 当控件的值发生改变的时候触发
@@ -180,7 +187,6 @@ export default class Form extends Component {
      */
     this.fieldRefs = {};
     this.state = {
-      formData: {...this.props.defaultData},
       /**
        * 记录当前表单的验证状态，这是一个键值对，其中key表示字段id，value表示
        * 验证状态，用户需要自己判断所有字段是否都验证通过了
@@ -211,6 +217,7 @@ export default class Form extends Component {
        * 这是react-bootstrap中关于form validation的直接映射
        */
       fieldsHelpText: {},
+      formData: {...this.props.defaultData},
       /**
        * 提交按钮是否被禁用
        * 当值为true的时候，提交按钮的样式为“禁用”
@@ -235,6 +242,26 @@ export default class Form extends Component {
         }
       }
     });
+
+    // 构建用于进行布局的表单
+    if (this.props.layout) {
+      let rowIdx = 0;
+      let colIdx = 0;
+      this.layoutFieldsModel = [];
+      this.props.fieldsModel.forEach((fieldModel) => {
+        if (!this.layoutFieldsModel[rowIdx]) {
+          this.layoutFieldsModel[rowIdx] = [];
+        }
+        if (colIdx === this.props.layout.columnCount) {
+          this.layoutFieldsModel[++rowIdx] = [];
+          colIdx = 0;
+        }
+        this.layoutFieldsModel[rowIdx].push(fieldModel);
+        if (fieldModel.type !== 'hidden') {
+          colIdx++;
+        }
+      });
+    }
   }
 
   componentWillMount() {
@@ -418,7 +445,7 @@ export default class Form extends Component {
     return this.state.fieldsHelpText[fieldId];
   }
 
-  genFormGroup(fieldModel, index) {
+  genLayoutFormGroup(fieldModel, index) {
     const { id, type, label, placeholder, validators } = fieldModel;
     let formGroup, formCtrl;
 
@@ -442,15 +469,27 @@ export default class Form extends Component {
           <Col componentClass={ControlLabel} sm={2}>
           <div>
             {fieldLabel}
-            <span style={{ color: 'red' }}>
-              {showRequiredStar(validators) ? '*' : null}
-            </span>
+            {
+              typeof validators === 'object'
+              ? <span style={{ color: 'red' }}>
+                  {showRequiredStar(validators) ? '*' : null}
+                </span>
+              : null
+            }
             </div>
           </Col>
           <Col sm={5}>
             {fieldFormCtrl}
-            {fm.type !== 'ref' ? <FormControl.Feedback /> : null}
-            <HelpBlock>{helpText}</HelpBlock>
+            {
+              typeof validators === 'object' && fm.type !== 'ref'
+              ? <FormControl.Feedback />
+              : null
+            }
+            {
+              typeof validators === 'object'
+              ? <HelpBlock>{helpText}</HelpBlock>
+              : null
+            }
           </Col>
           <Col sm={3}>
             {}
@@ -467,25 +506,21 @@ export default class Form extends Component {
       default:
       case 'string': // 0
       case 'double': // 2
-        formGroup = (
+        formCtrl = (
           <TextField
-            key={index}
-            ref={(textField) => { this.fieldRefs[id] = textField; }}
-            controlId={`formControl-${id}`}
             label={label}
             value={this.state.formData[id]}
             placeholder={placeholder}
-            showValidationStyle={typeof validators === 'object'}
-            validationState={this.getFieldValidationState(id)}
-            helpText={
-              validationUtils.isFieldValid(this.state.fieldsValidationState[id])
-              ? null
-              : this.getFieldHelpText(id)
-            }
-            showRequiredStar={showRequiredStar(validators)}
-            inForm
             onChange={this.handleChange.bind(this, id, validators)}
           />
+        );
+        formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+            ? null
+            : this.getFieldHelpText(id)
+          )
         );
         break;
       case 'date': // 3
@@ -555,17 +590,9 @@ export default class Form extends Component {
                 ])}
             />
           );
-          formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
-            this.getFieldValidationState(id),
-            (
-              validationUtils.isFieldValid(this.state.fieldsValidationState[id])
-              ? null
-              : this.getFieldHelpText(id)
-            )
-          );
         } else {
           // fallback到纯文本框
-          formGroup = (
+          formCtrl = (
             <TextField
               key={index}
               controlId={'formControl-' + id}
@@ -577,6 +604,14 @@ export default class Form extends Component {
             />
           );
         }
+        formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+            ? null
+            : this.getFieldHelpText(id)
+          )
+        );
         break;
       case 'enum': // 6
         formCtrl = (
@@ -655,24 +690,21 @@ export default class Form extends Component {
       default:
       case 'string': // 0
       case 'double': // 2
-        formGroup = (
+        formCtrl = (
           <TextField
-            ref={(textField) => { this.fieldRefs[id] = textField; }}
-            controlId={`formControl-${id}`}
             label={label}
             value={this.state.formData[id]}
             placeholder={placeholder}
-            showValidationStyle={typeof validators === 'object'}
-            validationState={this.getFieldValidationState(id)}
-            helpText={
-              validationUtils.isFieldValid(this.state.fieldsValidationState[id])
-              ? null
-              : this.getFieldHelpText(id)
-            }
-            showRequiredStar={showRequiredStar(validators)}
-            inForm
             onChange={this.handleChange.bind(this, id, validators)}
           />
+        );
+        formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+            ? null
+            : this.getFieldHelpText(id)
+          )
         );
         break;
       case 'date': // 3
@@ -742,17 +774,9 @@ export default class Form extends Component {
                 ])}
             />
           );
-          formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel,
-            this.getFieldValidationState(id),
-            (
-              validationUtils.isFieldValid(this.state.fieldsValidationState[id])
-              ? null
-              : this.getFieldHelpText(id)
-            )
-          );
         } else {
           // fallback到纯文本框
-          formGroup = (
+          formCtrl = (
             <TextField
               controlId={'formControl-' + id}
               label={label}
@@ -763,6 +787,14 @@ export default class Form extends Component {
             />
           );
         }
+        formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+            ? null
+            : this.getFieldHelpText(id)
+          )
+        );
         break;
       case 'enum': // 6
         formCtrl = (
@@ -808,11 +840,13 @@ export default class Form extends Component {
     let form;
     if (this.props.layout) {
       const FormCol = ({fieldModel}) => (
-        <ReactBootstrap.Col md={3}>
-          {
-            this.genField(fieldModel)
-          }
-        </ReactBootstrap.Col>
+        fieldModel.type === 'hidden' || fieldModel.hidden === true
+        ? this.genField(fieldModel)
+        : (
+            <ReactBootstrap.Col md={this.props.layout.columnWidth}>
+              {this.genField(fieldModel)}
+            </ReactBootstrap.Col>
+          )
       );
       const FormRow = ({rowFieldsModel}) => (
         <ReactBootstrap.Row>
@@ -823,20 +857,11 @@ export default class Form extends Component {
         }
         </ReactBootstrap.Row>
       );
-      // 一维数组变二维数组
-      // http://stackoverflow.com/a/22464838/4685522
-      // 还可以使用math.js提供的reshape http://mathjs.org/docs/reference/functions/reshape.html
-      let layoutFieldModel = [];
-      let formFieldIndex = 0;
-      while (this.props.fieldsModel.length) {
-        layoutFieldModel.push(this.props.fieldsModel.splice(0, 3));
-        formFieldIndex++;
-      }
       form = (
         <ReactBootstrap.Form inline className={classNames(this.props.className)}>
           <ReactBootstrap.Grid>
             {
-              layoutFieldModel.map((fieldsModel, index) => (
+              this.layoutFieldsModel.map((fieldsModel, index) => (
                 <FormRow key={index} rowFieldsModel={fieldsModel} />
               ))
             }
@@ -863,7 +888,7 @@ export default class Form extends Component {
       form = (
         <ReactBootstrap.Form horizontal className={classNames(this.props.className)}>
           {
-            this.props.fieldsModel.map(this.genFormGroup.bind(this))
+            this.props.fieldsModel.map(this.genLayoutFormGroup.bind(this))
           }
           <FormGroup>
             <Col sm={12} className={'text-center'}>

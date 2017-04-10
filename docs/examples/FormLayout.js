@@ -58,7 +58,10 @@ const FormLayoutExample = React.createClass({
       <Form
         fieldsModel={mockFieldsModel}
         defaultData={mockFormData}
-        layout={{ columns: 3 }}
+        layout={{
+          columnCount: 3,
+          columnWidth: 4
+        }}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
         onBlur={this.handleBlur}
