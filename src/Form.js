@@ -505,14 +505,18 @@ export default class Form extends Component {
                   // const referConditions = {"refCode":"dept","refType":"tree","rootName":"部门"};
                   // const referDataUrl = "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
                   // ```
-                  const { referConditions, referDataUrl } = fieldModel.referConfig;
+                  const {
+                    referConditions,
+                    referDataUrl,
+                    labelKey
+                  } = fieldModel.referConfig;
                   formCtrl = (
                     <Refers
                       disabled={false}
                       minLength={0}
                       align="justify"
                       emptyLabel=""
-                      labelKey={referConditions.labelKey || 'name'}
+                      labelKey={labelKey || 'name'}
                       multiple={false}
                       onChange={this.handleReferChange.bind(this, id, validators)}
                       onBlur={this.handleReferBlur.bind(this, id, validators)}
