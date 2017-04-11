@@ -101,7 +101,7 @@ export default class Form extends Component {
      * ```
      * 当<code>matchFunc</code>返回值为true的时候，认为校验通过<br>
      * 对于自定义类型，如果不提供<code>helpText</code>，则默认不显示错误提示。
-     * 参照类型
+     * 参照类型，字段定义举例：
      * ```js
      * {
      *   type: 'ref',
@@ -119,8 +119,14 @@ export default class Form extends Component {
      *   }
      * }
      * ```
-     * renderMenuItemChildren: 详见[ssc-refer](https://ssc-refer.github.io/components.html)
-     * labelKey: 详见[ssc-refer](https://ssc-refer.github.io/components.html)
+     * 所有`referConfig`下的属性直接向下传递给`Refers`组件，
+     * 比如`referConfig = { foo: 'bar' }`，那么就相当于
+     * ```jsx
+     * <Refers
+     *   foo="bar"
+     * />
+     * ```
+     * 关于`Refers`组件的属性定义，详见[ssc-refer](https://ssc-refer.github.io/components.html)
      */
     fieldsModel: PropTypes.oneOfType([
       PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
@@ -558,36 +564,26 @@ export default class Form extends Component {
           //   "pid": "",
           //   "isLeaf": "true"
           // }];
-          // const referConditions = {"refCode":"dept","refType":"tree","rootName":"部门"};
-          // const referDataUrl = "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
+          // fieldModel.referConfig = {
+          //   referConditions: {"refCode":"dept","refType":"tree","rootName":"部门"};
+          //   referDataUrl: "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
+          // }
           // ```
-          const {
-            referConditions,
-            referDataUrl,
-            labelKey,
-            renderMenuItemChildren
-          } = fieldModel.referConfig;
           formCtrl = (
             <Refers
+              {...fieldModel.referConfig}
+              labelKey={fieldModel.referConfig.labelKey || 'name'}
               disabled={false}
               minLength={0}
               align="justify"
               emptyLabel=""
-              labelKey={labelKey || 'name'}
               multiple={false}
               onChange={this.handleReferChange.bind(this, id, validators)}
               onBlur={this.handleReferBlur.bind(this, id, validators)}
               placeholder="请选择..."
-              referConditions={referConditions}
-              referDataUrl={referDataUrl}
               referType="list"
               defaultSelected={defaultData}
               ref={ref => this._myrefers = ref}
-              renderMenuItemChildren={renderMenuItemChildren
-                ? renderMenuItemChildren
-                : (option, /* props, index */) => ([
-                  <div>{option.code + ' ' + option.name}</div>
-                ])}
             />
           );
         } else {
@@ -742,36 +738,25 @@ export default class Form extends Component {
           //   "pid": "",
           //   "isLeaf": "true"
           // }];
-          // const referConditions = {"refCode":"dept","refType":"tree","rootName":"部门"};
-          // const referDataUrl = "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
+          // fieldModel.referConfig = {
+          //   referConditions: {"refCode":"dept","refType":"tree","rootName":"部门"};
+          //   referDataUrl: "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
+          // }
           // ```
-          const {
-            referConditions,
-            referDataUrl,
-            labelKey,
-            renderMenuItemChildren
-          } = fieldModel.referConfig;
           formCtrl = (
             <Refers
+              {...fieldModel.referConfig}
               disabled={false}
               minLength={0}
               align="justify"
               emptyLabel=""
-              labelKey={labelKey || 'name'}
               multiple={false}
               onChange={this.handleReferChange.bind(this, id, validators)}
               onBlur={this.handleReferBlur.bind(this, id, validators)}
               placeholder="请选择..."
-              referConditions={referConditions}
-              referDataUrl={referDataUrl}
               referType="list"
               defaultSelected={defaultData}
               ref={ref => this._myrefers = ref}
-              renderMenuItemChildren={renderMenuItemChildren
-                ? renderMenuItemChildren
-                : (option, /* props, index */) => ([
-                  <div>{option.code + ' ' + option.name}</div>
-                ])}
             />
           );
         } else {
