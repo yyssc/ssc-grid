@@ -6,6 +6,21 @@
 import update from 'immutability-helper';
 
 /**
+ * 更新一行的选中状态
+ */
+export function updateRowSelectedState(rowIdx, isSelected) {
+  return (prevState/* , props */) => {
+    return update(prevState, {
+      selectedRowsObj: {
+        [rowIdx]: {
+          selected: { $set: isSelected }
+        }
+      }
+    });
+  };
+}
+
+/**
  * 批量更新所有行的选中状态
  */
 export function updateAllRowsSelectedState(isSelected) {
@@ -13,8 +28,9 @@ export function updateAllRowsSelectedState(isSelected) {
     let selectedRowsObj = {};
 
     prevState.viewedTableData.forEach((item, index) => {
-      selectedRowsObj[index] = {};
-      selectedRowsObj[index].selected = isSelected;
+      selectedRowsObj[index] = {
+        selected: isSelected
+      };
     });
 
     return update(prevState, {

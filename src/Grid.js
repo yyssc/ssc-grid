@@ -87,31 +87,39 @@ class Grid extends Component {
     /**
      * 是否启用行选择，复选框/单选框
      * 默认为`null`，不显示
-     * ```json
+     * ```js
      * {
      *   mode: 'checkbox',
-     *   onSelect: (rowIdx, rowObj, isSelected, event) => {},
-     *   onSelectAll: (tableData, isSelected, event) => {}
+     *   onBeforeSelect: () => (),
+     *   onSelect: () => (),
+     *   onSelectAll: () => ()
      * }
      * ```
-     * `mode`，`checkbox`复选，`radio`单选
-     * `onSelect()`，当选择单行的时候触发，参数：
-     * - `@param {Number} rowIdx` 行index
-     * - `@param {Object} rowObj` 行数据
-     * - `@param {boolean} isSelected` 复选框/单选框选中状态true/false
-     * - `@param {Event} event` Event对象
-     * - `@param {Object} selectedRowsObj` 当前被选中的行，比如：
+     * ### mode选项
+     * `checkbox`复选，`radio`单选
+     * ### onBeforeSelect()回调
+     * 当单行的复选框/单选框的值发生改变的时候触发，如果函数返回非`true`，
+     * 则不执行状态修改，也就是UI上复选框/单选框的选择状态不发生改变，也不执行`onSelect()`
+     * 回调。
+     * 参数：
+     * - [Number] rowIdx 行index
+     * - [Object] rowObj 行数据
+     * - [boolean] isSelected 复选框/单选框选中状态true/false
+     * - [Event] event Event对象
+     * - [Array] selectedRowsObj 当前被选中的行的数据，比如：
      *   ```js
-     *   {
-     *     0: {selected: true}, // 第一行被选中
-     *     1: {selected: false} // 第二行未被选中
-     *   }
+     *   [ { id: '11', name: 'test11', note: 'foo' },
+     *     { id: '22', name: 'test22', note: 'bar' } ]
      *   ```
-     * `onSelectAll()`，当选择所有行的时候触发，参数：
-     * - `@param {Object} tableData` 所有行的数据
-     * - `@param {boolean} isSelected` 复选框/单选框选中状态true/false
-     * - `@param {Event} event` Event对象
-     * - `@param {Object} selectedRowsObj` 当前被选中的行，比如：
+     * ### onSelect()回调
+     * 当单行的复选框/单选框的值发生改变的时候触发
+     * 参数同`onBeforeSelect()`回调
+     * ### onSelectAll()回调
+     * 当点击表头复选框值发生改变的时候触发，参数：
+     * [Object] tableData` 所有行的数据
+     * [boolean] isSelected` 复选框/单选框选中状态true/false
+     * [Event] event` Event对象
+     * [Object] selectedRowsObj` 当前被选中的行，比如：
      *   ```js
      *   {
      *     0: {selected: true}, // 第一行被选中
@@ -258,37 +266,53 @@ class Grid extends Component {
     }
   }
 
-  // 选中一行
-  // 1. 改变当前行被选中的状态
-  // 2. (可能)改变表头行（全选）状态
-  handleSelect(rowIdx, rowObj, isSelected, event) {
+  /**
+   * 选中一行
+   * 1. 调用传入的`onBeforeSelect`回调，除非结果为true，否则不修改改行选中状态
+   * 2. 改变当前行被选中的状态
+   * 3. 改变表头行（全选）状态
+   */
+  handleRowSelect(rowIdx, rowObj, isSelected, event) {
     const { selectRow } = this.props;
-    const { selectedRowsObj } = this.state;
-    selectedRowsObj[rowIdx] = {
-      selected: isSelected
-    };
-    this.setState({
-      selectedRowsObj
-    });
+    // 记录所有被选中行的数据
+    let selectedRowsArr;
+
+    if (selectRow && selectRow.onBeforeSelect) {
+      selectedRowsArr = this.props.tableData.filter(
+        (row, idx) => this.state.selectedRowsObj[idx].selected === true
+      );
+      if (selectRow.onBeforeSelect(rowIdx, rowObj, isSelected, event,
+        selectedRowsArr) !== true) {
+        return;
+      }
+    }
 
     this.setState(
-      actions.updateTableHeadRowSelectedState(
-        isAllRowsSelected(selectedRowsObj)
-      )
+      actions.updateRowSelectedState(rowIdx, isSelected),
+      (/* prevState, props */) => {
+        // 由现在的状态来确定表头的checkbox是否被勾选
+        this.setState(
+          actions.updateTableHeadRowSelectedState(
+            isAllRowsSelected(this.state.selectedRowsObj)
+          ),
+          (/* prevState, props */) => {
+            if (selectRow && selectRow.onSelect) {
+              selectedRowsArr = this.props.tableData.filter(
+                (row, idx) => this.state.selectedRowsObj[idx].selected === true
+              );
+              selectRow.onSelect(rowIdx, rowObj, isSelected, event,
+                selectedRowsArr);
+            }
+          }
+        );
+      }
     );
-
-    if (selectRow && selectRow.onSelect) {
-      let selectedRowsArr = this.props.tableData.filter(
-        (row, idx) => selectedRowsObj[idx].selected === true
-      );
-      selectRow.onSelect(rowIdx, rowObj, isSelected, event, selectedRowsArr);
-    }
   }
 
   // 当选中所有行的时候
   // 1. 同时改变所有行的选中状态
   // 2. 改变表头行（全选）状态
-  handleSelectAll(event) {
+  handleAllRowSelect(event) {
     const { selectRow } = this.props;
     const isSelected = event.target.checked;
 
@@ -378,10 +402,15 @@ class Grid extends Component {
     );
 
     const renderCheckboxHeader = () => (
-      selectRow ? (<th>
-        <input type="checkbox" checked={this.state.isHeadRowSelected}
-          onChange={this.handleSelectAll.bind(this)} />
-      </th>) : null
+      selectRow
+        ? <th>
+            <input
+              type="checkbox"
+              checked={this.state.isHeadRowSelected}
+              onChange={this.handleAllRowSelect.bind(this)}
+            />
+          </th>
+        : null
     );
 
     /**
@@ -390,7 +419,7 @@ class Grid extends Component {
     const renderOperationHeader = ({ className, text }) => {
       return (
         <th className={classNames(className)}>
-          {text || '操作'}
+          { text || '操作' }
         </th>
       );
     };
@@ -427,7 +456,7 @@ class Grid extends Component {
           </thead>
           <tbody>
           {
-            this.state.viewedTableData.map((row, rowIdx) => {
+            this.state.viewedTableData.map((rowObj, rowIdx) => {
               let selected = false;
 
               // 该行是否被选中
@@ -437,13 +466,18 @@ class Grid extends Component {
 
               return (
                 <GridRow
+                  key={rowIdx}
+                  rowObj={rowObj}
                   selectRow={selectRow}
                   selectionMode={selectRow ? selectRow.mode : null}
-                  onSelect={selectRow ? this.handleSelect.bind(this) : null}
+                  onSelect={
+                    selectRow
+                    ? this.handleRowSelect.bind(this, rowIdx, rowObj)
+                    : null
+                  }
                   selected={selected}
                   operationColumn={operationColumn}
                   operationColumnClass={CustomComponent}
-                  rowObj={row} key={rowIdx}
                   columnsModel={columnsModel} rowIdx={rowIdx}
                   onCellChecked={this.handleCellChecked.bind(this)}
                   onRowDoubleClick={this.props.onRowDoubleClick}

@@ -107,11 +107,11 @@ class GridRow extends Component {
     super(props);
   }
 
-  handleSelect(rowIdx, rowObj, event) {
+  handleCheckboxChange(event) {
     const { onSelect } = this.props;
     const isSelected = event.target.checked;
     if (this.props.onSelect) {
-      this.props.onSelect(rowIdx, rowObj, isSelected, event);
+      this.props.onSelect(isSelected, event);
     }
   }
 
@@ -263,12 +263,15 @@ class GridRow extends Component {
       return null;
     }
 
-    return (<td>
-      <input
-        type={selectionMode}
-        checked={selected}
-        onChange={this.handleSelect.bind(this, rowIdx, rowObj)} />
-    </td>);
+    return (
+      <td>
+        <input
+          type={selectionMode}
+          checked={selected}
+          onChange={this.handleCheckboxChange.bind(this)}
+        />
+      </td>
+    );
   }
 
   render() {

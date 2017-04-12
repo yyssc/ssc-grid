@@ -12,6 +12,10 @@ export default function GridSection() {
       <ReactPlayground codeText={Samples.GridSelection} />
       <p>带有分页的情况</p>
       <ReactPlayground codeText={Samples.GridSelectionWithPagination} />
+      <p><code>onBeforeSelect</code>回调</p>
+      <p>使用场景：表格其中一列定义为“启用状态”，类型为布尔，产品定义只有“已经启用”的行才能够
+      被勾选，当用户勾选“未启用”行时候，给出提示，并且不勾选复选框</p>
+      <ReactPlayground codeText={Samples.GridSelectionBeforeSelect} />
     </div>
   );
 }
