@@ -420,67 +420,6 @@ describe('<Grid>', () => {
     assert.equal(getTableCellContent(instance, 3, 0), '');
   });
 
-  it('通过props更新表格数据，左侧checkbox的状态应该被清空', () => {
-    let node = document.createElement('div');
-    let tableNode;
-    let row0Checkbox;
-    let component;
-
-    let mockColumnsModelOld = [
-      {type: 'string', id: 'id', label: '主键'},
-      {type: 'string', id: 'name', label: '名称'}
-    ];
-    let mockTableBodyOld = [
-      { id: '0', name: 'n1' },
-      { id: '1', name: 'n2' }
-    ];
-    component = ReactDOM.render(
-      <Grid
-        columnsModel={mockColumnsModelOld}
-        tableData={mockTableBodyOld}
-        selectRow={{
-          mode: 'checkbox',
-          onSelect: () => {},
-          onSelectAll: () => {}
-        }}
-      />, node
-    );
-    tableNode = ReactDOM.findDOMNode(component);
-    row0Checkbox = tableNode.querySelectorAll('input')[1];
-    // row0Checkbox = tableNode.querySelectorAll('input[type="checkbox"]');
-    // row0Checkbox = tableNode.querySelectorAll('input[type="checkbox"][checked="checked"]');
-    // row0Checkbox.checked = true;
-    ReactTestUtils.Simulate.change(row0Checkbox, {target: {checked: true}});
-    // assert.equal(row0Checkbox.selected, true);
-    // assert.equal(tableNode.querySelectorAll('input[type="checkbox"][checked="checked"]').length, 1);
-    assert.equal(component.state.selectedRowsObj[0].selected, true);
-
-    // 修改数据，重新渲染
-    let mockColumnsModelNew = [
-      {type: 'double', id: 'i2d', label: '主2键'},
-      {type: 'double', id: 'n2ame', label: '名2称'}
-    ];
-    let mockTableBodyNew = [
-      { i2d: '111', n2ame: '111000' },
-      { i2d: '222', n2ame: '222000' }
-    ];
-    component = ReactDOM.render(
-      <Grid
-        columnsModel={mockColumnsModelNew}
-        tableData={mockTableBodyNew}
-        selectRow={{
-          mode: 'checkbox',
-          onSelect: () => {},
-          onSelectAll: () => {}
-        }}
-      />, node
-    );
-    tableNode = ReactDOM.findDOMNode(component);
-    row0Checkbox = tableNode.querySelectorAll('input')[1];
-    // assert.equal(row0Checkbox.selected, false);
-    assert.equal(component.state.selectedRowsObj[0].selected, false);
-  });
-
   it('应该正确设置表格内的状态', () => {
     let component = ReactTestUtils.renderIntoDocument(
       <Grid
