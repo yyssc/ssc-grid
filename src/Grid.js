@@ -7,7 +7,7 @@ import { Table, Pagination } from 'react-bootstrap';
 import GridRow from './GridRow';
 import TextField from './TextField';
 
-import { searchFor } from './utils/sscgridUtils';
+import { searchFor, isAllRowsSelected } from './utils/sscgridUtils';
 import * as actions from './Grid.actions';
 
 /**
@@ -118,6 +118,7 @@ class Grid extends Component {
      *     1: {selected: false} // 第二行未被选中
      *   }
      *   ```
+     * 当行被选中的时候，组件会自动往被选中的行添加`selected`类名
      */
     selectRow: PropTypes.object,
     /**
@@ -270,21 +271,6 @@ class Grid extends Component {
       selectedRowsObj
     });
 
-    /**
-     * 检查当前状态中是否所有行都被选中
-     * @return {boolean} 如果是true说明所有行都被选中，否则有一行或者多行未被选中。
-     */
-    function isAllRowsSelected(obj) {
-      let ret = true;
-      let i;
-      for (i in obj) {
-        if (obj.hasOwnProperty(i)) {
-          ret = ret && obj[i].selected;
-        }
-      }
-      return ret;
-    }
-
     this.setState(
       actions.updateTableHeadRowSelectedState(
         isAllRowsSelected(selectedRowsObj)
@@ -423,7 +409,7 @@ class Grid extends Component {
       />
     );
 
-    const self = this;
+    let headRowClassName = classNames(isAllRowsSelected(this.state.selectedRowsObj) && 'selected');
 
     // var onRow = this.props.onRow;
     return (
@@ -433,7 +419,7 @@ class Grid extends Component {
         /> : null}
         <Table {...reactBootstrapProps}>
           <thead>
-            <tr>
+            <tr className={headRowClassName}>
               { renderCheckboxHeader() }
               { renderTableHeader() }
               { operationColumn ? renderOperationHeader(operationColumn) : null }
@@ -449,18 +435,20 @@ class Grid extends Component {
                 selected = true;
               }
 
-              return (<GridRow
-                selectRow={selectRow}
-                selectionMode={selectRow ? selectRow.mode : null}
-                onSelect={selectRow ? self.handleSelect.bind(self) : null}
-                selected={selected}
-                operationColumn={operationColumn}
-                operationColumnClass={CustomComponent}
-                rowObj={row} key={rowIdx}
-                columnsModel={columnsModel} rowIdx={rowIdx}
-                onCellChecked={self.handleCellChecked.bind(self)}
-                onRowDoubleClick={this.props.onRowDoubleClick}
-              />);
+              return (
+                <GridRow
+                  selectRow={selectRow}
+                  selectionMode={selectRow ? selectRow.mode : null}
+                  onSelect={selectRow ? this.handleSelect.bind(this) : null}
+                  selected={selected}
+                  operationColumn={operationColumn}
+                  operationColumnClass={CustomComponent}
+                  rowObj={row} key={rowIdx}
+                  columnsModel={columnsModel} rowIdx={rowIdx}
+                  onCellChecked={this.handleCellChecked.bind(this)}
+                  onRowDoubleClick={this.props.onRowDoubleClick}
+                />
+              );
             })
           }
           </tbody>

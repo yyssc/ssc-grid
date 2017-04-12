@@ -75,3 +75,25 @@ export function searchFor(toSearch, objects) {
   }
   return results;
 }
+
+/**
+ * 检查当前状态中是否所有行都被选中
+ * @param {Object} obj 一个包含所有行被选中状态的对象
+ * ```js
+ * {
+ *   0: { selected: true  }, 第一行被选中
+ *   1: { selected: false }  第二行未被选中
+ * }
+ * ```
+ * @return {boolean} 如果是true说明所有行都被选中，否则有一行或者多行未被选中。
+ */
+export function isAllRowsSelected(obj) {
+  let ret = true;
+  let i;
+  for (i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      ret = ret && obj[i].selected;
+    }
+  }
+  return ret;
+}

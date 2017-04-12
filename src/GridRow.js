@@ -69,7 +69,7 @@ class GridRow extends Component {
     selectionMode: PropTypes.string,
     onSelect: PropTypes.func,
     /**
-     * 改行是否被选择（单选框/复选框）
+     * 该行是否被选择（单选框/复选框）
      * 默认未被选中
      * TODO 需要和selectRow属性合并
      */
@@ -274,10 +274,11 @@ class GridRow extends Component {
   render() {
     const { columnsModel, rowObj, operationColumn } = this.props;
     let row;
+    let rowClassName = classNames(this.props.selected && 'selected');
     // 默认操作列在右侧，除非用户专门指定在左侧
     if (operationColumn && operationColumn.align === 'left') {
       row = (
-        <tr>
+        <tr className={rowClassName}>
           { this.renderSelectionColumn() }
           { this.renderOperationColumn() }
           { this.renderCells(columnsModel, rowObj) }
@@ -285,7 +286,10 @@ class GridRow extends Component {
       );
     } else {
       row = (
-        <tr onDoubleClick={this.handleRowDoubleClick.bind(this, rowObj)}>
+        <tr
+          className={rowClassName}
+          onDoubleClick={this.handleRowDoubleClick.bind(this, rowObj)}
+        >
           { this.renderSelectionColumn() }
           { this.renderCells(columnsModel, rowObj) }
           { this.renderOperationColumn() }
