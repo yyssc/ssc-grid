@@ -853,12 +853,12 @@ export default class Form extends Component {
             <ReactBootstrap.Row>
               <ReactBootstrap.Col className={'text-center'}>
                 <FormGroup>
-                  <Button bsStyle="info" onClick={this.handleReset.bind(this)} type="reset">
+                  <Button bsStyle="default" onClick={this.handleReset.bind(this)} type="reset">
                     取消
                   </Button>
                   {' '}
                   <Button
-                    bsStyle="info"
+                    bsStyle="primary"
                     type="submit"
                     disabled={this.state.submitButtonDisabled}
                     onClick={this.handleSubmit.bind(this)}
@@ -877,12 +877,12 @@ export default class Form extends Component {
           }
           <FormGroup>
             <Col sm={12} className={'text-center'}>
-              <Button bsStyle="info" onClick={this.handleReset.bind(this)} type="reset">
+              <Button bsStyle="default" onClick={this.handleReset.bind(this)} type="reset">
                 取消
               </Button>
               {' '}
               <Button
-                bsStyle="info"
+                bsStyle="primary"
                 type="submit"
                 disabled={this.state.submitButtonDisabled}
                 onClick={this.handleSubmit.bind(this)}
