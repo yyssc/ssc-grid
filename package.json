@@ -122,7 +122,7 @@
     "numeral": "^2.0.4",
     "rc-tree": "^1.4.5",
     "rc-tree-select": "^1.9.0",
-    "react-bootstrap": "^0.30.7",
+    "react-bootstrap": "^0.30.8",
     "react-bootstrap-date-picker": "^4.0.0",
     "react-datepicker": "^0.41.1",
     "react-month-picker": "^1.1.3",
