@@ -83,7 +83,9 @@ const GridSelectionExample = React.createClass({
     this.setState({
       selectedRowsObj
     });
-    alert('被选中的数据：\n' + JSON.stringify(selectedRows, null, '  '));
+    if (selected === true) {
+      alert('被选中的数据：\n' + JSON.stringify(selectedRows, null, '  '));
+    }
   },
 
   handleSelectAll(tableData, selected/* , event, selectedRowsObj */) {

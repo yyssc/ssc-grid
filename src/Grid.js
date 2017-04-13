@@ -309,12 +309,22 @@ class Grid extends Component {
     );
   }
 
-  // 当选中所有行的时候
-  // 1. 同时改变所有行的选中状态
-  // 2. 改变表头行（全选）状态
+  /**
+   * 当选中所有行的时候
+   * 1. 调用传入的`onBeforeSelectAll`回调，除非结果为true，否则不修改改行选中状态
+   * 2. 同时改变所有行的选中状态
+   * 3. 改变表头行（全选）状态
+   */
   handleAllRowSelect(event) {
     const { selectRow } = this.props;
     const isSelected = event.target.checked;
+
+    if (selectRow && selectRow.onBeforeSelectAll) {
+      if (selectRow.onBeforeSelectAll(this.state.viewedTableData, isSelected,
+          event) !== true) {
+        return;
+      }
+    }
 
     // 在状态中选中所有行
     this.setState(
@@ -327,14 +337,7 @@ class Grid extends Component {
     );
 
     if (selectRow && selectRow.onSelectAll) {
-      let selectedRowsObj = {};
-
-      this.state.viewedTableData.forEach((item, index) => {
-        selectedRowsObj[index] = {};
-        selectedRowsObj[index].selected = isSelected;
-      });
-      selectRow.onSelectAll(this.state.viewedTableData, isSelected, event,
-        selectedRowsObj);
+      selectRow.onSelectAll(this.state.viewedTableData, isSelected, event);
     }
   }
 

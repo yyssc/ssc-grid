@@ -60,6 +60,48 @@ describe('<Grid>行选择', () => {
     assert.equal(row1checkbox.checked, true);
   });
 
+  it('onBeforeSelectAll返回false的时候，所有checkbox不应该被选中', () => {
+    let component = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={getFakeColumnsModel()}
+        tableData={getFakeTableBodyData()}
+        selectRow={{
+          mode: 'checkbox',
+          onBeforeSelectAll: () => false,
+          onSelect: () => {},
+          onSelectAll: () => {}
+        }}
+      />
+    );
+    let headCheckbox = getTableHeadColumn(component, 0).querySelector('input');
+    ReactTestUtils.Simulate.change(headCheckbox, {target: {checked: true}});
+    assert.equal(component.state.isHeadRowSelected, false);
+    assert.equal(component.state.selectedRowsObj[0].selected, false);
+    assert.equal(component.state.selectedRowsObj[1].selected, false);
+    assert.equal(headCheckbox.checked, false);
+  });
+
+  it('onBeforeSelectAll返回true的时候，所有checkbox都应该被选中', () => {
+    let component = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={getFakeColumnsModel()}
+        tableData={getFakeTableBodyData()}
+        selectRow={{
+          mode: 'checkbox',
+          onBeforeSelectAll: () => true,
+          onSelect: () => {},
+          onSelectAll: () => {}
+        }}
+      />
+    );
+    let headCheckbox = getTableHeadColumn(component, 0).querySelector('input');
+    ReactTestUtils.Simulate.change(headCheckbox, {target: {checked: true}});
+    assert.equal(component.state.isHeadRowSelected, true);
+    assert.equal(component.state.selectedRowsObj[0].selected, true);
+    assert.equal(component.state.selectedRowsObj[1].selected, true);
+    assert.equal(headCheckbox.checked, true);
+  });
+
   it('通过props更新表格数据，左侧checkbox的状态应该被清空', () => {
     let node = document.createElement('div');
     let tableNode;
