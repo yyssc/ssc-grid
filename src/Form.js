@@ -654,11 +654,6 @@ export default class Form extends Component {
     const { id, type, label, placeholder, validators } = fieldModel;
     let formGroup, formCtrl;
 
-    // 隐藏字段
-    if (fieldModel.hidden === true) {
-      return null;
-    }
-
     function getDefaultFormGroup(fieldId, fieldLabel, fieldFormCtrl, fm,
       validationState, helpText
     ) {
@@ -851,7 +846,7 @@ export default class Form extends Component {
               ))
             }
             <ReactBootstrap.Row>
-              <ReactBootstrap.Col className={'text-center'}>
+              <ReactBootstrap.Col md={12} className={'text-center'}>
                 <FormGroup>
                   <Button bsStyle="default" onClick={this.handleReset.bind(this)} type="reset">
                     取消
