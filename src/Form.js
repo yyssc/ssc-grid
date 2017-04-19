@@ -45,15 +45,8 @@ export default class Form extends Component {
   static propTypes = {
     /**
      * 表单中的数据
-     * 字段类型type:
-     * - `string` 字符类型
-     * - `double` 数值类型
-     * - `date` 日期类型
-     * - `boolean` 布尔类型
-     * - `ref` 参照类型
-     * - `custom` 自定义类型
-     * 比如：
-     * ```json
+     * fieldsModel数据举例：
+     * ```js
      * [
      *   {
      *     type: 'string',
@@ -69,39 +62,47 @@ export default class Form extends Component {
      *   }
      * ]
      * ```
-     * 对于自定义类型，需要调用者传入一个组件，下面提供了组件接口：
+     * schema为
+     * ```js
+     * fieldsModel = [ fieldModel, fieldModel, ... ];
      * ```
-     * propTypes: {
-     *   value: React.PropTypes.string,
-     *   onChange: React.PropTypes.func
-     * },
-     * ```
-     * 校验类型，比如
-     * validators: [
-     *   {type: 'required'},
-     *   {type: 'length', min: 3, max: 6,
-     *     helpText: '字符串长度应该大于等于3小于等于6'}
-     * ]
-     * <code>type</code>字段支持如下类型：
-     * <ul>
-     * <li><code>email</code>邮件地址</li>
-     * <li><code>decimal</code>数字，比如0.1, .3, 1.1, 1.00003, 4.0</li>
-     * <li><code>int</code>整数</li>
-     * <li><code>mobilePhone</code>手机号</li>
-     * <li><code>custom</code>自定义格式</li>
-     * </ul>
-     * <code>helpText</code>是错误提示。如果不提供，则使用默认错误提示。<br>
-     * 如果是自定义类型，则通过<code>matchFunc</code>参数传递校验函数
-     * ```
+     * ## type字段
+     * 字段类型type:
+     * - 0 `string` 字符类型
+     * - 1 `double` 数值类型
+     * - 3 `date` 日期类型
+     * - 4 `boolean` 布尔类型
+     * - 5 `ref` 参照类型
+     * - `custom` 自定义类型
+     *
+     * ### string字符型
+     * ```js
      * {
-     *   type: 'custom',
-     *   helpText: '请输入正确的XX格式',
-     *   matchFunc: () => {}
+     *   type: 'string',
+     *   id: 'formValidationEmail',
+     *   label: '邮箱地址',
+     *   validators: [
+     *     { type: 'email' }
+     *   ]
      * }
      * ```
-     * 当<code>matchFunc</code>返回值为true的时候，认为校验通过<br>
-     * 对于自定义类型，如果不提供<code>helpText</code>，则默认不显示错误提示。
-     * 参照类型，字段定义举例：
+     * ### custom 自定义类型
+     * ```js
+     * {
+     *    type: 'custom',
+     *    component: <CustomComponent>
+     * }
+     * ```
+     * 对于自定义类型，需要调用者传入一个组件，表单在回调该组件的时候，传入如下属性：
+     * ```js
+     * propTypes: {
+     *   customFieldValue: React.PropTypes.string,
+     *   onCustomFieldChange: React.PropTypes.func
+     * }
+     * ```
+     * ### enum枚举型
+     * ### ref参照型
+     * 字段定义举例：
      * ```js
      * {
      *   type: 'ref',
@@ -127,6 +128,37 @@ export default class Form extends Component {
      * />
      * ```
      * 关于`Refers`组件的属性定义，详见[ssc-refer](https://ssc-refer.github.io/components.html)
+     * ## validators字段
+     * 校验类型，比如
+     * ```js
+     * validators: [
+     *   { type: 'required' },
+     *   { type: 'length', min: 3, max: 6,
+     *     helpText: '字符串长度应该大于等于3小于等于6' }
+     * ]
+     * ```
+     * schema为：
+     * ```js
+     * validators = [ validator, validator, ... ];
+     * ```
+     * `type`字段支持如下类型：
+     * - `email` 邮件地址
+     * - `decimal` 数字，比如0.1, .3, 1.1, 1.00003, 4.0
+     * - `int` 整数
+     * - `mobilePhone` 手机号
+     * - `custom` 自定义格式
+     *
+     * `helpText`字段是错误提示。如果不提供，则使用默认错误提示。
+     * 如果是自定义类型，则通过`matchFunc`参数传递校验函数
+     * ```js
+     * {
+     *   type: 'custom',
+     *   helpText: '请输入正确的XX格式',
+     *   matchFunc: () => {}
+     * }
+     * ```
+     * 当`matchFunc`返回值为`true`的时候，认为校验通过
+     * 对于自定义类型，如果不提供`helpText`，则默认不显示错误提示。
      */
     fieldsModel: PropTypes.oneOfType([
       PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
