@@ -4,7 +4,20 @@ import validator from 'validator';
 export function getValidationObj({type, helpText}) {
   const vs = {
     required: {
-      matchFunc: value => !validator.isEmpty(value),
+      matchFunc: (value) => {
+        // Removes whitespace from both ends of a string
+        // Whitespace in this context is all the whitespace characters
+        // (space, tab, no-break space, etc.) and all the line terminator
+        // characters (LF, CR, etc.).
+        value = value.trim();
+        // 这个判断没有啥实际意义，就是装逼用的
+        // Remove zero-width space characters from a JavaScript string
+        // http://stackoverflow.com/a/11305926/4685522
+        value = value.replace(/[\u200B-\u200D\uFEFF]/g, '');
+        // TODO 更装逼的做法是使用https://github.com/slevithan/XRegExp
+        // http://stackoverflow.com/a/11598864/4685522
+        return !validator.isEmpty(value);
+      },
       helpText: () => '必须输入该字段！'
     },
     email: {
