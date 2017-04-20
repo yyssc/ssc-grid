@@ -586,7 +586,7 @@ export default class Form extends Component {
       case 'ref': // 5
         const referValue = this.state.formData[id];
         let defaultData = [];
-        if (referValue && referValue.id && referValue.code && referValue.name) {
+        if (referValue && referValue.id) {
           defaultData[0] = { ...referValue };
         }
         if (fieldModel.referConfig) {
@@ -755,7 +755,7 @@ export default class Form extends Component {
       case 'ref': // 5
         const referValue = this.state.formData[id];
         let defaultData = [];
-        if (referValue && referValue.id && referValue.code && referValue.name) {
+        if (referValue && referValue.id) {
           defaultData[0] = { ...referValue };
         }
         if (fieldModel.referConfig) {
