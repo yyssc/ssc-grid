@@ -385,7 +385,10 @@ export default class Form extends Component {
       let value = '';
       // 对参照的API不了解，所以写死获取第一个
       if (selected && selected[0]) {
-        value = selected[0].name || '';
+        // 由于参照的字段是可变的，有时候是name有时候是displayName，所以这里不再进入对象
+        // 而是直接将对象转成字符串进行判断。
+        // value = selected[0].name || '';
+        value = JSON.stringify(selected[0]);
       } else {
         value = '';
       }

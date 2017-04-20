@@ -52,12 +52,15 @@ export function updateReferFieldValue(fieldId, selected) {
  * 更新表单中指定字段的验证状态
  * stateless
  * @param {String} fieldId
- * @param {String} value
+ * @param {String} value 由于validators库只能校验字符串，所以这个参数也必须是字符串
  * @param {Array} validators
  */
 export function updateFormFieldValidationState(fieldId, value, validators) {
   return (prevState/* , props */) => {
-    const { validationState, helpText } = validationUtils.calcValidationState(value, validators);
+    const {
+      validationState,
+      helpText
+    } = validationUtils.calcValidationState(value, validators);
     return update(prevState, {
       fieldsValidationState: {
         [fieldId]: {
