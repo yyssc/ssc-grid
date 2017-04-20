@@ -271,13 +271,28 @@ export default class Form extends Component {
       }
     });
 
-    // 如果是枚举型，默认使用第一个选项的值
+    // 初始化表单的默认值
+    // 当传入组件的表单的字段的默认值为空（null/undefined）的时候，需要计算一下默认值
     this.props.fieldsModel.forEach(fieldModel => {
-      if (fieldModel.type === 'enum') {
-        // 当值为空（null/undefined）的时候，需要计算一下默认值，默认选择第一条
-        if (!this.state.formData[fieldModel.id]) {
+      if (this.state.formData[fieldModel.id]) {
+        return;
+      }
+      switch (fieldModel.type) {
+        case 'string': // 0
+        case 'double': // 2
+          // 字符型初始为空字符串
+          this.state.formData[fieldModel.id] = '';
+          break;
+        case 'boolean': // 4
+          // 布尔型默认是false
+          this.state.formData[fieldModel.id] = false;
+          break;
+        case 'enum': // 6
+          // 如果是枚举型，默认使用第一个选项的值
           this.state.formData[fieldModel.id] = fieldModel.data[0].key;
-        }
+          break;
+        default:
+          break;
       }
     });
 
