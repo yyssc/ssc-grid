@@ -7,7 +7,7 @@ import { getForm, getInput, getSubmitButton } from './helpers';
 
 function getFieldsModel() {
   return [
-    /*  0 */{type: 'string', id: 'id', 'label': '主键', hidden: true},
+    /*  0 */{type: 'string', id: 'id', label: '主键', hidden: true},
     /*  1 */{type: 'string', id: 'danjubianhao', label: '单据编号'},
     /*  2 */{type: 'string', id: 'name2', label: '名称2', hidden: true},
     /*  3 */{type: 'string', id: 'name3', label: '名称3', hidden: true},

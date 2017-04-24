@@ -159,10 +159,21 @@ export default class Form extends Component {
      * ```
      * 当`matchFunc`返回值为`true`的时候，认为校验通过
      * 对于自定义类型，如果不提供`helpText`，则默认不显示错误提示。
+     * ## disabled字段
+     * 当值为`true`的时候禁用该字段，其他值都是不禁用该字段。
      */
     fieldsModel: PropTypes.oneOfType([
-      PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
-      PropTypes.object
+      PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+        validators: PropTypes.arrayOf(PropTypes.shape({
+          type: PropTypes.string.isRequired
+        })),
+        disabled: PropTypes.boolean,
+        referConfig: PropTypes.object,
+      })),
+      PropTypes.object // 默认类型应该是数组，但是为了支持mobx传入observable object...
     ]).isRequired,
     /**
      * 填充表单值<br>
@@ -415,6 +426,10 @@ export default class Form extends Component {
           this.setState(actions.updateSubmitButtonState());
         }
       );
+    } else {
+      if (this.props.onChange) {
+        this.props.onChange(fieldId, selected, {});
+      }
     }
   }
 
@@ -623,7 +638,7 @@ export default class Form extends Component {
             <Refers
               {...fieldModel.referConfig}
               labelKey={fieldModel.referConfig.labelKey || 'name'}
-              disabled={false}
+              disabled={fieldModel.disabled === true}
               minLength={0}
               align="justify"
               emptyLabel=""
@@ -791,7 +806,7 @@ export default class Form extends Component {
           formCtrl = (
             <Refers
               {...fieldModel.referConfig}
-              disabled={false}
+              disabled={fieldModel.disabled === true}
               minLength={0}
               align="justify"
               emptyLabel=""

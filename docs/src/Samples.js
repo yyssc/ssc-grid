@@ -12,6 +12,7 @@ export default {
   DropdownBasic:                require('fs').readFileSync(__dirname + '/../examples/DropdownBasic.js', 'utf8'),
   FormBasic:                    require('fs').readFileSync(__dirname + '/../examples/FormBasic.js', 'utf8'),
   FormCustomField:              require('fs').readFileSync(__dirname + '/../examples/FormCustomField.js', 'utf8'),
+  FormDisabledFields:           require('fs').readFileSync(__dirname + '/../examples/FormDisabledFields.js', 'utf8'),
   FormHiddenField:              require('fs').readFileSync(__dirname + '/../examples/FormHiddenField.js', 'utf8'),
   FormLayout:                   require('fs').readFileSync(__dirname + '/../examples/FormLayout.js', 'utf8'),
   FormValidation:               require('fs').readFileSync(__dirname + '/../examples/FormValidation.js', 'utf8'),

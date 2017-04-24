@@ -24,6 +24,7 @@ import DropdownBasicSection from './sections/DropdownBasicSection';
 import DropdownPropsSection from './sections/DropdownPropsSection';
 import FormBasicSection from './sections/FormBasicSection';
 import FormCustomFieldSection from './sections/FormCustomFieldSection';
+import FormDisabledFieldsSection from './sections/FormDisabledFieldsSection';
 import FormHiddenFieldSection from './sections/FormHiddenFieldSection';
 import FormLayoutSection from './sections/FormLayoutSection';
 import FormValidationSection from './sections/FormValidationSection';
@@ -75,6 +76,7 @@ const sections = {
     formCustomField: '#form-custom-field',
     formHiddenField: '#form-hidden-field',
     formLayout: '#form-layout',
+    formDisabledFields: '#form-disabled-fields',
     formProps: '#form-props',
   textField: '#text-field',
     textFieldBasic: '#text-field-basic',
@@ -269,6 +271,8 @@ const ComponentsPage = React.createClass({
               <FormHiddenFieldSection />
               {this.renderScrollSpy(sections.formLayout)}
               <FormLayoutSection />
+              {this.renderScrollSpy(sections.formDisabledFields)}
+              <FormDisabledFieldsSection />
               {this.renderScrollSpy(sections.formProps)}
               <FormPropsSection />
 
@@ -430,6 +434,7 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.formCustomField}>自定义类型字段</NavItem>
                       <NavItem href={sections.formHiddenField}>隐藏字段</NavItem>
                       <NavItem href={sections.formLayout}>自定义布局</NavItem>
+                      <NavItem href={sections.formDisabledFields}>禁用表单字段</NavItem>
                       <NavItem href={sections.formProps}>属性</NavItem>
                     </SubNav>
 
