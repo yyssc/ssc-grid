@@ -97,3 +97,28 @@ export function isAllRowsSelected(obj) {
   }
   return ret;
 }
+
+/**
+ * 根据字段类型，返回不同的默认值
+ * @param {Object} fieldModel
+ * @param {*} fieldValue
+ */
+export const getFieldDefaultValue = (fieldModel, fieldValue) => {
+  if (fieldValue) {
+    return fieldValue;
+  }
+  switch (fieldModel.type) {
+    case 'string': // 0
+    case 'double': // 2
+      // 字符型初始为空字符串
+      return '';
+    case 'boolean': // 4
+      // 布尔型默认是false
+      return false;
+    case 'enum': // 6
+      // 如果是枚举型，默认使用第一个选项的值
+      return fieldModel.data[0].key;
+    default:
+      break;
+  }
+};

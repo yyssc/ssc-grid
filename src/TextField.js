@@ -34,12 +34,20 @@ export default class TextField extends Component {
     value: PropTypes.string
   };
 
-  state = {
-    value: this.props.value
-  };
-
   constructor(props) {
     super(props);
+    this.state = {
+      value: props.value
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // 更新输入框默认值
+    if (nextProps.value !== this.props.value) {
+      this.setState({
+        value: nextProps.value
+      });
+    }
   }
 
   handleChange(event) {

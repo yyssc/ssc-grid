@@ -6,11 +6,14 @@ import { Col } from 'react-bootstrap';
 import * as ReactBootstrap from 'react-bootstrap';
 // 表单(form)控件(control/widget)
 import { FormControl, Checkbox } from 'react-bootstrap';
+// 参照控件
+import { Refers } from 'ssc-refer';
 
 // YBZSAAS-461
 // IE11不支持Array.prototype.find()
 import 'core-js/fn/array/find';
 
+import { getFieldDefaultValue } from './utils/sscgridUtils';
 import * as validationUtils from './utils/validation';
 import * as actions from './Form.actions';
 
@@ -24,7 +27,6 @@ import * as actions from './Form.actions';
 // 使用我们自己造的轮子
 import TextField from './TextField';
 import DatePicker from './DatePicker';
-import { Refers } from 'ssc-refer';
 
 /**
  * helper functions
@@ -266,7 +268,7 @@ export default class Form extends Component {
        * 这是react-bootstrap中关于form validation的直接映射
        */
       fieldsHelpText: {},
-      formData: {...this.props.defaultData},
+      formData: {},
       /**
        * 提交按钮是否被禁用
        * 当值为true的时候，提交按钮的样式为“禁用”
@@ -274,36 +276,21 @@ export default class Form extends Component {
       submitButtonDisabled: false
     };
 
+    /**
+     * 初始化表单的默认值
+     * 当传入组件的表单的字段的默认值为空（null/undefined）的时候，需要计算一下默认值
+     */
+    this.state.formData = { ...this.props.defaultData };
+    this.props.fieldsModel.forEach(fieldModel => {
+      this.state.formData[fieldModel.id] = getFieldDefaultValue(
+        fieldModel, this.state.formData[fieldModel.id]);
+    });
+
     // 初始化表单项的验证状态，全部为null
     this.props.fieldsModel.forEach(fieldModel => {
       if (fieldModel.validators) {
         this.state.fieldsValidationState[fieldModel.id] = null;
         this.state.fieldsHelpText[fieldModel.id] = '';
-      }
-    });
-
-    // 初始化表单的默认值
-    // 当传入组件的表单的字段的默认值为空（null/undefined）的时候，需要计算一下默认值
-    this.props.fieldsModel.forEach(fieldModel => {
-      if (this.state.formData[fieldModel.id]) {
-        return;
-      }
-      switch (fieldModel.type) {
-        case 'string': // 0
-        case 'double': // 2
-          // 字符型初始为空字符串
-          this.state.formData[fieldModel.id] = '';
-          break;
-        case 'boolean': // 4
-          // 布尔型默认是false
-          this.state.formData[fieldModel.id] = false;
-          break;
-        case 'enum': // 6
-          // 如果是枚举型，默认使用第一个选项的值
-          this.state.formData[fieldModel.id] = fieldModel.data[0].key;
-          break;
-        default:
-          break;
       }
     });
 
@@ -332,6 +319,19 @@ export default class Form extends Component {
   }
 
   componentDidMount() {
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // 更新表单默认值
+    if (nextProps.defaultData !== this.props.defaultData) {
+      const formData = { ...nextProps.defaultData };
+      nextProps.fieldsModel.forEach((fieldModel) => {
+        formData[fieldModel.id] = getFieldDefaultValue(fieldModel, formData[fieldModel.id]);
+      });
+      this.setState(
+        actions.updateFormData(formData)
+      );
+    }
   }
 
   /**

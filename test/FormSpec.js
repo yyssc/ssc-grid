@@ -400,4 +400,48 @@ describe('<Form>', () => {
       '提交按钮的状态应该是禁用');
   });
 
+  it('通过props更新表单中的数据，应该重新渲染为新数据', () => {
+    let node = document.createElement('div');
+    let mockColumnsModel;
+    let mockDefaultData;
+    let component;
+
+    mockColumnsModel = [
+      {type: 'string', id: 'name', label: '名称'},
+      {type: 'string', id: 'code', label: '编码'}
+    ];
+    mockDefaultData = { id: '0', name: 'n1', code: 'c1' };
+    component = ReactDOM.render(
+      <Form
+        fieldsModel={mockColumnsModel}
+        defaultData={mockDefaultData}
+      />, node
+    );
+    assert.equal(component.state.formData.name, 'n1');
+    assert.equal(component.state.formData.code, 'c1');
+    assert.equal(component.state.formData.n2ame, undefined);
+    assert.equal(component.state.formData.c2ode, undefined);
+    assert.equal(getInput(component, 0).value, 'n1');
+    assert.equal(getInput(component, 1).value, 'c1');
+
+    // 修改数据，重新渲染
+    mockColumnsModel = [
+      {type: 'string', id: 'n2ame', label: '名2称'},
+      {type: 'string', id: 'c2ode', label: '编2码'}
+    ];
+    mockDefaultData = { id: '0', n2ame: 'n2n', c2ode: 'c2c' };
+    component = ReactDOM.render(
+      <Form
+        fieldsModel={mockColumnsModel}
+        defaultData={mockDefaultData}
+      />, node
+    );
+    assert.equal(component.state.formData.name, undefined);
+    assert.equal(component.state.formData.code, undefined);
+    assert.equal(component.state.formData.n2ame, 'n2n');
+    assert.equal(component.state.formData.c2ode, 'c2c');
+    assert.equal(getInput(component, 0).value, 'n2n');
+    assert.equal(getInput(component, 1).value, 'c2c');
+  });
+
 });

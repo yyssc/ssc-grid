@@ -8,17 +8,38 @@ import update from 'immutability-helper';
 import * as validationUtils from './utils/validation';
 
 /**
- * 更新表单中指定字段的值（单值类型）
+ * action的一般格式
+ * ```js
+ * export const updateFoo = (value) => (prevState, props) => (
+ *   update(prevState, {
+ *     foo: {$set: value}
+ *   })
+ * );
+ * ```
  */
-export function updateFieldValue(fieldId, value) {
-  return (prevState/* , props */) => {
-    return update(prevState, {
-      formData: {
-        [fieldId]: {$set: value}
-      }
-    });
-  };
-}
+
+/**
+ * 更新表单所有值
+ * @param {Object} formData
+ */
+export const updateFormData = (formData) => (prevState) => (
+  update(prevState, {
+    formData: { $set: formData }
+  })
+);
+
+/**
+ * 更新表单中指定字段的值（单值类型）
+ * @param {string} fieldId
+ * @param {string} value
+ */
+export const updateFieldValue = (fieldId, value) => (prevState) => (
+  update(prevState, {
+    formData: {
+      [fieldId]: {$set: value}
+    }
+  })
+);
 
 /**
  * 更新表单中指定的参照字段的值

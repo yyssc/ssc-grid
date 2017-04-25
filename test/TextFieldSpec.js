@@ -176,4 +176,24 @@ describe('<TextField>', () => {
   });
   */
 
+  it('通过props更新输入框的默认值，应该重新渲染为新数据', () => {
+    let node = document.createElement('div');
+    let component;
+
+    component = ReactDOM.render(
+      <TextField
+        value="a123"
+      />, node
+    );
+    assert.equal(component.state.value, 'a123');
+    assert.equal(getTextField(component).value, 'a123');
+    component = ReactDOM.render(
+      <TextField
+        value="b456"
+      />, node
+    );
+    assert.equal(component.state.value, 'b456');
+    assert.equal(getTextField(component).value, 'b456');
+  });
+
 });
