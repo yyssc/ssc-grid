@@ -647,7 +647,7 @@ export default class Form extends Component {
               onBlur={this.handleReferBlur.bind(this, id, validators)}
               placeholder="请选择..."
               referType="list"
-              defaultSelected={defaultData}
+              selected={defaultData}
               ref={ref => this._myrefers = ref}
             />
           );
@@ -815,7 +815,7 @@ export default class Form extends Component {
               onBlur={this.handleReferBlur.bind(this, id, validators)}
               placeholder="请选择..."
               referType="list"
-              defaultSelected={defaultData}
+              selected={defaultData}
               ref={ref => this._myrefers = ref}
             />
           );
