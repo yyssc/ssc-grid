@@ -1,3 +1,11 @@
+## [v0.64.9]
+> 2017-04-26
+
+- **Feature:** 操作按钮飘在某一列的上面 ([#34])
+
+[v0.64.9]: https://github.com/yyssc/ssc-grid/compare/v0.64.8...v0.64.9
+[#34]: https://github.com/yyssc/ssc-grid/issues/34
+
 ## [v0.64.8]
 > 2017-04-26
 
