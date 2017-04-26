@@ -161,7 +161,8 @@ class GridRow extends Component {
     return cellContent;
   }
 
-  renderCells = (columnsModel, rowObj) => {
+  renderCells = () => {
+    const { rowIdx, rowObj, columnsModel } = this.props;
     return columnsModel.map((columnModel, colIdx) => {
       let className = '';
       let cellContent = '';
@@ -233,9 +234,35 @@ class GridRow extends Component {
       // 添加列类名
       className = classNames(className, columnModel.columnClassName);
 
+      let tdInner = cellContent;
+      // 该列是否有悬浮按钮
+      if (columnModel.floatOperationComponent) {
+        tdInner = (
+          <div style={{position: 'relative'}}>
+            <div style={{
+              position: 'relative',
+              top: '0px',
+              left: '0px'
+            }}>
+              {cellContent}
+            </div>
+            <div id="curtain" style={{
+              position: 'absolute',
+              top: '0px',
+              right: '0px'
+            }}>
+              <columnModel.floatOperationComponent
+                rowIdx={rowIdx}
+                rowObj={rowObj}
+              />
+            </div>
+          </div>
+        );
+      }
+
       return columnModel.hidden === true ? null :
         (<td key={colIdx} className={className} title={cellContent}>
-          {cellContent}
+          {tdInner}
         </td>);
     });
   }
@@ -250,10 +277,12 @@ class GridRow extends Component {
       return null;
     }
 
-    return (<CustomComponent
-      rowIdx={rowIdx}
-      rowObj={rowObj}
-    />);
+    return (
+      <CustomComponent
+        rowIdx={rowIdx}
+        rowObj={rowObj}
+      />
+    );
   }
 
   renderSelectionColumn() {
@@ -284,7 +313,7 @@ class GridRow extends Component {
         <tr className={rowClassName}>
           { this.renderSelectionColumn() }
           { this.renderOperationColumn() }
-          { this.renderCells(columnsModel, rowObj) }
+          { this.renderCells() }
         </tr>
       );
     } else {
@@ -294,7 +323,7 @@ class GridRow extends Component {
           onDoubleClick={this.handleRowDoubleClick.bind(this, rowObj)}
         >
           { this.renderSelectionColumn() }
-          { this.renderCells(columnsModel, rowObj) }
+          { this.renderCells() }
           { this.renderOperationColumn() }
         </tr>
       );

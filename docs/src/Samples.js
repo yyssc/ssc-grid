@@ -26,6 +26,7 @@ export default {
   GridEmptyValue:               require('fs').readFileSync(__dirname + '/../examples/GridEmptyValue.js', 'utf8'),
   GridLocalSearch:              require('fs').readFileSync(__dirname + '/../examples/GridLocalSearch.js', 'utf8'),
   GridOperation:                require('fs').readFileSync(__dirname + '/../examples/GridOperation.js', 'utf8'),
+  GridOperationColumnFloat:     require('fs').readFileSync(__dirname + '/../examples/GridOperationColumnFloat.js', 'utf8'),
   GridPagination:               require('fs').readFileSync(__dirname + '/../examples/GridPagination.js', 'utf8'),
   GridSelection:                require('fs').readFileSync(__dirname + '/../examples/GridSelection.js', 'utf8'),
   GridSelectionBeforeSelect:    require('fs').readFileSync(__dirname + '/../examples/GridSelectionBeforeSelect.js', 'utf8'),

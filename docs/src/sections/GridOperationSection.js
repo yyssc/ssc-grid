@@ -13,6 +13,8 @@ export default function GridSection() {
       <p><code>operationColumn.className</code>指定操作列的CSS 类名</p>
       <p><code>operationColumn.text</code>指定操作列头的文字</p>
       <ReactPlayground codeText={Samples.GridOperation} />
+      <p>操作按钮漂浮在某一列的上面</p>
+      <ReactPlayground codeText={Samples.GridOperationColumnFloat} />
     </div>
   );
 }
