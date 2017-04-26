@@ -1,3 +1,11 @@
+## [v0.64.8]
+> 2017-04-26
+
+- **Bugfix:** 测试一下给Refer传值从defaultSelected改成selected ([#33])
+
+[v0.64.8]: https://github.com/yyssc/ssc-grid/compare/v0.64.7...v0.64.8
+[#33]: https://github.com/yyssc/ssc-grid/issues/33
+
 ## [v0.64.7]
 > 2017-04-25
 
