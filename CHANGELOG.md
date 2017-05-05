@@ -1,3 +1,11 @@
+## [v0.64.11]
+> 2017-05-05
+
+- **Bugfix:** [Form] 当传入layout和showSubmitButton属性的时候，提交按钮没有被隐藏 ([#36])
+
+[v0.64.11]: https://github.com/yyssc/ssc-grid/compare/v0.64.10...v0.64.11
+[#36]: https://github.com/yyssc/ssc-grid/issues/36
+
 ## [v0.64.10]
 > 2017-05-05
 
