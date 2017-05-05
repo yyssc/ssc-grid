@@ -1,3 +1,11 @@
+## [v0.64.10]
+> 2017-05-05
+
+- **Feature:** 表单支持通过属性隐藏提交按钮 ([#35])
+
+[v0.64.10]: https://github.com/yyssc/ssc-grid/compare/v0.64.9...v0.64.10
+[#35]: https://github.com/yyssc/ssc-grid/issues/35
+
 ## [v0.64.9]
 > 2017-04-26
 
