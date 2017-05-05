@@ -444,4 +444,30 @@ describe('<Form>', () => {
     assert.equal(getInput(component, 1).value, 'c2c');
   });
 
+  it('隐藏提交按钮', () => {
+    let mockColumnsModel;
+    let mockDefaultData;
+
+    mockColumnsModel = [
+      {type: 'string', id: 'name', label: '名称'},
+      {type: 'string', id: 'code', label: '编码'}
+    ];
+    mockDefaultData = { id: '0', name: 'n1', code: 'c1' };
+    const component = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={mockColumnsModel}
+        defaultData={mockDefaultData}
+        showSubmitButton={false}
+      />
+    );
+    const component2 = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={mockColumnsModel}
+        defaultData={mockDefaultData}
+      />
+    );
+    assert.equal(getForm(component).querySelectorAll('button').length, 0);
+    assert.equal(getForm(component2).querySelectorAll('button').length, 2);
+  });
+
 });
