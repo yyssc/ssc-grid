@@ -466,8 +466,31 @@ describe('<Form>', () => {
         defaultData={mockDefaultData}
       />
     );
+    const component3 = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={mockColumnsModel}
+        defaultData={mockDefaultData}
+        layout={{
+          columnCount: 2,
+          columnWidth: 6
+        }}
+        showSubmitButton={false}
+      />
+    );
+    const component4 = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={mockColumnsModel}
+        defaultData={mockDefaultData}
+        layout={{
+          columnCount: 2,
+          columnWidth: 6
+        }}
+      />
+    );
     assert.equal(getForm(component).querySelectorAll('button').length, 0);
     assert.equal(getForm(component2).querySelectorAll('button').length, 2);
+    assert.equal(getForm(component3).querySelectorAll('button').length, 0);
+    assert.equal(getForm(component4).querySelectorAll('button').length, 2);
   });
 
 });

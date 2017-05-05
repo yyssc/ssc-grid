@@ -730,22 +730,28 @@ export default class Form extends Component {
                 <FormRow key={index} rowFieldsModel={fieldsModel} />
               ))
             }
-            <ReactBootstrap.Row>
-              <ReactBootstrap.Col md={12} className={'text-center'}>
-                <FormGroup>
-                  <Button bsStyle="default" onClick={this.handleReset.bind(this)} type="reset">
-                    取消
-                  </Button>
-                  {' '}
-                  <Button
-                    bsStyle="primary"
-                    type="submit"
-                    disabled={this.state.submitButtonDisabled}
-                    onClick={this.handleSubmit.bind(this)}
-                  >完成</Button>
-                </FormGroup>
-              </ReactBootstrap.Col>
-            </ReactBootstrap.Row>
+            {
+              this.props.showSubmitButton === false
+              ? null
+              : (
+                <ReactBootstrap.Row>
+                  <ReactBootstrap.Col md={12} className={'text-center'}>
+                    <FormGroup>
+                      <Button bsStyle="default" onClick={this.handleReset.bind(this)} type="reset">
+                        取消
+                      </Button>
+                      {' '}
+                      <Button
+                        bsStyle="primary"
+                        type="submit"
+                        disabled={this.state.submitButtonDisabled}
+                        onClick={this.handleSubmit.bind(this)}
+                      >完成</Button>
+                    </FormGroup>
+                  </ReactBootstrap.Col>
+                </ReactBootstrap.Row>
+              )
+            }
           </ReactBootstrap.Grid>
         </ReactBootstrap.Form>
       );
