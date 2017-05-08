@@ -152,6 +152,25 @@ export default class Form extends Component {
         actions.updateFormData(formData)
       );
     }
+    // 构建用于进行布局的表单
+    if (nextProps.layout && nextProps.fieldsModel !== this.props.fieldsModel) {
+      let rowIdx = 0;
+      let colIdx = 0;
+      this.layoutFieldsModel = [];
+      nextProps.fieldsModel.forEach((fieldModel) => {
+        if (!this.layoutFieldsModel[rowIdx]) {
+          this.layoutFieldsModel[rowIdx] = [];
+        }
+        if (colIdx === nextProps.layout.columnCount) {
+          this.layoutFieldsModel[++rowIdx] = [];
+          colIdx = 0;
+        }
+        this.layoutFieldsModel[rowIdx].push(fieldModel);
+        if (fieldModel.type !== 'hidden') {
+          colIdx++;
+        }
+      });
+    }
   }
 
   /**
