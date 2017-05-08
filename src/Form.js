@@ -743,7 +743,7 @@ export default class Form extends Component {
       );
       form = (
         <ReactBootstrap.Form inline className={classNames(this.props.className)}>
-          <ReactBootstrap.Grid>
+          <ReactBootstrap.Grid fluid>
             {
               this.layoutFieldsModel.map((fieldsModel, index) => (
                 <FormRow key={index} rowFieldsModel={fieldsModel} />

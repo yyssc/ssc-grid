@@ -7,6 +7,24 @@ import { getForm } from './helpers';
 
 describe('<Form>自定义布局', () => {
 
+  it('默认应该使用fluid样式', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={[]}
+        defaultData={{}}
+        layout={{
+          columnCount: 3,
+          columnWidth: 4
+        }}
+      />
+    );
+    let form = getForm(instance);
+    // 使用bootstrap grid system的fluid布局，可以让container的width不是固定的像素
+    // <Form>
+    //   <div class="containter-fluid">
+    assert.equal(form.querySelectorAll('.container-fluid').length, 1);
+  });
+
   it('应该显示自定义布局', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Form
