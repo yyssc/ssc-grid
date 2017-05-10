@@ -58,6 +58,24 @@ describe('<TextField>', () => {
     assert.equal(getTextField(instance).value, 'abc123');
   });
 
+  it('正确禁用字段', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <TextField
+        value="abc123"
+        disabled
+      />
+    );
+    let textField = getTextField(instance);
+    assert.equal(textField.disabled, true);
+    instance = ReactTestUtils.renderIntoDocument(
+      <TextField
+        value="abc123"
+      />
+    );
+    textField = getTextField(instance);
+    assert.equal(textField.disabled, false);
+  });
+
   it('当用户修改文本框中的值的时候，输入框中的值和组件的state.value应该相应变化', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <TextField

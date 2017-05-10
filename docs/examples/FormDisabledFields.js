@@ -1,4 +1,5 @@
 const mockDefaultData = {
+  name: '',
   formDisabledFieldsPkOrg: null,
   formDisabledFieldsParentId: null,
   formDisabledFieldsPerson: null
@@ -41,36 +42,33 @@ const FormDisabledFieldsExample = React.createClass({
   },
 
   render() {
-    // 初始状态：第一个文本框可以输入，第二和第三个是禁用状态
+    // 初始状态：
+    // 第一个被禁用
+    // 第一个参照可以输入，第二和第三个是禁用状态
     let mockFieldsModel = [
-      {type: 'ref', id: 'formDisabledFieldsPkOrg', label: '组织', disabled: false,
+      { type: 'string', id: 'name', label: '名称', disabled: true },
+      { type: 'ref', id: 'formDisabledFieldsPkOrg', label: '组织', disabled: false,
         referConfig: {
           referConditions: {
-            refCode: 'org',
-            refType: 'tree',
-            rootName: '组织'
+            refCode: 'org', refType: 'tree', rootName: '组织'
           },
           referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON'
         }
       },
-      {type: 'ref', id: 'formDisabledFieldsParentId', label: '上级部门',
+      { type: 'ref', id: 'formDisabledFieldsParentId', label: '上级部门',
         disabled: this.state.formDisabledFieldsParentId,
         referConfig: {
           referConditions: {
-            refCode: 'dept',
-            refType: 'tree',
-            rootName: '部门'
+            refCode: 'dept', refType: 'tree', rootName: '部门'
           },
           referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON'
         }
       },
-      {type: 'ref', id: 'formDisabledFieldsPerson', label: '部门主管',
+      { type: 'ref', id: 'formDisabledFieldsPerson', label: '部门主管',
         disabled: this.state.formDisabledFieldsPerson,
         referConfig: {
           referConditions: {
-            refCode: 'user',
-            refType: 'tree',
-            rootName: '部门主管'
+            refCode: 'user', refType: 'tree', rootName: '部门主管'
           },
           referDataUrl: 'http://127.0.0.1:3009/userCenter/queryUserAndDeptByDeptPk'
         }

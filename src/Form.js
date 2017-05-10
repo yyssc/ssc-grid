@@ -414,6 +414,7 @@ export default class Form extends Component {
           <TextField
             label={label}
             value={this.state.formData[id]}
+            disabled={fieldModel.disabled}
             placeholder={placeholder}
             onChange={this.handleChange.bind(this, id, validators)}
           />

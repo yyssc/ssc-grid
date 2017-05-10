@@ -14,25 +14,7 @@ import { FormControl } from 'react-bootstrap';
 /**
  * 文本框控件
  */
-export default class TextField extends Component {
-  static defaultProps = {
-    value: ''
-  }
-
-  static propTypes = {
-    /**
-     * 当文本框内容被修改时候调用
-     */
-    onChange: PropTypes.func,
-    /**
-     * 文本框占位字符
-     */
-    placeholder: PropTypes.string,
-    /**
-     * 文本框中显示的值
-     */
-    value: PropTypes.string
-  };
+class TextField extends Component {
 
   constructor(props) {
     super(props);
@@ -71,6 +53,7 @@ export default class TextField extends Component {
       <FormControl
         type="text"
         value={this.state.value}
+        disabled={this.props.disabled === true}
         placeholder={this.props.placeholder}
         onChange={this.handleChange.bind(this)}
         onFocus={this.handleFocus.bind(this)}
@@ -79,3 +62,28 @@ export default class TextField extends Component {
     );
   }
 }
+
+TextField.propTypes = {
+  /**
+   * 是否禁用输入框
+   */
+  disabled: PropTypes.bool,
+  /**
+   * 当文本框内容被修改时候调用
+   */
+  onChange: PropTypes.func,
+  /**
+   * 文本框占位字符
+   */
+  placeholder: PropTypes.string,
+  /**
+   * 文本框中显示的值
+   */
+  value: PropTypes.string
+};
+
+TextField.defaultProps = {
+  value: ''
+};
+
+export default TextField;
