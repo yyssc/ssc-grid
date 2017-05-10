@@ -1,9 +1,17 @@
+## [v0.65.1]
+> 2017-05-10
+
+- **Feature:** [Form] 支持禁用文本框 ([#40])
+
+[v0.65.1]: https://github.com/yyssc/ssc-grid/compare/v0.65.0...v0.65.1
+[#40]: https://github.com/yyssc/ssc-grid/issues/40
+
 ## [v0.65.0]
 > 2017-05-10
 
 - **Breaking:** [Form] 去掉`type = 'hidden'`这个类型，解决含义混淆问题 ([#39])
 
-[v0.65.0]: https://github.com/yyssc/ssc-grid/compare/v0.64.14...v0.65.03
+[v0.65.0]: https://github.com/yyssc/ssc-grid/compare/v0.64.14...v0.65.0
 [#39]: https://github.com/yyssc/ssc-grid/issues/39
 
 ## [v0.64.14]
