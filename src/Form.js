@@ -116,22 +116,8 @@ export default class Form extends Component {
 
     // 构建用于进行布局的表单
     if (this.props.layout) {
-      let rowIdx = 0;
-      let colIdx = 0;
-      this.layoutFieldsModel = [];
-      this.props.fieldsModel.forEach((fieldModel) => {
-        if (!this.layoutFieldsModel[rowIdx]) {
-          this.layoutFieldsModel[rowIdx] = [];
-        }
-        if (colIdx === this.props.layout.columnCount) {
-          this.layoutFieldsModel[++rowIdx] = [];
-          colIdx = 0;
-        }
-        this.layoutFieldsModel[rowIdx].push(fieldModel);
-        if (fieldModel.type !== 'hidden') {
-          colIdx++;
-        }
-      });
+      this.layoutFieldsModel = this.getLayoutFieldsModel(
+        this.props.fieldsModel, this.props.layout.columnCount);
     }
   }
 
@@ -154,23 +140,31 @@ export default class Form extends Component {
     }
     // 构建用于进行布局的表单
     if (nextProps.layout && nextProps.fieldsModel !== this.props.fieldsModel) {
-      let rowIdx = 0;
-      let colIdx = 0;
-      this.layoutFieldsModel = [];
-      nextProps.fieldsModel.forEach((fieldModel) => {
-        if (!this.layoutFieldsModel[rowIdx]) {
-          this.layoutFieldsModel[rowIdx] = [];
-        }
-        if (colIdx === nextProps.layout.columnCount) {
-          this.layoutFieldsModel[++rowIdx] = [];
-          colIdx = 0;
-        }
-        this.layoutFieldsModel[rowIdx].push(fieldModel);
-        if (fieldModel.type !== 'hidden') {
-          colIdx++;
-        }
-      });
+      this.layoutFieldsModel = this.getLayoutFieldsModel(
+        nextProps.fieldsModel, nextProps.layout.columnCount);
     }
+  }
+
+  getLayoutFieldsModel(fieldsModel, columnCount) {
+    let rowIdx = 0;
+    let colIdx = 0;
+    let layoutFieldsModel = [];
+    fieldsModel.forEach((fieldModel) => {
+      if (fieldModel.hidden === true) {
+        return;
+      }
+      if (!layoutFieldsModel[rowIdx]) {
+        layoutFieldsModel[rowIdx] = [];
+      }
+      if (colIdx === columnCount) {
+        rowIdx++;
+        colIdx = 0;
+      } else {
+        layoutFieldsModel[rowIdx].push(fieldModel);
+        colIdx++;
+      }
+    });
+    return layoutFieldsModel;
   }
 
   /**
@@ -542,14 +536,6 @@ export default class Form extends Component {
         );
         formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
         break;
-      case 'hidden':
-        formGroup = (
-          <input
-            key={index}
-            type="hidden"
-            value={this.state.formData[id]}
-          />
-        );
     }
     return formGroup;
   }
@@ -557,6 +543,11 @@ export default class Form extends Component {
   genField(fieldModel) {
     const { id, type, label, placeholder, validators } = fieldModel;
     let formGroup, formCtrl;
+
+    // 隐藏字段
+    if (fieldModel.hidden === true) {
+      return null;
+    }
 
     function getDefaultFormGroup(fieldId, fieldLabel, fieldFormCtrl, fm,
       validationState, helpText
@@ -710,13 +701,6 @@ export default class Form extends Component {
         );
         formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel);
         break;
-      case 'hidden':
-        formGroup = (
-          <input
-            type="hidden"
-            value={this.state.formData[id]}
-          />
-        );
     }
     return formGroup;
   }
@@ -725,13 +709,9 @@ export default class Form extends Component {
     let form;
     if (this.props.layout) {
       const FormCol = ({fieldModel}) => (
-        fieldModel.type === 'hidden' || fieldModel.hidden === true
-        ? this.genField(fieldModel)
-        : (
-            <ReactBootstrap.Col md={this.props.layout.columnWidth}>
-              {this.genField(fieldModel)}
-            </ReactBootstrap.Col>
-          )
+        <ReactBootstrap.Col md={this.props.layout.columnWidth}>
+          {this.genField(fieldModel)}
+        </ReactBootstrap.Col>
       );
       const FormRow = ({rowFieldsModel}) => (
         <ReactBootstrap.Row>

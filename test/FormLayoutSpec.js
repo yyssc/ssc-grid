@@ -29,11 +29,11 @@ describe('<Form>自定义布局', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <Form
         fieldsModel={[
-          {type: 'hidden', id: 'id', 'label': '主键'},
+          {type: 'string', id: 'id', 'label': '主键', hidden: true},
           {type: 'string', id: 'danjubianhao', label: '单据编号'},
-          {type: 'hidden', id: 'name2', label: '名称2'},
-          {type: 'hidden', id: 'name3', label: '名称3'},
-          {type: 'hidden', id: 'name4', label: '名称4'}
+          {type: 'string', id: 'name2', label: '名称2', hidden: true},
+          {type: 'string', id: 'name3', label: '名称3', hidden: true},
+          {type: 'string', id: 'name4', label: '名称4', hidden: true}
         ]}
         defaultData={{
           id: '22EA0EB9-FABA-4224-B290-4D041A1DF773',
@@ -94,11 +94,11 @@ describe('<Form>自定义布局', () => {
       />, node
     );
     fakeFieldsModel = [
-      {type: 'hidden', id: 'id', 'label': '主键'},
+      {type: 'string', id: 'id', 'label': '主键', hidden: true},
       {type: 'string', id: 'danjubianhao', label: '单据编号'},
-      {type: 'hidden', id: 'name2', label: '名称2'},
-      {type: 'hidden', id: 'name3', label: '名称3'},
-      {type: 'hidden', id: 'name4', label: '名称4'}
+      {type: 'string', id: 'name2', label: '名称2', hidden: true},
+      {type: 'string', id: 'name3', label: '名称3', hidden: true},
+      {type: 'string', id: 'name4', label: '名称4', hidden: true}
     ];
     fakeDefaultData = {
       id: '22EA0EB9-FABA-4224-B290-4D041A1DF773',
