@@ -1,3 +1,26 @@
+## [v0.64.14]
+> 2017-05-10
+
+- **Feature:** [Form] 在label和form control之间添加空格
+
+[v0.64.14]: https://github.com/yyssc/ssc-grid/compare/v0.64.13...v0.64.14
+
+## [v0.64.13]
+> 2017-05-08
+
+- **Bugfix:** [Form] 修复带有布局的表单没有添加fluid属性的问题 ([#38])
+
+[v0.64.13]: https://github.com/yyssc/ssc-grid/compare/v0.64.12...v0.64.13
+[#38]: https://github.com/yyssc/ssc-grid/issues/38
+
+## [v0.64.12]
+> 2017-05-08
+
+- **Bugfix:** [Form] 修复使用layout属性的时候没有更新组件内部字段状态的问题 ([#37])
+
+[v0.64.12]: https://github.com/yyssc/ssc-grid/compare/v0.64.11...v0.64.12
+[#37]: https://github.com/yyssc/ssc-grid/issues/37
+
 ## [v0.64.11]
 > 2017-05-05
 
