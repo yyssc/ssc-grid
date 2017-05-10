@@ -230,6 +230,7 @@ export default class Form extends Component {
    * ```
    */
   handleReferChange(fieldId, validators, selected) {
+    const { onChange } = this.props;
     // 清空或者设置新值
     this.setState(actions.updateReferFieldValue(fieldId, selected), () => {});
 
@@ -259,10 +260,10 @@ export default class Form extends Component {
           this.setState(actions.updateSubmitButtonState());
         }
       );
-    } else {
-      if (this.props.onChange) {
-        this.props.onChange(fieldId, selected, {});
-      }
+    }
+
+    if (onChange) {
+      onChange(fieldId, selected, {});
     }
   }
 
