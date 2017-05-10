@@ -1,3 +1,11 @@
+## [v0.65.2]
+> 2017-05-10
+
+- **Bugfix:** [Form] 修复参照的onChange没有触发的问题 ([#41])
+
+[v0.65.2]: https://github.com/yyssc/ssc-grid/compare/v0.65.1...v0.65.2
+[#41]: https://github.com/yyssc/ssc-grid/issues/41
+
 ## [v0.65.1]
 > 2017-05-10
 
