@@ -570,6 +570,7 @@ export default class Form extends Component {
           <span style={{ color: 'red' }}>
             {showRequiredStar(validators) ? '*' : null}
           </span>
+          {' '}
           {fieldFormCtrl}
           {fm.type !== 'ref' ? <FormControl.Feedback /> : null}
           <HelpBlock>{helpText}</HelpBlock>

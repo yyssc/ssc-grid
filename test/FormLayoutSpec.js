@@ -53,6 +53,32 @@ describe('<Form>自定义布局', () => {
     assert.equal(form.querySelectorAll('.col-md-4').length, 1);
   });
 
+  it('在label和input之间显示空格', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={[
+          {type: 'string', id: 'danjubianhao', label: '单据编号'},
+          {type: 'string', id: 'name2', label: '名称2'},
+          {type: 'string', id: 'name3', label: '名称3'},
+          {type: 'string', id: 'name4', label: '名称4'},
+        ]}
+        defaultData={{
+          danjubianhao: '123',
+          name2: '名称2',
+          name3: '名称3',
+          name4: '名称4',
+        }}
+        layout={{
+          columnCount: 2,
+          columnWidth: 6,
+        }}
+      />
+    );
+    let form = getForm(instance);
+    let formGroup = form.querySelector('.form-group');
+    assert.equal(formGroup.textContent, '单据编号 ');
+  });
+
   it('属性改变了应该更新UI', () => {
     let node = document.createElement('div');
     let fakeFieldsModel = [];
