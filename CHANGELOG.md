@@ -1,3 +1,11 @@
+## [v0.65.0]
+> 2017-05-10
+
+- **Breaking:** [Form] 去掉`type = 'hidden'`这个类型，解决含义混淆问题 ([#39])
+
+[v0.65.0]: https://github.com/yyssc/ssc-grid/compare/v0.64.14...v0.65.03
+[#39]: https://github.com/yyssc/ssc-grid/issues/39
+
 ## [v0.64.14]
 > 2017-05-10
 
