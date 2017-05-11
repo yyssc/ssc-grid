@@ -1,9 +1,9 @@
 const mockFieldsModel = [
-  {type: 'hidden', id: 'formLayoutId', label: '主键'},
+  {type: 'string', id: 'formLayoutId', label: '主键', hidden: true},
   {type: 'string', id: 'formLayoutDanjubianhao', label: '单据编号'},
-  {type: 'hidden', id: 'formLayoutName2', label: '名称2'},
-  {type: 'hidden', id: 'formLayoutName3', label: '名称3'},
-  {type: 'hidden', id: 'formLayoutName4', label: '名称4'},
+  {type: 'string', id: 'formLayoutName2', label: '名称2', hidden: true},
+  {type: 'string', id: 'formLayoutName3', label: '名称3', hidden: true},
+  {type: 'string', id: 'formLayoutName4', label: '名称4', hidden: true},
   {type: 'enum', id: 'formLayoutDanjuleixing', label: '单据类型', placeholder: '请选择单据类型',
     data: [
       {key: '2631', value: '差旅费借款单'},
@@ -14,6 +14,11 @@ const mockFieldsModel = [
   {type: 'double', id: 'formLayoutJine', label: '金额'},
   {type: 'date', id: 'formLayoutDanjuriqi', label: '单据日期'},
   {type: 'boolean', id: 'formLayoutQiyong', label: '启用'}
+];
+
+const mockLayoutFieldsModel = [
+  ['formLayoutDanjubianhao', 'formLayoutDanjuleixing', 'formLayoutJine'],
+  ['formLayoutDanjuriqi', 'formLayoutQiyong']
 ];
 
 const mockFormData = {
@@ -53,15 +58,34 @@ const FormLayoutExample = React.createClass({
   handleReset(/* event */) {
   },
 
+  getLayoutFieldsModel(fieldsModel, columnCount) {
+    let rowIdx = 0;
+    let colIdx = 0;
+    let layoutFieldsModel = [];
+    fieldsModel.forEach((fieldModel) => {
+      if (fieldModel.hidden === true) {
+        return;
+      }
+      if (!layoutFieldsModel[rowIdx]) {
+        layoutFieldsModel[rowIdx] = [];
+      }
+      if (colIdx === columnCount) {
+        rowIdx++;
+        colIdx = 0;
+      } else {
+        layoutFieldsModel[rowIdx].push(fieldModel);
+        colIdx++;
+      }
+    });
+    return layoutFieldsModel;
+  },
+
   render() {
     return (
       <Form
         fieldsModel={mockFieldsModel}
         defaultData={mockFormData}
-        layout={{
-          columnCount: 3,
-          columnWidth: 4
-        }}
+        layout={mockLayoutFieldsModel}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
         onBlur={this.handleBlur}

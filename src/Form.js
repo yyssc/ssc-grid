@@ -113,12 +113,6 @@ export default class Form extends Component {
         this.state.fieldsHelpText[fieldModel.id] = '';
       }
     });
-
-    // 构建用于进行布局的表单
-    if (this.props.layout) {
-      this.layoutFieldsModel = this.getLayoutFieldsModel(
-        this.props.fieldsModel, this.props.layout.columnCount);
-    }
   }
 
   componentWillMount() {
@@ -138,33 +132,13 @@ export default class Form extends Component {
         actions.updateFormData(formData)
       );
     }
-    // 构建用于进行布局的表单
-    if (nextProps.layout && nextProps.fieldsModel !== this.props.fieldsModel) {
-      this.layoutFieldsModel = this.getLayoutFieldsModel(
-        nextProps.fieldsModel, nextProps.layout.columnCount);
-    }
   }
 
-  getLayoutFieldsModel(fieldsModel, columnCount) {
-    let rowIdx = 0;
-    let colIdx = 0;
-    let layoutFieldsModel = [];
-    fieldsModel.forEach((fieldModel) => {
-      if (fieldModel.hidden === true) {
-        return;
-      }
-      if (!layoutFieldsModel[rowIdx]) {
-        layoutFieldsModel[rowIdx] = [];
-      }
-      if (colIdx === columnCount) {
-        rowIdx++;
-        colIdx = 0;
-      } else {
-        layoutFieldsModel[rowIdx].push(fieldModel);
-        colIdx++;
-      }
-    });
-    return layoutFieldsModel;
+  // 以id来查询对应的字段模型
+  getFieldModelById(fieldId) {
+    return this.props.fieldsModel.find(
+      ({ id }) => (id === fieldId)
+    );
   }
 
   /**
@@ -707,30 +681,36 @@ export default class Form extends Component {
     return formGroup;
   }
 
+  /**
+   * 生成行组件
+   * @param  {Array} rowFieldIds 比如`['id', 'name', 'code']`
+   */
+  genRow(rowFieldIds, rowIdx) {
+    // TODO 这里假定第一行肯定会充满，也就不会出现定义了三列，但是实际只有两个字段的现象
+    return (
+      <ReactBootstrap.Row key={rowIdx}>
+      {
+        rowFieldIds.map((fieldId) => (
+          <ReactBootstrap.Col
+            key={fieldId}
+            md={12 / this.props.layout[0].length}
+          >
+            {this.genField(this.getFieldModelById(fieldId))}
+          </ReactBootstrap.Col>
+        ))
+      }
+      </ReactBootstrap.Row>
+    );
+  }
+
   render() {
     let form;
     if (this.props.layout) {
-      const FormCol = ({fieldModel}) => (
-        <ReactBootstrap.Col md={this.props.layout.columnWidth}>
-          {this.genField(fieldModel)}
-        </ReactBootstrap.Col>
-      );
-      const FormRow = ({rowFieldsModel}) => (
-        <ReactBootstrap.Row>
-        {
-          rowFieldsModel.map((fieldModel, index) => (
-            <FormCol key={index} fieldModel={fieldModel} />
-          ))
-        }
-        </ReactBootstrap.Row>
-      );
       form = (
         <ReactBootstrap.Form inline className={classNames(this.props.className)}>
           <ReactBootstrap.Grid fluid>
             {
-              this.layoutFieldsModel.map((fieldsModel, index) => (
-                <FormRow key={index} rowFieldsModel={fieldsModel} />
-              ))
+              this.props.layout.map(this.genRow.bind(this))
             }
             {
               this.props.showSubmitButton === false
@@ -739,7 +719,11 @@ export default class Form extends Component {
                 <ReactBootstrap.Row>
                   <ReactBootstrap.Col md={12} className={'text-center'}>
                     <FormGroup>
-                      <Button bsStyle="default" onClick={this.handleReset.bind(this)} type="reset">
+                      <Button
+                        bsStyle="default"
+                        type="reset"
+                        onClick={this.handleReset.bind(this)}
+                      >
                         取消
                       </Button>
                       {' '}
@@ -748,7 +732,9 @@ export default class Form extends Component {
                         type="submit"
                         disabled={this.state.submitButtonDisabled}
                         onClick={this.handleSubmit.bind(this)}
-                      >完成</Button>
+                      >
+                        完成
+                      </Button>
                     </FormGroup>
                   </ReactBootstrap.Col>
                 </ReactBootstrap.Row>
@@ -936,18 +922,17 @@ Form.propTypes = {
     PropTypes.object // 默认类型应该是数组，但是为了支持mobx传入observable object...
   ]).isRequired,
   /**
-   * 自定义布局（bootstrap列布局）
+   * 自定义布局（bootstrap列布局），其中是字段的id
    * ```js
-   * {
-   *   columnCount: 3
-   *   columnWidth: 4
-   * }
+   * [
+   *   ['id', 'name', 'code'],
+   *   ['src_system']
+   * ]
    * ```
    */
-  layout: PropTypes.shape({
-    columnCount: React.PropTypes.number,
-    columnWidth: React.PropTypes.number
-  }),
+  layout: PropTypes.arrayOf(PropTypes.arrayOf(
+    PropTypes.string
+  )),
   /**
    * 当控件的值发生改变的时候触发
    * @param {String} `fieldId` 也就是传入组件中fieldsModel中的id<br>

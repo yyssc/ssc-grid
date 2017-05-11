@@ -12,10 +12,7 @@ describe('<Form>自定义布局', () => {
       <Form
         fieldsModel={[]}
         defaultData={{}}
-        layout={{
-          columnCount: 3,
-          columnWidth: 4
-        }}
+        layout={[[]]}
       />
     );
     let form = getForm(instance);
@@ -31,8 +28,8 @@ describe('<Form>自定义布局', () => {
         fieldsModel={[
           {type: 'string', id: 'id', 'label': '主键', hidden: true},
           {type: 'string', id: 'danjubianhao', label: '单据编号'},
-          {type: 'string', id: 'name2', label: '名称2', hidden: true},
-          {type: 'string', id: 'name3', label: '名称3', hidden: true},
+          {type: 'string', id: 'name2', label: '名称2'},
+          {type: 'string', id: 'name3', label: '名称3'},
           {type: 'string', id: 'name4', label: '名称4', hidden: true}
         ]}
         defaultData={{
@@ -42,15 +39,12 @@ describe('<Form>自定义布局', () => {
           name3: '名称3',
           name4: '名称4'
         }}
-        layout={{
-          columnCount: 3,
-          columnWidth: 4
-        }}
+        layout={[['danjubianhao', 'name2', 'name3']]}
       />
     );
     let form = getForm(instance);
     assert.equal(form.querySelectorAll('.row').length, 2);
-    assert.equal(form.querySelectorAll('.col-md-4').length, 1);
+    assert.equal(form.querySelectorAll('.col-md-4').length, 3);
   });
 
   it('在label和input之间显示空格', () => {
@@ -68,10 +62,10 @@ describe('<Form>自定义布局', () => {
           name3: '名称3',
           name4: '名称4',
         }}
-        layout={{
-          columnCount: 2,
-          columnWidth: 6,
-        }}
+        layout={[
+          ['danjubianhao', 'name2'],
+          ['name3', 'name4']
+        ]}
       />
     );
     let form = getForm(instance);
@@ -87,17 +81,14 @@ describe('<Form>自定义布局', () => {
       <Form
         fieldsModel={fakeFieldsModel}
         defaultData={fakeDefaultData}
-        layout={{
-          columnCount: 3,
-          columnWidth: 4
-        }}
+        layout={[[]]}
       />, node
     );
     fakeFieldsModel = [
       {type: 'string', id: 'id', 'label': '主键', hidden: true},
       {type: 'string', id: 'danjubianhao', label: '单据编号'},
-      {type: 'string', id: 'name2', label: '名称2', hidden: true},
-      {type: 'string', id: 'name3', label: '名称3', hidden: true},
+      {type: 'string', id: 'name2', label: '名称2'},
+      {type: 'string', id: 'name3', label: '名称3'},
       {type: 'string', id: 'name4', label: '名称4', hidden: true}
     ];
     fakeDefaultData = {
@@ -111,15 +102,14 @@ describe('<Form>自定义布局', () => {
       <Form
         fieldsModel={fakeFieldsModel}
         defaultData={fakeDefaultData}
-        layout={{
-          columnCount: 3,
-          columnWidth: 4
-        }}
+        layout={[
+          ['danjubianhao', 'name2', 'name3']
+        ]}
       />, node
     );
     let form = getForm(component);
     assert.equal(form.querySelectorAll('.row').length, 2);
-    assert.equal(form.querySelectorAll('.col-md-4').length, 1);
+    assert.equal(form.querySelectorAll('.col-md-4').length, 3);
   });
 
 });
