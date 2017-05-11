@@ -1,3 +1,11 @@
+## [v0.66]
+> 2017-05-11
+
+- **Breaking:** [Form] 修复文本框失去焦点的问题。`layout`属性改成让用户传入布局好的id数组 ([#42])
+
+[v0.60.0]: https://github.com/yyssc/ssc-grid/compare/v0.65.2...v0.66.0
+[#42]: https://github.com/yyssc/ssc-grid/issues/42
+
 ## [v0.65.2]
 > 2017-05-10
 
