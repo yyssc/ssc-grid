@@ -19,189 +19,7 @@ import * as actions from './Grid.actions';
  *
  */
 
-class Grid extends Component {
-
-  static propTypes = {
-    /**
-     * 当前页面号
-     */
-    activePage: PropTypes.number,
-    /**
-     * 表格模型，表头每一列的名称和类型，比如：
-     * ```js
-     * {
-     *   id: 'code',
-     *   type: 'string',
-     *   label: '编码'
-     * }
-     * ```
-     * 隐藏列
-     * ```js
-     * {
-     *   hidden: true
-     * }
-     * ```
-     * 自定义格式化
-     * ```js
-     * formatter: {
-     *   type: 'custom',
-     *   callback: value => `前缀_${value}_后缀`
-     * }
-     * ```
-     */
-    columnsModel: PropTypes.oneOfType([
-      PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
-      PropTypes.object
-    ]).isRequired,
-    /**
-     * 选择一个单元格
-     */
-    onCellChecked: PropTypes.func,
-    /**
-     * 分页
-     */
-    onPagination: PropTypes.func,
-    /**
-     * 每一行是否显示操作按钮列
-     * 默认的操作按钮在最右侧的列中，如果需要指定在左侧，可以通过
-     * `align`参数来设置
-     * ```
-     * {
-     *   align: 'left',
-     *   className: 'operation',
-     *   text: '操作'
-     * }
-     * ```
-     * 注意：当操作列和选择列同时存在的时候，选择列会显示在操作列的左侧
-     */
-    operationColumn: PropTypes.object,
-    /**
-     * 自定义的操作列组件
-     * 除非指定了`operationColumn`参数，否则操作列不会显示出来
-     */
-    operationColumnClass: elementType,
-    /**
-     * 是否显示分页
-     */
-    paging: PropTypes.bool,
-    /**
-     * 是否启用行选择，复选框/单选框
-     * 默认为`null`，不显示
-     * ```js
-     * {
-     *   mode: 'checkbox',
-     *   onBeforeSelect: () => (),
-     *   onSelect: () => (),
-     *   onSelectAll: () => ()
-     * }
-     * ```
-     * ### mode选项
-     * `checkbox`复选，`radio`单选
-     * ### onBeforeSelect()回调
-     * 当单行的复选框/单选框的值发生改变的时候触发，如果函数返回非`true`，
-     * 则不执行状态修改，也就是UI上复选框/单选框的选择状态不发生改变，也不执行`onSelect()`
-     * 回调。
-     * 参数：
-     * - [Number] rowIdx 行index
-     * - [Object] rowObj 行数据
-     * - [boolean] isSelected 复选框/单选框选中状态true/false
-     * - [Event] event Event对象
-     * - [Array] selectedRowsObj 当前被选中的行的数据，比如：
-     *   ```js
-     *   [ { id: '11', name: 'test11', note: 'foo' },
-     *     { id: '22', name: 'test22', note: 'bar' } ]
-     *   ```
-     * ### onSelect()回调
-     * 当单行的复选框/单选框的值发生改变的时候触发
-     * 参数同`onBeforeSelect()`回调
-     * ### onSelectAll()回调
-     * 当点击表头复选框值发生改变的时候触发，参数：
-     * [Object] tableData` 所有行的数据
-     * [boolean] isSelected` 复选框/单选框选中状态true/false
-     * [Event] event` Event对象
-     * [Object] selectedRowsObj` 当前被选中的行，比如：
-     *   ```js
-     *   {
-     *     0: {selected: true}, // 第一行被选中
-     *     1: {selected: false} // 第二行未被选中
-     *   }
-     *   ```
-     * 当行被选中的时候，组件会自动往被选中的行添加`selected`类名
-     */
-    selectRow: PropTypes.object,
-    /**
-     * 表格填充数据
-     * `type: boolean`，数据类型是
-     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Boolean_literals">boolean literal</a>或者是
-     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Data_types">Boolean类型</a>
-     * （注意和<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean全局对象</a>区分）
-     * `type: ref`，参照的值比较特殊，是一个object:
-     * ```
-     * pk_org: {
-     *   id: '22EA0EB9-FABA-4224-B290-5D041A1DF773',
-     *   code: '0403',
-     *   name: '委外部'
-     * }
-     * ```
-     */
-    tableData: PropTypes.oneOfType([
-      PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
-      PropTypes.object
-    ]).isRequired,
-    /**
-     * 页面数量
-     */
-    totalPage: PropTypes.number,
-    /**
-     * 是否显示搜索框
-     */
-    localSearch: PropTypes.bool,
-    /**
-     * 当搜索框内容改变的时候
-     */
-    onSearchChange: PropTypes.func,
-    /**
-     * 直接映射ReactBootstrap的属性
-     * http://getbootstrap.com/css/#tables-striped
-     */
-    striped: PropTypes.bool,
-    /**
-     * 直接映射ReactBootstrap的属性
-     * http://getbootstrap.com/css/#tables-bordered
-     */
-    bordered: PropTypes.bool,
-    /**
-     * 直接映射ReactBootstrap的属性
-     * http://getbootstrap.com/css/#tables-condensed
-     */
-    condensed: PropTypes.bool,
-    /**
-     * 直接映射ReactBootstrap的属性
-     * http://getbootstrap.com/css/#tables-hover-rows
-     */
-    hover: PropTypes.bool,
-    /**
-     * 行双击事件
-     * @param {Event} event
-     * @param {Object} rowObj 行数据对象
-     */
-    onRowDoubleClick: PropTypes.func
-  };
-
-  static defaultProps = {
-    selectRow: null,
-    operationColumn: null, // 默认不显示操作列
-    operationColumnClass: 'td', // 默认的操作列必须是<td>组件
-    paging: false,
-    /**
-     * 直接映射ReactBootstrap的属性
-     */
-    striped: false,
-    bordered: false,
-    condensed: false,
-    hover: false
-  };
-
+export default class Grid extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -496,4 +314,183 @@ class Grid extends Component {
   }
 }
 
-export default Grid;
+Grid.propTypes = {
+  /**
+   * 当前页面号
+   */
+  activePage: PropTypes.number,
+  /**
+   * 表格模型，表头每一列的名称和类型，比如：
+   * ```js
+   * {
+   *   id: 'code',
+   *   type: 'string',
+   *   label: '编码'
+   * }
+   * ```
+   * 隐藏列
+   * ```js
+   * {
+   *   hidden: true
+   * }
+   * ```
+   * 自定义格式化
+   * ```js
+   * formatter: {
+   *   type: 'custom',
+   *   callback: value => `前缀_${value}_后缀`
+   * }
+   * ```
+   */
+  columnsModel: PropTypes.oneOfType([
+    PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
+    PropTypes.object
+  ]).isRequired,
+  /**
+   * 选择一个单元格
+   */
+  onCellChecked: PropTypes.func,
+  /**
+   * 分页
+   */
+  onPagination: PropTypes.func,
+  /**
+   * 每一行是否显示操作按钮列
+   * 默认的操作按钮在最右侧的列中，如果需要指定在左侧，可以通过
+   * `align`参数来设置
+   * ```
+   * {
+   *   align: 'left',
+   *   className: 'operation',
+   *   text: '操作'
+   * }
+   * ```
+   * 注意：当操作列和选择列同时存在的时候，选择列会显示在操作列的左侧
+   */
+  operationColumn: PropTypes.object,
+  /**
+   * 自定义的操作列组件
+   * 除非指定了`operationColumn`参数，否则操作列不会显示出来
+   */
+  operationColumnClass: elementType,
+  /**
+   * 是否显示分页
+   */
+  paging: PropTypes.bool,
+  /**
+   * 是否启用行选择，复选框/单选框
+   * 默认为`null`，不显示
+   * ```js
+   * {
+   *   mode: 'checkbox',
+   *   onBeforeSelect: () => (),
+   *   onSelect: () => (),
+   *   onSelectAll: () => ()
+   * }
+   * ```
+   * ### mode选项
+   * `checkbox`复选，`radio`单选
+   * ### onBeforeSelect()回调
+   * 当单行的复选框/单选框的值发生改变的时候触发，如果函数返回非`true`，
+   * 则不执行状态修改，也就是UI上复选框/单选框的选择状态不发生改变，也不执行`onSelect()`
+   * 回调。
+   * 参数：
+   * - [Number] rowIdx 行index
+   * - [Object] rowObj 行数据
+   * - [boolean] isSelected 复选框/单选框选中状态true/false
+   * - [Event] event Event对象
+   * - [Array] selectedRowsObj 当前被选中的行的数据，比如：
+   *   ```js
+   *   [ { id: '11', name: 'test11', note: 'foo' },
+   *     { id: '22', name: 'test22', note: 'bar' } ]
+   *   ```
+   * ### onSelect()回调
+   * 当单行的复选框/单选框的值发生改变的时候触发
+   * 参数同`onBeforeSelect()`回调
+   * ### onSelectAll()回调
+   * 当点击表头复选框值发生改变的时候触发，参数：
+   * [Object] tableData` 所有行的数据
+   * [boolean] isSelected` 复选框/单选框选中状态true/false
+   * [Event] event` Event对象
+   * [Object] selectedRowsObj` 当前被选中的行，比如：
+   *   ```js
+   *   {
+   *     0: {selected: true}, // 第一行被选中
+   *     1: {selected: false} // 第二行未被选中
+   *   }
+   *   ```
+   * 当行被选中的时候，组件会自动往被选中的行添加`selected`类名
+   */
+  selectRow: PropTypes.object,
+  /**
+   * 表格填充数据
+   * `type: boolean`，数据类型是
+   * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Boolean_literals">boolean literal</a>或者是
+   * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Data_types">Boolean类型</a>
+   * （注意和<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean全局对象</a>区分）
+   * `type: ref`，参照的值比较特殊，是一个object:
+   * ```
+   * pk_org: {
+   *   id: '22EA0EB9-FABA-4224-B290-5D041A1DF773',
+   *   code: '0403',
+   *   name: '委外部'
+   * }
+   * ```
+   */
+  tableData: PropTypes.oneOfType([
+    PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
+    PropTypes.object
+  ]).isRequired,
+  /**
+   * 页面数量
+   */
+  totalPage: PropTypes.number,
+  /**
+   * 是否显示搜索框
+   */
+  localSearch: PropTypes.bool,
+  /**
+   * 当搜索框内容改变的时候
+   */
+  onSearchChange: PropTypes.func,
+  /**
+   * 直接映射ReactBootstrap的属性
+   * http://getbootstrap.com/css/#tables-striped
+   */
+  striped: PropTypes.bool,
+  /**
+   * 直接映射ReactBootstrap的属性
+   * http://getbootstrap.com/css/#tables-bordered
+   */
+  bordered: PropTypes.bool,
+  /**
+   * 直接映射ReactBootstrap的属性
+   * http://getbootstrap.com/css/#tables-condensed
+   */
+  condensed: PropTypes.bool,
+  /**
+   * 直接映射ReactBootstrap的属性
+   * http://getbootstrap.com/css/#tables-hover-rows
+   */
+  hover: PropTypes.bool,
+  /**
+   * 行双击事件
+   * @param {Event} event
+   * @param {Object} rowObj 行数据对象
+   */
+  onRowDoubleClick: PropTypes.func
+};
+
+Grid.defaultProps = {
+  selectRow: null,
+  operationColumn: null, // 默认不显示操作列
+  operationColumnClass: 'td', // 默认的操作列必须是<td>组件
+  paging: false,
+  /**
+   * 直接映射ReactBootstrap的属性
+   */
+  striped: false,
+  bordered: false,
+  condensed: false,
+  hover: false
+};
