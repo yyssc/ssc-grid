@@ -208,11 +208,6 @@ export default class Form extends Component {
     // 清空或者设置新值
     this.setState(actions.updateReferFieldValue(fieldId, selected), () => {});
 
-    // 参照组件会多次调用onChange回调，即使没有发生change
-    if (selected && selected.length === 0) {
-      return;
-    }
-
     // 如果该字段需要校验，那么设置校验状态
     if (validators) {
       // 参照是一个复杂类型的值，需要专门处理。
