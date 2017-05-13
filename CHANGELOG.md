@@ -1,4 +1,12 @@
-## [v0.66]
+## [v0.66.1]
+> 2017-05-13
+
+- **Bugfix:** [Form] 清空参照文本框内容的时候onChange没有被调用 ([#44])
+
+[v0.60.1]: https://github.com/yyssc/ssc-grid/compare/v0.66.0...v0.66.1
+[#44]: https://github.com/yyssc/ssc-grid/issues/44
+
+## [v0.66.0]
 > 2017-05-11
 
 - **Breaking:** [Form] 修复文本框失去焦点的问题。`layout`属性改成让用户传入布局好的id数组 ([#42])
