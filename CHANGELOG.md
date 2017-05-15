@@ -1,3 +1,11 @@
+## [v0.66.2]
+> 2017-05-15
+
+- **Feature:** 支持ValidateInput组件 ([#45])
+
+[v0.66.2]: https://github.com/yyssc/ssc-grid/compare/v0.66.1...v0.66.2
+[#45]: https://github.com/yyssc/ssc-grid/issues/45
+
 ## [v0.66.1]
 > 2017-05-13
 
