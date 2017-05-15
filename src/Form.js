@@ -550,7 +550,6 @@ export default class Form extends Component {
       case 'double': // 2
         formCtrl = (
           <TextField
-            label={label}
             value={this.state.formData[id]}
             placeholder={placeholder}
             onChange={this.handleChange.bind(this, id, validators)}

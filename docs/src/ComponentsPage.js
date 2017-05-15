@@ -45,10 +45,11 @@ import GridStyleSection from './sections/GridStyleSection';
 import MonthPickerBasicSection from './sections/MonthPickerBasicSection';
 import MonthPickerPropsSection from './sections/MonthPickerPropsSection';
 import TextFieldBasicSection from './sections/TextFieldBasicSection';
-import TextFieldValidationSection from './sections/TextFieldValidationSection';
 import TextFieldPropsSection from './sections/TextFieldPropsSection';
 import TreeBasicSection from './sections/TreeBasicSection';
 import TreePropsSection from './sections/TreePropsSection';
+import ValidateInputBasicSection from './sections/ValidateInputBasicSection';
+import ValidateInputPropsSection from './sections/ValidateInputPropsSection';
 import YearPickerBasicSection from './sections/YearPickerBasicSection';
 import YearPickerPropsSection from './sections/YearPickerPropsSection';
 
@@ -80,7 +81,6 @@ const sections = {
     formProps: '#form-props',
   textField: '#text-field',
     textFieldBasic: '#text-field-basic',
-    textFieldValidation: '#text-field-validation',
     textFieldProps: '#text-field-props',
   datePicker: '#date-picker',
     datePickerBasic: '#date-picker-basic',
@@ -102,7 +102,10 @@ const sections = {
     treeProps: '#tree-props',
   dropdown: '#dropdown',
     dropdownBasic: '#dropdown-basic',
-    dropdownProps: '#dropdown-props'
+    dropdownProps: '#dropdown-props',
+  validateInput: '#validate-input',
+    validateInputBaisc: '#validate-input-basic',
+    validateInputProps: '#validate-input-props',
 };
 /* eslint-enable indent */
 
@@ -289,8 +292,6 @@ const ComponentsPage = React.createClass({
 
               {this.renderScrollSpy(sections.textFieldBasic)}
               <TextFieldBasicSection />
-              {this.renderScrollSpy(sections.textFieldValidation)}
-              <TextFieldValidationSection />
               {this.renderScrollSpy(sections.textFieldProps)}
               <TextFieldPropsSection />
 
@@ -395,6 +396,22 @@ const ComponentsPage = React.createClass({
               <DropdownBasicSection />
               {this.renderScrollSpy(sections.dropdownProps)}
               <DropdownPropsSection />
+
+              { /* ValidateInput */ }
+
+              {this.renderScrollSpy(sections.validateInput)}
+              <div className="bs-docs-section">
+                <h1 className="page-header">
+                  <Anchor id="validate-input">ValidateInput组件</Anchor>
+                </h1>
+
+                <p className="lead"></p>
+              </div>
+
+              {this.renderScrollSpy(sections.validateInputBasic)}
+              <ValidateInputBasicSection />
+              {this.renderScrollSpy(sections.validateInputProps)}
+              <ValidateInputPropsSection />
             </div>
 
 
@@ -475,6 +492,11 @@ const ComponentsPage = React.createClass({
                     <SubNav href={sections.dropdown} text="Dropdown">
                       <NavItem href={sections.dropdownBasic}>简单Dropdown</NavItem>
                       <NavItem href={sections.dropdownProps}>属性</NavItem>
+                    </SubNav>
+
+                    <SubNav href={sections.validateInput} text="ValidateInput">
+                      <NavItem href={sections.validateInputBasic}>简单ValidateInput</NavItem>
+                      <NavItem href={sections.validateInputProps}>属性</NavItem>
                     </SubNav>
                   </Nav>
 

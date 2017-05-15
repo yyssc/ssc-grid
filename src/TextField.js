@@ -21,6 +21,9 @@ class TextField extends Component {
     this.state = {
       value: props.value
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -42,10 +45,16 @@ class TextField extends Component {
     }
   }
 
-  handleBlur(/* event */) {
+  handleBlur(event) {
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
   }
 
-  handleFocus(/* event */) {
+  handleFocus(event) {
+    if (this.props.onFocus) {
+      this.props.onFocus(event);
+    }
   }
 
   render() {
@@ -55,9 +64,9 @@ class TextField extends Component {
         value={this.state.value}
         disabled={this.props.disabled === true}
         placeholder={this.props.placeholder}
-        onChange={this.handleChange.bind(this)}
-        onFocus={this.handleFocus.bind(this)}
-        onBlur={this.handleBlur.bind(this)}
+        onChange={this.handleChange}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
       />
     );
   }
@@ -69,9 +78,17 @@ TextField.propTypes = {
    */
   disabled: PropTypes.bool,
   /**
+   * 当光标离开输入框
+   */
+  onBlur: PropTypes.func,
+  /**
    * 当文本框内容被修改时候调用
    */
   onChange: PropTypes.func,
+  /**
+   * 当文本框被聚焦
+   */
+  onFocus: PropTypes.func,
   /**
    * 文本框占位字符
    */
@@ -79,7 +96,7 @@ TextField.propTypes = {
   /**
    * 文本框中显示的值
    */
-  value: PropTypes.string
+  value: PropTypes.string,
 };
 
 TextField.defaultProps = {
