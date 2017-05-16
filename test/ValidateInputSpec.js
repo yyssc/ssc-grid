@@ -46,7 +46,11 @@ describe('<ValidateInput>', () => {
 
   it('uses "div" by default', () => {
     let instance = ReactTestUtils.renderIntoDocument(
-      <ValidateInput />
+      <ValidateInput
+        validators={[
+          { type: 'required', },
+        ]}
+      />
     );
 
     assert.equal(getContainer(instance).nodeName, 'DIV');
@@ -55,6 +59,9 @@ describe('<ValidateInput>', () => {
   it('正确显示通过value传入的值', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ValidateInput
+        validators={[
+          { type: 'required', },
+        ]}
         value="abc123"
       />
     );
@@ -65,6 +72,9 @@ describe('<ValidateInput>', () => {
   it('正确禁用字段', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ValidateInput
+        validators={[
+          { type: 'required', },
+        ]}
         value="abc123"
         disabled
       />
@@ -73,6 +83,9 @@ describe('<ValidateInput>', () => {
     assert.equal(textField.disabled, true);
     instance = ReactTestUtils.renderIntoDocument(
       <ValidateInput
+        validators={[
+          { type: 'required', },
+        ]}
         value="abc123"
       />
     );
@@ -83,6 +96,9 @@ describe('<ValidateInput>', () => {
   it('当用户修改文本框中的值的时候，输入框中的值和组件的state.value应该相应变化', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ValidateInput
+        validators={[
+          { type: 'required', },
+        ]}
         value="abc123"
       />
     );
@@ -98,7 +114,11 @@ describe('<ValidateInput>', () => {
 
   it('当用户修改文本框中的值的时候，输入框中的值和组件的state.value应该相应变化', () => {
     let instance = ReactTestUtils.renderIntoDocument(
-      <ValidateInput />
+      <ValidateInput
+        validators={[
+          { type: 'required', },
+        ]}
+      />
     );
 
     // 修改文本框中的值
@@ -328,6 +348,41 @@ describe('<ValidateInput>', () => {
     assert.equal(getHelpText(validationContainer), '',
       '不应该显示错误提示');
     assert.equal(instance.state.validationState, null);
+  });
+
+  it('主动校验输入框状态', () => {
+    let validateInputRef;
+    let instance = ReactTestUtils.renderIntoDocument(
+      <ValidateInput
+        ref={(c) => validateInputRef = c}
+        validators={[
+          {
+            type: 'required',
+          }
+        ]}
+      />
+    );
+
+    let validationContainer = getContainer(instance);
+
+    // 获取文本框校验状态的提示信息
+    const getHelpText = container => container.querySelector('span.help-block').textContent;
+
+    assert.equal(hasNoValidationStateStyle(validationContainer), true,
+      '1. 组件刚初始化完，输入框为空，不应该显示校验状态');
+    assert.equal(getHelpText(validationContainer), '',
+      '1.1 不应该显示错误提示');
+    assert.equal(instance.state.validationState, null);
+
+    // 主动校验状态
+
+    let validationResult = validateInputRef.doValidate();
+    assert.equal(hasErrorStyle(validationContainer), true,
+      '主动校验状态，应该显示校验失败样式');
+    assert.equal(getHelpText(validationContainer), '\n必须输入该字段！',
+      '应该显示错误提示');
+    assert.equal(instance.state.validationState, 'error');
+    assert.equal(validationResult, false);
   });
 
   // 如何获得ValidateInput下一级别组件TextField组件的state?

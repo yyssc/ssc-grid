@@ -57,15 +57,26 @@ export default class ValidateInput extends Component {
     });
   }
 
+  /**
+   * 父级组件主动校验
+   * @return {booean} 校验成功还是失败
+   */
+  doValidate() {
+    return this.setValidationState(this.textField.state.value);
+  }
+
+  /**
+   * 校验状态并设置组件状态
+   * @param {String} value 文本框内的值
+   * @return {boolean} 校验成功还是失败
+   */
   setValidationState(value) {
-    // 如果该字段需要校验，那么设置校验状态
-    if (this.props.validators) {
-      const {
-        validationState,
-        helpText
-      } = validationUtils.calcValidationState(value, this.props.validators);
-      this.setState({ helpText, validationState });
-    }
+    const {
+      validationState,
+      helpText
+    } = validationUtils.calcValidationState(value, this.props.validators);
+    this.setState({ helpText, validationState });
+    return validationState === 'success';
   }
 
   handleBlur(event) {
@@ -149,7 +160,7 @@ ValidateInput.propTypes = {
    */
   validators: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
-  })),
+  })).isRequired,
 };
 
 ValidateInput.defaultProps = {

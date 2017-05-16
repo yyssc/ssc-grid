@@ -50,6 +50,7 @@ import TreeBasicSection from './sections/TreeBasicSection';
 import TreePropsSection from './sections/TreePropsSection';
 import ValidateInputBasicSection from './sections/ValidateInputBasicSection';
 import ValidateInputResetSection from './sections/ValidateInputResetSection';
+import ValidateInputDoValidateSection from './sections/ValidateInputDoValidateSection';
 import ValidateInputPropsSection from './sections/ValidateInputPropsSection';
 import YearPickerBasicSection from './sections/YearPickerBasicSection';
 import YearPickerPropsSection from './sections/YearPickerPropsSection';
@@ -107,6 +108,7 @@ const sections = {
   validateInput: '#validate-input',
     validateInputBaisc: '#validate-input-basic',
     validateInputReset: '#validate-input-reset',
+    validateInputDoValidate: '#validate-input-do-validate',
     validateInputProps: '#validate-input-props',
 };
 /* eslint-enable indent */
@@ -414,6 +416,8 @@ const ComponentsPage = React.createClass({
               <ValidateInputBasicSection />
               {this.renderScrollSpy(sections.validateInputReset)}
               <ValidateInputResetSection />
+              {this.renderScrollSpy(sections.validateInputDoValidate)}
+              <ValidateInputDoValidateSection />
               {this.renderScrollSpy(sections.validateInputProps)}
               <ValidateInputPropsSection />
             </div>
@@ -501,6 +505,7 @@ const ComponentsPage = React.createClass({
                     <SubNav href={sections.validateInput} text="ValidateInput">
                       <NavItem href={sections.validateInputBasic}>简单ValidateInput</NavItem>
                       <NavItem href={sections.validateInputReset}>重置ValidateInput</NavItem>
+                      <NavItem href={sections.validateInputDoValidate}>主动校验</NavItem>
                       <NavItem href={sections.validateInputProps}>属性</NavItem>
                     </SubNav>
                   </Nav>
