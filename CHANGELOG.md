@@ -1,3 +1,11 @@
+## [v0.66.4]
+> 2017-05-16
+
+- **Feature:** 支持ValidateRefers参照校验 ([#47])
+
+[v0.66.4]: https://github.com/yyssc/ssc-grid/compare/v0.66.3...v0.66.4
+[#47]: https://github.com/yyssc/ssc-grid/issues/47
+
 ## [v0.66.3]
 > 2017-05-16
 
