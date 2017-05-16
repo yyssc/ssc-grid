@@ -49,13 +49,13 @@ import TextFieldPropsSection from './sections/TextFieldPropsSection';
 import TreeBasicSection from './sections/TreeBasicSection';
 import TreePropsSection from './sections/TreePropsSection';
 import ValidateInputBasicSection from './sections/ValidateInputBasicSection';
-import ValidateInputResetSection from './sections/ValidateInputResetSection';
 import ValidateInputDoValidateSection from './sections/ValidateInputDoValidateSection';
 import ValidateInputPropsSection from './sections/ValidateInputPropsSection';
+import ValidateInputResetSection from './sections/ValidateInputResetSection';
 import ValidateRefersBasicSection from './sections/ValidateRefersBasicSection';
-import ValidateRefersResetSection from './sections/ValidateRefersResetSection';
 import ValidateRefersDoValidateSection from './sections/ValidateRefersDoValidateSection';
 import ValidateRefersPropsSection from './sections/ValidateRefersPropsSection';
+import ValidateRefersResetSection from './sections/ValidateRefersResetSection';
 import YearPickerBasicSection from './sections/YearPickerBasicSection';
 import YearPickerPropsSection from './sections/YearPickerPropsSection';
 
@@ -110,12 +110,12 @@ const sections = {
     dropdownBasic: '#dropdown-basic',
     dropdownProps: '#dropdown-props',
   validateInput: '#validate-input',
-    validateInputBaisc: '#validate-input-basic',
+    validateInputBasic: '#validate-input-basic',
     validateInputReset: '#validate-input-reset',
     validateInputDoValidate: '#validate-input-do-validate',
     validateInputProps: '#validate-input-props',
   validateRefers: '#validate-refers',
-    validateRefersBaisc: '#validate-refers-basic',
+    validateRefersBasic: '#validate-refers-basic',
     validateRefersReset: '#validate-refers-reset',
     validateRefersDoValidate: '#validate-refers-do-validate',
     validateRefersProps: '#validate-refers-props',
@@ -450,7 +450,6 @@ const ComponentsPage = React.createClass({
               {this.renderScrollSpy(sections.validateRefersProps)}
               <ValidateRefersPropsSection />
             </div>
-
 
             <div className="col-md-3 bs-docs-sidebar-holder">
               <AutoAffix
