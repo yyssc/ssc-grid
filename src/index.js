@@ -8,6 +8,7 @@ export MonthPicker from './MonthPicker';
 export TextField from './TextField';
 export Tree from './Tree';
 export ValidateInput from './ValidateInput';
+export ValidateRefers from './ValidateRefers';
 export YearPicker from './YearPicker';
 
 // export * as utils from './utils';

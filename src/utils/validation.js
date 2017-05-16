@@ -94,7 +94,7 @@ export function isStatesValid(states) {
 
 /**
  * 对一个字段进行校验
- * @param {String} value
+ * @param {String} value 进行校验的值必须是字符串
  * @param {Array} validators
  * @return {Object} 校验之后的状态和提示信息
  * ```json

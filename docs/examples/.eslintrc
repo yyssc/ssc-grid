@@ -18,6 +18,7 @@
     "TextField": false,
     "Tree": false,
     "ValidateInput": false,
+    "ValidateRefers": false,
     "YearPicker": false,
 
     "FormControl": false,

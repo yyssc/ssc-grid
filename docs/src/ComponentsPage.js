@@ -52,6 +52,10 @@ import ValidateInputBasicSection from './sections/ValidateInputBasicSection';
 import ValidateInputResetSection from './sections/ValidateInputResetSection';
 import ValidateInputDoValidateSection from './sections/ValidateInputDoValidateSection';
 import ValidateInputPropsSection from './sections/ValidateInputPropsSection';
+import ValidateRefersBasicSection from './sections/ValidateRefersBasicSection';
+import ValidateRefersResetSection from './sections/ValidateRefersResetSection';
+import ValidateRefersDoValidateSection from './sections/ValidateRefersDoValidateSection';
+import ValidateRefersPropsSection from './sections/ValidateRefersPropsSection';
 import YearPickerBasicSection from './sections/YearPickerBasicSection';
 import YearPickerPropsSection from './sections/YearPickerPropsSection';
 
@@ -110,6 +114,11 @@ const sections = {
     validateInputReset: '#validate-input-reset',
     validateInputDoValidate: '#validate-input-do-validate',
     validateInputProps: '#validate-input-props',
+  validateRefers: '#validate-refers',
+    validateRefersBaisc: '#validate-refers-basic',
+    validateRefersReset: '#validate-refers-reset',
+    validateRefersDoValidate: '#validate-refers-do-validate',
+    validateRefersProps: '#validate-refers-props',
 };
 /* eslint-enable indent */
 
@@ -420,6 +429,26 @@ const ComponentsPage = React.createClass({
               <ValidateInputDoValidateSection />
               {this.renderScrollSpy(sections.validateInputProps)}
               <ValidateInputPropsSection />
+
+              { /* ValidateRefers */ }
+
+              {this.renderScrollSpy(sections.validateRefers)}
+              <div className="bs-docs-section">
+                <h1 className="page-header">
+                  <Anchor id="validate-refers">ValidateRefers组件</Anchor>
+                </h1>
+
+                <p className="lead"></p>
+              </div>
+
+              {this.renderScrollSpy(sections.validateRefersBasic)}
+              <ValidateRefersBasicSection />
+              {this.renderScrollSpy(sections.validateRefersReset)}
+              <ValidateRefersResetSection />
+              {this.renderScrollSpy(sections.validateRefersDoValidate)}
+              <ValidateRefersDoValidateSection />
+              {this.renderScrollSpy(sections.validateRefersProps)}
+              <ValidateRefersPropsSection />
             </div>
 
 
@@ -507,6 +536,13 @@ const ComponentsPage = React.createClass({
                       <NavItem href={sections.validateInputReset}>重置ValidateInput</NavItem>
                       <NavItem href={sections.validateInputDoValidate}>主动校验</NavItem>
                       <NavItem href={sections.validateInputProps}>属性</NavItem>
+                    </SubNav>
+
+                    <SubNav href={sections.validateRefers} text="ValidateRefers">
+                      <NavItem href={sections.validateRefersBasic}>简单ValidateRefers</NavItem>
+                      <NavItem href={sections.validateRefersReset}>重置ValidateRefers</NavItem>
+                      <NavItem href={sections.validateRefersDoValidate}>主动校验</NavItem>
+                      <NavItem href={sections.validateRefersProps}>属性</NavItem>
                     </SubNav>
                   </Nav>
 

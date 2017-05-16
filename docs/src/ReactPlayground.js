@@ -23,6 +23,7 @@ const MonthPicker = index.MonthPicker;
 const TextField = index.TextField;
 const Tree = index.Tree;
 const ValidateInput = index.ValidateInput;
+const ValidateRefers = index.ValidateRefers;
 const YearPicker = index.YearPicker;
 
 // 例子中有些地方使用到了这些组件

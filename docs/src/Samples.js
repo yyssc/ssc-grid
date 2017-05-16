@@ -38,5 +38,8 @@ export default {
   ValidateInputBasic:           require('fs').readFileSync(__dirname + '/../examples/ValidateInputBasic.js', 'utf8'),
   ValidateInputDoValidate:      require('fs').readFileSync(__dirname + '/../examples/ValidateInputDoValidate.js', 'utf8'),
   ValidateInputReset:           require('fs').readFileSync(__dirname + '/../examples/ValidateInputReset.js', 'utf8'),
+  ValidateRefersBasic:          require('fs').readFileSync(__dirname + '/../examples/ValidateRefersBasic.js', 'utf8'),
+  ValidateRefersDoValidate:     require('fs').readFileSync(__dirname + '/../examples/ValidateRefersDoValidate.js', 'utf8'),
+  ValidateRefersReset:          require('fs').readFileSync(__dirname + '/../examples/ValidateRefersReset.js', 'utf8'),
   YearPickerBasic:              require('fs').readFileSync(__dirname + '/../examples/YearPickerBasic.js', 'utf8'),
 };
