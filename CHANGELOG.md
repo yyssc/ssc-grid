@@ -1,3 +1,11 @@
+## [v0.66.5]
+> 2017-05-16
+
+- **Bugfix:** 解决文档跳转问题 ([#48])
+
+[v0.66.5]: https://github.com/yyssc/ssc-grid/compare/v0.66.4...v0.66.5
+[#48]: https://github.com/yyssc/ssc-grid/issues/48
+
 ## [v0.66.4]
 > 2017-05-16
 
