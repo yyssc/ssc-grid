@@ -3,6 +3,33 @@ import validator from 'validator';
 
 export function getValidationObj({type, helpText}) {
   const vs = {
+    currency: {
+      matchFunc: value => validator.isDecimal(value),
+      helpText: () => '请输入正确的货币格式！'
+    },
+    decimal: {
+      matchFunc: value => validator.isDecimal(value),
+      helpText: () => '请输入正确的数字格式！'
+    },
+    email: {
+      matchFunc: value => validator.isEmail(value),
+      helpText: () => '请输入正确的邮箱格式！'
+    },
+    int: {
+      matchFunc: value => validator.isInt(value),
+      helpText: () => '请输入正确的整数格式！'
+    },
+    length: {
+      /**
+       * options = {min: 3, max: 6}
+       */
+      matchFunc: (value, options) => validator.isLength(value, options),
+      helpText: (options) => `输入长度必须介于 ${options.min} 和 ${options.max} 之间的字符串`
+    },
+    mobilePhone: {
+      matchFunc: value => validator.isMobilePhone(value, 'zh-CN'),
+      helpText: () => '请输入正确的手机号格式!'
+    },
     required: {
       matchFunc: (value) => {
         // Removes whitespace from both ends of a string
@@ -20,33 +47,6 @@ export function getValidationObj({type, helpText}) {
       },
       helpText: () => '必须输入该字段！'
     },
-    email: {
-      matchFunc: value => validator.isEmail(value),
-      helpText: () => '请输入正确的邮箱格式！'
-    },
-    decimal: {
-      matchFunc: value => validator.isDecimal(value),
-      helpText: () => '请输入正确的数字格式！'
-    },
-    currency: {
-      matchFunc: value => validator.isDecimal(value),
-      helpText: () => '请输入正确的货币格式！'
-    },
-    int: {
-      matchFunc: value => validator.isInt(value),
-      helpText: () => '请输入正确的整数格式！'
-    },
-    mobilePhone: {
-      matchFunc: value => validator.isMobilePhone(value, 'zh-CN'),
-      helpText: () => '请输入正确的手机号格式!'
-    },
-    length: {
-      /**
-       * options = {min: 3, max: 6}
-       */
-      matchFunc: (value, options) => validator.isLength(value, options),
-      helpText: (options) => `输入长度必须介于 ${options.min} 和 ${options.max} 之间的字符串`
-    }
   };
 
   let validationObj = vs[type];
