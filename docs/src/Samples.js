@@ -36,5 +36,6 @@ export default {
   TextFieldBasic:               require('fs').readFileSync(__dirname + '/../examples/TextFieldBasic.js', 'utf8'),
   TreeBasic:                    require('fs').readFileSync(__dirname + '/../examples/TreeBasic.js', 'utf8'),
   ValidateInputBasic:           require('fs').readFileSync(__dirname + '/../examples/ValidateInputBasic.js', 'utf8'),
+  ValidateInputReset:           require('fs').readFileSync(__dirname + '/../examples/ValidateInputReset.js', 'utf8'),
   YearPickerBasic:              require('fs').readFileSync(__dirname + '/../examples/YearPickerBasic.js', 'utf8'),
 };

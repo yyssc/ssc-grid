@@ -49,6 +49,14 @@ export default class ValidateInput extends Component {
     }
   }
 
+  reset() {
+    this.textField.reset();
+    this.setState({
+      helpText: '',
+      validationState: null,
+    });
+  }
+
   setValidationState(value) {
     // 如果该字段需要校验，那么设置校验状态
     if (this.props.validators) {
@@ -94,6 +102,7 @@ export default class ValidateInput extends Component {
       >
         <TextField
           {...this.props}
+          ref={(c) => this.textField = c}
           onBlur={this.handleBlur}
           onChange={this.handleChange}
           onFocus={this.handleFocus}

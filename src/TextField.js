@@ -35,6 +35,12 @@ class TextField extends Component {
     }
   }
 
+  reset() {
+    this.setState({
+      value: '',
+    });
+  }
+
   handleChange(event) {
     const { value } = event.target;
 
