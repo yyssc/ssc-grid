@@ -21,10 +21,10 @@ export function getValidationObj({type, helpText}) {
     },
     length: {
       /**
-       * options = {min: 3, max: 6}
+       * v.options = { min: 3, max: 6 }
        */
-      matchFunc: (value, options) => validator.isLength(value, options),
-      helpText: (options) => `输入长度必须介于 ${options.min} 和 ${options.max} 之间的字符串`
+      matchFunc: (value, v) => validator.isLength(value, v.options),
+      helpText: (value, v) => `输入长度必须介于 ${v.options.min} 和 ${v.options.max} 之间的字符串`
     },
     mobilePhone: {
       matchFunc: value => validator.isMobilePhone(value, 'zh-CN'),
@@ -111,10 +111,10 @@ export function calcValidationState(value, validators) {
     const { matchFunc, helpText } = v.type === 'custom'
       ? v
       : getValidationObj(v);
-    let isValid = matchFunc(value, v.options);
+    let isValid = matchFunc(value, v);
     if (!isValid) {
       validationState = 'error';
-      helpTexts += '\n' + helpText(v.options);
+      helpTexts += '\n' + helpText(value, v);
     }
   });
   return {

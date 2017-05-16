@@ -200,6 +200,78 @@ describe('<ValidateInput>', () => {
     assert.equal(instance.state.validationState, 'error');
   });
 
+  it('正确进行自定义校验', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <ValidateInput
+        value=""
+        validators={[
+          {
+            type: 'custom',
+            helpText: (/* value, validator */) => '请确保字符长度大于等于3',
+            matchFunc: value => (value.length >= 3),
+          }
+        ]}
+      />
+    );
+
+    let validationContainer = getContainer(instance);
+    let inputNode = getTextField(instance);
+
+    // 获取文本框校验状态的提示信息
+    const getHelpText = container => container.querySelector('span.help-block').textContent;
+
+    assert.equal(hasNoValidationStateStyle(validationContainer), true,
+      '1. 组件刚初始化完，输入框为空，不应该显示校验状态');
+    assert.equal(getHelpText(validationContainer), '',
+      '1.1 不应该显示错误提示');
+    assert.equal(instance.state.validationState, null);
+
+    ReactTestUtils.Simulate.focus(inputNode);
+    assert.equal(hasNoValidationStateStyle(validationContainer), true,
+      '2. 用户focus到输入框，还没有开始输入，不应该显示校验状态');
+    assert.equal(getHelpText(validationContainer), '',
+      '2.1 不应该显示错误提示');
+    assert.equal(instance.state.validationState, null);
+
+    ReactTestUtils.Simulate.blur(inputNode);
+    assert.equal(hasErrorStyle(validationContainer), true,
+      '3. 用户blur出输入框，应该显示校验失败状态');
+    assert.equal(getHelpText(validationContainer), '\n请确保字符长度大于等于3',
+      '3.1 应该显示错误提示');
+    assert.equal(instance.state.validationState, 'error');
+
+    ReactTestUtils.Simulate.focus(inputNode);
+    assert.equal(hasErrorStyle(validationContainer), true,
+      '4. 用户focus到输入框，应该仍然显示校验失败');
+    assert.equal(getHelpText(validationContainer), '\n请确保字符长度大于等于3',
+      '4.1 应该显示错误提示');
+    assert.equal(instance.state.validationState, 'error');
+
+    inputNode.value = 'd3';
+    ReactTestUtils.Simulate.change(inputNode);
+    assert.equal(hasErrorStyle(validationContainer), true,
+      '用户往文本框输入两个字符，应该校验失败');
+    assert.equal(getHelpText(validationContainer), '\n请确保字符长度大于等于3',
+      '应该显示错误提示');
+    assert.equal(instance.state.validationState, 'error');
+
+    inputNode.value = 'd3vin';
+    ReactTestUtils.Simulate.change(inputNode);
+    assert.equal(hasSuccessStyle(validationContainer), true,
+      '5. 用户往文本框输入5个字符，应该校验成功');
+    assert.equal(getHelpText(validationContainer), '',
+      '5.1 不应该显示错误提示');
+    assert.equal(instance.state.validationState, 'success');
+
+    inputNode.value = '';
+    ReactTestUtils.Simulate.change(inputNode);
+    assert.equal(hasErrorStyle(validationContainer), true,
+      '6. 用户清空文本框，应该校验失败');
+    assert.equal(getHelpText(validationContainer), '\n请确保字符长度大于等于3',
+      '6.1 应该显示错误提示');
+    assert.equal(instance.state.validationState, 'error');
+  });
+
   // 如何获得ValidateInput下一级别组件TextField组件的state?
   // it('通过props更新输入框的默认值，应该重新渲染为新数据', () => {
   //   let node = document.createElement('div');
