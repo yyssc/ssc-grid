@@ -1,3 +1,12 @@
+## [v0.66.3]
+> 2017-05-16
+
+- **Feature:** ValidateInput支持doValidate方法进行主动校验 ([#46])
+- **Feature:** ValidateInput支持reset方法，可以重置文本框的校验状态和文本框的文本 ([#46])
+
+[v0.66.3]: https://github.com/yyssc/ssc-grid/compare/v0.66.2...v0.66.3
+[#46]: https://github.com/yyssc/ssc-grid/issues/46
+
 ## [v0.66.2]
 > 2017-05-15
 
