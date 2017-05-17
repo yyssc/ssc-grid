@@ -12,17 +12,15 @@ export default function ValidateInputBasicSection() {
       </h2>
       <h3><Anchor id="validate-input-basic">输入框校验</Anchor></h3>
       <p>通过指定<code>validators</code>属性，<code>&lt;ValidateInput&gt;</code>组件支持如下内置校验类型：</p>
-      <p>
-        <ul>
-          <li><code>currency</code>: 货币</li>
-          <li><code>decimal</code>: 数字</li>
-          <li><code>email</code>: 电子邮件地址</li>
-          <li><code>int</code>: 整数</li>
-          <li><code>length</code>: 字符长度</li>
-          <li><code>mobilePhone</code>: 手机号</li>
-          <li><code>required</code>: 必输项</li>
-        </ul>
-      </p>
+      <ul>
+        <li><code>currency</code>: 货币</li>
+        <li><code>decimal</code>: 数字</li>
+        <li><code>email</code>: 电子邮件地址</li>
+        <li><code>int</code>: 整数</li>
+        <li><code>length</code>: 字符长度</li>
+        <li><code>mobilePhone</code>: 手机号</li>
+        <li><code>required</code>: 必输项</li>
+      </ul>
       <p>通过指定参数<code>type: 'email'</code>来指定校验类型为Email地址</p>
       <pre><code>{`[
   {

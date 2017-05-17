@@ -12,11 +12,9 @@ export default function ValidateRefersBasicSection() {
       </h2>
       <h3><Anchor id="validate-refers-basic">参照校验</Anchor></h3>
       <p>通过指定<code>validators</code>属性，<code>&lt;ValidateInput&gt;</code>组件支持如下内置校验类型：</p>
-      <p>
-        <ul>
-          <li><code>required</code>: 必输项</li>
-        </ul>
-      </p>
+      <ul>
+        <li><code>required</code>: 必输项</li>
+      </ul>
       <p>通过指定参数<code>type: 'required'</code>来指定校验类型为必输项</p>
       <pre><code>{`[
   {
