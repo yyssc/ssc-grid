@@ -1,3 +1,10 @@
+## [v0.68.1]
+> 2017-05-17
+
+- **Feature:** 自定义组件传入customFieldModel属性
+
+[v0.68.1]: https://github.com/yyssc/ssc-grid/compare/v0.68.0...v0.68.1
+
 ## [v0.68.0]
 > 2017-05-17
 
