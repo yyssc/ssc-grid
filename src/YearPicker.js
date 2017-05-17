@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-
-import NumberPicker from '@smalldots/react-number-picker';
 import moment from 'moment';
+
+import NumberPicker from './libs/NumberPicker';
 
 /**
  * YearPicker控件
+ * https://github.com/hnordt/react-year-picker/blob/master/index.babel.js
  */
 export default class YearPicker extends Component {
   static defaultProps = {
