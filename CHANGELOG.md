@@ -1,3 +1,20 @@
+## [v0.68.0]
+> 2017-05-17
+
+- **Breaking:** 升级React从0.14.9到15.4.0解决部分报警问题 ([#51])
+
+[v0.68.0]: https://github.com/yyssc/ssc-grid/compare/v0.67.0...v0.68.0
+[#51]: https://github.com/yyssc/ssc-grid/issues/51
+
+## [v0.67.0]
+> 2017-05-17
+
+- **Breaking:** 升级react到0.14.9解决prop-types报警告的问题 ([#28], [#48])
+
+[v0.67.0]: https://github.com/yyssc/ssc-grid/compare/v0.66.5...v0.67.0
+[#28]: https://github.com/yyssc/ssc-grid/issues/28
+[#49]: https://github.com/yyssc/ssc-grid/issues/49
+
 ## [v0.66.5]
 > 2017-05-16
 
