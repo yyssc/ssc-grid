@@ -1,4 +1,5 @@
 import React, { cloneElement } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 // import Nav from '../../src/Nav';
@@ -10,14 +11,14 @@ import ValidComponentChildren from 'react-bootstrap/lib/utils/ValidComponentChil
 import createChainedFunction from 'react-bootstrap/lib/utils/createChainedFunction';
 
 const propTypes = {
-  onSelect: React.PropTypes.func,
-  active: React.PropTypes.bool,
-  activeKey: React.PropTypes.any,
-  activeHref: React.PropTypes.string,
-  disabled: React.PropTypes.bool,
-  eventKey: React.PropTypes.any,
-  href: React.PropTypes.string,
-  text: React.PropTypes.node,
+  onSelect: PropTypes.func,
+  active: PropTypes.bool,
+  activeKey: PropTypes.any,
+  activeHref: PropTypes.string,
+  disabled: PropTypes.bool,
+  eventKey: PropTypes.any,
+  href: PropTypes.string,
+  text: PropTypes.node,
 };
 
 const defaultProps = {

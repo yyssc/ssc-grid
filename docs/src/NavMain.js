@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Navbar, Nav } from 'react-bootstrap';
 
@@ -18,7 +19,7 @@ function Wrapper({ children }) {
 }
 
 const propTypes = {
-  activePage: React.PropTypes.string,
+  activePage: PropTypes.string,
 };
 
 function NavMain({ activePage }) {
