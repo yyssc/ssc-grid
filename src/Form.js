@@ -501,6 +501,7 @@ export default class Form extends Component {
       case 'custom': // 后端没有该类型，这是前端自己定义的
         formCtrl = (
           <fieldModel.component
+            customFieldModel={fieldModel}
             customFieldValue={this.state.formData[id]}
             onCustomFieldChange={this.handleCustomFieldChange.bind(this, id)}
           />
@@ -665,6 +666,7 @@ export default class Form extends Component {
       case 'custom': // 后端没有该类型，这是前端自己定义的
         formCtrl = (
           <fieldModel.component
+            customFieldModel={fieldModel}
             customFieldValue={this.state.formData[id]}
             onCustomFieldChange={this.handleCustomFieldChange.bind(this, id)}
           />
@@ -836,8 +838,9 @@ Form.propTypes = {
    * 对于自定义类型，需要调用者传入一个组件，表单在回调该组件的时候，传入如下属性：
    * ```js
    * propTypes: {
-   *   customFieldValue: React.PropTypes.string,
-   *   onCustomFieldChange: React.PropTypes.func
+   *   customFieldModel: PropTypes.object,
+   *   customFieldValue: PropTypes.string,
+   *   onCustomFieldChange: PropTypes.func,
    * }
    * ```
    * ### enum枚举型
@@ -893,8 +896,8 @@ Form.propTypes = {
    * ```js
    * {
    *   type: 'custom',
-   *   helpText: '请输入正确的XX格式',
-   *   matchFunc: () => {}
+   *   helpText: value => '请输入正确的XX格式',
+   *   matchFunc: value => {}
    * }
    * ```
    * 当`matchFunc`返回值为`true`的时候，认为校验通过
