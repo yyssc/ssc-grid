@@ -12,7 +12,7 @@ import { FormControl } from 'react-bootstrap';
  */
 
 /**
- * 文本框控件
+ * 文本框控件 (uncontrolled)
  */
 class TextField extends Component {
 
@@ -27,18 +27,12 @@ class TextField extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // 更新输入框默认值
+    // 只有当值改变的情况下才会更新状态
     if (nextProps.value !== this.props.value) {
       this.setState({
         value: nextProps.value
       });
     }
-  }
-
-  reset() {
-    this.setState({
-      value: '',
-    });
   }
 
   handleChange(event) {
@@ -101,6 +95,8 @@ TextField.propTypes = {
   placeholder: PropTypes.string,
   /**
    * 文本框中显示的值
+   * TODO `value`应该改为`defaultValue`，类似于默认的`input`组件区分`value`和
+   * `defaultValue`一样，使用`defaultValue`说明该组件是uncontrolled
    */
   value: PropTypes.string,
 };

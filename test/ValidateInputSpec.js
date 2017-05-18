@@ -69,6 +69,33 @@ describe('<ValidateInput>', () => {
     assert.equal(getTextField(instance).value, 'abc123');
   });
 
+  it('正确渲染传入新的value', () => {
+    let node = document.createElement('div');
+    let instance = ReactDOM.render(
+      <ValidateInput
+        validators={[
+          {
+            type: 'required',
+          }
+        ]}
+        value="123"
+      />, node
+    );
+    assert.equal(getTextField(instance).value, '123');
+
+    instance = ReactDOM.render(
+      <ValidateInput
+        validators={[
+          {
+            type: 'required',
+          }
+        ]}
+        value="321"
+      />, node
+    );
+    assert.equal(getTextField(instance).value, '321');
+  });
+
   it('正确禁用字段', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ValidateInput
@@ -292,7 +319,7 @@ describe('<ValidateInput>', () => {
     assert.equal(instance.state.validationState, 'error');
   });
 
-  it('重置输入框以及校验状态', () => {
+  it('重置文本框校验状态', () => {
     let validateInputRef;
     let instance = ReactTestUtils.renderIntoDocument(
       <ValidateInput
@@ -340,7 +367,7 @@ describe('<ValidateInput>', () => {
       '6.1 应该显示错误提示');
     assert.equal(instance.state.validationState, 'error');
 
-    // 清空文本，以及重置文本框校验状态
+    // 重置文本框校验状态
     validateInputRef.reset();
 
     assert.equal(hasNoValidationStateStyle(validationContainer), true,
@@ -385,25 +412,83 @@ describe('<ValidateInput>', () => {
     assert.equal(validationResult, false);
   });
 
-  // 如何获得ValidateInput下一级别组件TextField组件的state?
-  // it('通过props更新输入框的默认值，应该重新渲染为新数据', () => {
-  //   let node = document.createElement('div');
-  //   let component;
-  //
-  //   component = ReactDOM.render(
-  //     <ValidateInput
-  //       value="a123"
-  //     />, node
-  //   );
-  //   assert.equal(component.state.value, 'a123');
-  //   assert.equal(getTextField(component).value, 'a123');
-  //   component = ReactDOM.render(
-  //     <ValidateInput
-  //       value="b456"
-  //     />, node
-  //   );
-  //   assert.equal(component.state.value, 'b456');
-  //   assert.equal(getTextField(component).value, 'b456');
-  // });
+  it('重置输入框再次通过props传入新的原来的值', () => {
+    let validateInputRef;
+    let node = document.createElement('div');
+    let instance = ReactDOM.render(
+      <ValidateInput
+        ref={(c) => validateInputRef = c}
+        validators={[
+          {
+            type: 'required',
+          }
+        ]}
+        value="123"
+      />, node
+    );
+    assert.equal(validateInputRef.props.value, '123');
+    assert.equal(validateInputRef.textFieldRef.props.value, '123');
+    assert.equal(getTextField(instance).value, '123');
+    assert.equal(getTextField(instance).value, '123');
+
+    // 重置文本框校验状态
+    validateInputRef.reset();
+    assert.equal(validateInputRef.props.value, '123');
+    assert.equal(validateInputRef.textFieldRef.props.value, '123');
+    assert.equal(validateInputRef.state.validateState, null);
+    assert.equal(validateInputRef.textFieldRef.state.value, '123');
+    assert.equal(getTextField(instance).value, '123');
+
+    instance = ReactDOM.render(
+      <ValidateInput
+        ref={(c) => validateInputRef = c}
+        validators={[
+          {
+            type: 'required',
+          }
+        ]}
+        value="123"
+      />, node
+    );
+    assert.equal(validateInputRef.props.value, '123');
+    assert.equal(validateInputRef.textFieldRef.props.value, '123');
+    assert.equal(validateInputRef.state.validateState, null);
+    assert.equal(validateInputRef.textFieldRef.state.value, '123');
+    assert.equal(getTextField(instance).value, '123');
+  });
+
+  it('通过props更新输入框的默认值，应该重新渲染为新数据', () => {
+    let validateInputRef;
+    let node = document.createElement('div');
+    let component;
+
+    component = ReactDOM.render(
+      <ValidateInput
+        ref={(c) => validateInputRef = c}
+        validators={[
+          {
+            type: 'required',
+          }
+        ]}
+        value="a123"
+      />, node
+    );
+    assert.equal(validateInputRef.textFieldRef.state.value, 'a123');
+    assert.equal(getTextField(component).value, 'a123');
+
+    component = ReactDOM.render(
+      <ValidateInput
+        ref={(c) => validateInputRef = c}
+        validators={[
+          {
+            type: 'required',
+          }
+        ]}
+        value="b456"
+      />, node
+    );
+    assert.equal(validateInputRef.textFieldRef.state.value, 'b456');
+    assert.equal(getTextField(component).value, 'b456');
+  });
 
 });

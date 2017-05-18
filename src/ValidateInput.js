@@ -40,17 +40,14 @@ export default class ValidateInput extends Component {
     this.handleFocus = this.handleFocus.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    // 更新输入框默认值
-    if (nextProps.value !== this.props.value) {
-      this.setState({
-        value: nextProps.value
-      });
-    }
+  /**
+   * @param {Object} nextProps
+   */
+  componentWillReceiveProps() {
   }
 
+  // 提供父组件可以清空校验状态
   reset() {
-    this.textField.reset();
     this.setState({
       helpText: '',
       validationState: null,
@@ -62,7 +59,7 @@ export default class ValidateInput extends Component {
    * @return {booean} 校验成功还是失败
    */
   doValidate() {
-    return this.setValidationState(this.textField.state.value);
+    return this.setValidationState(this.textFieldRef.state.value);
   }
 
   /**
@@ -91,7 +88,7 @@ export default class ValidateInput extends Component {
   handleChange(event) {
     const { value } = event.target;
 
-    this.setState({ value });
+    // this.setState({ value });
     this.setValidationState(value);
 
     if (this.props.onChange) {
@@ -112,8 +109,9 @@ export default class ValidateInput extends Component {
         validationState={this.state.validationState}
       >
         <TextField
-          {...this.props}
-          ref={(c) => this.textField = c}
+          ref={(c) => this.textFieldRef = c}
+          value={this.props.value}
+          disabled={this.props.disabled}
           onBlur={this.handleBlur}
           onChange={this.handleChange}
           onFocus={this.handleFocus}
@@ -152,15 +150,15 @@ ValidateInput.propTypes = {
    */
   placeholder: PropTypes.string,
   /**
-   * 文本框中显示的值
-   */
-  value: PropTypes.string,
-  /**
    * 带有校验功能的输入框
    */
   validators: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
   })).isRequired,
+  /**
+   * 文本框中显示的值
+   */
+  value: PropTypes.string,
 };
 
 ValidateInput.defaultProps = {
