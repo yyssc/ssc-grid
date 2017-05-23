@@ -1,3 +1,11 @@
+## [v0.68.2]
+> 2017-05-23
+
+- **Bugfix:** 解决没有传validators参数时候的报错 ([#55])
+
+[v0.68.2]: https://github.com/yyssc/ssc-grid/compare/v0.68.1...v0.68.2
+[#55]: https://github.com/yyssc/ssc-grid/issues/55
+
 ## [v0.68.1]
 > 2017-05-17
 
