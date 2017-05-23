@@ -1,10 +1,11 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import ReactTestUtils from 'react-addons-test-utils';
 
 import Grid from '../src/Grid';
 import { getTableCell, getTableHeadColumn } from './helpers';
 
-const CustomComponent = React.createClass({
+const CustomComponent = createReactClass({
   handleUpdate() {},
   handleDelete() {},
   render() {
