@@ -224,9 +224,10 @@ ValidateRefers.propTypes = {
    */
   validators: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
-  })).isRequired,
+  })),
 };
 
 ValidateRefers.defaultProps = {
   selected: [],
+  validators: [],
 };
