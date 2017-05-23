@@ -1,3 +1,11 @@
+## [v0.68.4]
+> 2017-05-23
+
+- **Bugfix:** 解决PropTypes的警告 ([#57])
+
+[v0.68.4]: https://github.com/yyssc/ssc-grid/compare/v0.68.3...v0.68.4
+[#57]: https://github.com/yyssc/ssc-grid/issues/57
+
 ## [v0.68.3]
 > 2017-05-23
 
