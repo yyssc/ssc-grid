@@ -56,6 +56,19 @@ describe('<ValidateInput>', () => {
     assert.equal(getContainer(instance).nodeName, 'DIV');
   });
 
+  it('正确处理缺省参数', () => {
+    let instance = ReactTestUtils.renderIntoDocument(
+      <ValidateInput
+        value="abc123"
+      />
+    );
+    // 修改文本框中的值
+    let inputNode = getTextField(instance);
+    inputNode.value = 'abc123 modified';
+    ReactTestUtils.Simulate.change(inputNode);
+    assert.equal(inputNode.value, 'abc123 modified');
+  });
+
   it('正确显示通过value传入的值', () => {
     let instance = ReactTestUtils.renderIntoDocument(
       <ValidateInput

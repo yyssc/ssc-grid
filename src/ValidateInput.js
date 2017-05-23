@@ -154,7 +154,7 @@ ValidateInput.propTypes = {
    */
   validators: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
-  })).isRequired,
+  })),
   /**
    * 文本框中显示的值
    */
@@ -162,5 +162,6 @@ ValidateInput.propTypes = {
 };
 
 ValidateInput.defaultProps = {
-  value: ''
+  validators: [],
+  value: '',
 };
