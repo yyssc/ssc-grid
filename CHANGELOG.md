@@ -1,3 +1,11 @@
+## [v0.68.5]
+> 2017-05-23
+
+- **Bugfix:** 解决createClass废弃的警告 ([#58])
+
+[v0.68.5]: https://github.com/yyssc/ssc-grid/compare/v0.68.4...v0.68.5
+[#58]: https://github.com/yyssc/ssc-grid/issues/58
+
 ## [v0.68.4]
 > 2017-05-23
 
