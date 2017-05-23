@@ -15,8 +15,6 @@ import Popover from 'react-bootstrap/lib/Popover';
 
 let instanceCount = 0;
 
-
-
 const CalendarHeader = createReactClass({
   displayName: 'DatePickerHeader',
 
