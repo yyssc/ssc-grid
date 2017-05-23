@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 // 将rc-tree封装起来
 import * as RcTree from 'rc-tree';

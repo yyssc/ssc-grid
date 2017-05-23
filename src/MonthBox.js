@@ -1,12 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * MonthBox 只提供给MonthPicker组件使用
  */
 const MonthBox = React.createClass({
   propTypes: {
-    value: React.PropTypes.string,
-    onClick: React.PropTypes.func
+    value: PropTypes.string,
+    onClick: PropTypes.func
   },
   getInitialState() {
     return {

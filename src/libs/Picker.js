@@ -1,7 +1,8 @@
 /* eslint react/no-multi-comp: 0 */
 // Copy from https://github.com/hnordt/react-picker/blob/master/index.babel.js
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import chunk from 'lodash.chunk';
 
 export default function Picker({

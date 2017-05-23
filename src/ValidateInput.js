@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormGroup, FormControl, HelpBlock } from 'react-bootstrap';
 
 import * as validationUtils from './utils/validation';

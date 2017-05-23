@@ -1,6 +1,7 @@
 // Copy from https://github.com/hnordt/react-number-picker/blob/master/index.babel.js
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import range from 'lodash.range';
 
 import Picker from './Picker';
