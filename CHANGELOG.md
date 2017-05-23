@@ -1,3 +1,11 @@
+## [v0.68.3]
+> 2017-05-23
+
+- **Bugfix:** 解决ValidateRefers没有传validators参数时候的报错 ([#56])
+
+[v0.68.3]: https://github.com/yyssc/ssc-grid/compare/v0.68.2...v0.68.3
+[#56]: https://github.com/yyssc/ssc-grid/issues/56
+
 ## [v0.68.2]
 > 2017-05-23
 
