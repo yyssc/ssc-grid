@@ -1,3 +1,10 @@
+## [v0.68.7]
+> 2017-05-24
+
+- **Bugfix:** 升级react-datepicker解决`React.createClass`报警的问题
+
+[v0.68.6]: https://github.com/yyssc/ssc-grid/compare/v0.68.6...v0.68.7
+
 ## [v0.68.6]
 > 2017-05-24
 
