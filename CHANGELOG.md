@@ -1,34 +1,42 @@
-## [v0.68.5]
-> 2017-05-23
+## [v0.68.6]
+> 2017-05-24
 
 - **Bugfix:** 解决createClass废弃的警告 ([#58])
 
-[v0.68.5]: https://github.com/yyssc/ssc-grid/compare/v0.68.4...v0.68.5
+[v0.68.6]: https://github.com/yyssc/ssc-grid/compare/v0.68.5...v0.68.6
 [#58]: https://github.com/yyssc/ssc-grid/issues/58
 
-## [v0.68.4]
+## [v0.68.5]
 > 2017-05-23
 
 - **Bugfix:** 解决PropTypes的警告 ([#57])
 
-[v0.68.4]: https://github.com/yyssc/ssc-grid/compare/v0.68.3...v0.68.4
+[v0.68.5]: https://github.com/yyssc/ssc-grid/compare/v0.68.4...v0.68.5
 [#57]: https://github.com/yyssc/ssc-grid/issues/57
 
-## [v0.68.3]
+## [v0.68.4]
 > 2017-05-23
 
 - **Bugfix:** 解决ValidateRefers没有传validators参数时候的报错 ([#56])
 
-[v0.68.3]: https://github.com/yyssc/ssc-grid/compare/v0.68.2...v0.68.3
+[v0.68.4]: https://github.com/yyssc/ssc-grid/compare/v0.68.3...v0.68.4
 [#56]: https://github.com/yyssc/ssc-grid/issues/56
 
-## [v0.68.2]
+## [v0.68.3]
 > 2017-05-23
 
 - **Bugfix:** 解决没有传validators参数时候的报错 ([#55])
 
-[v0.68.2]: https://github.com/yyssc/ssc-grid/compare/v0.68.1...v0.68.2
+[v0.68.3]: https://github.com/yyssc/ssc-grid/compare/v0.68.2...v0.68.3
 [#55]: https://github.com/yyssc/ssc-grid/issues/55
+
+## [v0.68.2]
+> 2017-05-23
+
+- **Bugfix:** 解决重置文本框时候的状态错误 ([#53])
+
+[v0.68.2]: https://github.com/yyssc/ssc-grid/compare/v0.68.1...v0.68.2
+[#53]: https://github.com/yyssc/ssc-grid/issues/53
 
 ## [v0.68.1]
 > 2017-05-17
