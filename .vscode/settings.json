@@ -1,0 +1,12 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "files.exclude": {
+    "**/amd": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "**/docs-built": true,
+    "**/es": true,
+    "**/lib": true,
+    "**/tmp-docs-repo": true
+  }
+}
