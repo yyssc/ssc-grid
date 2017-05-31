@@ -1,3 +1,11 @@
+## [v0.69.0]
+> 2017-05-31
+
+- **Breaking:** 更改Form组件的`layout`参数，使用bootstrap的Grid布局中的`md`等参数来指定不同屏幕下的表单布局 ([#61])
+
+[v0.69.0]: https://github.com/yyssc/ssc-grid/compare/v0.68.7...v0.69.0
+[#61]: https://github.com/yyssc/ssc-grid/issues/61
+
 ## [v0.68.7]
 > 2017-05-24
 
