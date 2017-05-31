@@ -1,3 +1,10 @@
+const mockLayout = {
+  xs: 12,
+  sm: 6,
+  md: 6,
+  lg: 3,
+};
+
 const mockFieldsModel = [
   {type: 'string', id: 'formLayoutId', label: '主键', hidden: true},
   {type: 'string', id: 'formLayoutDanjubianhao', label: '单据编号'},
@@ -14,11 +21,6 @@ const mockFieldsModel = [
   {type: 'double', id: 'formLayoutJine', label: '金额'},
   {type: 'date', id: 'formLayoutDanjuriqi', label: '单据日期'},
   {type: 'boolean', id: 'formLayoutQiyong', label: '启用'}
-];
-
-const mockLayoutFieldsModel = [
-  ['formLayoutDanjubianhao', 'formLayoutDanjuleixing', 'formLayoutJine'],
-  ['formLayoutDanjuriqi', 'formLayoutQiyong']
 ];
 
 const mockFormData = {
@@ -85,7 +87,7 @@ const FormLayoutExample = React.createClass({
       <Form
         fieldsModel={mockFieldsModel}
         defaultData={mockFormData}
-        layout={mockLayoutFieldsModel}
+        layout={mockLayout}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
         onBlur={this.handleBlur}

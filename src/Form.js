@@ -678,37 +678,27 @@ export default class Form extends Component {
     return formGroup;
   }
 
-  /**
-   * 生成行组件
-   * @param  {Array} rowFieldIds 比如`['id', 'name', 'code']`
-   */
-  genRow(rowFieldIds, rowIdx) {
-    // TODO 这里假定第一行肯定会充满，也就不会出现定义了三列，但是实际只有两个字段的现象
-    return (
-      <ReactBootstrap.Row key={rowIdx}>
-      {
-        rowFieldIds.map((fieldId) => (
-          <ReactBootstrap.Col
-            key={fieldId}
-            md={12 / this.props.layout[0].length}
-          >
-            {this.genField(this.getFieldModelById(fieldId))}
-          </ReactBootstrap.Col>
-        ))
-      }
-      </ReactBootstrap.Row>
-    );
-  }
-
   render() {
     let form;
     if (this.props.layout) {
       form = (
         <ReactBootstrap.Form inline className={classNames(this.props.className)}>
           <ReactBootstrap.Grid fluid>
+            <ReactBootstrap.Row>
             {
-              this.props.layout.map(this.genRow.bind(this))
+              this.props.fieldsModel.map((fieldModel) => {
+                if (fieldModel.hidden === true) {
+                  return null;
+                }
+                return (<ReactBootstrap.Col
+                  key={fieldModel.id}
+                  {...this.props.layout}
+                >
+                  {this.genField(fieldModel)}
+                </ReactBootstrap.Col>);
+              })
             }
+            </ReactBootstrap.Row>
             {
               this.props.showSubmitButton === false
               ? null
@@ -920,7 +910,8 @@ Form.propTypes = {
     PropTypes.object // 默认类型应该是数组，但是为了支持mobx传入observable object...
   ]).isRequired,
   /**
-   * 自定义布局（bootstrap列布局），其中是字段的id
+   * 自定义布局（bootstrap列布局）
+   * 具体参照：https://react-bootstrap.github.io/components.html#grid-props-col
    * ```js
    * [
    *   ['id', 'name', 'code'],
@@ -928,9 +919,12 @@ Form.propTypes = {
    * ]
    * ```
    */
-  layout: PropTypes.arrayOf(PropTypes.arrayOf(
-    PropTypes.string
-  )),
+  layout: PropTypes.shape({
+    xs: PropTypes.number,
+    sm: PropTypes.number,
+    md: PropTypes.number,
+    lg: PropTypes.number,
+  }),
   /**
    * 当控件的值发生改变的时候触发
    * @param {String} `fieldId` 也就是传入组件中fieldsModel中的id<br>

@@ -12,7 +12,7 @@ describe('<Form>自定义布局', () => {
       <Form
         fieldsModel={[]}
         defaultData={{}}
-        layout={[[]]}
+        layout={{}}
       />
     );
     let form = getForm(instance);
@@ -39,12 +39,17 @@ describe('<Form>自定义布局', () => {
           name3: '名称3',
           name4: '名称4'
         }}
-        layout={[['danjubianhao', 'name2', 'name3']]}
+        layout={{
+          xs: 12,
+          sm: 6,
+          md: 6,
+          lg: 3,
+        }}
       />
     );
     let form = getForm(instance);
     assert.equal(form.querySelectorAll('.row').length, 2);
-    assert.equal(form.querySelectorAll('.col-md-4').length, 3);
+    assert.equal(form.querySelectorAll('.col-md-6').length, 3);
   });
 
   it('在label和input之间显示空格', () => {
@@ -62,10 +67,12 @@ describe('<Form>自定义布局', () => {
           name3: '名称3',
           name4: '名称4',
         }}
-        layout={[
-          ['danjubianhao', 'name2'],
-          ['name3', 'name4']
-        ]}
+        layout={{
+          xs: 12,
+          sm: 6,
+          md: 6,
+          lg: 3,
+        }}
       />
     );
     let form = getForm(instance);
@@ -81,7 +88,12 @@ describe('<Form>自定义布局', () => {
       <Form
         fieldsModel={fakeFieldsModel}
         defaultData={fakeDefaultData}
-        layout={[[]]}
+        layout={{
+          xs: 12,
+          sm: 6,
+          md: 6,
+          lg: 3,
+        }}
       />, node
     );
     fakeFieldsModel = [
@@ -102,14 +114,17 @@ describe('<Form>自定义布局', () => {
       <Form
         fieldsModel={fakeFieldsModel}
         defaultData={fakeDefaultData}
-        layout={[
-          ['danjubianhao', 'name2', 'name3']
-        ]}
+        layout={{
+          xs: 12,
+          sm: 6,
+          md: 6,
+          lg: 3,
+        }}
       />, node
     );
     let form = getForm(component);
     assert.equal(form.querySelectorAll('.row').length, 2);
-    assert.equal(form.querySelectorAll('.col-md-4').length, 3);
+    assert.equal(form.querySelectorAll('.col-md-6').length, 3);
   });
 
 });

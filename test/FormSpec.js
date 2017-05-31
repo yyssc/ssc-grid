@@ -470,9 +470,12 @@ describe('<Form>', () => {
       <Form
         fieldsModel={mockColumnsModel}
         defaultData={mockDefaultData}
-        layout={[
-          ['name', 'code']
-        ]}
+        layout={{
+          xs: 12,
+          sm: 6,
+          md: 4,
+          lg: 3,
+        }}
         showSubmitButton={false}
       />
     );
@@ -480,9 +483,12 @@ describe('<Form>', () => {
       <Form
         fieldsModel={mockColumnsModel}
         defaultData={mockDefaultData}
-        layout={[
-          ['name', 'code']
-        ]}
+        layout={{
+          xs: 12,
+          sm: 6,
+          md: 4,
+          lg: 3,
+        }}
       />
     );
     assert.equal(getForm(component).querySelectorAll('button').length, 0);
