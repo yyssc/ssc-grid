@@ -1,3 +1,11 @@
+## [v0.69.1]
+> 2017-06-01
+
+- **Bugfix:** 解决React错误 ([#62])
+
+[v0.69.1]: https://github.com/yyssc/ssc-grid/compare/v0.69.0...v0.69.1
+[#62]: https://github.com/yyssc/ssc-grid/issues/62
+
 ## [v0.69.0]
 > 2017-05-31
 
