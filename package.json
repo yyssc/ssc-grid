@@ -129,7 +129,7 @@
     "react-datepicker": "^0.46.0",
     "react-month-picker": "^1.1.3",
     "react-prop-types": "^0.4.0",
-    "ssc-refer": "^0.1.27",
+    "ssc-refer2": "^0.1.31",
     "validator": "^6.2.1",
     "warning": "^3.0.0"
   },

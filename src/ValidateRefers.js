@@ -13,7 +13,7 @@ import * as validationUtils from './utils/validation';
  * Joomla的名称和Web更贴切，wikipedia不区分Web还是Client
  */
 
-import { Refers } from 'ssc-refer';
+import { Refers } from 'ssc-refer2';
 
 /**
  * 带有校验功能的文本框控件
@@ -176,7 +176,7 @@ ValidateRefers.propTypes = {
    */
   disabled: PropTypes.bool,
   /**
-   * 请参照参照文档https://ssc-refer.github.io/
+   * 请参照参照文档https://ssc-refer2.github.io/
    */
   labelKey: PropTypes.string,
   /**

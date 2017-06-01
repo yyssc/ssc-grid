@@ -29,7 +29,7 @@ const YearPicker = index.YearPicker;
 
 // 例子中有些地方使用到了这些组件
 const FormControl = require('react-bootstrap/lib/FormControl');
-const Refers = require('ssc-refer').Refers;
+const Refers = require('ssc-refer2').Refers;
 
 //const bootstrapUtils = require('../../src/utils/bootstrapUtils');
 const bootstrapUtils = require('react-bootstrap/lib/utils/bootstrapUtils');
