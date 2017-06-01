@@ -1,3 +1,11 @@
+## [v0.69.2]
+> 2017-06-01
+
+- **Bugfix:** 使用[ssc-refer2](https://github.com/yyssc/ssc-refer2)替换掉没有人维护的[ssc-refer](https://github.com/tigerandgirl/ssc-refer) ([#65])
+
+[v0.69.2]: https://github.com/yyssc/ssc-grid/compare/v0.69.1...v0.69.2
+[#65]: https://github.com/yyssc/ssc-grid/issues/65
+
 ## [v0.69.1]
 > 2017-06-01
 
