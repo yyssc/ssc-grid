@@ -1,6 +1,6 @@
 const DatePickerFormatterExample = React.createClass({
   getInitialState() {
-    const now = new Date().toISOString();
+    const now = new Date('2017-02-14').toISOString();
     return {
       values: [now, now, now, now]
     };

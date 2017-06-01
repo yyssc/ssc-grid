@@ -1,6 +1,6 @@
 const DatePickerExample = React.createClass({
   getInitialState() {
-    const value = new Date().toISOString();
+    const value = new Date('2017-02-14').toISOString();
     return {
       value
     };

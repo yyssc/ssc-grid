@@ -401,7 +401,7 @@ export default class Form extends Component {
         break;
       case 'date': // 3
         // 注意value的格式
-        // value = new Date().toISOString()
+        // value = new Date('2017-02-14').toISOString()
         formCtrl = (
           <DatePicker
             value={this.state.formData[id]}
@@ -568,7 +568,7 @@ export default class Form extends Component {
         break;
       case 'date': // 3
         // 注意value的格式
-        // value = new Date().toISOString()
+        // value = new Date('2017-02-14').toISOString()
         formCtrl = (
           <DatePicker
             value={this.state.formData[id]}
