@@ -1,3 +1,13 @@
+## [v0.69.3]
+> 2017-06-02
+
+- **Chore:** 将ssc-refer2改为peer deps ([#66])
+- **Bugfix:** 解决PropTypes报警的问题 ([#67])
+
+[v0.69.3]: https://github.com/yyssc/ssc-grid/compare/v0.69.2...v0.69.3
+[#66]: https://github.com/yyssc/ssc-grid/issues/66
+[#67]: https://github.com/yyssc/ssc-grid/issues/67
+
 ## [v0.69.2]
 > 2017-06-01
 
