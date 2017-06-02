@@ -174,12 +174,6 @@ export default class Grid extends Component {
     });
   }
 
-  handleRowDoubleClick(event) {
-    if (this.props.onRowDoubleClick) {
-      this.props.onRowDoubleClick(event);
-    }
-  }
-
   render() {
     const { columnsModel,
       selectRow, operationColumn,
@@ -302,6 +296,9 @@ export default class Grid extends Component {
                   operationColumnClass={CustomComponent}
                   columnsModel={columnsModel} rowIdx={rowIdx}
                   onCellChecked={this.handleCellChecked.bind(this)}
+                  onCellClick={this.props.onCellDoubleClick}
+                  onCellDoubleClick={this.props.onCellDoubleClick}
+                  onRowClick={this.props.onRowDoubleClick}
                   onRowDoubleClick={this.props.onRowDoubleClick}
                 />
               );
@@ -348,6 +345,25 @@ Grid.propTypes = {
     PropTypes.object
   ]).isRequired,
   /**
+   * 直接映射ReactBootstrap的属性
+   * http://getbootstrap.com/css/#tables-bordered
+   */
+  bordered: PropTypes.bool,
+  /**
+   * 直接映射ReactBootstrap的属性
+   * http://getbootstrap.com/css/#tables-condensed
+   */
+  condensed: PropTypes.bool,
+  /**
+   * 直接映射ReactBootstrap的属性
+   * http://getbootstrap.com/css/#tables-hover-rows
+   */
+  hover: PropTypes.bool,
+  /**
+   * 是否显示搜索框
+   */
+  localSearch: PropTypes.bool,
+  /**
    * 选择一个单元格
    */
   onCellChecked: PropTypes.func,
@@ -355,6 +371,54 @@ Grid.propTypes = {
    * 分页
    */
   onPagination: PropTypes.func,
+  /**
+   * A callback fired when the table cell is clicked.
+   *
+   * ```js
+   * function (
+   *   SyntheticEvent event,
+   *   number colIdx,
+   *   Object columnModel,
+   *   number rowIdx,
+   *   Object rowObj
+   * )
+   * ```
+   *
+   * ```js
+   * (event: Object, colIdx: number, columnModel: Object, rowIdx: number, rowObj: Object) => any
+   * ```
+   */
+  onCellClick: PropTypes.func,
+  /**
+   * 单元格双击事件
+   *
+   * ```js
+   * function (
+   *   SyntheticEvent event,
+   *   number colIdx,
+   *   Object columnModel,
+   *   number rowIdx,
+   *   Object rowObj
+   * )
+   * ```
+   */
+  onCellDoubleClick: PropTypes.func,
+  /**
+   * 行单击事件
+   * @param {Event} event
+   * @param {Object} rowObj 行数据对象
+   */
+  onRowClick: PropTypes.func,
+  /**
+   * 行双击事件
+   * @param {Event} event
+   * @param {Object} rowObj 行数据对象
+   */
+  onRowDoubleClick: PropTypes.func,
+  /**
+   * 当搜索框内容改变的时候
+   */
+  onSearchChange: PropTypes.func,
   /**
    * 每一行是否显示操作按钮列
    * 默认的操作按钮在最右侧的列中，如果需要指定在左侧，可以通过
@@ -424,6 +488,11 @@ Grid.propTypes = {
    */
   selectRow: PropTypes.object,
   /**
+   * 直接映射ReactBootstrap的属性
+   * http://getbootstrap.com/css/#tables-striped
+   */
+  striped: PropTypes.bool,
+  /**
    * 表格填充数据
    * `type: boolean`，数据类型是
    * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#Boolean_literals">boolean literal</a>或者是
@@ -446,40 +515,6 @@ Grid.propTypes = {
    * 页面数量
    */
   totalPage: PropTypes.number,
-  /**
-   * 是否显示搜索框
-   */
-  localSearch: PropTypes.bool,
-  /**
-   * 当搜索框内容改变的时候
-   */
-  onSearchChange: PropTypes.func,
-  /**
-   * 直接映射ReactBootstrap的属性
-   * http://getbootstrap.com/css/#tables-striped
-   */
-  striped: PropTypes.bool,
-  /**
-   * 直接映射ReactBootstrap的属性
-   * http://getbootstrap.com/css/#tables-bordered
-   */
-  bordered: PropTypes.bool,
-  /**
-   * 直接映射ReactBootstrap的属性
-   * http://getbootstrap.com/css/#tables-condensed
-   */
-  condensed: PropTypes.bool,
-  /**
-   * 直接映射ReactBootstrap的属性
-   * http://getbootstrap.com/css/#tables-hover-rows
-   */
-  hover: PropTypes.bool,
-  /**
-   * 行双击事件
-   * @param {Event} event
-   * @param {Object} rowObj 行数据对象
-   */
-  onRowDoubleClick: PropTypes.func
 };
 
 Grid.defaultProps = {

@@ -17,6 +17,11 @@ import numeral from 'numeral';
 // IE11不支持Array.prototype.find()
 import 'core-js/fn/array/find';
 
+// 对MouseEvent进行定义，需要放在全局环境中，方便形成jsdoc文档
+/**
+ * @typedef {Object} MouseEvent
+ */
+
 // load a locale
 numeral.register('locale', 'chs', {
   delimiters: {
@@ -48,17 +53,41 @@ export default class GridRow extends Component {
     super(props);
   }
 
+  /**
+   * @param {MouseEvent} event
+   * @memberof GridRow
+   */
   handleCheckboxChange(event) {
     const { onSelect } = this.props;
-    const isSelected = event.target.checked;
-    if (this.props.onSelect) {
-      this.props.onSelect(isSelected, event);
+    const { checked } = event.target;
+    if (onSelect) {
+      onSelect(checked, event);
     }
   }
 
+  /**
+   * 鼠标单击当前行时候触发
+   * @param {Object} rowObj
+   * @param {MouseEvent} event
+   * @memberof GridRow
+   */
+  handleRowClick(rowObj, event) {
+    const { onRowClick } = this.props;
+    if (onRowClick) {
+      onRowClick(event, rowObj);
+    }
+  }
+
+  /**
+   * 鼠标双击当前行时候触发
+   * @param {Object} rowObj
+   * @param {MouseEvent} event
+   * @memberof GridRow
+   */
   handleRowDoubleClick(rowObj, event) {
-    if (this.props.onRowDoubleClick) {
-      this.props.onRowDoubleClick(event, rowObj);
+    const { onRowDoubleClick } = this.props;
+    if (onRowDoubleClick) {
+      onRowDoubleClick(event, rowObj);
     }
   }
 
@@ -105,6 +134,11 @@ export default class GridRow extends Component {
   renderCells = () => {
     const { rowIdx, rowObj, columnsModel } = this.props;
     return columnsModel.map((columnModel, colIdx) => {
+      // 隐藏列
+      if (columnModel.hidden === true) {
+        return null;
+      }
+
       let className = '';
       let cellContent = '';
 
@@ -201,10 +235,26 @@ export default class GridRow extends Component {
         );
       }
 
-      return columnModel.hidden === true ? null :
-        (<td key={colIdx} className={className} title={cellContent}>
+      const { onCellClick, onCellDoubleClick } = this.props;
+      return (
+        <td
+          key={colIdx}
+          className={className}
+          title={cellContent}
+          onClick={() => {
+            if (onCellClick) {
+              onCellClick(event, colIdx, columnModel, rowIdx, rowObj);
+            }
+          }}
+          onDoubleClick={() => {
+            if (onCellDoubleClick) {
+              onCellDoubleClick(event, colIdx, columnModel, rowIdx, rowObj);
+            }
+          }}
+        >
           {tdInner}
-        </td>);
+        </td>
+      );
     });
   }
 
@@ -246,12 +296,27 @@ export default class GridRow extends Component {
 
   render() {
     const { columnsModel, rowObj, operationColumn } = this.props;
-    let row;
-    let rowClassName = classNames(this.props.selected && 'selected');
+    const { onRowClick, onRowDoubleClick } = this.props;
+
+    const trProps = {
+      className: classNames(this.props.selected && 'selected'),
+      onClick: () => {
+        if (onRowClick) {
+          onRowClick(event, rowObj);
+        }
+      },
+      onDoubleClick: () => {
+        if (onRowDoubleClick) {
+          onRowDoubleClick(event, rowObj);
+        }
+      },
+    };
+
     // 默认操作列在右侧，除非用户专门指定在左侧
+    let row;
     if (operationColumn && operationColumn.align === 'left') {
       row = (
-        <tr className={rowClassName}>
+        <tr {...trProps}>
           { this.renderSelectionColumn() }
           { this.renderOperationColumn() }
           { this.renderCells() }
@@ -259,10 +324,7 @@ export default class GridRow extends Component {
       );
     } else {
       row = (
-        <tr
-          className={rowClassName}
-          onDoubleClick={this.handleRowDoubleClick.bind(this, rowObj)}
-        >
+        <tr {...trProps}>
           { this.renderSelectionColumn() }
           { this.renderCells() }
           { this.renderOperationColumn() }
@@ -282,31 +344,22 @@ GridRow.propTypes = {
     PropTypes.object
   ]).isRequired,
   /**
-   * 本行中每一列的数据
-   * <pre><code>{
-   *   id: '11',
-   *   danjuleixing: '123'
-   * }</code></pre>
+   * 单元格单击事件
    */
-  rowObj: PropTypes.object.isRequired,
+  onCellClick: PropTypes.func,
   /**
-   * 表格中本行的index，从0开始，等同于key
+   * 单元格双击事件
    */
-  rowIdx: PropTypes.number.isRequired,
+  onCellDoubleClick: PropTypes.func,
   /**
-   * 显示行选择复选框/单选框<br>
-   * mode 默认是checkbox，也可以是radio
-   * onSelect 当点击行最左侧的复选框/单选框的时候
+   * 行单击事件
    */
-  selectRow: PropTypes.object,
-  selectionMode: PropTypes.string,
+  onRowClick: PropTypes.func,
+  /**
+   * 行双击事件
+   */
+  onRowDoubleClick: PropTypes.func,
   onSelect: PropTypes.func,
-  /**
-   * 该行是否被选择（单选框/复选框）
-   * 默认未被选中
-   * TODO 需要和selectRow属性合并
-   */
-  selected: PropTypes.bool,
   /**
    * 每一行是否显示操作按钮列<br>
    * 默认的操作按钮在最右侧的列中，如果需要指定在左侧，可以通过
@@ -323,9 +376,30 @@ GridRow.propTypes = {
    */
   operationColumnClass: elementType,
   /**
-   * 行双击事件
+   * 本行中每一列的数据
+   * <pre><code>{
+   *   id: '11',
+   *   danjuleixing: '123'
+   * }</code></pre>
    */
-  onRowDoubleClick: PropTypes.func
+  rowObj: PropTypes.object.isRequired,
+  /**
+   * 表格中本行的index，从0开始，等同于key
+   */
+  rowIdx: PropTypes.number.isRequired,
+  /**
+   * 该行是否被选择（单选框/复选框）
+   * 默认未被选中
+   * TODO 需要和selectRow属性合并
+   */
+  selected: PropTypes.bool,
+  selectionMode: PropTypes.string,
+  /**
+   * 显示行选择复选框/单选框<br>
+   * mode 默认是checkbox，也可以是radio
+   * onSelect 当点击行最左侧的复选框/单选框的时候
+   */
+  selectRow: PropTypes.object,
 };
 
 GridRow.defaultProps = {
