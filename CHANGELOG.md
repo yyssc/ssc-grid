@@ -3,10 +3,12 @@
 
 - **Feature:** Support click and double click event on table cell and row. ([#69])
 - **Feature:** Add react-intl package to internationalize React apps. ([#70])
+- **Bugfix:** React.createClass is deprecated. ([#71])
 
 [master]: https://github.com/yyssc/ssc-grid/compare/v0.69.3...master
 [#69]: https://github.com/yyssc/ssc-grid/issues/69
 [#70]: https://github.com/yyssc/ssc-grid/issues/70
+[#71]: https://github.com/yyssc/ssc-grid/issues/71
 
 ## [v0.69.3]
 > 2017-06-02
