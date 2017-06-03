@@ -5,7 +5,7 @@ import Waypoint from 'react-waypoint';
 
 // import Nav from '../../src/Nav';
 // import NavItem from '../../src/NavItem';
-import { Nav, NavItem } from 'react-bootstrap';
+import { Nav, NavItem, DropdownButton, MenuItem } from 'react-bootstrap';
 
 import Anchor from './Anchor';
 import NavMain from './NavMain';
@@ -139,7 +139,8 @@ let ScrollSpy = ({ href, onBefore, onAfter }) => (
 const ComponentsPage = createReactClass({
   getInitialState() {
     return {
-      activeNavItemHref: null
+      activeNavItemHref: null,
+      locale: 'en',
     };
   },
 
@@ -261,7 +262,9 @@ const ComponentsPage = createReactClass({
               {this.renderScrollSpy(sections.gridEmptyValue)}
               <GridEmptyValueSection />
               {this.renderScrollSpy(sections.gridClickEvent)}
-              <GridClickEventSection />
+              <GridClickEventSection
+                locale={this.state.locale}
+              />
               {this.renderScrollSpy(sections.gridProps)}
               <GridPropsSection />
 
@@ -461,6 +464,20 @@ const ComponentsPage = createReactClass({
                   className="bs-docs-sidebar hidden-print"
                   role="complementary"
                 >
+                  <DropdownButton
+                    id="select-languages"
+                    bsStyle="default"
+                    title="Select language"
+                    onSelect={(eventKey) => {
+                      this.setState({
+                        locale: eventKey
+                      });
+                    }}
+                  >
+                    <MenuItem eventKey="en">en</MenuItem>
+                    <MenuItem eventKey="zh">zh</MenuItem>
+                  </DropdownButton>
+                  <hr />
                   <Nav
                     className="bs-docs-sidenav"
                     activeHref={this.state.activeNavItemHref}

@@ -1,21 +1,27 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { IntlProvider } from 'react-intl';
+import { IntlProvider, addLocaleData } from 'react-intl';
+import en from 'react-intl/locale-data/en';
+import fr from 'react-intl/locale-data/fr';
+import zh from 'react-intl/locale-data/zh';
 
 import Anchor from '../Anchor';
 import ReactPlayground from '../ReactPlayground';
 import Samples from '../Samples';
 
+addLocaleData([...en, ...fr, ...zh]);
 const messages = {
-  'doc.grid-click-event.title': '鼠标点击事件',
-  'doc.grid-click-event.body': '先调用onCellClick然后再调用onRowClick',
+  zh: {
+    'doc.grid-click-event.title': '鼠标点击事件',
+    'doc.grid-click-event.body': '先调用onCellClick然后再调用onRowClick',
+  }
 };
 
-export default function GridClickEventSection() {
+export default function GridClickEventSection({ locale }) {
   return (
     <IntlProvider
-      locale="en"
-      messages={messages}
+      locale={locale}
+      messages={messages[locale]}
     >
       <div className="bs-docs-section">
         <h3>
