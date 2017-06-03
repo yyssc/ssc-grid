@@ -1,3 +1,11 @@
+## [master]
+> 2017-06-03
+
+- **Feature:** Support click and double click event on table cell and row. ([#69])
+
+[master]: https://github.com/yyssc/ssc-grid/compare/v0.69.3...master
+[#69]: https://github.com/yyssc/ssc-grid/issues/69
+
 ## [v0.69.3]
 > 2017-06-02
 
