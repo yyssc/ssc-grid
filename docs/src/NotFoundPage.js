@@ -1,10 +1,11 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 
 import NavMain from './NavMain';
 import PageHeader from './PageHeader';
 import PageFooter from './PageFooter';
 
-const NotFoundPage = React.createClass({
+const NotFoundPage = createReactClass({
   render() {
     return (
         <div>

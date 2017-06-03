@@ -1,4 +1,5 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 import packageJSON from '../../package.json';
 
 let version = packageJSON.version;
@@ -7,7 +8,7 @@ if (/docs/.test(version)) {
   version = version.split('-')[0];
 }
 
-const PageFooter = React.createClass({
+const PageFooter = createReactClass({
   render() {
     return (
         <footer className="bs-docs-footer" role="contentinfo">

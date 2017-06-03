@@ -1,6 +1,7 @@
 import React from 'react';
+import createReactClass from 'create-react-class';
 
-const PageHeader = React.createClass({
+const PageHeader = createReactClass({
   render() {
     return (
       <div className="bs-docs-header" id="content">

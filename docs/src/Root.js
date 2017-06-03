@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import createReactClass from 'create-react-class';
 
-const Root = React.createClass({
+const Root = createReactClass({
   statics: {
     /**
      * Get the list of pages that are renderable
