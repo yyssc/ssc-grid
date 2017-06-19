@@ -44,6 +44,216 @@ function showRequiredStar(validators) {
   return validators.find(({type}) => type === 'required') !== undefined;
 }
 
+
+const propTypes = {
+  /**
+   * 填充表单值<br>
+   * 时间类型比较特殊，请先转成
+   * <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>格式的字符串
+   * 之后，再传进来。
+   * ```
+   * defaultData = {
+   *   date: new Date('2017-02-14').toISOString()
+   * }
+   * ```
+   */
+  defaultData: PropTypes.object,
+  /**
+   * 表单中的数据
+   * fieldsModel数据举例：
+   * ```js
+   * [
+   *   {
+   *     type: 'string',
+   *     id: 'formValidationEmail',
+   *     label: '邮箱地址',
+   *     validators: [
+   *       {type: 'email'}
+   *     ]
+   *   },
+   *   {
+   *    type: 'custom',
+   *    component: <CustomComponent>
+   *   }
+   * ]
+   * ```
+   * schema为
+   * ```js
+   * fieldsModel = [ fieldModel, fieldModel, ... ];
+   * ```
+   * ## type字段
+   * 字段类型type:
+   * - 0 `string` 字符类型
+   * - 1 `double` 数值类型
+   * - 3 `date` 日期类型
+   * - 4 `boolean` 布尔类型
+   * - 5 `ref` 参照类型
+   * - 6 `enum` 枚举型
+   * - `custom` 自定义类型
+   *
+   * ### string字符型
+   * ```js
+   * {
+   *   type: 'string',
+   *   id: 'formValidationEmail',
+   *   label: '邮箱地址',
+   *   validators: [
+   *     { type: 'email' }
+   *   ]
+   * }
+   * ```
+   *
+   * ### enum字符型
+   * ```js
+   * {
+   *   type: 'enum',
+   *   id: 'accountProperty',
+   *   label: '账户性质',
+   *   data: [
+   *     { key: 'BASE', value: '基本' },
+   *     { key: 'NORMAL', value: '一般' },
+   *     { key: 'TEMPORARY', value: '临时' },
+   *     { key: 'SPECIAL', value: '专用' },
+   *   ],
+   * }
+   * ```
+   *
+   * ### custom 自定义类型
+   * ```js
+   * {
+   *    type: 'custom',
+   *    component: <CustomComponent>
+   * }
+   * ```
+   * 对于自定义类型，需要调用者传入一个组件，表单在回调该组件的时候，传入如下属性：
+   * ```js
+   * propTypes: {
+   *   customFieldModel: PropTypes.object,
+   *   customFieldValue: PropTypes.string,
+   *   onCustomFieldChange: PropTypes.func,
+   * }
+   * ```
+   * ### enum枚举型
+   * ### ref参照型
+   * 字段定义举例：
+   * ```js
+   * {
+   *   type: 'ref',
+   *   referConfig: {
+   *     referConditions: {
+   *       refCode: 'org',
+   *       refType: 'tree',
+   *       rootName: '组织'
+   *     },
+   *     referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON',
+   *     renderMenuItemChildren: (option, props, index) => ([
+   *       <div>{option.code + ' ' + option.name}</div>
+   *     ])
+   *     labelKey: 'name'
+   *   }
+   * }
+   * ```
+   * 所有`referConfig`下的属性直接向下传递给`Refers`组件，
+   * 比如`referConfig = { foo: 'bar' }`，那么就相当于
+   * ```jsx
+   * <Refers
+   *   foo="bar"
+   * />
+   * ```
+   * 关于`Refers`组件的属性定义，详见[ssc-refer2](https://ssc-refer2.github.io/components.html)
+   * ## validators字段
+   * 校验类型，比如
+   * ```js
+   * validators: [
+   *   { type: 'required' },
+   *   { type: 'length', min: 3, max: 6,
+   *     helpText: '字符串长度应该大于等于3小于等于6' }
+   * ]
+   * ```
+   * schema为：
+   * ```js
+   * validators = [ validator, validator, ... ];
+   * ```
+   * `type`字段支持如下类型：
+   * - `email` 邮件地址
+   * - `decimal` 数字，比如0.1, .3, 1.1, 1.00003, 4.0
+   * - `int` 整数
+   * - `mobilePhone` 手机号
+   * - `custom` 自定义格式
+   *
+   * `helpText`字段是错误提示。如果不提供，则使用默认错误提示。
+   * 如果是自定义类型，则通过`matchFunc`参数传递校验函数
+   * ```js
+   * {
+   *   type: 'custom',
+   *   helpText: value => '请输入正确的XX格式',
+   *   matchFunc: value => {}
+   * }
+   * ```
+   * 当`matchFunc`返回值为`true`的时候，认为校验通过
+   * 对于自定义类型，如果不提供`helpText`，则默认不显示错误提示。
+   * ## disabled字段
+   * 当值为`true`的时候禁用该字段，其他值都是不禁用该字段。
+   */
+  fieldsModel: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      validators: PropTypes.arrayOf(PropTypes.shape({
+        type: PropTypes.string.isRequired
+      })),
+      disabled: PropTypes.boolean,
+      referConfig: PropTypes.object,
+    })),
+    PropTypes.object // 默认类型应该是数组，但是为了支持mobx传入observable object...
+  ]).isRequired,
+  /**
+   * 自定义布局（bootstrap列布局）
+   * 具体参照：https://react-bootstrap.github.io/components.html#grid-props-col
+   * ```js
+   * [
+   *   ['id', 'name', 'code'],
+   *   ['src_system']
+   * ]
+   * ```
+   */
+  layout: PropTypes.shape({
+    xs: PropTypes.number,
+    sm: PropTypes.number,
+    md: PropTypes.number,
+    lg: PropTypes.number,
+  }),
+  /**
+   * 当控件的值发生改变的时候触发
+   * @param {String} `fieldId` 也就是传入组件中fieldsModel中的id<br>
+   * @param {String} `value` 改变之后的值<br>
+   * @param {Object} `opt` 可选参数，当type为string/boolean/enum等简单类型的时候，可以
+   *             通过opt.event获取Event对象。<br>
+   *             当type为date类型的时候，可以通过opt.formattedValue获取格式化
+   *             之后的时间值。<br>
+   */
+  onChange: PropTypes.func,
+  /**
+   * 当点击“重置”按钮的时候
+   */
+  onReset: PropTypes.func,
+  /**
+   * 当表单被提交的时候触发<br>
+   * 参数1. `formData`, 整个表单中所有控件的值，是一个JSON对象，结构和传入参数
+   *                  defaultData保持一致。<br>
+   */
+  onSubmit: PropTypes.func,
+  /**
+   * 是否显示提交按钮
+   */
+  showSubmitButton: PropTypes.bool,
+};
+
+const defaultProps = {
+  showSubmitButton: true,
+};
+
 export default class Form extends Component {
   constructor(props) {
     super(props);
@@ -763,194 +973,6 @@ export default class Form extends Component {
   }
 }
 
-Form.propTypes = {
-  /**
-   * 填充表单值<br>
-   * 时间类型比较特殊，请先转成
-   * <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>格式的字符串
-   * 之后，再传进来。
-   * ```
-   * defaultData = {
-   *   date: new Date('2017-02-14').toISOString()
-   * }
-   * ```
-   */
-  defaultData: PropTypes.object,
-  /**
-   * 表单中的数据
-   * fieldsModel数据举例：
-   * ```js
-   * [
-   *   {
-   *     type: 'string',
-   *     id: 'formValidationEmail',
-   *     label: '邮箱地址',
-   *     validators: [
-   *       {type: 'email'}
-   *     ]
-   *   },
-   *   {
-   *    type: 'custom',
-   *    component: <CustomComponent>
-   *   }
-   * ]
-   * ```
-   * schema为
-   * ```js
-   * fieldsModel = [ fieldModel, fieldModel, ... ];
-   * ```
-   * ## type字段
-   * 字段类型type:
-   * - 0 `string` 字符类型
-   * - 1 `double` 数值类型
-   * - 3 `date` 日期类型
-   * - 4 `boolean` 布尔类型
-   * - 5 `ref` 参照类型
-   * - `custom` 自定义类型
-   *
-   * ### string字符型
-   * ```js
-   * {
-   *   type: 'string',
-   *   id: 'formValidationEmail',
-   *   label: '邮箱地址',
-   *   validators: [
-   *     { type: 'email' }
-   *   ]
-   * }
-   * ```
-   * ### custom 自定义类型
-   * ```js
-   * {
-   *    type: 'custom',
-   *    component: <CustomComponent>
-   * }
-   * ```
-   * 对于自定义类型，需要调用者传入一个组件，表单在回调该组件的时候，传入如下属性：
-   * ```js
-   * propTypes: {
-   *   customFieldModel: PropTypes.object,
-   *   customFieldValue: PropTypes.string,
-   *   onCustomFieldChange: PropTypes.func,
-   * }
-   * ```
-   * ### enum枚举型
-   * ### ref参照型
-   * 字段定义举例：
-   * ```js
-   * {
-   *   type: 'ref',
-   *   referConfig: {
-   *     referConditions: {
-   *       refCode: 'org',
-   *       refType: 'tree',
-   *       rootName: '组织'
-   *     },
-   *     referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON',
-   *     renderMenuItemChildren: (option, props, index) => ([
-   *       <div>{option.code + ' ' + option.name}</div>
-   *     ])
-   *     labelKey: 'name'
-   *   }
-   * }
-   * ```
-   * 所有`referConfig`下的属性直接向下传递给`Refers`组件，
-   * 比如`referConfig = { foo: 'bar' }`，那么就相当于
-   * ```jsx
-   * <Refers
-   *   foo="bar"
-   * />
-   * ```
-   * 关于`Refers`组件的属性定义，详见[ssc-refer2](https://ssc-refer2.github.io/components.html)
-   * ## validators字段
-   * 校验类型，比如
-   * ```js
-   * validators: [
-   *   { type: 'required' },
-   *   { type: 'length', min: 3, max: 6,
-   *     helpText: '字符串长度应该大于等于3小于等于6' }
-   * ]
-   * ```
-   * schema为：
-   * ```js
-   * validators = [ validator, validator, ... ];
-   * ```
-   * `type`字段支持如下类型：
-   * - `email` 邮件地址
-   * - `decimal` 数字，比如0.1, .3, 1.1, 1.00003, 4.0
-   * - `int` 整数
-   * - `mobilePhone` 手机号
-   * - `custom` 自定义格式
-   *
-   * `helpText`字段是错误提示。如果不提供，则使用默认错误提示。
-   * 如果是自定义类型，则通过`matchFunc`参数传递校验函数
-   * ```js
-   * {
-   *   type: 'custom',
-   *   helpText: value => '请输入正确的XX格式',
-   *   matchFunc: value => {}
-   * }
-   * ```
-   * 当`matchFunc`返回值为`true`的时候，认为校验通过
-   * 对于自定义类型，如果不提供`helpText`，则默认不显示错误提示。
-   * ## disabled字段
-   * 当值为`true`的时候禁用该字段，其他值都是不禁用该字段。
-   */
-  fieldsModel: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      validators: PropTypes.arrayOf(PropTypes.shape({
-        type: PropTypes.string.isRequired
-      })),
-      disabled: PropTypes.boolean,
-      referConfig: PropTypes.object,
-    })),
-    PropTypes.object // 默认类型应该是数组，但是为了支持mobx传入observable object...
-  ]).isRequired,
-  /**
-   * 自定义布局（bootstrap列布局）
-   * 具体参照：https://react-bootstrap.github.io/components.html#grid-props-col
-   * ```js
-   * [
-   *   ['id', 'name', 'code'],
-   *   ['src_system']
-   * ]
-   * ```
-   */
-  layout: PropTypes.shape({
-    xs: PropTypes.number,
-    sm: PropTypes.number,
-    md: PropTypes.number,
-    lg: PropTypes.number,
-  }),
-  /**
-   * 当控件的值发生改变的时候触发
-   * @param {String} `fieldId` 也就是传入组件中fieldsModel中的id<br>
-   * @param {String} `value` 改变之后的值<br>
-   * @param {Object} `opt` 可选参数，当type为string/boolean/enum等简单类型的时候，可以
-   *             通过opt.event获取Event对象。<br>
-   *             当type为date类型的时候，可以通过opt.formattedValue获取格式化
-   *             之后的时间值。<br>
-   */
-  onChange: PropTypes.func,
-  /**
-   * 当点击“重置”按钮的时候
-   */
-  onReset: PropTypes.func,
-  /**
-   * 当表单被提交的时候触发<br>
-   * 参数1. `formData`, 整个表单中所有控件的值，是一个JSON对象，结构和传入参数
-   *                  defaultData保持一致。<br>
-   */
-  onSubmit: PropTypes.func,
-  /**
-   * 是否显示提交按钮
-   */
-  showSubmitButton: PropTypes.bool,
-};
+Form.propTypes = propTypes;
 
-Form.defaultProps = {
-  showSubmitButton: true,
-};
+Form.defaultProps = defaultProps;

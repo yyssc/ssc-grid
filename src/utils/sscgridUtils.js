@@ -99,7 +99,10 @@ export function isAllRowsSelected(obj) {
 }
 
 /**
- * 根据字段类型，返回不同的默认值
+ * 当输入的字段值合法的时候，直接返回原值
+ * 当输入的字段值不合法（比如定义为boolean但是输入null），根据字段类型，返回不同的默认值
+ * - boolean 默认值为false
+ * - enum 默认值为数组中第一个成员
  * @param {Object} fieldModel
  * @param {*} fieldValue
  */
@@ -118,6 +121,9 @@ export const getFieldDefaultValue = (fieldModel, fieldValue) => {
     case 'enum': // 6
       // 如果是枚举型，默认使用第一个选项的值
       return fieldModel.data[0].key;
+    case 'custom':
+      // 不处理自定义类型的字段
+      return fieldValue;
     default:
       break;
   }
