@@ -1,14 +1,16 @@
-## [master]
+## [v0.69.4]
 > 2017-06-03
 
 - **Feature:** Support click and double click event on table cell and row. ([#69])
 - **Feature:** Add react-intl package to internationalize React apps. ([#70])
 - **Bugfix:** React.createClass is deprecated. ([#71])
+- **Bugfix:** Not convert custom type form field value ([#76])
 
-[master]: https://github.com/yyssc/ssc-grid/compare/v0.69.3...master
+[v0.69.4]: https://github.com/yyssc/ssc-grid/compare/v0.69.3...v0.69.4
 [#69]: https://github.com/yyssc/ssc-grid/issues/69
 [#70]: https://github.com/yyssc/ssc-grid/issues/70
 [#71]: https://github.com/yyssc/ssc-grid/issues/71
+[#76]: https://github.com/yyssc/ssc-grid/issues/76
 
 ## [v0.69.3]
 > 2017-06-02
