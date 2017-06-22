@@ -1,3 +1,11 @@
+## [v0.69.5]
+> 2017-06-22
+
+- **Bugfix:** Fix click event mistake ([#77])
+
+[v0.69.5]: https://github.com/yyssc/ssc-grid/compare/v0.69.4...v0.69.5
+[#77]: https://github.com/yyssc/ssc-grid/issues/77
+
 ## [v0.69.4]
 > 2017-06-03
 
