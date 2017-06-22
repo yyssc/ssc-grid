@@ -296,9 +296,9 @@ export default class Grid extends Component {
                   operationColumnClass={CustomComponent}
                   columnsModel={columnsModel} rowIdx={rowIdx}
                   onCellChecked={this.handleCellChecked.bind(this)}
-                  onCellClick={this.props.onCellDoubleClick}
+                  onCellClick={this.props.onCellClick}
                   onCellDoubleClick={this.props.onCellDoubleClick}
-                  onRowClick={this.props.onRowDoubleClick}
+                  onRowClick={this.props.onRowClick}
                   onRowDoubleClick={this.props.onRowDoubleClick}
                 />
               );
