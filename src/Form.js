@@ -317,8 +317,11 @@ export default class Form extends Component {
         fieldModel, this.state.formData[fieldModel.id]);
     });
 
-    // 初始化表单项的验证状态，全部为null
+    // Initialize validation state of all form field with null, but not hidden fields
     this.props.fieldsModel.forEach(fieldModel => {
+      if (fieldModel.hidden === true) {
+        return;
+      }
       if (fieldModel.validators) {
         this.state.fieldsValidationState[fieldModel.id] = null;
         this.state.fieldsHelpText[fieldModel.id] = '';

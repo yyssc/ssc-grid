@@ -118,8 +118,8 @@ const getFieldValue = ({id, type}, formData) => {
 };
 
 /**
- * 更新表单中指定字段的验证状态
- * stateless
+ * Calculate validation state of all form fields (without hidden fields)
+ * then return validation states and help text object
  * @param {String} fieldId
  * @param {String} value
  * @param {Array} validators
@@ -130,6 +130,9 @@ export function updateAllFormFieldsValidationState(fieldsModel, formData) {
     let fieldsHelpText = {};
 
     fieldsModel.forEach(fieldModel => {
+      if (fieldModel.hidden === true) {
+        return;
+      }
       if (fieldModel.validators) {
         let value = getFieldValue(fieldModel, formData);
         const { validationState, helpText } = validationUtils.calcValidationState(value, fieldModel.validators);
