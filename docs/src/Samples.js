@@ -17,6 +17,7 @@ export default {
   FormLayout:                   require('fs').readFileSync(__dirname + '/../examples/FormLayout.js', 'utf8'),
   FormValidation:               require('fs').readFileSync(__dirname + '/../examples/FormValidation.js', 'utf8'),
   FormValidation2:              require('fs').readFileSync(__dirname + '/../examples/FormValidation2.js', 'utf8'),
+  FormValidation3:              require('fs').readFileSync(__dirname + '/../examples/FormValidation3.js', 'utf8'),
   FormWithRefer:                require('fs').readFileSync(__dirname + '/../examples/FormWithRefer.js', 'utf8'),
   GridBasic:                    require('fs').readFileSync(__dirname + '/../examples/GridBasic.js', 'utf8'),
   GridCellFormatter:            require('fs').readFileSync(__dirname + '/../examples/GridCellFormatter.js', 'utf8'),

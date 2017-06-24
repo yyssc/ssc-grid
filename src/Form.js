@@ -44,7 +44,6 @@ function showRequiredStar(validators) {
   return validators.find(({type}) => type === 'required') !== undefined;
 }
 
-
 const propTypes = {
   /**
    * 填充表单值<br>
@@ -226,9 +225,9 @@ const propTypes = {
   }),
   /**
    * 当控件的值发生改变的时候触发
-   * @param {String} `fieldId` 也就是传入组件中fieldsModel中的id<br>
-   * @param {String} `value` 改变之后的值<br>
-   * @param {Object} `opt` 可选参数，当type为string/boolean/enum等简单类型的时候，可以
+   * - 参数1 {String} `fieldId` 也就是传入组件中fieldsModel中的id<br>
+   * - 参数2 {String} `value` 改变之后的值<br>
+   * - 参数3 {Object} `opt` 可选参数，当type为string/boolean/enum等简单类型的时候，可以
    *             通过opt.event获取Event对象。<br>
    *             当type为date类型的时候，可以通过opt.formattedValue获取格式化
    *             之后的时间值。<br>
@@ -240,6 +239,7 @@ const propTypes = {
   onReset: PropTypes.func,
   /**
    * 当表单被提交的时候触发<br>
+   * 当用户使用了自定义提交按钮的时候不会调用该回调<br>
    * 参数1. `formData`, 整个表单中所有控件的值，是一个JSON对象，结构和传入参数
    *                  defaultData保持一致。<br>
    */
@@ -343,6 +343,16 @@ export default class Form extends Component {
         actions.updateFormData(formData)
       );
     }
+  }
+
+  /**
+   * Call this method from ref
+   * 1. Show validation state on form controls
+   * 2. call onSubmit callback
+   * @memberof Form
+   */
+  submit() {
+    this.handleSubmit();
   }
 
   // 以id来查询对应的字段模型
@@ -473,7 +483,7 @@ export default class Form extends Component {
     }
   }
 
-  handleSubmit(event) {
+  handleSubmit() {
     const { formData } = this.state;
     const { fieldsModel } = this.props;
 
@@ -492,7 +502,6 @@ export default class Form extends Component {
         }
       }
     );
-    event.preventDefault();
   }
 
   handleReset(event) {

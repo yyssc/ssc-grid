@@ -1,6 +1,11 @@
 // TODO: The publicly exposed parts of this should be in lib/SSCGridUtils.
 import validator from 'validator';
 
+/**
+ * @export
+ * @param {any} {type, helpText} helpText是可选参数，用于指定自定义提示信息
+ * @returns
+ */
 export function getValidationObj({type, helpText}) {
   const vs = {
     currency: {
@@ -106,7 +111,8 @@ export function isStatesValid(states) {
  */
 export function calcValidationState(value, validators) {
   let validationState = 'success';
-  let helpTexts = '';
+  let helpTextStr = '';
+  const helpTexts = [];
   validators.forEach(v => {
     const { matchFunc, helpText } = v.type === 'custom'
       ? v
@@ -114,11 +120,14 @@ export function calcValidationState(value, validators) {
     let isValid = matchFunc(value, v);
     if (!isValid) {
       validationState = 'error';
-      helpTexts += '\n' + helpText(value, v);
+      helpTextStr += '\n' + helpText(value, v);
+      helpTexts.push(helpText(value, v));
     }
   });
+  // TODO 当存在多个校验类型的时候，使用数组helpTexts返回校验
   return {
     validationState,
-    helpText: helpTexts
+    helpText: helpTextStr,
+    helpTexts,
   };
 }
