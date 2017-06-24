@@ -1,9 +1,17 @@
+## [v0.69.7]
+> 2017-06-24
+
+- **Bugfix:** Fix failed to submit form on hidden required field ([#74])
+
+[v0.69.7]: https://github.com/yyssc/ssc-grid/compare/v0.69.6...v0.69.7
+[#74]: https://github.com/yyssc/ssc-grid/issues/74
+
 ## [v0.69.6]
 > 2017-06-24
 
 - **Feature:** Support submit() function on Form component ([#79])
 
-[v0.69.5]: https://github.com/yyssc/ssc-grid/compare/v0.69.5...v0.69.6
+[v0.69.6]: https://github.com/yyssc/ssc-grid/compare/v0.69.5...v0.69.6
 [#79]: https://github.com/yyssc/ssc-grid/issues/79
 
 ## [v0.69.5]
