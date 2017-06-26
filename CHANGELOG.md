@@ -2,9 +2,11 @@
 > 2017-06-26
 
 - **Chore:** Add `displayName` to components ([#73])
+- **Bugfix:** Fix alignment bug causing by custom formatter ([#78])
 
 [master]: https://github.com/yyssc/ssc-grid/compare/v0.69.7...master
 [#73]: https://github.com/yyssc/ssc-grid/issues/73
+[#78]: https://github.com/yyssc/ssc-grid/issues/78
 
 ## [v0.69.7]
 > 2017-06-24
