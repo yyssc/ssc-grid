@@ -5,9 +5,6 @@ import ReactPlayground from '../ReactPlayground';
 import Samples from '../Samples';
 
 export default function GridCellFormatterSection() {
-  const code = `.table-head-jine {
-  width: 100px;
-}`;
   return (
     <div className="bs-docs-section">
       <h3><Anchor id="grid-cell-formatter">单元格格式化</Anchor></h3>

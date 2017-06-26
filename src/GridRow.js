@@ -161,7 +161,6 @@ export default class GridRow extends Component {
             }
             break;
           case 'double': // 2 之前的金额类型
-            className = 'text-right';
             if (value === null || value === undefined) {
               cellContent = '';
             } else {
@@ -202,7 +201,11 @@ export default class GridRow extends Component {
       // TODO 需要给用户提示数据错误问题。
       cellContent = String(cellContent);
 
-      // 用户自定义对齐方式
+      // The default align rule for double type is RIGHT
+      if (columnModel.type === 'double') {
+        className = 'text-right';
+      }
+      // User can override the default align rule
       if (columnModel.align) {
         className = `text-${columnModel.align}`;
       }
@@ -211,7 +214,7 @@ export default class GridRow extends Component {
       className = classNames(className, columnModel.columnClassName);
 
       let tdInner = cellContent;
-      // 该列是否有悬浮按钮
+      // 该列是否有悬浮按钮（一个奇葩需求）
       if (columnModel.floatOperationComponent) {
         tdInner = (
           <div style={{position: 'relative'}}>

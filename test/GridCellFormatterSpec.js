@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 
 import Grid from '../src/Grid';
-import { getTableCellContent } from './helpers';
+import { getTableCellContent, getTableCell } from './helpers';
 
 describe('<Grid>单元格格式', () => {
 
@@ -47,6 +47,27 @@ describe('<Grid>单元格格式', () => {
     // undefined
     assert.equal(getTableCellContent(component, 4, 0), '');
     assert.equal(getTableCellContent(component, 4, 1), '禁用');
+  });
+
+  // https://github.com/yyssc/ssc-grid/issues/78
+  it('Formatter should not change the default styles for double type', () => {
+    let component = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={[
+          { type: 'string', id: 'id', label: '主键' },
+          { type: 'double', id: 'jine1', label: '金额1' },
+          { type: 'double', id: 'jine2', label: '金额2', formatter: {
+            type: 'custom',
+            callback: value => value
+          } },
+        ]}
+        tableData={[{ id: '11', jine1: '1.00', jine2: '2.00' }]}
+      />
+    );
+    const td1 = getTableCell(component, 0, 1);
+    assert.equal(td1.className, 'text-right');
+    const td2 = getTableCell(component, 0, 2);
+    assert.equal(td2.className, 'text-right');
   });
 
 });

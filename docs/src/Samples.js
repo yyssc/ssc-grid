@@ -23,6 +23,7 @@ export default {
   GridCellFormatter:            require('fs').readFileSync(__dirname + '/../examples/GridCellFormatter.js', 'utf8'),
   GridClickEvent:               require('fs').readFileSync(__dirname + '/../examples/GridClickEvent.js', 'utf8'),
   GridColumnAlign:              require('fs').readFileSync(__dirname + '/../examples/GridColumnAlign.js', 'utf8'),
+  GridColumnAlign2:             require('fs').readFileSync(__dirname + '/../examples/GridColumnAlign2.js', 'utf8'),
   GridColumnClass:              require('fs').readFileSync(__dirname + '/../examples/GridColumnClass.js', 'utf8'),
   GridEmptyValue:               require('fs').readFileSync(__dirname + '/../examples/GridEmptyValue.js', 'utf8'),
   GridLocalSearch:              require('fs').readFileSync(__dirname + '/../examples/GridLocalSearch.js', 'utf8'),

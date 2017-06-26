@@ -81,14 +81,41 @@ export function getTableRow(instance, index) {
   return trs[index];
 }
 
-// 获得单元格<td>节点
+/**
+ * Get <td> element
+ *
+ * +--------+--------+--------+
+ * |   H1   |   H2   |   H3   |
+ * +--------+--------+--------+
+ * |  R0C0  |  R0C1  |  R0C2  |
+ * +--------+--------+--------+
+ * |  R1C0  |  R1C1  |  R1C2  |
+ * +--------+--------+--------+
+ *
+ * `getTableCell(instance, 1, 1)` returns `<td>R1C1</td>`
+ *
+ * @export
+ * @param {any} instance React component instance
+ * @param {number} rowIndex row index in table body
+ * @param {number} columnIndex column index in table body
+ * @returns {HTMLElement}
+ */
 export function getTableCell(instance, rowIndex, columnIndex) {
-  let trN = getTableRow(instance, rowIndex); // <tr> node
-  let tds = trN.querySelectorAll('td'); // <td> node list
+  let trN = getTableRow(instance, rowIndex); // trN -> <tr> node
+  let tds = trN.querySelectorAll('td'); // tds -> <td> node list
   return tds[columnIndex];
 }
 
-// 获得单元格中的内容，类型为string
+/**
+ * Get the text content in <td> element
+ * The row index and column index works exactly as `getTableCell()`
+ *
+ * @export
+ * @param {any} instance React component instance
+ * @param {number} rowIndex row index in table body
+ * @param {number} columnIndex column index in table body
+ * @returns {string} the text content in <td> element
+ */
 export function getTableCellContent(instance, rowIndex, columnIndex) {
   return getTableCell(instance, rowIndex, columnIndex).textContent;
 }
