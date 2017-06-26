@@ -8,6 +8,7 @@ import moment from 'moment';
  * DatePicker2控件
  */
 export default class DatePicker2 extends Component {
+  static displayName = 'DatePicker2'
   static defaultProps = {
     dateFormat: 'YYYY-MM-DD'
   }

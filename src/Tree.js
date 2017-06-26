@@ -8,6 +8,7 @@ import * as RcTree from 'rc-tree';
  * Tree控件
  */
 export default class Tree extends Component {
+  static displayName = 'Tree'
   static defaultProps = {
   }
 

@@ -19,6 +19,7 @@ import { Refers } from 'ssc-refer2';
  * 带有校验功能的文本框控件
  */
 export default class ValidateRefers extends Component {
+  static displayName = 'ValidateRefers'
 
   constructor(props) {
     super(props);

@@ -21,6 +21,7 @@ import * as actions from './Grid.actions';
  */
 
 export default class Grid extends Component {
+  static displayName = 'Grid'
   constructor(props) {
     super(props);
     this.state = {

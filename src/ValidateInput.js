@@ -19,6 +19,7 @@ import TextField from './TextField';
  * 带有校验功能的文本框控件
  */
 export default class ValidateInput extends Component {
+  static displayName = 'ValidateInput'
 
   constructor(props) {
     super(props);

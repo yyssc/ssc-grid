@@ -49,6 +49,7 @@ numeral.locale('chs');
  */
 
 export default class GridRow extends Component {
+  static displayName = 'GridRow'
   constructor(props) {
     super(props);
   }

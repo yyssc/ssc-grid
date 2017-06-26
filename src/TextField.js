@@ -16,6 +16,7 @@ import { FormControl } from 'react-bootstrap';
  * 文本框控件 (uncontrolled)
  */
 class TextField extends Component {
+  static displayName = 'TextField'
 
   constructor(props) {
     super(props);

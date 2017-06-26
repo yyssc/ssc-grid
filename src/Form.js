@@ -255,6 +255,7 @@ const defaultProps = {
 };
 
 export default class Form extends Component {
+  static displayName = 'Form'
   constructor(props) {
     super(props);
     /**

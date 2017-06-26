@@ -9,6 +9,7 @@ import 'core-js/fn/array/find';
 
 /** 下拉菜单组件 */
 export default class Dropdown extends Component {
+  static displayName = 'Dropdown'
   static propTypes = {
     dropdownId: PropTypes.string.isRequired,
     defaultTitle: PropTypes.string.isRequired,

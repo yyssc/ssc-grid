@@ -16,6 +16,7 @@ const Lang = {
  * MonthPicker控件
  */
 export default class MonthPicker extends Component {
+  static displayName = 'MonthPicker'
   static defaultProps = {
     monthFormat: 'YYYY-MM',
     value: null

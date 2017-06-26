@@ -6,6 +6,7 @@ import { default as ReactBootstrapDatePicker } from './libs/DatePicker';
  * DatePicker控件
  */
 export default class DatePicker extends Component {
+  static displayName = 'DatePicker'
   static defaultProps = {
     dateFormat: 'YYYY-MM-DD'
   }

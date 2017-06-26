@@ -1,3 +1,11 @@
+## [master]
+> 2017-06-26
+
+- **Chore:** Add `displayName` to components ([#73])
+
+[master]: https://github.com/yyssc/ssc-grid/compare/v0.69.7...master
+[#73]: https://github.com/yyssc/ssc-grid/issues/73
+
 ## [v0.69.7]
 > 2017-06-24
 

@@ -9,6 +9,7 @@ import NumberPicker from './libs/NumberPicker';
  * https://github.com/hnordt/react-year-picker/blob/master/index.babel.js
  */
 export default class YearPicker extends Component {
+  static displayName = 'YearPicker'
   static defaultProps = {
     yearFormat: 'YYYY',
     value: null
