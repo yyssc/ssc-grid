@@ -33,6 +33,7 @@ export default {
   GridSelection:                require('fs').readFileSync(__dirname + '/../examples/GridSelection.js', 'utf8'),
   GridSelectionBeforeSelect:    require('fs').readFileSync(__dirname + '/../examples/GridSelectionBeforeSelect.js', 'utf8'),
   GridSelectionInitSelected:    require('fs').readFileSync(__dirname + '/../examples/GridSelectionInitSelected.js', 'utf8'),
+  GridSelectionSelectMethod:    require('fs').readFileSync(__dirname + '/../examples/GridSelectionSelectMethod.js', 'utf8'),
   GridSelectionWithPagination:  require('fs').readFileSync(__dirname + '/../examples/GridSelectionWithPagination.js', 'utf8'),
   GridStyle:                    require('fs').readFileSync(__dirname + '/../examples/GridStyle.js', 'utf8'),
   MonthPickerBasic:             require('fs').readFileSync(__dirname + '/../examples/MonthPickerBasic.js', 'utf8'),

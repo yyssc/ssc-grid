@@ -18,6 +18,9 @@ export default function GridSection() {
       <ReactPlayground codeText={Samples.GridSelectionBeforeSelect} />
       <p>Initialize grid with selected rows</p>
       <ReactPlayground codeText={Samples.GridSelectionInitSelected} />
+      <p>Call select method from Ref to select row</p>
+      <p>this.gridRef.select(string colId, any colValue, boolean isSelected)</p>
+      <ReactPlayground codeText={Samples.GridSelectionSelectMethod} />
     </div>
   );
 }

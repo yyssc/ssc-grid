@@ -305,6 +305,26 @@ export default class Grid extends Component {
     }
   }
 
+  /**
+   * select row
+   * (call from Ref)
+   *
+   * @param {string} colId Column ID
+   * @param {any} colValue Column value
+   * @memberof Grid
+   */
+  select(colId, colValue, isSelected) {
+    let rowIdx = null;
+    this.state.viewedTableData.forEach((row, idx) => {
+      if (row[colId] === colValue) {
+        rowIdx = idx;
+      }
+    });
+    this.setState(
+      actions.updateRowSelectedState(rowIdx, isSelected)
+    );
+  }
+
   handlePagination(eventKey) {
     if (this.props.onPagination) {
       this.props.onPagination(eventKey);
