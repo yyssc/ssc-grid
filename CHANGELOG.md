@@ -1,3 +1,11 @@
+## [v0.69.9]
+> 2017-06-27
+
+- **Bugfix:** Fix undefined error ([#83])
+
+[v0.69.9]: https://github.com/yyssc/ssc-grid/compare/v0.69.8...v0.69.9
+[#83]: https://github.com/yyssc/ssc-grid/issues/83
+
 ## [v0.69.8]
 > 2017-06-27
 
