@@ -6,7 +6,11 @@
 import update from 'immutability-helper';
 
 /**
- * 更新一行的选中状态
+ * Update selected status of given row
+ *
+ * @export
+ * @param {number} rowIdx index of given row
+ * @param {boolean} isSelected selected status
  */
 export function updateRowSelectedState(rowIdx, isSelected) {
   return (prevState/* , props */) => {

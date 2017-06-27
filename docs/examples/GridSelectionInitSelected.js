@@ -34,7 +34,7 @@ const mockTableData = [
   }
 ];
 
-const GridSelectionExample = React.createClass({
+const GridSelectionInitSelectedExample = React.createClass({
   getInitialState() {
     return {
       // {0: {selected: true}} 说明选择了第1行
@@ -84,6 +84,10 @@ const GridSelectionExample = React.createClass({
         columnsModel={mockColumnsData}
         selectRow={{
           mode: 'checkbox',
+          selected: {
+            0: { selected: true },
+            2: { selected: true },
+          },
           onSelect: this.handleSelect,
           onSelectAll: this.handleSelectAll
         }}
@@ -92,4 +96,4 @@ const GridSelectionExample = React.createClass({
   }
 });
 
-ReactDOM.render(<GridSelectionExample />, mountNode);
+ReactDOM.render(<GridSelectionInitSelectedExample />, mountNode);

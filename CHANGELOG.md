@@ -1,12 +1,14 @@
 ## [master]
-> 2017-06-26
+> 2017-06-27
 
 - **Chore:** Add `displayName` to components ([#73])
 - **Bugfix:** Fix alignment bug causing by custom formatter ([#78])
+- **Feature:** Initialize Grid with selected rows ([#80])
 
 [master]: https://github.com/yyssc/ssc-grid/compare/v0.69.7...master
 [#73]: https://github.com/yyssc/ssc-grid/issues/73
 [#78]: https://github.com/yyssc/ssc-grid/issues/78
+[#80]: https://github.com/yyssc/ssc-grid/issues/80
 
 ## [v0.69.7]
 > 2017-06-24
