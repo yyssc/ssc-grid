@@ -163,4 +163,21 @@ describe('<Grid>行选择', () => {
     assert.equal(component.state.selectedRowsObj[0].selected, false);
   });
 
+  // https://github.com/yyssc/ssc-grid/issues/83
+  it('Cannot read property selected of undefined', () => {
+    let component = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={getFakeColumnsModel()}
+        tableData={getFakeTableBodyData()}
+        selectRow={{
+          mode: 'checkbox',
+          onSelect: () => {},
+          onSelectAll: () => {}
+        }}
+      />
+    );
+    // TypeError: Cannot read property 'selected' of undefined
+    component.select('name', 'not exist name', true);
+  });
+
 });

@@ -320,6 +320,10 @@ export default class Grid extends Component {
         rowIdx = idx;
       }
     });
+    if (rowIdx === null) {
+      console.log('[ssc-grid] select none.');
+      return;
+    }
     this.setState(
       actions.updateRowSelectedState(rowIdx, isSelected)
     );
