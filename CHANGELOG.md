@@ -1,4 +1,4 @@
-## [master]
+## [v0.69.8]
 > 2017-06-27
 
 - **Chore:** Add `displayName` to components ([#73])
@@ -6,7 +6,7 @@
 - **Feature:** Initialize Grid with selected rows ([#80])
 - **Feature:** 应用层需求 添加select方法 ([#82])
 
-[master]: https://github.com/yyssc/ssc-grid/compare/v0.69.7...master
+[v0.69.8]: https://github.com/yyssc/ssc-grid/compare/v0.69.7...v0.69.8
 [#73]: https://github.com/yyssc/ssc-grid/issues/73
 [#78]: https://github.com/yyssc/ssc-grid/issues/78
 [#80]: https://github.com/yyssc/ssc-grid/issues/80
