@@ -1,3 +1,11 @@
+## [master]
+> 2017-06-28
+
+- **Bugfix:** Fix select() not select table header checkbox ([#84])
+
+[master]: https://github.com/yyssc/ssc-grid/compare/v0.69.9...master
+[#84]: https://github.com/yyssc/ssc-grid/issues/84
+
 ## [v0.69.9]
 > 2017-06-27
 

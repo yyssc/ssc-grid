@@ -17,7 +17,7 @@ const getFakeTableBodyData = () => ([
   { code: '00000025', name: '测试名称3', enable: false }
 ]);
 
-describe('<Grid>行选择', () => {
+describe('<Grid> Row selection', () => {
 
   it('应该正确显示checkbox', () => {
     let instance = ReactTestUtils.renderIntoDocument(
@@ -178,6 +178,53 @@ describe('<Grid>行选择', () => {
     );
     // TypeError: Cannot read property 'selected' of undefined
     component.select('name', 'not exist name', true);
+  });
+
+  // https://github.com/yyssc/ssc-grid/issues/84
+  it('select method can not trigger "select all" checkbox on table header', () => {
+    let component = ReactTestUtils.renderIntoDocument(
+      <Grid
+        columnsModel={getFakeColumnsModel()}
+        tableData={getFakeTableBodyData()}
+        selectRow={{
+          mode: 'checkbox',
+        }}
+      />
+    );
+
+    let headCheckbox = getTableHeadColumn(component, 0).querySelector('input');
+    let row0checkbox = getTableCell(component, 0, 0).querySelector('input');
+    let row1checkbox = getTableCell(component, 1, 0).querySelector('input');
+    let row2checkbox = getTableCell(component, 2, 0).querySelector('input');
+
+    // select all rows
+    component.select('code', '00000081', true);
+    component.select('code', '00000022', true);
+    component.select('code', '00000025', true);
+
+    // all checkbox in table body is checked
+    assert.equal(component.state.selectedRowsObj[0].selected, true);
+    assert.equal(component.state.selectedRowsObj[1].selected, true);
+    assert.equal(component.state.selectedRowsObj[2].selected, true);
+    assert.equal(row0checkbox.checked, true);
+    assert.equal(row1checkbox.checked, true);
+    assert.equal(row2checkbox.checked, true);
+
+    // checkbox in table header is checked
+    assert.equal(component.state.isHeadRowSelected, true);
+    assert.equal(headCheckbox.checked, true);
+
+    component.select('code', '00000081', false);
+
+    assert.equal(component.state.selectedRowsObj[0].selected, false);
+    assert.equal(component.state.selectedRowsObj[1].selected, true);
+    assert.equal(component.state.selectedRowsObj[2].selected, true);
+    assert.equal(row0checkbox.checked, false);
+    assert.equal(row1checkbox.checked, true);
+    assert.equal(row2checkbox.checked, true);
+
+    assert.equal(component.state.isHeadRowSelected, false);
+    assert.equal(headCheckbox.checked, false);
   });
 
 });

@@ -324,8 +324,26 @@ export default class Grid extends Component {
       console.log('[ssc-grid] select none.');
       return;
     }
+    this.updateCheckboxState(rowIdx, isSelected);
+  }
+
+  /**
+   * Update the row checkbox state and update the table header checkbox
+   * according to all rows' checkbox state.
+   *
+   * @param {any} rowIdx row index
+   * @param {any} isSelected checkbox is checked or not
+   * @param {Function} callback called when setState finished
+   * @memberof Grid
+   */
+  updateCheckboxState(rowIdx, isSelected, callback = () => {}) {
     this.setState(
-      actions.updateRowSelectedState(rowIdx, isSelected)
+      actions.updateRowSelectedState(rowIdx, isSelected),
+      () => {
+        this.setState(actions.updateTableHeadRowSelectedState(
+          isAllRowsSelected(this.state.selectedRowsObj)
+        ), callback);
+      }
     );
   }
 
@@ -356,26 +374,15 @@ export default class Grid extends Component {
       }
     }
 
-    this.setState(
-      actions.updateRowSelectedState(rowIdx, isSelected),
-      (/* prevState, props */) => {
-        // 由现在的状态来确定表头的checkbox是否被勾选
-        this.setState(
-          actions.updateTableHeadRowSelectedState(
-            isAllRowsSelected(this.state.selectedRowsObj)
-          ),
-          (/* prevState, props */) => {
-            if (selectRow && selectRow.onSelect) {
-              selectedRowsArr = this.props.tableData.filter(
-                (row, idx) => this.state.selectedRowsObj[idx].selected === true
-              );
-              selectRow.onSelect(rowIdx, rowObj, isSelected, event,
-                selectedRowsArr);
-            }
-          }
+    this.updateCheckboxState(rowIdx, isSelected, () => {
+      if (selectRow && selectRow.onSelect) {
+        selectedRowsArr = this.props.tableData.filter(
+          (row, idx) => this.state.selectedRowsObj[idx].selected === true
         );
+        selectRow.onSelect(rowIdx, rowObj, isSelected, event,
+          selectedRowsArr);
       }
-    );
+    });
   }
 
   /**
