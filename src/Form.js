@@ -941,7 +941,12 @@ export default class Form extends Component {
                         bsStyle="primary"
                         type="submit"
                         disabled={this.state.submitButtonDisabled}
-                        onClick={this.handleSubmit.bind(this)}
+                        onClick={(event) => {
+                          // Prevent page reloading
+                          // https://github.com/yyssc/ssc-grid/issues/85
+                          event.preventDefault();
+                          this.handleSubmit();
+                        }}
                       >
                         完成
                       </Button>
@@ -973,7 +978,12 @@ export default class Form extends Component {
                     bsStyle="primary"
                     type="submit"
                     disabled={this.state.submitButtonDisabled}
-                    onClick={this.handleSubmit.bind(this)}
+                    onClick={(event) => {
+                      // Prevent page reloading
+                      // https://github.com/yyssc/ssc-grid/issues/85
+                      event.preventDefault();
+                      this.handleSubmit();
+                    }}
                   >完成</Button>
                 </Col>
               </FormGroup>
