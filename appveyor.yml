@@ -4,7 +4,8 @@ version: '{build}'
 install:
   # Get the latest stable version of io.js
   - ps: Install-Product node ''
-  - npm -g install npm@latest
+  # Fix timeout error https://github.com/yyssc/ssc-grid/issues/86
+  - appveyor-retry call npm -g install npm@latest
   - set PATH=%APPDATA%\npm;%PATH%
   - node --version
   - npm --version
