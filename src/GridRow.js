@@ -44,6 +44,83 @@ numeral.register('locale', 'chs', {
 // switch between locales
 numeral.locale('chs');
 
+const propTypes = {
+  className: PropTypes.string,
+  /**
+   * 用于指定列模型，比如每个字段的类型是什么，字段类型决定了单元格的样式。
+   */
+  columnsModel: PropTypes.oneOfType([
+    PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
+    PropTypes.object
+  ]).isRequired,
+  /**
+   * 单元格单击事件
+   */
+  onCellClick: PropTypes.func,
+  /**
+   * 单元格双击事件
+   */
+  onCellDoubleClick: PropTypes.func,
+  /**
+   * 行单击事件
+   */
+  onRowClick: PropTypes.func,
+  /**
+   * 行双击事件
+   */
+  onRowDoubleClick: PropTypes.func,
+  onSelect: PropTypes.func,
+  /**
+   * 每一行是否显示操作按钮列<br>
+   * 默认的操作按钮在最右侧的列中，如果需要指定在左侧，可以通过
+   * <code>align</code>参数来设置<br>
+   * <pre><code>{
+   *   align: 'left'
+   * }</code></pre>
+   * 注意：当操作列和选择列同时存在的时候，选择列会显示在操作列的左侧
+   */
+  operationColumn: PropTypes.object,
+  /**
+   * 自定义的操作列组件<br>
+   * 除非指定了<code>operationColumn</code>参数，否则操作列不会显示出来
+   */
+  operationColumnClass: elementType,
+  /**
+   * 表格中本行的index，从0开始，等同于key
+   */
+  rowIdx: PropTypes.number.isRequired,
+  /**
+   * 本行中每一列的数据
+   * <pre><code>{
+   *   id: '11',
+   *   danjuleixing: '123'
+   * }</code></pre>
+   */
+  rowObj: PropTypes.object.isRequired,
+  /**
+   * 该行是否被选择（单选框/复选框）
+   * 默认未被选中
+   * TODO 需要和selectRow属性合并
+   */
+  selected: PropTypes.bool,
+  selectionMode: PropTypes.string,
+  /**
+   * 显示行选择复选框/单选框<br>
+   * mode 默认是checkbox，也可以是radio
+   * onSelect 当点击行最左侧的复选框/单选框的时候
+   */
+  selectRow: PropTypes.object,
+};
+
+const defaultProps = {
+  className: '',
+  selectable: true,
+  selectRow: null,
+  selectionMode: 'checkbox',
+  selected: false,
+  operationColumn: null
+};
+
 /**
  * GridRow组件
  */
@@ -303,7 +380,8 @@ export default class GridRow extends Component {
     const { onRowClick, onRowDoubleClick } = this.props;
 
     const trProps = {
-      className: classNames(this.props.selected && 'selected'),
+      className: classNames(this.props.className, {'selected': this.props.selected}),
+      'data-row-index': this.props.rowIdx,
       onClick: () => {
         if (onRowClick) {
           onRowClick(event, rowObj);
@@ -339,77 +417,5 @@ export default class GridRow extends Component {
   }
 }
 
-GridRow.propTypes = {
-  /**
-   * 用于指定列模型，比如每个字段的类型是什么，字段类型决定了单元格的样式。
-   */
-  columnsModel: PropTypes.oneOfType([
-    PropTypes.array, // 默认类型应该是数组，但是为了支持mobx传入observable object...
-    PropTypes.object
-  ]).isRequired,
-  /**
-   * 单元格单击事件
-   */
-  onCellClick: PropTypes.func,
-  /**
-   * 单元格双击事件
-   */
-  onCellDoubleClick: PropTypes.func,
-  /**
-   * 行单击事件
-   */
-  onRowClick: PropTypes.func,
-  /**
-   * 行双击事件
-   */
-  onRowDoubleClick: PropTypes.func,
-  onSelect: PropTypes.func,
-  /**
-   * 每一行是否显示操作按钮列<br>
-   * 默认的操作按钮在最右侧的列中，如果需要指定在左侧，可以通过
-   * <code>align</code>参数来设置<br>
-   * <pre><code>{
-   *   align: 'left'
-   * }</code></pre>
-   * 注意：当操作列和选择列同时存在的时候，选择列会显示在操作列的左侧
-   */
-  operationColumn: PropTypes.object,
-  /**
-   * 自定义的操作列组件<br>
-   * 除非指定了<code>operationColumn</code>参数，否则操作列不会显示出来
-   */
-  operationColumnClass: elementType,
-  /**
-   * 本行中每一列的数据
-   * <pre><code>{
-   *   id: '11',
-   *   danjuleixing: '123'
-   * }</code></pre>
-   */
-  rowObj: PropTypes.object.isRequired,
-  /**
-   * 表格中本行的index，从0开始，等同于key
-   */
-  rowIdx: PropTypes.number.isRequired,
-  /**
-   * 该行是否被选择（单选框/复选框）
-   * 默认未被选中
-   * TODO 需要和selectRow属性合并
-   */
-  selected: PropTypes.bool,
-  selectionMode: PropTypes.string,
-  /**
-   * 显示行选择复选框/单选框<br>
-   * mode 默认是checkbox，也可以是radio
-   * onSelect 当点击行最左侧的复选框/单选框的时候
-   */
-  selectRow: PropTypes.object,
-};
-
-GridRow.defaultProps = {
-  selectable: true,
-  selectRow: null,
-  selectionMode: 'checkbox',
-  selected: false,
-  operationColumn: null
-};
+GridRow.propTypes = propTypes;
+GridRow.defaultProps = defaultProps;

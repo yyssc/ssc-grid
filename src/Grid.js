@@ -151,6 +151,13 @@ const propTypes = {
    */
   paging: PropTypes.bool,
   /**
+   * 行类名，比如
+   * ```js
+   * ['first-row-class', 'second-row-class']
+   * ```
+   */
+  rowClassName: PropTypes.arrayOf(PropTypes.string),
+  /**
    * 是否启用行选择，复选框/单选框
    * 默认为`null`，不显示
    * ```js
@@ -224,17 +231,18 @@ const propTypes = {
 };
 
 const defaultProps = {
-  selectRow: null,
+  bordered: false,
+  condensed: false,
+  hover: false,
   operationColumn: null, // 默认不显示操作列
   operationColumnClass: 'td', // 默认的操作列必须是<td>组件
   paging: false,
+  rowClassName: [],
   /**
    * 直接映射ReactBootstrap的属性
    */
   striped: false,
-  bordered: false,
-  condensed: false,
-  hover: false
+  selectRow: null,
 };
 
 export default class Grid extends Component {
@@ -540,6 +548,8 @@ export default class Grid extends Component {
               return (
                 <GridRow
                   key={rowIdx}
+                  className={this.props.rowClassName[rowIdx]}
+                  rowIdx={rowIdx}
                   rowObj={rowObj}
                   selectRow={selectRow}
                   selectionMode={selectRow ? selectRow.mode : null}
@@ -551,7 +561,7 @@ export default class Grid extends Component {
                   selected={selected}
                   operationColumn={operationColumn}
                   operationColumnClass={CustomComponent}
-                  columnsModel={columnsModel} rowIdx={rowIdx}
+                  columnsModel={columnsModel}
                   onCellChecked={this.handleCellChecked.bind(this)}
                   onCellClick={this.props.onCellClick}
                   onCellDoubleClick={this.props.onCellDoubleClick}
