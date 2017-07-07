@@ -1,12 +1,14 @@
-## [master]
+## [v0.69.10]
 > 2017-06-28
 
 - **Bugfix:** Fix select() not select table header checkbox ([#84])
 - **Bugfix:** Page reload when clicking on submit button ([#85])
+- **Feature:** Row class name ([#87])
 
-[master]: https://github.com/yyssc/ssc-grid/compare/v0.69.9...master
+[v0.69.10]: https://github.com/yyssc/ssc-grid/compare/v0.69.9...v0.69.10
 [#84]: https://github.com/yyssc/ssc-grid/issues/84
 [#85]: https://github.com/yyssc/ssc-grid/issues/85
+[#87]: https://github.com/yyssc/ssc-grid/issues/87
 
 ## [v0.69.9]
 > 2017-06-27
