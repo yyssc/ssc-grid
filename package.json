@@ -1,6 +1,6 @@
 {
   "name": "ssc-grid",
-  "version": "0.69.9",
+  "version": "0.69.10",
   "description": "React grid component for SSC 3.0",
   "repository": {
     "type": "git",
