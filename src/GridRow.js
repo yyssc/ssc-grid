@@ -322,12 +322,12 @@ export default class GridRow extends Component {
           key={colIdx}
           className={className}
           title={cellContent}
-          onClick={() => {
+          onClick={(event) => {
             if (onCellClick) {
               onCellClick(event, colIdx, columnModel, rowIdx, rowObj);
             }
           }}
-          onDoubleClick={() => {
+          onDoubleClick={(event) => {
             if (onCellDoubleClick) {
               onCellDoubleClick(event, colIdx, columnModel, rowIdx, rowObj);
             }
@@ -382,12 +382,12 @@ export default class GridRow extends Component {
     const trProps = {
       className: classNames(this.props.className, {'selected': this.props.selected}),
       'data-row-index': this.props.rowIdx,
-      onClick: () => {
+      onClick: (event) => {
         if (onRowClick) {
           onRowClick(event, rowObj);
         }
       },
-      onDoubleClick: () => {
+      onDoubleClick: (event) => {
         if (onRowDoubleClick) {
           onRowDoubleClick(event, rowObj);
         }
