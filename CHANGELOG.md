@@ -1,22 +1,24 @@
 ## [v0.69.10]
-> 2017-06-28
+> 2017-07-17
 
+- **Bugfix:** Fix event is undefined in Firefox ([#90])
+
+[v0.69.9]: https://github.com/yyssc/ssc-grid/compare/v0.69.9...v0.69.10
+[#90]: https://github.com/yyssc/ssc-grid/issues/90
+
+## [v0.69.9]
+> 2017-07-07
+
+- **Bugfix:** Fix undefined error ([#83])
 - **Bugfix:** Fix select() not select table header checkbox ([#84])
 - **Bugfix:** Page reload when clicking on submit button ([#85])
 - **Feature:** Row class name ([#87])
 
-[v0.69.10]: https://github.com/yyssc/ssc-grid/compare/v0.69.9...v0.69.10
+[v0.69.9]: https://github.com/yyssc/ssc-grid/compare/v0.69.8...v0.69.9
+[#83]: https://github.com/yyssc/ssc-grid/issues/83
 [#84]: https://github.com/yyssc/ssc-grid/issues/84
 [#85]: https://github.com/yyssc/ssc-grid/issues/85
 [#87]: https://github.com/yyssc/ssc-grid/issues/87
-
-## [v0.69.9]
-> 2017-06-27
-
-- **Bugfix:** Fix undefined error ([#83])
-
-[v0.69.9]: https://github.com/yyssc/ssc-grid/compare/v0.69.8...v0.69.9
-[#83]: https://github.com/yyssc/ssc-grid/issues/83
 
 ## [v0.69.8]
 > 2017-06-27
