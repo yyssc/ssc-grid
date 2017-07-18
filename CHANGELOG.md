@@ -1,9 +1,17 @@
+## [v0.69.11]
+> 2017-07-18
+
+- **Chore:** 去掉ssc-refer2的peer deps ([#92])
+
+[v0.69.11]: https://github.com/yyssc/ssc-grid/compare/v0.69.10...v0.69.11
+[#92]: https://github.com/yyssc/ssc-grid/issues/92
+
 ## [v0.69.10]
 > 2017-07-17
 
 - **Bugfix:** Fix event is undefined in Firefox ([#90])
 
-[v0.69.9]: https://github.com/yyssc/ssc-grid/compare/v0.69.9...v0.69.10
+[v0.69.10]: https://github.com/yyssc/ssc-grid/compare/v0.69.9...v0.69.10
 [#90]: https://github.com/yyssc/ssc-grid/issues/90
 
 ## [v0.69.9]
