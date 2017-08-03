@@ -1,3 +1,11 @@
+## [v0.69.12]
+> 2017-08-03
+
+- **Chore:** Import individual component from react-bootstrap to reduce bundle size ([#93])
+
+[v0.69.12]: https://github.com/yyssc/ssc-grid/compare/v0.69.11...v0.69.12
+[#93]: https://github.com/yyssc/ssc-grid/issues/93
+
 ## [v0.69.11]
 > 2017-07-18
 
