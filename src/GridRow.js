@@ -4,7 +4,6 @@ import classNames from 'classnames';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import elementType from 'react-prop-types/lib/elementType';
-// import { Button } from 'react-bootstrap';
 
 // 使用moment对单元格中的日期进行格式化
 import moment from 'moment';

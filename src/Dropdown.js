@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import DropdownButton from 'react-bootstrap/lib/DropdownButton';
+import MenuItem from 'react-bootstrap/lib/MenuItem';
 
 // YBZSAAS-461
 // IE11不支持Array.prototype.find()

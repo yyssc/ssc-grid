@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import elementType from 'react-prop-types/lib/elementType';
 
-import { Table, Pagination } from 'react-bootstrap';
+import Table from 'react-bootstrap/lib/Table';
+import Pagination from 'react-bootstrap/lib/Pagination';
 
 import GridRow from './GridRow';
 import TextField from './TextField';

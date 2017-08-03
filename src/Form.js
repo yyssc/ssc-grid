@@ -2,11 +2,18 @@ import classNames from 'classnames';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, FormGroup, ControlLabel, HelpBlock } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-import * as ReactBootstrap from 'react-bootstrap';
+import Button from 'react-bootstrap/lib/Button';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import ControlLabel from 'react-bootstrap/lib/ControlLabel';
+import HelpBlock from 'react-bootstrap/lib/HelpBlock';
+
+import Col from 'react-bootstrap/lib/Col';
+import ReactBootstrapForm from 'react-bootstrap/lib/Form';
+import Grid from 'react-bootstrap/lib/Grid';
+import Row from 'react-bootstrap/lib/Row';
 // 表单(form)控件(control/widget)
-import { FormControl, Checkbox } from 'react-bootstrap';
+import FormControl from 'react-bootstrap/lib/FormControl';
+import Checkbox from 'react-bootstrap/lib/Checkbox';
 // 参照控件
 import { Refers } from 'ssc-refer2';
 
@@ -905,29 +912,29 @@ export default class Form extends Component {
     let form;
     if (this.props.layout) {
       form = (
-        <ReactBootstrap.Form inline className={classNames(this.props.className)}>
-          <ReactBootstrap.Grid fluid>
-            <ReactBootstrap.Row>
+        <ReactBootstrapForm inline className={classNames(this.props.className)}>
+          <Grid fluid>
+            <Row>
             {
               this.props.fieldsModel.map((fieldModel) => {
                 if (fieldModel.hidden === true) {
                   return null;
                 }
-                return (<ReactBootstrap.Col
+                return (<Col
                   key={fieldModel.id}
                   {...this.props.layout}
                 >
                   {this.genField(fieldModel)}
-                </ReactBootstrap.Col>);
+                </Col>);
               })
             }
-            </ReactBootstrap.Row>
+            </Row>
             {
               this.props.showSubmitButton === false
               ? null
               : (
-                <ReactBootstrap.Row>
-                  <ReactBootstrap.Col md={12} className={'text-center'}>
+                <Row>
+                  <Col md={12} className={'text-center'}>
                     <FormGroup>
                       <Button
                         bsStyle="default"
@@ -951,16 +958,16 @@ export default class Form extends Component {
                         完成
                       </Button>
                     </FormGroup>
-                  </ReactBootstrap.Col>
-                </ReactBootstrap.Row>
+                  </Col>
+                </Row>
               )
             }
-          </ReactBootstrap.Grid>
-        </ReactBootstrap.Form>
+          </Grid>
+        </ReactBootstrapForm>
       );
     } else {
       form = (
-        <ReactBootstrap.Form horizontal className={classNames(this.props.className)}>
+        <ReactBootstrapForm horizontal className={classNames(this.props.className)}>
           {
             this.props.fieldsModel.map(this.genLayoutFormGroup.bind(this))
           }
@@ -989,7 +996,7 @@ export default class Form extends Component {
               </FormGroup>
             )
           }
-        </ReactBootstrap.Form>
+        </ReactBootstrapForm>
       );
     }
     return form;
