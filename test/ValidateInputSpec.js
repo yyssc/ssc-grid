@@ -18,6 +18,9 @@ describe('<ValidateInput>', () => {
     return getContainer(instance).querySelector('input');
   }
 
+  // 获取文本框校验状态的提示信息
+  const getHelpText = container => container.querySelector('span.help-block').textContent;
+
   /**
    * 文本框是否有验证错误样式
    * 如果验证错误，className会自动添加has-error，UI就可以显示红色错误提示
@@ -213,9 +216,6 @@ describe('<ValidateInput>', () => {
     let validationContainer = getContainer(instance);
     let inputNode = getTextField(instance);
 
-    // 获取文本框校验状态的提示信息
-    const getHelpText = container => container.querySelector('span.help-block').textContent;
-
     assert.equal(hasNoValidationStateStyle(validationContainer), true,
       '1. 组件刚初始化完，输入框为空，不应该显示校验状态');
     assert.equal(getHelpText(validationContainer), '',
@@ -276,9 +276,6 @@ describe('<ValidateInput>', () => {
 
     let validationContainer = getContainer(instance);
     let inputNode = getTextField(instance);
-
-    // 获取文本框校验状态的提示信息
-    const getHelpText = container => container.querySelector('span.help-block').textContent;
 
     assert.equal(hasNoValidationStateStyle(validationContainer), true,
       '1. 组件刚初始化完，输入框为空，不应该显示校验状态');
@@ -348,9 +345,6 @@ describe('<ValidateInput>', () => {
     let validationContainer = getContainer(instance);
     let inputNode = getTextField(instance);
 
-    // 获取文本框校验状态的提示信息
-    const getHelpText = container => container.querySelector('span.help-block').textContent;
-
     assert.equal(hasNoValidationStateStyle(validationContainer), true,
       '1. 组件刚初始化完，输入框为空，不应该显示校验状态');
     assert.equal(getHelpText(validationContainer), '',
@@ -404,9 +398,6 @@ describe('<ValidateInput>', () => {
     );
 
     let validationContainer = getContainer(instance);
-
-    // 获取文本框校验状态的提示信息
-    const getHelpText = container => container.querySelector('span.help-block').textContent;
 
     assert.equal(hasNoValidationStateStyle(validationContainer), true,
       '1. 组件刚初始化完，输入框为空，不应该显示校验状态');
@@ -502,6 +493,54 @@ describe('<ValidateInput>', () => {
     );
     assert.equal(validateInputRef.textFieldRef.state.value, 'b456');
     assert.equal(getTextField(component).value, 'b456');
+  });
+
+  it('正确校验数字类型', () => {
+    let validateInputRef;
+    let node = document.createElement('div');
+    let component;
+
+    component = ReactDOM.render(
+      <ValidateInput
+        type=""
+        ref={(c) => validateInputRef = c}
+        validators={[
+          {type: 'decimal'},
+          {
+            type: 'custom',
+            matchFunc: value => {
+              return parseInt(value, 10) <= 100 && parseInt(value, 10) >= 0;
+            },
+            helpText: () => '残值率不能大于100%，小于0%',
+          }
+        ]}
+        value="0"
+      />, node
+    );
+    const validationContainer = getContainer(component);
+    const inputNode = getTextField(component);
+
+    assert.equal(validateInputRef.textFieldRef.state.value, '0');
+    assert.equal(getTextField(component).value, '0');
+
+    let validationResult = validateInputRef.doValidate();
+    assert.equal(hasErrorStyle(validationContainer), false,
+      '主动校验状态，应该显示校验失败样式');
+    assert.equal(getHelpText(validationContainer), '',
+      '不应该显示错误提示');
+    assert.equal(component.state.validationState, 'success');
+    assert.equal(validationResult, true);
+
+    inputNode.value = '1000';
+    ReactTestUtils.Simulate.change(inputNode);
+
+    validationResult = validateInputRef.doValidate();
+    assert.equal(hasErrorStyle(validationContainer), true,
+      '主动校验状态，应该显示校验失败样式');
+    assert.equal(getHelpText(validationContainer), '\n残值率不能大于100%，小于0%',
+      '应该显示错误提示');
+    assert.equal(component.state.validationState, 'error');
+    assert.equal(validationResult, false);
   });
 
 });
