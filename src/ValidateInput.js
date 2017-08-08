@@ -17,6 +17,94 @@ import * as validationUtils from './utils/validation';
 
 import TextField from './TextField';
 
+const propTypes = {
+  /**
+   *  To ensure accessibility, set controlId on <FormGroup>
+   *  https://react-bootstrap.github.io/components.html#forms
+   */
+  controlId: PropTypes.string,
+  /**
+   * 是否禁用输入框
+   */
+  disabled: PropTypes.bool,
+  /**
+   * 当光标离开输入框
+   */
+  onBlur: PropTypes.func,
+  /**
+   * 当文本框内容被修改时候调用
+   */
+  onChange: PropTypes.func,
+  /**
+   * 当文本框被聚焦
+   */
+  onFocus: PropTypes.func,
+  /**
+   * 文本框占位字符
+   */
+  placeholder: PropTypes.string,
+  /**
+   * 带有校验功能的输入框
+   * 场景1：使用内置校验（定义在`src/utils/validation.js`）
+   * 比如`email`为校验邮件地址格式
+   * ```js
+   * {
+   *   type: 'email'
+   * }
+   * ```
+   * `type`可以是：
+   * - `currency` 货币金额格式
+   * - `decimal` 十进制数字格式
+   * - `email` 电子邮件格式
+   * - `int` 整数类型
+   * - `length` 输入文本的长度
+   * - `mobilePhone` 手机号码格式，比如18911112222
+   * - `required` 必输字段
+   * 场景2：使用自定义校验
+   * 比如校验用户输入数字的范围
+   * ```js
+   * {
+   *   type: 'custom',
+   *   matchFunc: (value, validator) => parseInt(value, 10) <= 100 && parseInt(value, 10) >= 0,
+   *   helpText: (value, validator) => '残值率不能大于100%，小于0%'
+   * }
+   * ```
+   * 回调函数`matchFunc(string, Object) => boolean`用于对文本框中的文字进行校验，返回false则校验失败，显示`helpText`定义的错误信息
+   * 回调函数`helpText(string, Object) => string`用于显示校验错误时候的错误提示信息
+   */
+  validators: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.shape({
+        type: PropTypes.oneOf(['currency', 'decimal', 'email', 'int', 'mobilePhone', 'required']).isRequired,
+      }),
+      PropTypes.shape({
+        type: PropTypes.oneOf(['length']).isRequired,
+        options: PropTypes.shape({
+          min: PropTypes.number.isRequired,
+          max: PropTypes.number.isRequired,
+        }),
+      }),
+      PropTypes.shape({
+        type: PropTypes.oneOf(['custom']),
+        matchFunc: PropTypes.func.isRequired,
+        helpText: PropTypes.func.isRequired,
+      })
+    ])
+  ).isRequired,
+  /**
+   * 文本框中显示的值
+   * 注意：由于文本框是完全自由输入的，所以value的类型，以及在matchFunc回调函数的value参数的类型
+   * 都是string，具体参照https://developer.mozilla.org/en/docs/Web/API/HTMLInputElement
+   * 文档中关于`value`属性的定义
+   */
+  value: PropTypes.string,
+};
+
+const defaultProps = {
+  validators: [],
+  value: '',
+};
+
 /**
  * 带有校验功能的文本框控件
  */
@@ -127,45 +215,5 @@ export default class ValidateInput extends Component {
   }
 }
 
-ValidateInput.propTypes = {
-  /**
-   *  To ensure accessibility, set controlId on <FormGroup>
-   *  https://react-bootstrap.github.io/components.html#forms
-   */
-  controlId: PropTypes.string,
-  /**
-   * 是否禁用输入框
-   */
-  disabled: PropTypes.bool,
-  /**
-   * 当光标离开输入框
-   */
-  onBlur: PropTypes.func,
-  /**
-   * 当文本框内容被修改时候调用
-   */
-  onChange: PropTypes.func,
-  /**
-   * 当文本框被聚焦
-   */
-  onFocus: PropTypes.func,
-  /**
-   * 文本框占位字符
-   */
-  placeholder: PropTypes.string,
-  /**
-   * 带有校验功能的输入框
-   */
-  validators: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string,
-  })),
-  /**
-   * 文本框中显示的值
-   */
-  value: PropTypes.string,
-};
-
-ValidateInput.defaultProps = {
-  validators: [],
-  value: '',
-};
+ValidateInput.propTypes = propTypes;
+ValidateInput.defaultProps = defaultProps;

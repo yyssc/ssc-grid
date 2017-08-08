@@ -23,14 +23,6 @@ describe('<TextField>', () => {
   // };
 
   /**
-   * 文本框是否有验证成功的样式
-   * 如果验证成功，className会自动添加has-success，UI就可以显示绿色的成功提示
-   */
-  // const hasSuccessStyle = textField => {
-  //   return textField.className.indexOf('has-success') !== -1;
-  // };
-
-  /**
    * 文本框没有校验状态的样式
    * 如果没有开始进行校验，className中不应该存在has-{success/warning/error}
    */

@@ -137,3 +137,40 @@ export function getSubmitButton(component) {
   let formNode = getForm(component);
   return formNode.querySelector('button[type=submit]');
 }
+
+/**
+ * 文本框是否有验证成功的样式
+ * 如果验证成功，className会自动添加has-success，UI就可以显示绿色的成功提示
+ */
+export const hasSuccessStyle = textField => {
+  return textField.className.indexOf('has-success') !== -1;
+};
+
+/**
+ * 文本框是否有验证错误样式
+ * 如果验证错误，className会自动添加has-error，UI就可以显示红色错误提示
+ */
+export const hasErrorStyle = textField => {
+  return textField.className.indexOf('has-error') !== -1;
+};
+
+// 获取文本框校验状态的提示信息
+export const getHelpText = container => container.querySelector('span.help-block').textContent;
+
+export function getContainer(instance) {
+  return ReactDOM.findDOMNode(instance);
+}
+
+export function getTextField(instance) {
+  return getContainer(instance).querySelector('input');
+}
+
+/**
+ * 文本框没有校验状态的样式
+ * 如果没有开始进行校验，className中不应该存在has-{success/warning/error}
+ */
+export const hasNoValidationStateStyle = ({className}) => (
+  ['has-success', 'has-warning', 'has-error'].reduce((accumulator, currentStyleName) => (
+    accumulator && className.indexOf(currentStyleName) === -1
+  ), true)
+);
