@@ -103,7 +103,7 @@ const treeData = [
   }
 ];
 
-describe('<Dropdown>', () => {
+describe('<Tree>', () => {
 
   // helper function
 
