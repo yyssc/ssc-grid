@@ -14,6 +14,17 @@ import {
 
 describe('<ValidateInput> Internal type', () => {
 
+  // TODO 没有找到方法来测试非法参数
+  // it('出现未知类型应该报错', () => {
+  //   ReactTestUtils.renderIntoDocument(
+  //     <ValidateInput
+  //       validators={[
+  //         { type: 'foo' }
+  //       ]}
+  //     />
+  //   );
+  // });
+
   it('正确处理内置校验 type: currency', () => {
     let validateInputRef = null;
     let instance = ReactTestUtils.renderIntoDocument(
