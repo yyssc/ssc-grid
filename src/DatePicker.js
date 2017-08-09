@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { default as ReactBootstrapDatePicker } from './libs/DatePicker';
+import { default as ReactBootstrapDatePicker } from 'react-bootstrap-date-picker';
 
 /**
  * DatePicker控件
