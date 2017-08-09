@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-addons-test-utils';
 import ReactDOM from 'react-dom';
 
 import Form from '../src/Form';
-import { getForm, getInput } from './helpers';
+import { getForm, getInput, getResetButton, getSubmitButton } from './helpers';
 
 function getFieldsModel() {
   return [
@@ -319,6 +319,67 @@ describe('<Form>', () => {
     assert.equal(getForm(component2).querySelectorAll('button').length, 2);
     assert.equal(getForm(component3).querySelectorAll('button').length, 0);
     assert.equal(getForm(component4).querySelectorAll('button').length, 2);
+  });
+
+  it('call submit() from ref', () => {
+    let formRef = null;
+    let instance = ReactTestUtils.renderIntoDocument(
+      <Form
+        ref={(c) => { formRef = c; }}
+        fieldsModel={getFieldsModel()}
+        defaultData={getDefaultFormData()}
+      />
+    );
+    formRef.submit();
+
+    assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'FORM');
+  });
+
+  it('call getFieldModelById() from ref', () => {
+    let formRef = null;
+    ReactTestUtils.renderIntoDocument(
+      <Form
+        ref={(c) => { formRef = c; }}
+        fieldsModel={getFieldsModel()}
+        defaultData={getDefaultFormData()}
+      />
+    );
+    const fieldModel = formRef.getFieldModelById('id');
+
+    assert.equal(fieldModel.hidden, true);
+  });
+
+  it('onChange', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={getFieldsModel()}
+        defaultData={getDefaultFormData()}
+        onChange={() => {}}
+      />
+    );
+    assert.equal(ReactDOM.findDOMNode(instance).nodeName, 'FORM');
+  });
+
+  it('click on reset button', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={getFieldsModel()}
+        defaultData={getDefaultFormData()}
+      />
+    );
+    const buttonNode = getResetButton(instance);
+    ReactTestUtils.Simulate.click(buttonNode);
+  });
+
+  it('click on submit button', () => {
+    const instance = ReactTestUtils.renderIntoDocument(
+      <Form
+        fieldsModel={getFieldsModel()}
+        defaultData={getDefaultFormData()}
+      />
+    );
+    const buttonNode = getSubmitButton(instance);
+    ReactTestUtils.Simulate.click(buttonNode);
   });
 
 });

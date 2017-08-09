@@ -124,18 +124,49 @@ export function getTableCellContent(instance, rowIndex, columnIndex) {
  * Form组件 helper function
  */
 
+/**
+ * Get form html element
+ * @export
+ * @param {ReactInstance} instance
+ * @returns {Element} If this component has been mounted into the DOM,
+ * this returns the corresponding native browser DOM element
+ */
 export function getForm(instance) {
   return ReactDOM.findDOMNode(instance);
 }
 
+/**
+ * get input text field according to index
+ * @export
+ * @param {ReactInstance} instance
+ * @param {number} index
+ * @returns {Element}
+ */
 export function getInput(instance, index) {
   const node = ReactDOM.findDOMNode(instance);
   return node.querySelectorAll('input')[index];
 }
 
-export function getSubmitButton(component) {
-  let formNode = getForm(component);
+/**
+ * Get submit button
+ * @export
+ * @param {ReactInstance} instance
+ * @returns {Element}
+ */
+export function getSubmitButton(instance) {
+  let formNode = getForm(instance);
   return formNode.querySelector('button[type=submit]');
+}
+
+/**
+ * Get reset button
+ * @export
+ * @param {ReactInstance} instance
+ * @returns {Element}
+ */
+export function getResetButton(instance) {
+  let formNode = getForm(instance);
+  return formNode.querySelector('button[type=reset]');
 }
 
 /**
