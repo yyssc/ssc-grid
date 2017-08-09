@@ -839,6 +839,7 @@ export default class Form extends Component {
           formCtrl = (
             <Refers
               {...fieldModel.referConfig}
+              labelKey={fieldModel.referConfig.labelKey || 'name'}
               disabled={fieldModel.disabled === true}
               minLength={0}
               align="justify"
