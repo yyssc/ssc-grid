@@ -576,7 +576,7 @@ export default class Form extends Component {
             {fieldLabel}
             {
               typeof validators === 'object'
-              ? <span style={{ color: 'red' }}>
+              ? <span className="required" style={{ color: 'red' }}>
                   {showRequiredStar(validators) ? '*' : null}
                 </span>
               : null
@@ -761,7 +761,7 @@ export default class Form extends Component {
           validationState={validationState}
         >
           <ControlLabel>{fieldLabel}</ControlLabel>
-          <span style={{ color: 'red' }}>
+          <span className="required" style={{ color: 'red' }}>
             {showRequiredStar(validators) ? '*' : null}
           </span>
           {' '}
