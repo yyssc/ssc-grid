@@ -1,3 +1,10 @@
+## [v0.69.13]
+> 2017-08-17
+
+- **Chore:** Add className to required form field
+
+[v0.69.13]: https://github.com/yyssc/ssc-grid/compare/v0.69.12...v0.69.13
+
 ## [v0.69.12]
 > 2017-08-03
 
