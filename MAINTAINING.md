@@ -6,13 +6,6 @@
 npm install
 ```
 
-babel-cli和webpack需要安装到global中。
-
-```
-sudo npm install -g babel-cli
-sudo npm install webpack -g ## 有些js文件中通过exec()直接执行command line
-```
-
 ## 开发组件
 
 以TDD开发模式运行测试代码
@@ -58,46 +51,13 @@ npm run build
 npm run docs-build
 ```
 
-## 历史遗留问题
-
-```
-grid@0.1.0 /home/chenyang/source/grid
-├── UNMET PEER DEPENDENCY history@^1.17.0
-└─┬ react-router@1.0.3 
-  └── warning@2.1.0 
-```
-
-通过`npm install history@2.1.2`解决。
-
-## 从Github合并代码到用友GitLab
-
-```
-# 配置环境
-git clone git@git.yonyou.com:sscplatform/react_comp.git
-cd react_comp
-git remote add upstream https://github.com/yyssc/ssc-grid.git
-# 合并代码
-git fetch upstream
-git checkout develop
-git merge upstream/master
-git push
-```
-
-```
-# 配置环境
-git clone git@github.com:yyssc/ssc-grid.git
-cd ssc-grid
-git remote add yonyou git@git.yonyou.com:sscplatform/react_comp.git
-# 合并代码
-git fetch yonyou
-git checkout develop
-git merge origin/master
-git push
-```
-
 ## 发版（Releases）
 
-注意：请勿手动`npm publish`
+注意：请勿使用`npm publish`命令进行手动发布
+
+注意2：发布之前先`npm run test`确保测试通过
+
+注意3：发布之前先修改`CHANGELOG.md`文件，然后将修改提交到github，然后再进行如下发布流程
 
 ```
 npm run release patch // 打补丁，默认不添加任何参数，以`dry run`模式运行，防止误操作
@@ -106,11 +66,7 @@ npm run release major // 接口出现变化
 npm run release patch -- --run // 进行真实发版
 ```
 
-需要在yyssc.org上也部署一份文档，以解决github.io某些时候不能使用的问题。
-
-```
-rsync -arvzh -e "ssh -p 27495" --progress docs-built/ root@104.194.94.240:/var/www/ssc-grid/
-```
+### 发布的时候hang住了
 
 如果在发布的时候，hang住了，通常是在git clone文档repo的时候，可以Ctrl+C之后执行（需要首先确认hang在哪里了）：
 
@@ -129,6 +85,15 @@ rm -rf tmp-docs-repo/
 
 release的流程在[这里](https://github.com/AlexKVal/release-script/blob/master/src/release.js#L198)
 
+### 发布脚本会做如下事情
+
+- 运行lint脚本
+- 运行测试脚本
+- 修改版本号
+- git tag
+- 在本地编译源码到`dist`等目录下，并将编译结果发布到npm上
+- 在本地编译文档源码到`docs-built`目录，并将`docs-built`目录下的文件push到[https://github.com/ssc-grid/ssc-grid.github.io](https://github.com/ssc-grid/ssc-grid.github.io)项目
+
 ### 关于dry run
 
 发版工具默认以`dry run`模式运行，防止误操作导致代码被`git push`到代码仓库，以及
@@ -140,3 +105,16 @@ release的流程在[这里](https://github.com/AlexKVal/release-script/blob/mast
 
 - 学到如何使用发版工具，以及发版工具是如何运行的。
 - 确认发版过程中不会出现其他问题，比如编译失败，或者其他潜在的问题。
+
+## 历史遗留问题
+
+TODO 可能已经废弃了，需要确认
+
+```
+grid@0.1.0 /home/chenyang/source/grid
+├── UNMET PEER DEPENDENCY history@^1.17.0
+└─┬ react-router@1.0.3 
+  └── warning@2.1.0 
+```
+
+通过`npm install history@2.1.2`解决。
