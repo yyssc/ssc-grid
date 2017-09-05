@@ -12,6 +12,40 @@ import FormControl from 'react-bootstrap/lib/FormControl';
  * Joomla的名称和Web更贴切，wikipedia不区分Web还是Client
  */
 
+const propTypes = {
+  /**
+   * 是否禁用输入框
+   */
+  disabled: PropTypes.bool,
+  /**
+   * 当光标离开输入框
+   */
+  onBlur: PropTypes.func,
+  /**
+   * 当文本框内容被修改时候调用
+   */
+  onChange: PropTypes.func,
+  /**
+   * 当文本框被聚焦
+   */
+  onFocus: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  /**
+   * 文本框占位字符
+   */
+  placeholder: PropTypes.string,
+  /**
+   * 文本框中显示的值
+   * TODO `value`应该改为`defaultValue`，类似于默认的`input`组件区分`value`和
+   * `defaultValue`一样，使用`defaultValue`说明该组件是uncontrolled
+   */
+  value: PropTypes.string,
+};
+
+const defaultProps = {
+  value: ''
+};
+
 /**
  * 文本框控件 (uncontrolled)
  */
@@ -26,6 +60,7 @@ class TextField extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -59,6 +94,12 @@ class TextField extends Component {
     }
   }
 
+  handleKeyDown(event) {
+    if (this.props.onKeyDown) {
+      this.props.onKeyDown(event);
+    }
+  }
+
   render() {
     return (
       <FormControl
@@ -69,42 +110,13 @@ class TextField extends Component {
         onChange={this.handleChange}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
+        onKeyDown={this.handleKeyDown}
       />
     );
   }
 }
 
-TextField.propTypes = {
-  /**
-   * 是否禁用输入框
-   */
-  disabled: PropTypes.bool,
-  /**
-   * 当光标离开输入框
-   */
-  onBlur: PropTypes.func,
-  /**
-   * 当文本框内容被修改时候调用
-   */
-  onChange: PropTypes.func,
-  /**
-   * 当文本框被聚焦
-   */
-  onFocus: PropTypes.func,
-  /**
-   * 文本框占位字符
-   */
-  placeholder: PropTypes.string,
-  /**
-   * 文本框中显示的值
-   * TODO `value`应该改为`defaultValue`，类似于默认的`input`组件区分`value`和
-   * `defaultValue`一样，使用`defaultValue`说明该组件是uncontrolled
-   */
-  value: PropTypes.string,
-};
-
-TextField.defaultProps = {
-  value: ''
-};
+TextField.propTypes = propTypes;
+TextField.defaultProps = defaultProps;
 
 export default TextField;

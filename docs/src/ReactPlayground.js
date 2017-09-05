@@ -24,6 +24,7 @@ const Grid = index.Grid;
 const MonthPicker = index.MonthPicker;
 const TextField = index.TextField;
 const Tree = index.Tree;
+const ValidateFloatInput = index.ValidateFloatInput;
 const ValidateInput = index.ValidateInput;
 const ValidateRefers = index.ValidateRefers;
 const YearPicker = index.YearPicker;

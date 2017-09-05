@@ -39,6 +39,7 @@ export default {
   MonthPickerBasic:             require('fs').readFileSync(__dirname + '/../examples/MonthPickerBasic.js', 'utf8'),
   TextFieldBasic:               require('fs').readFileSync(__dirname + '/../examples/TextFieldBasic.js', 'utf8'),
   TreeBasic:                    require('fs').readFileSync(__dirname + '/../examples/TreeBasic.js', 'utf8'),
+  ValidateFloatInputBasic:      require('fs').readFileSync(__dirname + '/../examples/ValidateFloatInputBasic.js', 'utf8'),
   ValidateInputBasic:           require('fs').readFileSync(__dirname + '/../examples/ValidateInputBasic.js', 'utf8'),
   ValidateInputDoValidate:      require('fs').readFileSync(__dirname + '/../examples/ValidateInputDoValidate.js', 'utf8'),
   ValidateInputReset:           require('fs').readFileSync(__dirname + '/../examples/ValidateInputReset.js', 'utf8'),

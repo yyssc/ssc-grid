@@ -7,6 +7,7 @@ export GridRow from './GridRow';
 export MonthPicker from './MonthPicker';
 export TextField from './TextField';
 export Tree from './Tree';
+export ValidateFloatInput from './ValidateFloatInput';
 export ValidateInput from './ValidateInput';
 export ValidateRefers from './ValidateRefers';
 export YearPicker from './YearPicker';

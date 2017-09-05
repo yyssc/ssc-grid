@@ -1,10 +1,11 @@
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import ip from 'ip';
+// import ip from 'ip';
 import webpack from 'webpack';
 
 import baseConfig, { options, jsLoader } from './base.config';
 
-const webpackDevServerAddress = `http://${ip.address()}:${options.port}`;
+// const webpackDevServerAddress = `http://${ip.address()}:${options.port}`;
+const webpackDevServerAddress = `http://127.0.0.1:${options.port}`;
 const cssSourceMap = options.debug ? '?sourceMap' : '';
 const reactHot = options.debug ? 'react-hot!' : '';
 

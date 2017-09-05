@@ -55,6 +55,8 @@ import TextFieldBasicSection from './sections/TextFieldBasicSection';
 import TextFieldPropsSection from './sections/TextFieldPropsSection';
 import TreeBasicSection from './sections/TreeBasicSection';
 import TreePropsSection from './sections/TreePropsSection';
+import ValidateFloatInputBasicSection from './sections/ValidateFloatInputBasicSection';
+import ValidateFloatInputPropsSection from './sections/ValidateFloatInputPropsSection';
 import ValidateInputBasicSection from './sections/ValidateInputBasicSection';
 import ValidateInputDoValidateSection from './sections/ValidateInputDoValidateSection';
 import ValidateInputPropsSection from './sections/ValidateInputPropsSection';
@@ -149,6 +151,9 @@ const sections = {
     validateRefersReset: '#validate-refers-reset',
     validateRefersDoValidate: '#validate-refers-do-validate',
     validateRefersProps: '#validate-refers-props',
+  validateFloatInput: '#validate-float-input',
+    validateFloatInputBasic: '#validate-float-input-basic',
+    validateFloatInputProps: '#validate-float-input-props',
 };
 /* eslint-enable indent */
 
@@ -496,6 +501,22 @@ const ComponentsPage = createReactClass({
                 <ValidateRefersDoValidateSection />
                 {this.renderScrollSpy(sections.validateRefersProps)}
                 <ValidateRefersPropsSection />
+
+                { /* ValidateFloatInput */ }
+
+                {this.renderScrollSpy(sections.validateFloatInput)}
+                <div className="bs-docs-section">
+                  <h1 className="page-header">
+                    <Anchor id="validate-float-input">ValidateFloatInput组件</Anchor>
+                  </h1>
+
+                  <p className="lead"></p>
+                </div>
+
+                {this.renderScrollSpy(sections.validateFloatInputBasic)}
+                <ValidateFloatInputBasicSection />
+                {this.renderScrollSpy(sections.validateFloatInputProps)}
+                <ValidateFloatInputPropsSection />
               </div>
 
               <div className="col-md-3 bs-docs-sidebar-holder">
@@ -603,6 +624,11 @@ const ComponentsPage = createReactClass({
                         <NavItem href={sections.validateRefersReset}>重置ValidateRefers</NavItem>
                         <NavItem href={sections.validateRefersDoValidate}>主动校验</NavItem>
                         <NavItem href={sections.validateRefersProps}>属性</NavItem>
+                      </SubNav>
+
+                      <SubNav href={sections.validateFloatInput} text="ValidateFloatInput">
+                        <NavItem href={sections.validateFloatInputBasic}>简单ValidateFloatInput</NavItem>
+                        <NavItem href={sections.validateFloatInputProps}>属性</NavItem>
                       </SubNav>
                     </Nav>
 

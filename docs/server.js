@@ -3,7 +3,7 @@
 import 'colors';
 import express from 'express';
 import httpProxy from 'http-proxy';
-import ip from 'ip';
+// import ip from 'ip';
 import path from 'path';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
@@ -23,7 +23,8 @@ if (development) {
   const proxy = httpProxy.createProxyServer();
   const webpackPort = process.env.WEBPACK_DEV_PORT;
 
-  const target = `http://${ip.address()}:${webpackPort}`;
+  // const target = `http://${ip.address()}:${webpackPort}`;
+  const target = `http://127.0.0.1:${webpackPort}`;
   Root.assetBaseUrl = target;
 
   app.get('/assets/*', (req, res) => {
@@ -61,5 +62,5 @@ if (development) {
 app.listen(port, () => {
   console.log(`Server started at:`);
   console.log(`- http://localhost:${port}`);
-  console.log(`- http://${ip.address()}:${port}`);
+  // console.log(`- http://${ip.address()}:${port}`);
 });

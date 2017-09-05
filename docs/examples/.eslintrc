@@ -17,6 +17,7 @@
     "TreeRefer": false,
     "TextField": false,
     "Tree": false,
+    "ValidateFloatInput": false,
     "ValidateInput": false,
     "ValidateRefers": false,
     "YearPicker": false,
