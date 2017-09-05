@@ -1,3 +1,10 @@
+## [v0.69.14]
+> 2017-09-06
+
+- **Feature:** ValidateFloatInput
+
+[v0.69.14]: https://github.com/yyssc/ssc-grid/compare/v0.69.13...v0.69.14
+
 ## [v0.69.13]
 > 2017-08-17
 
