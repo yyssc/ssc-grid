@@ -2,6 +2,7 @@
 > 2017-09-06
 
 - **Chore:** TextField support number type value
+- **Feature:** ValidateFloatInput support validation message
 
 [master]: https://github.com/yyssc/ssc-grid/compare/v0.69.14...master
 

@@ -30,6 +30,7 @@ import TextField from './TextField';
 //     ( text + '' ).replace( rtrim, '' );
 // }
 
+// u.js::Validate.fn.isEmpty
 function isEmpty(val) {
   // return val === '' || val === undefined || val === null || val === $trim(this.$element.attr('tip'));
   return val === '' || val === undefined || val === null;
@@ -308,8 +309,16 @@ const propTypes = {
    * 是否禁用输入框
    */
   disabled: PropTypes.bool,
+  /**
+   * 校验错误时候提示信息
+   */
+  errorMsg: PropTypes.string,
   max: PropTypes.number,
   min: PropTypes.number,
+  /**
+   * 当文本框为空的显示的提示信息
+   */
+  nullMsg: PropTypes.string,
   /**
    * 当光标离开输入框
    */
@@ -340,8 +349,10 @@ const propTypes = {
 };
 
 const defaultProps = {
+  errorMsg: '请填写数字！',
   max: null,
   min: null,
+  nullMsg: '不能为空！',
   required: false,
   value: '',
 };
@@ -355,8 +366,13 @@ export default class ValidateFloatInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      helpText: '',
       showValue: '',
       trueValue: '',
+      /**
+       * one of 'success', 'warning', 'error', null
+       */
+      validationState: null,
     };
     this.handleBlur = this.handleBlur.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -397,6 +413,22 @@ export default class ValidateFloatInput extends Component {
     }
   }
 
+  // u.js::Validate.fn.showMsg()
+  showMsg(msg) {
+    this.setState({
+      validationState: 'error',
+      helpText: msg,
+    });
+  }
+
+  // u.js::Validate.fn.hideMsg()
+  hideMsg() {
+    this.setState({
+      validationState: null,
+      helpText: '',
+    });
+  }
+
   doValid(pValue) {
     this.setState({
       needClean: false
@@ -404,7 +436,7 @@ export default class ValidateFloatInput extends Component {
     let value = pValue;
 
     if (isEmpty(value) && this.props.required) {
-      // this.showMsg(this.nullMsg); // TODO
+      this.showMsg(this.props.nullMsg);
       return false;
     } else if (isEmpty(value) && !this.props.required) {
       return true;
@@ -416,7 +448,7 @@ export default class ValidateFloatInput extends Component {
       }
       const r = value.match(reg);
       if (r === null || r === false) {
-        // this.showMsg(this.errorMsg); // TODO
+        this.showMsg(this.props.errorMsg);
         this.setState({
           needClean: true
         });
@@ -425,19 +457,13 @@ export default class ValidateFloatInput extends Component {
     }
     if (this.props.max !== undefined && this.props.max != null) {
       if (parseFloat(value) > this.props.max) {
-        this.setState({
-          errorMsg: '输入值不能大于' + this.max
-        });
-        // this.showMsg(this.errorMsg); // TODO
+        this.showMsg(`输入值不能大于${this.props.max}`);
         return false;
       }
     }
     if (this.props.min !== undefined && this.props.min != null) {
       if (parseFloat(value) < this.props.min) {
-        this.setState({
-          errorMsg: '输入值不能小于' + this.props.min
-        });
-        // this.showMsg(this.errorMsg); // TODO
+        this.showMsg(`输入值不能小于${this.props.min}`);
         return false;
       }
     }
@@ -455,7 +481,7 @@ export default class ValidateFloatInput extends Component {
   }
 
   handleBlur(event) {
-    if (!this.doValid() && this._needClean()) {
+    if (!this.doValid(event.target.value) && this._needClean()) {
       if (this.props.required && (event.target.value === null || event.target.value === undefined || event.target.value === '')) {
         // 因必输项清空导致检验没通过的情况
         this.setValue('');
@@ -476,6 +502,8 @@ export default class ValidateFloatInput extends Component {
   handleChange(event) {
     const { value } = event.target;
 
+    this.hideMsg();
+
     this.setState({
       showValue: value,
     });
@@ -486,6 +514,8 @@ export default class ValidateFloatInput extends Component {
   }
 
   handleFocus(event) {
+    this.hideMsg();
+
     var v = this.state.trueValue, vstr = v + '', focusValue = v;
     if (u.isNumber(v) && u.isNumber(this.maskerMeta.precision)) {
       if (vstr.indexOf('.') >= 0) {
