@@ -465,7 +465,6 @@ export default class ValidateFloatInput extends Component {
         });
       }
     } else {
-      console.log('没有校验通过');
       this.setValue(event.target.value);
     }
 
