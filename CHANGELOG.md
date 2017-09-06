@@ -1,6 +1,8 @@
 ## [master]
 > 2017-09-06
 
+- **Chore:** 将`u.biz.js`的实现代码从`ValidateFloatInput`组件中拆分出去
+
 [master]: https://github.com/yyssc/ssc-grid/compare/v0.69.15...master
 
 ## [v0.69.15]
