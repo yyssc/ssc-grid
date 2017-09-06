@@ -39,7 +39,7 @@ const propTypes = {
    * TODO `value`应该改为`defaultValue`，类似于默认的`input`组件区分`value`和
    * `defaultValue`一样，使用`defaultValue`说明该组件是uncontrolled
    */
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 const defaultProps = {
