@@ -3,6 +3,8 @@
 
 - **Chore:** TextField support number type value
 - **Feature:** ValidateFloatInput support validation message
+- **Feature:** 支持从组件外通过ref调用`doValid()`方法
+- **Bug:** 解决不能传值的bug
 
 [master]: https://github.com/yyssc/ssc-grid/compare/v0.69.14...master
 

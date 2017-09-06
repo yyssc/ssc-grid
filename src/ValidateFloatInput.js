@@ -367,7 +367,7 @@ export default class ValidateFloatInput extends Component {
     super(props);
     this.state = {
       helpText: '',
-      showValue: '',
+      showValue: props.value,
       trueValue: '',
       /**
        * one of 'success', 'warning', 'error', null
