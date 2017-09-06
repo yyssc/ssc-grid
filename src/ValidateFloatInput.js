@@ -429,11 +429,23 @@ export default class ValidateFloatInput extends Component {
     });
   }
 
+  /**
+   * 提供给组件外面直接调用
+   * @param {any} [pValue] 当没有传递该值的时候，默认使用状态中的showValue来进行校验
+   * @returns
+   * @memberof ValidateFloatInput
+   */
   doValid(pValue) {
     this.setState({
       needClean: false
     });
-    let value = pValue;
+		// if (this.$element.attr("readonly")) return true
+    var value = null;
+    if (typeof pValue !== 'undefined') {
+      value = pValue;
+    } else {
+      value = this.state.showValue;
+    }
 
     if (isEmpty(value) && this.props.required) {
       this.showMsg(this.props.nullMsg);
