@@ -235,7 +235,7 @@ NumberFormater.prototype.update = function update(precision) {
 NumberFormater.prototype.format = function format(value) {
   if (!u.isNumber(value)) return '';
 
-    // 以0开头的数字将其前面的0去掉
+  // 以0开头的数字将其前面的0去掉
   while ((value + '').charAt(0) === '0' && value.length > 1 && (value + '').indexOf('0.') !== 0) {
     value = value.substring(1);
   }

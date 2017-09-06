@@ -1,9 +1,14 @@
 ## [master]
 > 2017-09-06
 
-- **Chore:** 将`u.biz.js`的实现代码从`ValidateFloatInput`组件中拆分出去
+[master]: https://github.com/yyssc/ssc-grid/compare/v0.69.16...master
 
-[master]: https://github.com/yyssc/ssc-grid/compare/v0.69.15...master
+## [v0.69.16]
+> 2017-09-06
+
+- **Bugfix:** 解决`ValidateFloatInput`组件不能通过`value`属性更新数值的问题
+
+[v0.69.16]: https://github.com/yyssc/ssc-grid/compare/v0.69.15...v0.69.16
 
 ## [v0.69.15]
 > 2017-09-06
@@ -11,7 +16,7 @@
 - **Chore:** TextField support number type value
 - **Feature:** ValidateFloatInput support validation message
 - **Feature:** 支持从组件外通过ref调用`doValid()`方法
-- **Bug:** 解决不能传值的bug
+- **Bugfix:** 解决不能传值的bug
 
 [v0.69.15]: https://github.com/yyssc/ssc-grid/compare/v0.69.14...v0.69.15
 
