@@ -1,3 +1,10 @@
+## [v0.69.17]
+> 2018-09-14
+
+- **Bugfix:** 修复Firefox浏览器中form中自定义类型值改变报错
+
+[v0.69.17]: https://github.com/yyssc/ssc-grid/compare/v0.69.16...v0.69.17
+
 ## [master]
 > 2017-09-06
 
