@@ -489,7 +489,6 @@ export default class Form extends Component {
 
     if (this.props.onChange) {
       this.props.onChange(fieldId, value, {
-        event
       });
     }
   }
