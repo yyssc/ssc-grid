@@ -250,11 +250,21 @@ const propTypes = {
    * 参数1. `formData`, 整个表单中所有控件的值，是一个JSON对象，结构和传入参数
    *                  defaultData保持一致。<br>
    */
-  onSubmit: PropTypes.func,
+  z: PropTypes.func,
   /**
    * 是否显示提交按钮
    */
   showSubmitButton: PropTypes.bool,
+  /**
+   * 取消按钮文本<br>
+   * 默认值:取消
+   */
+  cancelLabel:PropTypes.string,
+  /**
+   * 确定按钮文本<br>
+   * 默认值:完成
+   */
+  okLabel:PropTypes.string,
 };
 
 const defaultProps = {
@@ -941,7 +951,7 @@ export default class Form extends Component {
                         type="reset"
                         onClick={this.handleReset.bind(this)}
                       >
-                        取消
+                        {this.props.cancelLabel||'取消'}
                       </Button>
                       {' '}
                       <Button
@@ -955,7 +965,7 @@ export default class Form extends Component {
                           this.handleSubmit();
                         }}
                       >
-                        完成
+                        {this.props.okLabel||'完成'}
                       </Button>
                     </FormGroup>
                   </Col>
@@ -978,7 +988,7 @@ export default class Form extends Component {
               <FormGroup>
                 <Col sm={12} className={'text-center'}>
                   <Button bsStyle="default" onClick={this.handleReset.bind(this)} type="reset">
-                    取消
+                    {this.props.cancelLabel||'取消'}
                   </Button>
                   {' '}
                   <Button
@@ -991,7 +1001,7 @@ export default class Form extends Component {
                       event.preventDefault();
                       this.handleSubmit();
                     }}
-                  >完成</Button>
+                  >{this.props.okLabel||'完成'}</Button>
                 </Col>
               </FormGroup>
             )
