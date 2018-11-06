@@ -1,10 +1,10 @@
-## [v0.69.19]
+## [v0.70.0]
 > 2018-11-06
 
 - **Feature:** 支持从组件外传入确定按钮文字
 - **Feature:** 支持从组件外传入取消按钮文字
 
-[v0.69.19]: https://github.com/yyssc/ssc-grid/compare/v0.69.18...v0.69.19
+[v0.70.0]: https://github.com/yyssc/ssc-grid/compare/v0.69.18...v0.70.0
 
 ## [v0.69.17]
 > 2018-09-14
