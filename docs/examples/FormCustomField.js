@@ -156,15 +156,15 @@ const ReferComponent = React.createClass({
 
 const mockFieldsModel = [
   {type: 'string', id: 'id', label: '主键', hidden: true},
-  {type: 'custom', id: 'name', label: '名称', component: CustomTextFieldComponent},
-  {type: 'custom', id: 'formCustomFieldCanzhaoleixing', label: '参照类型',
-    component: DropdownComponent, data: DropdownData},
-  {type: 'custom', id: 'formCustomFieldParentId', label: '组织',
-    component: ReferComponent}
+  {"id":"code","dataType":0,"datatype":0,"type":"string","label":"编码","hidden":false,"defaultValue":"","validators":[{"type":"required"},{"type":"length","options":{"min":0,"max":50}}]},
+  {type: 'custom', id: 'name', label: '名称', component: CustomTextFieldComponent,defaultValue:"",validators:[{type:"required"},{type:"length","options":{min:0,max:100}}]},
+  {type: 'custom', id: 'formCustomFieldCanzhaoleixing', label: '参照类型',component: DropdownComponent, data: DropdownData},
+  {type: 'custom', id: 'formCustomFieldParentId', label: '组织', component: ReferComponent}
 ];
 
 const mockFormData = {
   id: '22EA0EB9-FABA-4224-B290-4D041A1DF773',
+  code: '',
   name: '',
   formCustomFieldCanzhaoleixing: {
     id: 'org',
@@ -186,6 +186,7 @@ const FormCustomFieldExample = React.createClass({
   handleChange(fieldId, value) {
     const newState = { ...this.state };
     newState.formData[fieldId] = value;
+    console.log(newState)
     this.setState(newState);
   },
 
@@ -209,7 +210,7 @@ const FormCustomFieldExample = React.createClass({
       <Form
         className="form-custom-field-example"
         fieldsModel={mockFieldsModel}
-        defaultData={mockFormData}
+        defaultData={this.state.formData}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
         onBlur={this.handleBlur}

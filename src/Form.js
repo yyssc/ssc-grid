@@ -360,8 +360,9 @@ export default class Form extends Component {
       nextProps.fieldsModel.forEach((fieldModel) => {
         formData[fieldModel.id] = getFieldDefaultValue(fieldModel, formData[fieldModel.id]);
       });
+      
       this.setState(
-        actions.updateFormData(formData)
+        actions.updateFormData(formData),()=>{}
       );
     }
   }
@@ -492,11 +493,18 @@ export default class Form extends Component {
    * @param {String} fieldId 字段ID
    * @param {*} value value为动态类型，具体类型由`CustomComponent.prop.value`的类型决定
    */
-  handleCustomFieldChange(fieldId, value) {
+  handleCustomFieldChange(fieldId, validators,value) {
     this.setState(
       actions.updateFieldValue(fieldId, value)
     );
-
+    console.log(fieldId, value, validators)
+    this.setState(
+        actions.updateFormFieldValidationState(fieldId, value, validators),
+        (/* prevState, props */) => {
+          // 现在校验状态来决定提交按钮的状态
+          this.setState(actions.updateSubmitButtonState());
+        }
+      );
     if (this.props.onChange) {
       this.props.onChange(fieldId, value, {
       });
@@ -595,7 +603,7 @@ export default class Form extends Component {
           <Col sm={5}>
             {fieldFormCtrl}
             {
-              typeof validators === 'object' && fm.type !== 'ref'
+              fm.type !='custom' && typeof validators === 'object' && fm.type !== 'ref'
               ? <FormControl.Feedback />
               : null
             }
@@ -743,10 +751,17 @@ export default class Form extends Component {
           <fieldModel.component
             customFieldModel={fieldModel}
             customFieldValue={this.state.formData[id]}
-            onCustomFieldChange={this.handleCustomFieldChange.bind(this, id)}
+            onCustomFieldChange={this.handleCustomFieldChange.bind(this, id,validators)}
           />
         );
-        formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
+        formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+            ? null
+            : this.getFieldHelpText(id)
+          )
+        );
         break;
     }
     return formGroup;
@@ -912,7 +927,12 @@ export default class Form extends Component {
             onCustomFieldChange={this.handleCustomFieldChange.bind(this, id)}
           />
         );
-        formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel);
+        formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel,this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+            ? null
+            : this.getFieldHelpText(id)
+          ));
         break;
     }
     return formGroup;
