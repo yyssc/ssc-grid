@@ -156,8 +156,8 @@ const ReferComponent = React.createClass({
 
 const mockFieldsModel = [
   {type: 'string', id: 'id', label: '主键', hidden: true},
-  {"id":"code","dataType":0,"datatype":0,"type":"string","label":"编码","hidden":false,"defaultValue":"","validators":[{"type":"required"},{"type":"length","options":{"min":0,"max":50}}]},
-  {type: 'custom', id: 'name', label: '名称', component: CustomTextFieldComponent,defaultValue:"",validators:[{type:"required"},{type:"length","options":{min:0,max:100}}]},
+  {id: 'code', dataType: 0, datatype: 0, type: 'string', label: '编码', hidden: false, defaultValue: '', validators: [{type: 'required'}, {type: 'length', options: {min: 0, max: 50}}]},
+  {type: 'custom', id: 'name', label: '名称', component: CustomTextFieldComponent, defaultValue: '', validators: [{type: 'required'}, {type: 'length', 'options': {min: 0, max: 100}}]},
   {type: 'custom', id: 'formCustomFieldCanzhaoleixing', label: '参照类型',component: DropdownComponent, data: DropdownData},
   {type: 'custom', id: 'formCustomFieldParentId', label: '组织', component: ReferComponent}
 ];
@@ -186,7 +186,6 @@ const FormCustomFieldExample = React.createClass({
   handleChange(fieldId, value) {
     const newState = { ...this.state };
     newState.formData[fieldId] = value;
-    console.log(newState)
     this.setState(newState);
   },
 
