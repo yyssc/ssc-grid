@@ -15,7 +15,7 @@ import Row from 'react-bootstrap/lib/Row';
 import FormControl from 'react-bootstrap/lib/FormControl';
 import Checkbox from 'react-bootstrap/lib/Checkbox';
 // 参照控件
-import { Refers } from 'ssc-refer2';
+import { Refers } from 'ssc-refer';
 
 // YBZSAAS-461
 // IE11不支持Array.prototype.find()
@@ -166,7 +166,7 @@ const propTypes = {
    *   foo="bar"
    * />
    * ```
-   * 关于`Refers`组件的属性定义，详见[ssc-refer2](https://ssc-refer2.github.io/components.html)
+   * 关于`Refers`组件的属性定义，详见[ssc-refer](https://ssc-refer.github.io/components.html)
    * ## validators字段
    * 校验类型，比如
    * ```js
