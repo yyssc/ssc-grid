@@ -587,10 +587,7 @@ export default class Form extends Component {
           controlId={`formControl-${fieldId}`}
           validationState={validationState}
         >
-          <Col sm={2}>
-            {}
-          </Col>
-          <Col componentClass={ControlLabel} sm={2}>
+          <Col componentClass={ControlLabel} sm={4}>
           <div>
             {fieldLabel}
             {

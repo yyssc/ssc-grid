@@ -1,3 +1,31 @@
+## [v0.70.4]
+> 2018-11-15
+
+- **Bugfix:** 修改form默认布局,加宽label区域
+
+[v0.70.4]: https://github.com/yyssc/ssc-grid/compare/v0.70.3...v0.70.4
+
+## [v0.70.3]
+> 2018-11-15
+
+- **Bugfix:** 参照类型显示code+name
+
+[v0.70.3]: https://github.com/yyssc/ssc-grid/compare/v0.70.2...v0.70.3
+
+## [v0.70.2]
+> 2018-11-12
+
+- **Bugfix:** 修改ssc-refer2为ssc-refer
+
+[v0.70.2]: https://github.com/yyssc/ssc-grid/compare/v0.70.1...v0.70.2
+
+## [v0.70.1]
+> 2018-11-07
+
+- **Bugfix:** 修改自定义类型控件的校验
+
+[v0.70.1]: https://github.com/yyssc/ssc-grid/compare/v0.70.0...v0.70.1
+
 ## [v0.70.0]
 > 2018-11-06
 
