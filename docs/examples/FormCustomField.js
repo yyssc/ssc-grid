@@ -131,10 +131,7 @@ const ReferComponent = React.createClass({
       refType: 'tree',
       rootName: this.props.customFieldModel.rootName || '部门',
     };
-    let referDataUrl = 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON';
-    if (this.props.customFieldModel.refCode === 'user') {
-      referDataUrl = 'http://127.0.0.1:3009/userCenter/queryUserAndDeptByDeptPk';
-    }
+    let referDataUrl = 'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON';
     return (
       <Refers
         disabled={this.props.customFieldModel.disabled === true}

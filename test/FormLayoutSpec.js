@@ -30,7 +30,7 @@ function getFieldsModel() {
                   refType: 'tree',
                   rootName: '部门'
                 },
-                referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
+                referDataUrl: 'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON'
               }
             },
     /* 11 */{type: 'ref', id: 'zhuguan', label: '主管',
@@ -40,7 +40,7 @@ function getFieldsModel() {
                   refType: 'tree',
                   rootName: '部门'
                 },
-                referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
+                referDataUrl: 'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON'
               }
             },
     /* 12 */{type: 'ref', id: 'shangjibumen', label: '上级部门',
@@ -50,7 +50,7 @@ function getFieldsModel() {
                   refType: 'tree',
                   rootName: '部门'
                 },
-                referDataUrl: 'http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON'
+                referDataUrl: 'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON'
               }
             },
     /* 13 */{type: 'ref', id: 'shangjibumen2', label: '上级部门2' }

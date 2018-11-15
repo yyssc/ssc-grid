@@ -7,7 +7,7 @@ const mockFieldsModel = [
         refType: 'tree',
         rootName: '组织'
       },
-      referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON'
+      referDataUrl: 'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON'
     }
   },
   {type: 'ref', id: 'parentid', label: '上级部门',
@@ -17,7 +17,7 @@ const mockFieldsModel = [
         refType: 'tree',
         rootName: '部门'
       },
-      referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON'
+      referDataUrl: 'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON'
     }
   },
   {type: 'ref', id: 'person', label: '部门主管',
