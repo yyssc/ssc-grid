@@ -139,6 +139,24 @@ export default class ValidateRefers extends Component {
     }
   }
 
+  _renderMenuItemChildren(option, props, index) {
+    let label = option.code + ' ' + option.name;
+    return (<span title={label} key={index}>{label} </span>);
+  }
+
+  renderlabelKey=(option)=>{
+    let label = '';
+    if (option) {
+      if (option.code) {
+        label = option.code;
+      }
+      if (option.name) {
+        label += ' ' + option.name;
+      }
+    }
+    return label;
+  }
+
   render() {
     return (
       <FormGroup
@@ -149,6 +167,7 @@ export default class ValidateRefers extends Component {
           ref={c => this.refers = c}
           {...this.props}
           labelKey={this.props.labelKey || 'name'}
+          // labelKey={this.renderlabelKey.bind(this)}
           disabled={this.props.disabled === true}
           minLength={0}
           align="justify"
@@ -160,6 +179,7 @@ export default class ValidateRefers extends Component {
           placeholder={ this.props.placeholder || '请选择...' }
           referType="list"
           selected={this.props.selected}
+          renderMenuItemChildren={this._renderMenuItemChildren}
         />
         <HelpBlock>{this.state.helpText}</HelpBlock>
       </FormGroup>
@@ -211,7 +231,7 @@ ValidateRefers.propTypes = {
     rootName: PropTypes.string,
   }).isRequired,
   /**
-   * referDataUrl: "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
+   * referDataUrl: "http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON";
    */
   referDataUrl: PropTypes.string.isRequired,
   /**

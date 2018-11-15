@@ -151,7 +151,7 @@ const propTypes = {
    *       refType: 'tree',
    *       rootName: '组织'
    *     },
-   *     referDataUrl: 'http://127.0.0.1:3009/refbase_ctr/queryRefJSON',
+   *     referDataUrl: 'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON',
    *     renderMenuItemChildren: (option, props, index) => ([
    *       <div>{option.code + ' ' + option.name}</div>
    *     ])
@@ -487,6 +487,10 @@ export default class Form extends Component {
   handleReferBlur(/* fieldId, validators, event */) {
   }
 
+  _renderMenuItemChildren(option, props, index) {
+    let label = option.code + ' ' + option.name;
+    return (<span title={label} key={index}>{label} </span>);
+  }
   /**
    * 自定义类型字段发生变化的时候
    * @param {String} fieldId 字段ID
@@ -699,6 +703,7 @@ export default class Form extends Component {
               referType="list"
               selected={defaultData}
               ref={ref => this._myrefers = ref}
+              renderMenuItemChildren={this._renderMenuItemChildren}
             />
           );
         } else {
@@ -873,6 +878,7 @@ export default class Form extends Component {
               referType="list"
               selected={defaultData}
               ref={ref => this._myrefers = ref}
+              renderMenuItemChildren={this._renderMenuItemChildren}
             />
           );
         } else {
