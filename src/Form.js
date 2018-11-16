@@ -925,7 +925,7 @@ export default class Form extends Component {
           <fieldModel.component
             customFieldModel={fieldModel}
             customFieldValue={this.state.formData[id]}
-            onCustomFieldChange={this.handleCustomFieldChange.bind(this, id)}
+            onCustomFieldChange={this.handleCustomFieldChange.bind(this, id, validators)}
           />
         );
         formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel, this.getFieldValidationState(id),
