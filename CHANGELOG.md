@@ -1,3 +1,11 @@
+## [v0.70.5]
+> 2018-11-19
+
+- **Bugfix:** 增加form中refer的placeholder属性
+- **Bugfix:** 增加form中refer的referExtend属性
+
+[v0.70.5]: https://github.com/yyssc/ssc-grid/compare/v0.70.4...v0.70.5
+
 ## [v0.70.4]
 > 2018-11-15
 
