@@ -155,7 +155,11 @@ const propTypes = {
    *     renderMenuItemChildren: (option, props, index) => ([
    *       <div>{option.code + ' ' + option.name}</div>
    *     ])
-   *     labelKey: 'name'
+   *     labelKey: 'name',
+   *     referExtend: {
+           showDisabledBtnText: 'Display Disabled',
+           showDisabledBtnText_Not: 'Hide Disabled'
+         },
    *   }
    * }
    * ```
@@ -570,7 +574,8 @@ export default class Form extends Component {
   }
 
   genLayoutFormGroup(fieldModel, index) {
-    const { id, type, label, placeholder, validators } = fieldModel;
+    const { id, type, label, validators } = fieldModel;
+    const placeholder = fieldModel.placeholder || '';
     let formGroup, formCtrl;
 
     // 隐藏字段
@@ -685,6 +690,10 @@ export default class Form extends Component {
           //   referDataUrl: "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
           // }
           // ```
+          let referExtend = {};
+          if (fieldModel.referExtend) {
+            referExtend = fieldModel.referExtend;
+          }
           formCtrl = (
             <Refers
               {...fieldModel.referConfig}
@@ -696,11 +705,12 @@ export default class Form extends Component {
               multiple={false}
               onChange={this.handleReferChange.bind(this, id, validators)}
               onBlur={this.handleReferBlur.bind(this, id, validators)}
-              placeholder="请选择..."
+              placeholder={placeholder}
               referType="list"
               selected={defaultData}
               ref={ref => this._myrefers = ref}
               renderMenuItemChildren={this._renderMenuItemChildren}
+              {...referExtend}
             />
           );
         } else {
@@ -730,7 +740,7 @@ export default class Form extends Component {
         formCtrl = (
           <FormControl
             componentClass="select"
-            placeholder={placeholder || '请选择'}
+            placeholder={placeholder}
             value={this.state.formData[id]}
             onChange={this.handleChange.bind(this, id, validators)}
           >
@@ -768,7 +778,8 @@ export default class Form extends Component {
   }
 
   genField(fieldModel) {
-    const { id, type, label, placeholder, validators } = fieldModel;
+    const { id, type, label, validators } = fieldModel;
+    const placeholder = fieldModel.placeholder || '';
     let formGroup, formCtrl;
 
     // 隐藏字段
@@ -860,6 +871,10 @@ export default class Form extends Component {
           //   referDataUrl: "http://10.3.14.239/ficloud/refbase_ctr/queryRefJSON";
           // }
           // ```
+          let referExtend = {};
+          if (fieldModel.referExtend) {
+            referExtend = fieldModel.referExtend;
+          }
           formCtrl = (
             <Refers
               {...fieldModel.referConfig}
@@ -871,11 +886,12 @@ export default class Form extends Component {
               multiple={false}
               onChange={this.handleReferChange.bind(this, id, validators)}
               onBlur={this.handleReferBlur.bind(this, id, validators)}
-              placeholder="请选择..."
+              placeholder={placeholder}
               referType="list"
               selected={defaultData}
               ref={ref => this._myrefers = ref}
               renderMenuItemChildren={this._renderMenuItemChildren}
+              {...referExtend}
             />
           );
         } else {
@@ -904,7 +920,7 @@ export default class Form extends Component {
         formCtrl = (
           <FormControl
             componentClass="select"
-            placeholder={placeholder || '请选择'}
+            placeholder={placeholder}
             value={this.state.formData[id]}
             onChange={this.handleChange.bind(this, id, validators)}
           >
