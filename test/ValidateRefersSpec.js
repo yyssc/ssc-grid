@@ -18,7 +18,7 @@ describe('<ValidateRefers>', () => {
             refType: 'tree',
             rootName: '部门主管',
           }}
-          referDataUrl="http://127.0.0.1:3009/userCenter/queryUserAndDeptByDeptPk"
+          referDataUrl="http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON"
           selected={[]}
         />
     );

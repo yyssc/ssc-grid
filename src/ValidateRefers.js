@@ -179,7 +179,7 @@ export default class ValidateRefers extends Component {
           placeholder={ this.props.placeholder || '请选择...' }
           referType="list"
           selected={this.props.selected}
-          renderMenuItemChildren={this._renderMenuItemChildren}
+          renderMenuItemChildren={this.props.renderMenuItemChildren || this._renderMenuItemChildren}
         />
         <HelpBlock>{this.state.helpText}</HelpBlock>
       </FormGroup>
@@ -248,6 +248,10 @@ ValidateRefers.propTypes = {
   validators: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string,
   })),
+  /**
+   * 自定义参照下拉列表
+   */
+  renderMenuItemChildren: PropTypes.func,
 };
 
 ValidateRefers.defaultProps = {
