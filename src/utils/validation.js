@@ -113,6 +113,9 @@ export function calcValidationState(value, validators) {
   let validationState = 'success';
   let helpTextStr = '';
   const helpTexts = [];
+  if (!validators) {
+    validators = [];
+  }
   validators.forEach(v => {
     const { matchFunc, helpText } = v.type === 'custom'
       ? v
