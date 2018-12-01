@@ -1,3 +1,10 @@
+## [v0.70.8]
+> 2018-12-01
+
+- **Bugfix:** 参照增加多选属性multiple
+
+[v0.70.8]: https://github.com/yyssc/ssc-grid/compare/v0.70.7...v0.70.8
+
 ## [v0.70.7]
 > 2018-11-29
 
