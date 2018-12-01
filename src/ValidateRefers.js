@@ -172,7 +172,7 @@ export default class ValidateRefers extends Component {
           minLength={0}
           align="justify"
           emptyLabel=""
-          multiple={false}
+          multiple={this.props.multiple || false}
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
@@ -197,6 +197,10 @@ ValidateRefers.propTypes = {
    * 是否禁用输入框
    */
   disabled: PropTypes.bool,
+  /**
+   * 是否多选
+   */
+  multiple: PropTypes.bool,
   /**
    * 请参照参照文档https://ssc-refer.github.io/
    */

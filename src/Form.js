@@ -160,7 +160,8 @@ const propTypes = {
            showDisabledBtnText: 'Display Disabled',
            showDisabledBtnText_Not: 'Hide Disabled'
          },
-   *   }
+   *   },
+   *   multiple:false
    * }
    * ```
    * 所有`referConfig`下的属性直接向下传递给`Refers`组件，
@@ -215,6 +216,7 @@ const propTypes = {
       })),
       disabled: PropTypes.boolean,
       referConfig: PropTypes.object,
+      multiple: PropTypes.boolean,
     })),
     PropTypes.object // 默认类型应该是数组，但是为了支持mobx传入observable object...
   ]).isRequired,
@@ -702,7 +704,7 @@ export default class Form extends Component {
               minLength={0}
               align="justify"
               emptyLabel=""
-              multiple={false}
+              multiple={fieldModel.multiple || false}
               onChange={this.handleReferChange.bind(this, id, validators)}
               onBlur={this.handleReferBlur.bind(this, id, validators)}
               placeholder={placeholder}
@@ -883,7 +885,7 @@ export default class Form extends Component {
               minLength={0}
               align="justify"
               emptyLabel=""
-              multiple={false}
+              multiple={fieldModel.multiple || false}
               onChange={this.handleReferChange.bind(this, id, validators)}
               onBlur={this.handleReferBlur.bind(this, id, validators)}
               placeholder={placeholder}

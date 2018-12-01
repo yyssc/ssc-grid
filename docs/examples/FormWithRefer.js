@@ -20,7 +20,7 @@ const mockFieldsModel = [
       referDataUrl: 'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON'
     }
   },
-  {type: 'ref', id: 'person', label: '部门主管', placeholder: 'Please select',
+  {type: 'ref', id: 'person', label: '部门主管', placeholder: 'Please select',multiple: true,
     referConfig: {
       referConditions: {
         refCode: 'user',

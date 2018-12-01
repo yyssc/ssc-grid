@@ -16,7 +16,7 @@ const mockFieldsModel = [
       {type: 'email'}
     ]
   },
-  {type: 'ref', id: 'formValidationParentId', label: '上级部门',
+  {type: 'ref', id: 'formValidationParentId', label: '上级部门',multiple: true,
     referConfig: {
       referConditions: {refCode: 'dept', refType: 'tree', rootName: '部门'},
       referDataUrl: 'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON'
