@@ -224,7 +224,7 @@ export default class GridRow extends Component {
 
       // 如果用户提供了自定义格式化方式，首选指定方法
       if (columnModel.formatter && columnModel.formatter.type === 'custom') {
-        cellContent = columnModel.formatter.callback(value);
+        cellContent = columnModel.formatter.callback(value,rowObj);
       } else {
         // 根据不同类型，渲染成不同值
         switch (columnModel.type) {

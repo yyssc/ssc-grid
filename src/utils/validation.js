@@ -7,6 +7,7 @@ import validator from 'validator';
  * @returns
  */
 export function getValidationObj({type, helpText}) {
+  debugger;
   const vs = {
     currency: {
       matchFunc: value => validator.isDecimal(value),
