@@ -10,7 +10,8 @@ import moment from 'moment';
 export default class DatePicker2 extends Component {
   static displayName = 'DatePicker2'
   static defaultProps = {
-    dateFormat: 'YYYY-MM-DD'
+    dateFormat: 'YYYY-MM-DD',
+    locale: 'zh-CN'
   }
 
   static propTypes = {
@@ -42,7 +43,8 @@ export default class DatePicker2 extends Component {
     /**
      * value 请使用ISO 8061格式
      */
-    value: PropTypes.string
+    value: PropTypes.string,
+    locale: PropTypes.string
   };
 
   state = {
@@ -69,7 +71,7 @@ export default class DatePicker2 extends Component {
     const { value, showMonthDropdown, showYearDropdown } = this.props;
     return (
       <ReactDatePicker
-        locale="zh-CN"
+        locale={this.props.locale}
         className={this.props.className}
         calendarClassName={this.props.calendarClassName}
         showMonthDropdown={showMonthDropdown}
