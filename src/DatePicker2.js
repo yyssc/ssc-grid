@@ -44,6 +44,9 @@ export default class DatePicker2 extends Component {
      * value 请使用ISO 8061格式
      */
     value: PropTypes.string,
+    /*
+    *  默认语言
+    */
     locale: PropTypes.string
   };
 
