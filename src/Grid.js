@@ -229,6 +229,13 @@ const propTypes = {
    * 页面数量
    */
   totalPage: PropTypes.number,
+  /**
+  * 数据为空数组时 [] ，暂无数据
+  */
+  notDataText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element
+  ]),
 };
 
 const defaultProps = {
@@ -244,6 +251,7 @@ const defaultProps = {
    */
   striped: false,
   selectRow: null,
+  notDataText: '暂无数据',
 };
 
 export default class Grid extends Component {
@@ -443,7 +451,7 @@ export default class Grid extends Component {
   render() {
     const { columnsModel,
       selectRow, operationColumn,
-      operationColumnClass: CustomComponent
+      operationColumnClass: CustomComponent, notDataText
     } = this.props;
 
     // 直接映射react-bootstrap的属性
@@ -538,7 +546,11 @@ export default class Grid extends Component {
           </thead>
           <tbody>
           {
-            this.state.viewedTableData.map((rowObj, rowIdx) => {
+            this.state.viewedTableData.length === 0 ? (
+              <tr>
+                  <td style={{ 'textAlign': 'center' }} colSpan={columnsModel.length}>{notDataText}</td>
+              </tr>
+            ) : this.state.viewedTableData.map((rowObj, rowIdx) => {
               let selected = false;
 
               // 该行是否被选中
@@ -574,7 +586,7 @@ export default class Grid extends Component {
           }
           </tbody>
         </Table>
-        {this.props.paging ? pagination : null}
+        {this.state.viewedTableData.length > 0 && this.props.paging ? pagination : null}
       </div>
     );
   }
