@@ -7,7 +7,6 @@ import validator from 'validator';
  * @returns
  */
 export function getValidationObj({type, helpText}) {
-  debugger;
   const vs = {
     currency: {
       matchFunc: value => validator.isDecimal(value),
@@ -29,7 +28,10 @@ export function getValidationObj({type, helpText}) {
       /**
        * v.options = { min: 3, max: 6 }
        */
-      matchFunc: (value, v) => validator.isLength(value, v.options),
+      matchFunc: (value, v) => {
+        value = value ? value : '';
+        return validator.isLength(value, v.options);
+      },
       helpText: (value, v) => `输入长度必须介于 ${v.options.min} 和 ${v.options.max} 之间的字符串`
     },
     mobilePhone: {
@@ -38,6 +40,7 @@ export function getValidationObj({type, helpText}) {
     },
     required: {
       matchFunc: (value) => {
+        value = value ? value : '';
         // Removes whitespace from both ends of a string
         // Whitespace in this context is all the whitespace characters
         // (space, tab, no-break space, etc.) and all the line terminator

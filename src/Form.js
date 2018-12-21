@@ -48,7 +48,7 @@ function showRequiredStar(validators) {
   if (!validators) {
     return false;
   }
-  return validators.find(({type}) => type === 'required') !== undefined;
+  return validators.find(({type, type2}) => type === 'required' || type2 === 'required') !== undefined;
 }
 
 const propTypes = {
