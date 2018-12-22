@@ -236,6 +236,10 @@ const propTypes = {
     PropTypes.string,
     PropTypes.element
   ]),
+  /**
+   * 表格内部样式名
+   */
+  tableClassName: PropTypes.string,
 };
 
 const defaultProps = {
@@ -252,6 +256,7 @@ const defaultProps = {
   striped: false,
   selectRow: null,
   notDataText: '暂无数据',
+  tableClassName: '',
 };
 
 export default class Grid extends Component {
@@ -451,7 +456,7 @@ export default class Grid extends Component {
   render() {
     const { columnsModel,
       selectRow, operationColumn,
-      operationColumnClass: CustomComponent, notDataText
+      operationColumnClass: CustomComponent, notDataText,tableClassName
     } = this.props;
 
     // 直接映射react-bootstrap的属性
@@ -536,6 +541,7 @@ export default class Grid extends Component {
         {this.props.localSearch ? <TextField
           onChange={this.handleSearchChange.bind(this)}
         /> : null}
+        <div className={classNames(this.props.tableClassName)}>
         <Table {...reactBootstrapProps}>
           <thead>
             <tr className={headRowClassName}>
@@ -548,7 +554,8 @@ export default class Grid extends Component {
           {
             this.state.viewedTableData.length === 0 ? (
               <tr>
-                  <td style={{ 'textAlign': 'center' }} colSpan={columnsModel.length}>{notDataText}</td>
+                <td style={{'textAlign': 'center'}}
+                    colSpan={columnsModel.length + (selectRow ? 1 : 0) + (operationColumn ? 1 : 0)}>{notDataText}</td>
               </tr>
             ) : this.state.viewedTableData.map((rowObj, rowIdx) => {
               let selected = false;
@@ -586,6 +593,7 @@ export default class Grid extends Component {
           }
           </tbody>
         </Table>
+      </div>
         {this.state.viewedTableData.length > 0 && this.props.paging ? pagination : null}
       </div>
     );
