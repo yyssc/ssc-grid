@@ -1,3 +1,17 @@
+## [v0.70.15]
+> 2018-12-22
+
+- **Bugfix:** 表格增加内部表格类名
+
+[v0.70.15]: https://github.com/yyssc/ssc-grid/compare/v0.70.14...v0.70.15
+
+## [v0.70.11]
+> 2018-12-10
+
+- **Bugfix:** 表格增加暂无数据显示
+
+[v0.70.11]: https://github.com/yyssc/ssc-grid/compare/v0.70.10...v0.70.11
+
 ## [v0.70.8]
 > 2018-12-01
 
