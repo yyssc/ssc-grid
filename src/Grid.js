@@ -456,7 +456,7 @@ export default class Grid extends Component {
   render() {
     const { columnsModel,
       selectRow, operationColumn,
-      operationColumnClass: CustomComponent, notDataText,tableClassName
+      operationColumnClass: CustomComponent, notDataText, tableClassName,
     } = this.props;
 
     // 直接映射react-bootstrap的属性
@@ -541,7 +541,7 @@ export default class Grid extends Component {
         {this.props.localSearch ? <TextField
           onChange={this.handleSearchChange.bind(this)}
         /> : null}
-        <div className={classNames(this.props.tableClassName)}>
+        <div className={classNames(tableClassName)}>
         <Table {...reactBootstrapProps}>
           <thead>
             <tr className={headRowClassName}>
