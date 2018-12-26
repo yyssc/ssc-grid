@@ -40,6 +40,8 @@ export default class DatePicker2 extends Component {
     onChange: PropTypes.func,
     showMonthDropdown: PropTypes.bool,
     showYearDropdown: PropTypes.bool,
+    isClearable: PropTypes.bool,
+    todayButton: PropTypes.string,
     /**
      * value 请使用ISO 8061格式
      */
@@ -59,6 +61,12 @@ export default class DatePicker2 extends Component {
 
   // date参数是moment.js生成的时间格式
   handleChange(date) {
+    if (!date) {
+      if (this.props.onChange) {
+        this.props.onChange(null, null, '');
+      }
+      return;
+    }
     if (this.props.onChange) {
       this.props.onChange(
         date.toDate().toISOString(), // ISO 8601
@@ -71,14 +79,17 @@ export default class DatePicker2 extends Component {
   render() {
     // 之前使用otherProps获取react-datepicker的属性，然后往下传
     // 但是出现了bug#11
-    const { value, showMonthDropdown, showYearDropdown } = this.props;
+    const { value, showMonthDropdown, showYearDropdown, todayButton, isClearable } = this.props;
     return (
       <ReactDatePicker
+        dateFormat="YYYY-MM-DD"
         locale={this.props.locale}
-        className={this.props.className}
+        className={this.props.className || 'form-control'}
         calendarClassName={this.props.calendarClassName}
         showMonthDropdown={showMonthDropdown}
         showYearDropdown={showYearDropdown}
+        isClearable={isClearable}
+        todayButton={todayButton}
         selected={value ? moment(value) : null}
         onChange={this.handleChange.bind(this)}
       />

@@ -34,7 +34,7 @@ import * as actions from './Form.actions';
 
 // 使用我们自己造的轮子
 import TextField from './TextField';
-import DatePicker from './DatePicker';
+import DatePicker from './DatePicker2';
 
 /**
  * helper functions
@@ -109,18 +109,14 @@ const propTypes = {
    * }
    * ```
    *
-   * ### enum字符型
+   * * ### date日期类型
+   * 字段定义举例：
    * ```js
    * {
-   *   type: 'enum',
-   *   id: 'accountProperty',
-   *   label: '账户性质',
-   *   data: [
-   *     { key: 'BASE', value: '基本' },
-   *     { key: 'NORMAL', value: '一般' },
-   *     { key: 'TEMPORARY', value: '临时' },
-   *     { key: 'SPECIAL', value: '专用' },
-   *   ],
+   *   type: 'date',
+   *   dateConfig: {
+   *     locale: 'en_US',
+   *     todayButton:'Today'
    * }
    * ```
    *
@@ -140,6 +136,21 @@ const propTypes = {
    * }
    * ```
    * ### enum枚举型
+   * ```js
+   * {
+   *   type: 'enum',
+   *   id: 'accountProperty',
+   *   label: '账户性质',
+   *   data: [
+   *     { key: 'BASE', value: '基本' },
+   *     { key: 'NORMAL', value: '一般' },
+   *     { key: 'TEMPORARY', value: '临时' },
+   *     { key: 'SPECIAL', value: '专用' },
+   *   ],
+   * }
+   * ```
+   *
+   *
    * ### ref参照型
    * 字段定义举例：
    * ```js
@@ -216,6 +227,7 @@ const propTypes = {
       })),
       disabled: PropTypes.boolean,
       referConfig: PropTypes.object,
+      dateConfig: PropTypes.object,
       multiple: PropTypes.boolean,
     })),
     PropTypes.object // 默认类型应该是数组，但是为了支持mobx传入observable object...
@@ -422,13 +434,14 @@ export default class Form extends Component {
 
   // 只处理date-picker控件
   handleDatePickerChange(fieldId, value, formattedValue) {
+    // console.log(fieldId, value, formattedValue);
     const newState = { ...this.state };
-    newState.formData[fieldId] = value;
+    newState.formData[fieldId] = formattedValue;
     this.setState(newState);
 
     if (this.props.onChange) {
-      this.props.onChange(fieldId, value, {
-        formattedValue
+      this.props.onChange(true, fieldId, formattedValue, {
+        value
       });
     }
   }
@@ -655,9 +668,17 @@ export default class Form extends Component {
       case 'date': // 3
         // 注意value的格式
         // value = new Date('2017-02-14').toISOString()
+        let dateConfig = fieldModel.dateConfig || {};
         formCtrl = (
           <DatePicker
+            {...dateConfig}
             value={this.state.formData[id]}
+            locale={dateConfig.locale || 'zh_CN'}
+            peekNextMonth
+            showYearDropdown
+            showMonthDropdown
+            className={classNames(dateConfig.className)}
+            todayButton={dateConfig.todayButton || '今天'}
             onChange={this.handleDatePickerChange.bind(this, id)}
           />
         );
@@ -836,9 +857,17 @@ export default class Form extends Component {
       case 'date': // 3
         // 注意value的格式
         // value = new Date('2017-02-14').toISOString()
+        let dateConfig = fieldModel.dateConfig || {};
         formCtrl = (
           <DatePicker
+            {...dateConfig}
             value={this.state.formData[id]}
+            locale={dateConfig.locale || 'zh_CN'}
+            peekNextMonth
+            showYearDropdown
+            showMonthDropdown
+            className={classNames(dateConfig.className)}
+            todayButton={dateConfig.todayButton || '今天'}
             onChange={this.handleDatePickerChange.bind(this, id)}
           />
         );

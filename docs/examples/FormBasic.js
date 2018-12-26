@@ -12,7 +12,7 @@ const mockFieldsModel = [
     ]
   },
   {type: 'double', id: 'jine', label: '金额'},
-  {type: 'date', id: 'danjuriqi', label: '单据日期'},
+  {type: 'date', id: 'danjuriqi', label: '单据日期',dateConfig: {locale: 'en_US',todayButton: 'Today',className: 'form-control', isClearable: true, dateFormat: 'YYYY-MM-DD HH:mm:ss', calendarClassName: 'w100'}},
   {type: 'boolean', id: 'qiyong', label: '启用'}
 ];
 
@@ -24,7 +24,7 @@ const mockFormData = {
   name4: '名称4',
   danjuleixing: 'D3',
   jine: '12.00',
-  danjuriqi: new Date('2017-02-14').toISOString(),
+  danjuriqi: new Date('2018-12-14').toISOString(),
   qiyong: false
 };
 
