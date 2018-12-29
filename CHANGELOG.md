@@ -1,9 +1,16 @@
+## [v0.70.17]
+> 2018-12-29
+
+- **Bugfix:** form中date类型支持不可编辑和验证
+
+[v0.70.17]: https://github.com/yyssc/ssc-grid/compare/v0.70.16...v0.70.17
+
 ## [v0.70.16]
 > 2018-12-26
 
 - **Bugfix:** 修改form表单日期类型
 
-[v0.70.16]: https://github.com/yyssc/ssc-grid/compare/v0.70.15...v0.70.15
+[v0.70.16]: https://github.com/yyssc/ssc-grid/compare/v0.70.15...v0.70.16
 
 ## [v0.70.15]
 > 2018-12-22
