@@ -11,6 +11,11 @@ const mockFieldsModel = [
       {type: 'required'}
     ]
   },
+  { type: 'date', id: 'danjuriqi', label: '单据日期',
+    validators: [
+      {type: 'required'}
+    ]
+  },
   {type: 'string', id: 'formValidationEmail', label: '邮箱地址',
     validators: [
       {type: 'email'}

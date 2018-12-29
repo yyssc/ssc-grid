@@ -433,12 +433,21 @@ export default class Form extends Component {
   }
 
   // 只处理date-picker控件
-  handleDatePickerChange(fieldId, value, formattedValue) {
+  handleDatePickerChange(fieldId, validators, value, formattedValue) {
     // console.log(fieldId, value, formattedValue);
     const newState = { ...this.state };
     newState.formData[fieldId] = formattedValue;
     this.setState(newState);
-
+// 如果该字段需要校验，那么设置校验状态
+    if (validators) {
+      this.setState(
+        actions.updateFormFieldValidationState(fieldId, value, validators),
+        (/* prevState, props */) => {
+          // 现在校验状态来决定提交按钮的状态
+          this.setState(actions.updateSubmitButtonState());
+        }
+      );
+    }
     if (this.props.onChange) {
       this.props.onChange(true, fieldId, formattedValue, {
         value
@@ -679,10 +688,19 @@ export default class Form extends Component {
             showMonthDropdown
             className={classNames(dateConfig.className)}
             todayButton={dateConfig.todayButton || '今天'}
-            onChange={this.handleDatePickerChange.bind(this, id)}
+            onChange={this.handleDatePickerChange.bind(this, id, validators)}
+            disabled={fieldModel.disabled === true}
           />
         );
-        formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
+        // formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel);
+        formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+              ? null
+              : this.getFieldHelpText(id)
+          )
+        );
         break;
       case 'boolean': // 4
         formCtrl = (
@@ -868,10 +886,19 @@ export default class Form extends Component {
             showMonthDropdown
             className={classNames(dateConfig.className)}
             todayButton={dateConfig.todayButton || '今天'}
-            onChange={this.handleDatePickerChange.bind(this, id)}
+            onChange={this.handleDatePickerChange.bind(this, id, validators)}
+            disabled={fieldModel.disabled === true}
           />
         );
-        formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel);
+        // formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel);
+        formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+              ? null
+              : this.getFieldHelpText(id)
+          )
+        );
         break;
       case 'boolean': // 4
         formCtrl = (

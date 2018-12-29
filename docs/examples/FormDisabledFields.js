@@ -47,6 +47,7 @@ const FormDisabledFieldsExample = React.createClass({
     // 第一个参照可以输入，第二和第三个是禁用状态
     let mockFieldsModel = [
       { type: 'string', id: 'name', label: '名称', disabled: true },
+      { type: 'date', id: 'danjuriqi', label: '单据日期', disabled: true },
       { type: 'ref', id: 'formDisabledFieldsPkOrg', label: '组织', disabled: false,
         referConfig: {
           referConditions: {
