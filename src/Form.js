@@ -473,7 +473,7 @@ export default class Form extends Component {
    * ]
    * ```
    */
-  handleReferChange(fieldId, validators, selected) {
+  handleReferChange(fieldId, validators, selected, multiple) {
     const { onChange } = this.props;
     // 清空或者设置新值
     this.setState(actions.updateReferFieldValue(fieldId, selected), () => {});
@@ -482,14 +482,18 @@ export default class Form extends Component {
     if (validators) {
       // 参照是一个复杂类型的值，需要专门处理。
       let value = '';
-      // 对参照的API不了解，所以写死获取第一个
-      if (selected && selected[0]) {
-        // 由于参照的字段是可变的，有时候是name有时候是displayName，所以这里不再进入对象
-        // 而是直接将对象转成字符串进行判断。
-        // value = selected[0].name || '';
-        value = JSON.stringify(selected[0]);
-      } else {
-        value = '';
+      if (multiple) {
+        value = selected;
+      }else{
+        // 对参照的API不了解，所以写死获取第一个
+        if (selected && selected[0]) {
+          // 由于参照的字段是可变的，有时候是name有时候是displayName，所以这里不再进入对象
+          // 而是直接将对象转成字符串进行判断。
+          // value = selected[0].name || '';
+          value = JSON.stringify(selected[0]);
+        } else {
+          value = '';
+        }
       }
 
       this.setState(
@@ -744,7 +748,7 @@ export default class Form extends Component {
               align="justify"
               emptyLabel=""
               multiple={fieldModel.multiple || false}
-              onChange={this.handleReferChange.bind(this, id, validators)}
+              onChange={this.handleReferChange.bind(this, id, validators, fieldModel.multiple)}
               onBlur={this.handleReferBlur.bind(this, id, validators)}
               placeholder={placeholder}
               referType="list"
@@ -942,7 +946,7 @@ export default class Form extends Component {
               align="justify"
               emptyLabel=""
               multiple={fieldModel.multiple || false}
-              onChange={this.handleReferChange.bind(this, id, validators)}
+              onChange={this.handleReferChange.bind(this, id, validators, fieldModel.multiple)}
               onBlur={this.handleReferBlur.bind(this, id, validators)}
               placeholder={placeholder}
               referType="list"
