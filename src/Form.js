@@ -473,7 +473,7 @@ export default class Form extends Component {
    * ]
    * ```
    */
-  handleReferChange(fieldId, validators, selected, multiple) {
+  handleReferChange(fieldId, validators, multiple, selected) {
     const { onChange } = this.props;
     // 清空或者设置新值
     this.setState(actions.updateReferFieldValue(fieldId, selected), () => {});
