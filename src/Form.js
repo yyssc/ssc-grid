@@ -484,7 +484,7 @@ export default class Form extends Component {
       let value = '';
       if (multiple) {
         value = selected;
-      }else{
+      } else {
         // 对参照的API不了解，所以写死获取第一个
         if (selected && selected[0]) {
           // 由于参照的字段是可变的，有时候是name有时候是displayName，所以这里不再进入对象
