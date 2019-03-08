@@ -476,6 +476,9 @@ export default class Form extends Component {
   handleReferChange(fieldId, validators, multiple, selected) {
     const { onChange } = this.props;
     // 清空或者设置新值
+    if (!multiple && selected.length > 0) {
+      selected = selected[0];
+    }
     this.setState(actions.updateReferFieldValue(fieldId, selected), () => {});
 
     // 如果该字段需要校验，那么设置校验状态
@@ -483,14 +486,14 @@ export default class Form extends Component {
       // 参照是一个复杂类型的值，需要专门处理。
       let value = '';
       if (multiple) {
-        value = selected;
+        value = selected.length > 0 ? JSON.stringify(selected) : '';
       } else {
         // 对参照的API不了解，所以写死获取第一个
-        if (selected && selected[0]) {
+        if (selected) {
           // 由于参照的字段是可变的，有时候是name有时候是displayName，所以这里不再进入对象
           // 而是直接将对象转成字符串进行判断。
           // value = selected[0].name || '';
-          value = JSON.stringify(selected[0]);
+          value = JSON.stringify(selected);
         } else {
           value = '';
         }

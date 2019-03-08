@@ -62,7 +62,7 @@ export function updateReferFieldValue(fieldId, selected) {
     return update(prevState, {
       formData: {
         [fieldId]: {
-          $set: selected.length === 0 ? null : selected[0]
+          $set: selected.length === 0 ? null : selected
         }
       }
     });
@@ -105,12 +105,19 @@ export function updateFormFieldValidationState(fieldId, value, validators) {
  * @return {String} 对于参照这种复杂类型，需要返回字符类型的显示值
  * stateless
  */
-const getFieldValue = ({id, type}, formData) => {
+const getFieldValue = ({id, type, multiple}, formData) => {
   let value = '';
   if (type === 'ref') {
-    value = formData[id]
-      ? formData[id].name
-      : '';
+    if (multiple || Array.isArray(formData[id])) {
+      value = formData[id].map((val) => {
+        return val.id || '';
+      });
+      value = value.join('');
+    } else {
+      value = formData[id]
+        ? formData[id].id
+        : '';
+    }
   } else {
     value = formData[id];
   }

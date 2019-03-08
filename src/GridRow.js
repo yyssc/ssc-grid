@@ -259,7 +259,14 @@ export default class GridRow extends Component {
             }
             break;
           case 'ref': // 5
-            cellContent = value && value.name ? value.name : '';
+            if (columnModel.multiple) {
+              cellContent = value.map((val) => {
+                return val.name || val.id || '';
+              });
+              cellContent = cellContent.join();
+            } else {
+              cellContent = value && value.name ? value.name : '';
+            }
             break;
           case 'enum': // 6
             if (columnModel.data) {
