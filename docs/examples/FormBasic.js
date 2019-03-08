@@ -1,32 +1,6 @@
-const mockFieldsModel = [
-  {type: 'string', id: 'id', label: '主键', hidden: true},
-  {type: 'string', id: 'danjubianhao', label: '单据编号'},
-  {type: 'string', id: 'name2', label: '名称2', hidden: true},
-  {type: 'string', id: 'name3', label: '名称3', hidden: true},
-  {type: 'string', id: 'name4', label: '名称4', hidden: true},
-  {type: 'enum', id: 'danjuleixing', label: '单据类型', placeholder: '请选择单据类型',
-    data: [
-      {key: '2631', value: '差旅费借款单'},
-      {key: '2632', value: '会议费借款单'},
-      {key: 'D3', value: '付款单'}
-    ]
-  },
-  {type: 'double', id: 'jine', label: '金额'},
-  {type: 'date', id: 'danjuriqi', label: '单据日期',dateConfig: {locale: 'en_US',todayButton: 'Today',className: 'form-control', isClearable: true, dateFormat: 'YYYY-MM-DD HH:mm:ss', calendarClassName: 'w100'}},
-  {type: 'boolean', id: 'qiyong', label: '启用'}
-];
+const mockFieldsModel = [{'id':'accstandards','dataType':5,'datatype':5,'type':'ref','label':'准则','hidden':false,'defaultValue':{'id':'','code':'','name':''},'validators':[{'type':'required'}],'referConfig':{'referConditions':{'refCode':'accstandard','refType':'list','displayFields':['id','code','name'],'funcode':null,'pk_org':null},'labelKey':'name','referDataUrl':'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON'},'placeholder':'请选择','referExtend':{'showDisabledBtnText':'显示停用','showDisabledBtnText_Not':'隐藏停用'},'multiple':true},{'id':'authinfos','dataType':5,'datatype':5,'type':'ref','label':'使用组织','hidden':false,'defaultValue':{'id':'','code':'','name':''},'validators':[{'type':'required'}],'referConfig':{'referConditions':{'refCode':'org','refType':'list','displayFields':['id','code','name'],'funcode':null,'pk_org':null},'labelKey':'name','referDataUrl':'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON'},'placeholder':'请选择','referExtend':{'showDisabledBtnText':'显示停用','showDisabledBtnText_Not':'隐藏停用'},'multiple':true},{'id':'code','dataType':0,'datatype':0,'type':'string','label':'编码','hidden':false,'defaultValue':'','validators':[{'type':'required'},{'type':'length','options':{'min':0,'max':255}}]},{'id':'description','dataType':0,'datatype':0,'type':'string','label':'描述','hidden':false,'defaultValue':'','validators':[{'type':'length','options':{'min':0,'max':2000}}]},{'id':'name','dataType':0,'datatype':0,'type':'string','label':'名称','hidden':false,'defaultValue':'','validators':[{'type':'required'},{'type':'length','options':{'min':0,'max':2000}}]},{'id':'pid','dataType':5,'datatype':5,'type':'ref','label':'派生自','hidden':false,'defaultValue':{'id':'','code':'','name':''},'referConfig':{'referConditions':{'refCode':'rptitemtype','refType':'list','displayFields':['id','code','name'],'funcode':null,'pk_org':null},'labelKey':'name','referDataUrl':'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON'},'placeholder':'请选择','referExtend':{'showDisabledBtnText':'显示停用','showDisabledBtnText_Not':'隐藏停用'},'multiple':null},{'id':'pk_org','dataType':5,'datatype':5,'type':'ref','label':'所属组织','hidden':false,'defaultValue':{'id':'','code':'','name':''},'validators':[{'type':'required'}],'referConfig':{'referConditions':{'refCode':'org','refType':'list','displayFields':['id','code','name'],'funcode':null,'pk_org':null},'labelKey':'name','referDataUrl':'http://172.20.4.220/ficloud/refbase_ctr/queryRefJSON'},'placeholder':'请选择','referExtend':{'showDisabledBtnText':'显示停用','showDisabledBtnText_Not':'隐藏停用'},'multiple':null}];
 
-const mockFormData = {
-  id: '22EA0EB9-FABA-4224-B290-4D041A1DF773',
-  danjubianhao: 'abc123',
-  name2: '名称2',
-  name3: '名称3',
-  name4: '名称4',
-  danjuleixing: 'D3',
-  jine: '12.00',
-  danjuriqi: new Date('2018-12-14').toISOString(),
-  qiyong: false
-};
+const mockFormData = {'authinfos':[{'creator':'c283c411-925a-4429-9ba7-046b7b03b1ae','code':'003','sysid':'yonyoufi','modifier':'c283c411-925a-4429-9ba7-046b7b03b1ae','effectivedate':'2018-11-15 00:00:00','innercode':'HJBL7C5V','parentid':'69dabcaf400a4189b59a7bc60e547f14','dr':0,'principal':'4219cfd9ef314fd09d00bf1ba3a807c0','modifiedtime':'2018-11-15 10:22:14','enable':1,'name':'test003','tenantid':'v6luth84','id':'b8bfb5d268de433eb79a5cee04c1bae2','creationtime':'2018-11-15 10:22:14','ts':'2018-11-15 10:22:14'}],'code':'111','name':'111','tenantid':'v6luth84','description':'','id':'A5172B40-A30A-45A5-808A-3994E7C2B4FB','accstandards':[{'code':'03','name':'香港会计准则','id':'G001ZM0000DEFAULTACCSTANDARD00000003'},{'code':'01','name':'企业会计准则','id':'G001ZM0000DEFAULTACCSTANDARD00000001'}],'pk_org':{'creator':'c283c411-925a-4429-9ba7-046b7b03b1ae','code':'003','sysid':'yonyoufi','modifier':'c283c411-925a-4429-9ba7-046b7b03b1ae','effectivedate':'2018-11-15 00:00:00','innercode':'HJBL7C5V','parentid':'69dabcaf400a4189b59a7bc60e547f14','dr':0,'principal':'4219cfd9ef314fd09d00bf1ba3a807c0','modifiedtime':'2018-11-15 10:22:14','enable':1,'name':'test003','tenantid':'v6luth84','id':'b8bfb5d268de433eb79a5cee04c1bae2','creationtime':'2018-11-15 10:22:14','ts':'2018-11-15 10:22:14'},'ts':1552023502000};
 
 const FormBasicExample = React.createClass({
   getInitialState() {

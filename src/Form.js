@@ -720,8 +720,12 @@ export default class Form extends Component {
       case 'ref': // 5
         const referValue = this.state.formData[id];
         let defaultData = [];
-        if (referValue && referValue.id) {
-          defaultData[0] = { ...referValue };
+        if ( fieldModel.multiple ) {
+          defaultData = referValue;
+        } else {
+          if (referValue && referValue.id) {
+            defaultData[0] = {...referValue};
+          }
         }
         if (fieldModel.referConfig) {
           // 参照的示例数据
@@ -918,8 +922,12 @@ export default class Form extends Component {
       case 'ref': // 5
         const referValue = this.state.formData[id];
         let defaultData = [];
-        if (referValue && referValue.id) {
-          defaultData[0] = { ...referValue };
+        if ( fieldModel.multiple ) {
+          defaultData = referValue;
+        } else {
+          if (referValue && referValue.id) {
+            defaultData[0] = {...referValue};
+          }
         }
         if (fieldModel.referConfig) {
           // 参照的示例数据
