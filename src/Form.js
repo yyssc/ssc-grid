@@ -90,11 +90,13 @@ const propTypes = {
    * ## type字段
    * 字段类型type:
    * - 0 `string` 字符类型
-   * - 1 `double` 数值类型
+   * - 1 `int` 整形类型
+   * - 2 `double` 数值类型
    * - 3 `date` 日期类型
    * - 4 `boolean` 布尔类型
    * - 5 `ref` 参照类型
    * - 6 `enum` 枚举型
+   * - 9 `textarea` 多行文本类型
    * - `custom` 自定义类型
    *
    * ### string字符型
@@ -479,7 +481,7 @@ export default class Form extends Component {
     if (!multiple && selected.length > 0) {
       selected = selected[0];
     }
-    this.setState(actions.updateReferFieldValue(fieldId, selected), () => {});
+    this.setState(actions.updateReferFieldValue(fieldId, selected, multiple), () => {});
 
     // 如果该字段需要校验，那么设置校验状态
     if (validators) {
@@ -625,14 +627,14 @@ export default class Form extends Component {
         >
           <Col componentClass={ControlLabel} sm={4}>
           <div>
-            {fieldLabel}
             {
               typeof validators === 'object'
-              ? <span className="required" style={{ color: 'red' }}>
+                ? <span className="required" style={{ color: 'red' }}>
                   {showRequiredStar(validators) ? '*' : null}
                 </span>
-              : null
+                : null
             }
+            {fieldLabel}
             </div>
           </Col>
           <Col sm={5}>
@@ -662,6 +664,25 @@ export default class Form extends Component {
     switch (type) {
       default:
       case 'string': // 0
+      case 'int': // 1
+        formCtrl = (
+          <TextField
+            label={label}
+            value={this.state.formData[id]}
+            disabled={fieldModel.disabled}
+            placeholder={placeholder}
+            onChange={this.handleChange.bind(this, id, validators)}
+          />
+        );
+        formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+              ? null
+              : this.getFieldHelpText(id)
+          )
+        );
+        break;
       case 'double': // 2
         formCtrl = (
           <TextField
@@ -808,6 +829,26 @@ export default class Form extends Component {
           )
         );
         break;
+      case 'textarea': // 9
+        formCtrl = (
+          <TextField
+            label={label}
+            type="textarea"
+            value={this.state.formData[id]}
+            disabled={fieldModel.disabled}
+            placeholder={placeholder}
+            onChange={this.handleChange.bind(this, id, validators)}
+          />
+        );
+        formGroup = getDefaultFormGroup(index, id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+              ? null
+              : this.getFieldHelpText(id)
+          )
+        );
+        break;
       case 'custom': // 后端没有该类型，这是前端自己定义的
         formCtrl = (
           <fieldModel.component
@@ -847,10 +888,10 @@ export default class Form extends Component {
           controlId={`formControl-${fieldId}`}
           validationState={validationState}
         >
-          <ControlLabel>{fieldLabel}</ControlLabel>
           <span className="required" style={{ color: 'red' }}>
             {showRequiredStar(validators) ? '*' : null}
           </span>
+          <ControlLabel>{fieldLabel}</ControlLabel>
           {' '}
           {fieldFormCtrl}
           {fm.type !== 'ref' ? <FormControl.Feedback /> : null}
@@ -866,6 +907,23 @@ export default class Form extends Component {
     switch (type) {
       default:
       case 'string': // 0
+      case 'int': // 1
+        formCtrl = (
+          <TextField
+            value={this.state.formData[id]}
+            placeholder={placeholder}
+            onChange={this.handleChange.bind(this, id, validators)}
+          />
+        );
+        formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+              ? null
+              : this.getFieldHelpText(id)
+          )
+        );
+        break;
       case 'double': // 2
         formCtrl = (
           <TextField
@@ -1006,6 +1064,24 @@ export default class Form extends Component {
             validationUtils.isFieldValid(this.state.fieldsValidationState[id])
             ? null
             : this.getFieldHelpText(id)
+          )
+        );
+        break;
+      case 'textarea': // 6
+        formCtrl = (
+          <TextField
+            type={'textarea'}
+            value={this.state.formData[id]}
+            placeholder={placeholder}
+            onChange={this.handleChange.bind(this, id, validators)}
+          />
+        );
+        formGroup = getDefaultFormGroup(id, label, formCtrl, fieldModel,
+          this.getFieldValidationState(id),
+          (
+            validationUtils.isFieldValid(this.state.fieldsValidationState[id])
+              ? null
+              : this.getFieldHelpText(id)
           )
         );
         break;

@@ -45,6 +45,7 @@ export const updateFieldValue = (fieldId, value) => (prevState) => (
  * 更新表单中指定的参照字段的值
  * @param {String} fieldId
  * @param {Array} selected 该字段的类型由Refer组件决定，可能会变化，
+ * @param {Array} multiple 是否多选，
  * 现在假定是如下结构
  * ```
  * [{
@@ -57,12 +58,12 @@ export const updateFieldValue = (fieldId, value) => (prevState) => (
  * ```
  * 当参照被清空之后，这里传过来的是个空数组
  */
-export function updateReferFieldValue(fieldId, selected) {
+export function updateReferFieldValue(fieldId, selected, multiple) {
   return (prevState/* , props */) => {
     return update(prevState, {
       formData: {
         [fieldId]: {
-          $set: selected.length === 0 ? null : selected
+          $set: selected.length === 0 && !multiple ? null : selected
         }
       }
     });

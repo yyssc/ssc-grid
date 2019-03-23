@@ -14,6 +14,10 @@ import FormControl from 'react-bootstrap/lib/FormControl';
 
 const propTypes = {
   /**
+   * 输入框类型
+   */
+  type: PropTypes.string,
+  /**
    * 是否禁用输入框
    */
   disabled: PropTypes.bool,
@@ -103,7 +107,8 @@ class TextField extends Component {
   render() {
     return (
       <FormControl
-        type="text"
+        componentClass={this.props.type || 'input'}
+        type={this.props.type || 'text'}
         value={this.state.value}
         disabled={this.props.disabled === true}
         placeholder={this.props.placeholder}

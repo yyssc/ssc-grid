@@ -51,9 +51,9 @@ const mockFieldsModel = [{
   'validators': [{'type': 'required'}, {'type': 'length', 'options': {'min': 0, 'max': 255}}]
 }, {
   'id': 'description',
-  'dataType': 0,
-  'datatype': 0,
-  'type': 'string',
+  'dataType': 9,
+  'datatype': 9,
+  'type': 'textarea',
   'label': '描述',
   'hidden': false,
   'defaultValue': '',
@@ -180,6 +180,7 @@ const FormBasicExample = React.createClass({
     alert('提交的数据: Form.state.formData: \n' + JSON.stringify(
       formData,
       null, '  '));
+    console.log(formData);
   },
 
   handleReset(/* event */) {
